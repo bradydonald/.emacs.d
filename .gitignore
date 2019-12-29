@@ -1,0 +1,7 @@
+auto-save-list
+elpa
+savefile
+savefile/*
+transient
+projectile-bookmarks.eld
+*.elc
