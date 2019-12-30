@@ -173,3 +173,8 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;; start a server so can use emacsclient as EDITOR
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
