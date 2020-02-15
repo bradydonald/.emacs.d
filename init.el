@@ -167,6 +167,11 @@
   :config
   (global-set-key "\C-s" 'swiper))
 
+;; binds C-M-= and C-M-- to increase and decrease the face size
+(use-package default-text-scale
+  :config
+  (setq default-text-scale-mode t))
+
 ;; config changes made through the customize UI will be stored here
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
