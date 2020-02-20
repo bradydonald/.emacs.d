@@ -85,6 +85,11 @@
 (global-set-key (kbd "M-/") #'hippie-expand)
 (global-set-key (kbd "s-/") #'hippie-expand)
 
+;; keyboard macros
+(global-set-key (kbd "<f1>") #'start-kbd-macro)
+(global-set-key (kbd "<f2>") #'end-kbd-macro)
+(global-set-key (kbd "<f3>") #'call-last-kbd-macro)
+
 ;; replace buffer-menu with ibuffer
 (global-set-key (kbd "C-x C-b") #'ibuffer)
 
