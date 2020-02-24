@@ -55,6 +55,8 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq require-final-newline t)
 (setq-default fill-column 120)
+(add-hook 'text-mode-hook 'auto-fill-mode)
+(add-hook 'org-mode-hook 'auto-fill-mode)
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
