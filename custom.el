@@ -9,7 +9,6 @@
     ("2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" default)))
  '(package-selected-packages
    (quote
-    (default-text-scale afternoon-theme swiper ivy use-package))))
     (yaml-mode default-text-scale afternoon-theme swiper ivy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
