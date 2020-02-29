@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-02-29 Sat 17:47 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs Configuration</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Donald Brady" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Emacs Configuration</h1>
+
+<div id="outline-container-orgf3195d4" class="outline-2">
+<h2 id="orgf3195d4">Configure <code>use-package</code></h2>
+<div class="outline-text-2" id="text-orgf3195d4">
+<p>
+This setup borrows heavily from the fantastic Org Mode talk here: <a href="https://www.youtube.com/watch?v=SzA2YODtgK4">Great Org Mode Talk</a>
+by Harry Schwartz.
+</p>
+
+<p>
+Use <code>use-package</code> to install and configure packages. My <code>init.el</code> includes
+the initial setup for <code>package.el</code> and ensures that <code>use-package</code> is installed.
+</p>
+
+<p>
+This makes sure that <code>use-package</code> will install the package if it&rsquo;s not already
+available. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #00bfff;">require</span> '<span style="color: #a2cd5a;">use-package-ensure</span>)
+(<span style="color: #00bfff;">setq</span> use-package-always-ensure t)
+</pre>
+</div>
+
+<p>
+Always compile packages, and use the newest version available.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">auto-compile</span>
+  <span style="color: #f08080;">:config</span> (auto-compile-on-load-mode))
+
+(<span style="color: #00bfff;">setq</span> load-prefer-newer t)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8044ace" class="outline-2">
+<h2 id="org8044ace">Personal Details Setup</h2>
+<div class="outline-text-2" id="text-org8044ace">
+<p>
+Sets up some personal information sucha as email
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(<span style="color: #00bfff;">setq</span> user-full-name <span style="color: #deb887;">"Donald Brady"</span> user-mail-address <span style="color: #deb887;">"donaldbrady@gmail.com"</span>)
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf08a0fb" class="outline-2">
+<h2 id="orgf08a0fb">Set up savefile, backup, and autosave directories</h2>
+<div class="outline-text-2" id="text-orgf08a0fb">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(<span style="color: #00bfff;">defconst</span> <span style="color: #e7c547;">dbrady-savefile-dir</span> (expand-file-name <span style="color: #deb887;">"savefile"</span> user-emacs-directory))
+
+<span style="color: #969896;">;; </span><span style="color: #969896;">create the savefile dir if it doesn't exist</span>
+(<span style="color: #00bfff;">unless</span> (file-exists-p dbrady-savefile-dir) (make-directory dbrady-savefile-dir))
+
+<span style="color: #969896;">;; </span><span style="color: #969896;">store all backup and autosave files in the tmp dir</span>
+(<span style="color: #00bfff;">setq</span> backup-directory-alist `((<span style="color: #deb887;">".*"</span> . ,temporary-file-directory)))
+(<span style="color: #00bfff;">setq</span> auto-save-file-name-transforms `((<span style="color: #deb887;">".*"</span> ,temporary-file-directory t)))
+
+<span style="color: #969896;">;; </span><span style="color: #969896;">saveplace remembers your location in a file when saving files</span>
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">saveplace</span>
+  <span style="color: #f08080;">:config</span>
+  (<span style="color: #00bfff;">setq</span> save-place-file (expand-file-name <span style="color: #deb887;">"saveplace"</span> dbrady-savefile-dir))
+  <span style="color: #969896;">;; </span><span style="color: #969896;">activate it for all buffers</span>
+  (<span style="color: #00bfff;">setq-default</span> save-place t))
+
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">savehist</span>
+  <span style="color: #f08080;">:config</span>
+  (<span style="color: #00bfff;">setq</span> savehist-additional-variables
+  <span style="color: #969896;">;; </span><span style="color: #969896;">search entries</span>
+  '(search-ring regexp-search-ring)
+  <span style="color: #969896;">;; </span><span style="color: #969896;">save every minute</span>
+  savehist-autosave-interval 60
+  <span style="color: #969896;">;; </span><span style="color: #969896;">keep the home clean</span>
+  savehist-file (expand-file-name <span style="color: #deb887;">"savehist"</span> dbrady-savefile-dir))
+  (savehist-mode +1))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org99ec541" class="outline-2">
+<h2 id="org99ec541">Basic Configurations</h2>
+<div class="outline-text-2" id="text-org99ec541">
+<p>
+Place for a grab bag of basic settings
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(<span style="color: #00bfff;">setq</span> inhibit-startup-screen t)
+(<span style="color: #00bfff;">when</span> (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(<span style="color: #00bfff;">setq</span> ring-bell-function 'ignore)
+(line-number-mode t)
+(column-number-mode t)
+(size-indication-mode t)
+(fset 'yes-or-no-p 'y-or-n-p)
+(<span style="color: #00bfff;">setq</span> require-final-newline t)
+(<span style="color: #00bfff;">setq-default</span> fill-column 120)
+(add-hook 'text-mode-hook 'auto-fill-mode)
+(add-hook 'org-mode-hook 'auto-fill-mode)
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(<span style="color: #00bfff;">setq-default</span> indent-tabs-mode nil)   
+(<span style="color: #00bfff;">setq-default</span> tab-width 4)            
+<span style="color: #969896;">;; </span><span style="color: #969896;">smart tab behavior - indent or complete</span>
+(<span style="color: #00bfff;">setq</span> tab-always-indent 'complete)
+
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org56639a2" class="outline-2">
+<h2 id="org56639a2"><span class="todo TODO">TODO</span> Flyspell / hunspell Configuration</h2>
+<div class="outline-text-2" id="text-org56639a2">
+<p>
+This is not quite working.
+</p>
+</div>
+<div id="outline-container-orgcb4c26b" class="outline-3">
+<h3 id="orgcb4c26b"><span class="todo TODO">TODO</span> Describe the installation of hunspell</h3>
+<div class="outline-text-3" id="text-orgcb4c26b">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(<span style="color: #00bfff;">setq</span> ispell-program-name (executable-find <span style="color: #deb887;">"hunspell"</span>))
+(<span style="color: #00bfff;">setq</span> ispell-hunspell-dict-paths-alist '((<span style="color: #deb887;">"en_US"</span> <span style="color: #deb887;">"C:/msys64/usr/share/hunspell/en_US.aff"</span>)))
+(<span style="color: #00bfff;">setq</span> ispell-local-dictionary <span style="color: #deb887;">"en_US"</span>)
+(<span style="color: #00bfff;">setq</span> ispell-local-dictionary-alist '((<span style="color: #deb887;">"en_US"</span> <span style="color: #deb887;">"[[:alpha:]]"</span> <span style="color: #deb887;">"[</span><span style="color: #00bfff;">^</span><span style="color: #deb887;">[:alpha:]]"</span> <span style="color: #deb887;">"[']"</span> nil (<span style="color: #deb887;">"-d"</span> <span style="color: #deb887;">"en_US"</span>) nil utf-8)))
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">flyspell</span>
+  <span style="color: #f08080;">:config</span>
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (add-hook 'gfm-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'git-commit-mode-hook 'flyspell-mode)
+  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode))
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1987fd5" class="outline-2">
+<h2 id="org1987fd5">Hippie Expand Setup</h2>
+<div class="outline-text-2" id="text-org1987fd5">
+<p>
+This is a more powerful completion system.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span style="color: #969896;">;; </span><span style="color: #969896;">hippie expand is dabbrev expand on steroids</span>
+(<span style="color: #00bfff;">setq</span> hippie-expand-try-functions-list '(try-expand-dabbrev
+                                         try-expand-dabbrev-all-buffers
+                                         try-expand-dabbrev-from-kill
+                                         try-complete-file-name-partially
+                                         try-complete-file-name
+                                         try-expand-all-abbrevs
+                                         try-expand-list
+                                         try-expand-line
+                                         try-complete-lisp-symbol-partially
+                                         try-complete-lisp-symbol))
+
+<span style="color: #969896;">;; </span><span style="color: #969896;">use hippie-expand instead of dabbrev</span>
+(global-set-key (kbd <span style="color: #deb887;">"M-/"</span>) #'hippie-expand)
+(global-set-key (kbd <span style="color: #deb887;">"s-/"</span>) #'hippie-expand)
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9cf9b53" class="outline-2">
+<h2 id="org9cf9b53">Configure Built-in Packages</h2>
+<div class="outline-text-2" id="text-org9cf9b53">
+<p>
+Configuration for a bunch of built in packages.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">paren</span>
+  <span style="color: #f08080;">:config</span>
+  (show-paren-mode +1))
+
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">elec-pair</span>
+  <span style="color: #f08080;">:config</span>
+  (electric-pair-mode +1))
+
+<span style="color: #969896;">;; </span><span style="color: #969896;">(use-package abbrev</span>
+<span style="color: #969896;">;;   </span><span style="color: #969896;">:config</span>
+<span style="color: #969896;">;;   </span><span style="color: #969896;">(setq save-abbrevs 'silently)</span>
+<span style="color: #969896;">;;   </span><span style="color: #969896;">(setq-default abbrev-mode t))</span>
+
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">recentf</span>
+  <span style="color: #f08080;">:config</span>
+  (<span style="color: #00bfff;">setq</span> recentf-save-file (expand-file-name <span style="color: #deb887;">"recentf"</span> dbrady-savefile-dir)
+        recentf-max-saved-items 500
+        recentf-max-menu-items 15
+        <span style="color: #969896;">;; </span><span style="color: #969896;">disable recentf-cleanup on Emacs start, because it can cause</span>
+        <span style="color: #969896;">;; </span><span style="color: #969896;">problems with remote files</span>
+        recentf-auto-cleanup 'never)
+  (recentf-mode +1))
+
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">ivy</span>
+  <span style="color: #f08080;">:ensure</span> t
+  <span style="color: #f08080;">:config</span>
+  (ivy-mode 1)
+  (<span style="color: #00bfff;">setq</span> ivy-use-virtual-buffers t)
+  (<span style="color: #00bfff;">setq</span> enable-recursive-minibuffers t)
+  (global-set-key (kbd <span style="color: #deb887;">"C-c C-r"</span>) 'ivy-resume)
+  (global-set-key (kbd <span style="color: #deb887;">"&lt;f6&gt;"</span>) 'ivy-resume))
+
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">swiper</span>
+  <span style="color: #f08080;">:ensure</span> t
+  <span style="color: #f08080;">:config</span>
+  (global-set-key <span style="color: #deb887;">"\C-s"</span> 'swiper))
+
+<span style="color: #969896;">;; </span><span style="color: #969896;">binds C-M-= and C-M-- to increase and decrease the face size</span>
+(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">default-text-scale</span>
+  <span style="color: #f08080;">:config</span>
+  (<span style="color: #00bfff;">setq</span> default-text-scale-mode t))
+
+<span style="color: #969896;">;; </span><span style="color: #969896;">config changes made through the customize UI will be stored here</span>
+(<span style="color: #00bfff;">setq</span> custom-file (expand-file-name <span style="color: #deb887;">"custom.el"</span> user-emacs-directory))
+
+(<span style="color: #00bfff;">when</span> (file-exists-p custom-file)
+  (load custom-file))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb8e65a" class="outline-2">
+<h2 id="orgeb8e65a">Exporting</h2>
+<div class="outline-text-2" id="text-orgeb8e65a">
+<p>
+Allow <code>babel</code> to evaluate Emacs lisp, Ruby, dot, or Gnuplot code.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">gnuplot</span>)
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (ruby . t)
+   (dot . t)
+   (gnuplot . t)))
+</pre>
+</div>
+
+<p>
+Don&rsquo;t ask before evaluating code blocks.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #00bfff;">setq</span> org-confirm-babel-evaluate nil)
+</pre>
+</div>
+
+<p>
+Use <code>htmlize</code> to ensure that exported code blocks use syntax highlighting.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #00bfff;">use-package</span> <span style="color: #a2cd5a;">htmlize</span>)
+</pre>
+</div>
+
+<p>
+Translate regular ol&rsquo; straight quotes to typographically-correct curly quotes
+when exporting.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #00bfff;">setq</span> org-export-with-smart-quotes t)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org53bb2aa" class="outline-2">
+<h2 id="org53bb2aa">Globally Set Keys</h2>
+<div class="outline-text-2" id="text-org53bb2aa">
+<p>
+This section has all globally set keys
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span style="color: #969896;">;; </span><span style="color: #969896;">use hippie-expand instead of dabbrev</span>
+  (global-set-key (kbd <span style="color: #deb887;">"M-/"</span>) #'hippie-expand)
+  (global-set-key (kbd <span style="color: #deb887;">"s-/"</span>) #'hippie-expand)
+
+  <span style="color: #969896;">;; </span><span style="color: #969896;">keyboard macros</span>
+  (global-set-key (kbd <span style="color: #deb887;">"&lt;f1&gt;"</span>) #'start-kbd-macro)
+  (global-set-key (kbd <span style="color: #deb887;">"&lt;f2&gt;"</span>) #'end-kbd-macro)
+  (global-set-key (kbd <span style="color: #deb887;">"&lt;f3&gt;"</span>) #'call-last-kbd-macro)
+
+  <span style="color: #969896;">;; </span><span style="color: #969896;">replace buffer-menu with ibuffer</span>
+  (global-set-key (kbd <span style="color: #deb887;">"C-x C-b"</span>) #'ibuffer)
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Donald Brady</p>
+<p class="date">Created: 2020-02-29 Sat 17:47</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
