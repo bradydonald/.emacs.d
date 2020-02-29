@@ -62,6 +62,20 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
+;; ispell / hunspell setup
+;; (require 'flyspell)
+(setq ispell-program-name (executable-find "hunspell"))
+(setq ispell-hunspell-dict-paths-alist '(("en_US" "C:/msys64/usr/share/hunspell/en_US.aff")))
+(setq ispell-local-dictionary "en_US")
+(setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+(use-package flyspell
+  :config
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (add-hook 'gfm-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'git-commit-mode-hook 'flyspell-mode)
+  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode))
+
 ;; more useful frame title, that show either a file or a
 ;; buffer name (if the buffer isn't visiting a file)
 (setq frame-title-format
