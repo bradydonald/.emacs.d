@@ -102,7 +102,7 @@ Place for a grab bag of basic settings
 
 * TODO Flyspell / hunspell Configuration
 This is not quite working.
-** TODO Describe the installation of hunspell
+** TODO Describe the installation of hunspell using msys2
 
 #+begin_src emacs-lisp
 
@@ -236,7 +236,7 @@ when exporting.
 
 * Globally Set Keys
 
-This section has all globally set keys
+This section has all globally set keys unless they are related to a package or mode config. 
 
 #+begin_src emacs-lisp
 
