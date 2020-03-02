@@ -102,7 +102,7 @@ Place for a grab bag of basic settings
 
 * TODO Flyspell / hunspell Configuration
 This is not quite working.
-** TODO Describe the installation of hunspell using msys2
+** TODO Describe the installation of hunspell using msys2b
 
 #+begin_src emacs-lisp
 
