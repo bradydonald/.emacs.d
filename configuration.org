@@ -100,9 +100,13 @@ Place for a grab bag of basic settings
 
 #+end_src
 
-* TODO Flyspell / hunspell Configuration
-This is not quite working.
-** TODO Describe the installation of hunspell using msys2b
+* Flyspell / hunspell Configuration
+
+** Install hunspell in msys2.   
+
+This involves downloading and building hunspell from the its [[https://github.com/hunspell/hunspell][repo]]. This does not come with
+dictionaries which need to be downloaded from the LibreOffice site and placed in
+/usr/share/hunspell. 
 
 #+begin_src emacs-lisp
 
@@ -112,7 +116,7 @@ This is not quite working.
 (setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
 (use-package flyspell
   :config
-  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'gfm-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
