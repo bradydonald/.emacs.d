@@ -104,9 +104,14 @@ Place for a grab bag of basic settings
 
 ** Install hunspell in msys2.   
 
+Install [[https://www.msys2.org/][msys2]]. Install the developer packages and git:
+
+~pacman -S --needed base-devel msys2-devel~
+
 This involves downloading and building hunspell from the its [[https://github.com/hunspell/hunspell][repo]]. This does not come with
-dictionaries which need to be downloaded from the LibreOffice site and placed in
-/usr/share/hunspell. 
+dictionaries which can be downloaded from [[https://github.com/LibreOffice/dictionaries][here]] and placed into:
+
+~/usr/share/hunspell~ 
 
 #+begin_src emacs-lisp
 
