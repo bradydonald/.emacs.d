@@ -5,6 +5,7 @@ savefile/*
 transient
 projectile-bookmarks.eld
 *.elc
+*.html
 *~
 %backup%*
 *.html
