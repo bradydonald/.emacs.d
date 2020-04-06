@@ -243,6 +243,35 @@ when exporting.
   (setq org-export-with-smart-quotes t)
 #+end_src
 
+* RSS with =elfeed=
+
+Install elfeed and load up my feeds.
+
+** TODO for some reason the or file isn't working and the feeds are going into custom.el
+
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :config
+    (elfeed-set-max-connections 32))
+  (use-package elfeed-org
+    :config
+    (progn
+      (elfeed-org)
+      (setq rmh-elfeed-org-files (list "~/Documents/rss-feeds.org"))))
+#+end_src
+
+Open =elfeed= with =C-c r=:
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-c r") 'elfeed)
+#+end_src
+
+Use =o= to browse the entry in a Web browser.
+
+#+begin_src emacs-lisp
+  (define-key elfeed-show-mode-map "o" 'elfeed-show-visit)
+  (define-key elfeed-search-mode-map "o" 'elfeed-search-browse-url)
+#+end_src
 * Globally Set Keys
 
 This section has all globally set keys unless they are related to a package or mode config. 

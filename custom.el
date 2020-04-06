@@ -11,6 +11,21 @@
  '(custom-safe-themes
    (quote
     ("2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" default)))
+ '(elfeed-feeds
+   (quote
+    ("http://steveblank.com/feed/" "http://stratechery.com/feed/" "https://mobile-ar.reality.news/rss.xml" "http://feeds.feedburner.com/AVc" "http://feeds.feedburner.com/FeldThoughts" "http://firstround.com/review/feed.xml" "http://tomtunguz.com/index.xml" "https://medium.com/feed/walmartlabs"
+     ("http://www.postsecret.com/feeds/posts/default")
+     ("http://adcontrarian.blogspot.com/feeds/posts/default")
+     ("https://medium.com/feed/@tonyparisi")
+     ("https://mobile-ar.reality.news/rss.xml")
+     ("http://www.techdirt.com/techdirt_rss.xml")
+     ("http://feedproxy.google.com/TechCrunch")
+     ("http://feeds.feedburner.com/AVc")
+     ("http://feeds.feedburner.com/FeldThoughts")
+     ("http://firstround.com/review/feed.xml")
+     ("http://www.forentrepreneurs.com/feed/")
+     ("http://tomtunguz.com/index.xml")
+     ("https://medium.com/feed/walmartlabs"))))
  '(package-selected-packages
    (quote
     (auto-compile yaml-mode use-package swiper default-text-scale afternoon-theme))))
