@@ -25,3 +25,9 @@
 ** humor
 *** http://www.postsecret.com/feeds/posts/default
 *** http://xkcd.com/rss.xml
+** politics
+*** http://feeds.feedburner.com/blogspot/bRuz
+*** https://feeds.dailykos.com/
+*** https://www.feedspot.com/?followfeedid=4469733
+*** https://digbysblog.net/feed/
+
