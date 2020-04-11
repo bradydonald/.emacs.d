@@ -247,8 +247,6 @@ when exporting.
 
 Install elfeed and load up my feeds.
 
-** TODO for some reason the or file isn't working and the feeds are going into custom.el
-
 #+begin_src emacs-lisp
   (use-package elfeed
     :config
@@ -257,7 +255,7 @@ Install elfeed and load up my feeds.
     :config
     (progn
       (elfeed-org)
-      (setq rmh-elfeed-org-files (list "~/Documents/rss-feeds.org"))))
+      (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" user-emacs-directory)))))
 #+end_src
 
 Open =elfeed= with =C-c r=:

@@ -6,6 +6,7 @@ url
 transient
 projectile-bookmarks.eld
 *.elc
+configuration.el
 *.html
 *~
 %backup%*
