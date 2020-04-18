@@ -270,6 +270,22 @@ Use =o= to browse the entry in a Web browser.
   (define-key elfeed-show-mode-map "o" 'elfeed-show-visit)
   (define-key elfeed-search-mode-map "o" 'elfeed-search-browse-url)
 #+end_src
+* Blogging with =Hugo=
+
+#+begin_src emacs-lisp
+
+(use-package easy-hugo
+  :init
+  (setq easy-hugo-basedir "~/bradydonald.github.io/")
+  (setq easy-hugo-url "https://bradydonald.github.io/")
+  (setq easy-hugo-sshdomain "bradydonald")
+  (setq easy-hugo-postdir "content/posts")
+  (setq easy-hugo-root "/home/blog/")
+  (setq easy-hugo-previewtime "300")
+  :bind ("C-c C-e" . easy-hugo))
+
+#+end_src
+
 * Globally Set Keys
 
 This section has all globally set keys unless they are related to a package or mode config. 

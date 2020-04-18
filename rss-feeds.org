@@ -1,8 +1,4 @@
 * blogs                                                        :elfeed:
-** daily                                                        :daily:
-*** http://telescoper.wordpress.com/feed/
-*** http://timharford.com/feed/
-*** http://understandinguncertainty.org/rss.xml
 ** emacs                                                        :emacs:
 *** http://www.reddit.com/r/emacs/.rss
 *** http://planet.emacsen.org/atom.xml
@@ -12,6 +8,7 @@
 *** http://steveblank.com/feed/
 *** http://stratechery.com/feed
 *** http://adcontrarian.blogspot.com/feeds/posts/default
+*** https://api.profgalloway.com/feed/
 ** venture
 *** http://feeds.feedburner.com/AVC
 *** http://feeds.feedburner.com/FeldThoughts
