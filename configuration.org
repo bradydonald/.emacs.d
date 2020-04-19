@@ -243,6 +243,16 @@ when exporting.
   (setq org-export-with-smart-quotes t)
 #+end_src
 
+** Exporting
+
+Allow export to markdown (for hugo) and beamer (for presentations).
+
+#+begin_src emacs-lisp
+  (require 'ox-md)
+  (require 'ox-beamer)
+#+end_src
+
+
 * RSS with =elfeed=
 
 Install elfeed and load up my feeds.
