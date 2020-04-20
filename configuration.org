@@ -286,7 +286,7 @@ Use =o= to browse the entry in a Web browser.
 
 (use-package easy-hugo
   :init
-  (setq easy-hugo-basedir "~/bradydonald.github.io/")
+  (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
   (setq easy-hugo-url "https://bradydonald.github.io/")
   (setq easy-hugo-sshdomain "bradydonald")
   (setq easy-hugo-postdir "content/posts")
