@@ -252,7 +252,6 @@ Allow export to markdown (for hugo) and beamer (for presentations).
   (require 'ox-beamer)
 #+end_src
 
-
 * RSS with =elfeed=
 
 Install elfeed and load up my feeds.
@@ -293,6 +292,108 @@ Use =o= to browse the entry in a Web browser.
   (setq easy-hugo-root "/home/blog/")
   (setq easy-hugo-previewtime "300")
   :bind ("C-c C-e" . easy-hugo))
+
+#+end_src
+
+* TODO Email with Wanderlust
+
+#+begin_src emacs-lisp
+
+  (use-package wl
+    ;; The name of the package in MELPA is "wanderlust" but the
+    ;; feature provided by that package is 'wl
+    :ensure wanderlust
+    :commands (wl)
+    :config
+    (progn
+      (print "Wanderlust configured")
+      (if (boundp 'mail-user-agent)
+          (setq mail-user-agent 'wl-user-agent))
+      (if (fboundp 'define-mail-user-agent)
+          (define-mail-user-agent
+            'wl-user-agent
+            'wl-user-agent-compose
+            'wl-draft-send
+            'wl-draft-kill
+            'mail-send-hook))
+
+;;      (require 'bbdb)
+      ) ; progn
+
+    :init
+    (setq wl-folders-file "~/OnlineFolder/Library/dot.folders"
+
+          ;; SMTP server for mail posting.
+          wl-smtp-posting-server "smtp.gmail.com"
+          wl-smtp-posting-port 587
+          wl-smtp-posting-user "donald.brady"
+          wl-smtp-authenticate-type "plain"
+          wl-smtp-connection-type 'starttls
+          wl-local-domain "gmail.com"
+          wl-from "donald.brady@gmail.com"
+
+          ;; Do not cache passwords. The cache corrupts server
+          ;; secrets.
+          password-cache nil
+
+          elmo-imap4-default-user "donald.brady"
+          elmo-imap4-default-server "imap.gmail.com"
+          elmo-imap4-default-port 993
+          elmo-imap4-default-authenticate-type 'clear
+          elmo-imap4-default-stream-type 'ssl
+          elmo-passwd-storage-type 'auth-source
+          elmo-imap4-use-modified-utf7 t
+
+          ;; Location of archives
+          elmo-archive-folder-path "~/.folders"
+
+          ;; Location of MH and Maildir folders
+          elmo-localdir-folder-path "~/.folders/Mail/"
+          elmo-maildir-folder-path "~/.folders/Mail/"
+
+          wl-message-id-domain "donald.brady@gmail.com"
+          wl-from "Donald Brady <donald.brady@gmail.com>"
+          mime-edit-default-signature "~/.folders/Library/dot.signature"
+          wl-forward-subject-prefix "Fwd: "
+
+          wl-default-folder "%INBOX" ;; my main inbox
+          wl-biff-check-folder-list '("%INBOX") ;; check every 180 seconds
+          wl-biff-check-interval 180
+
+          wl-draft-folder "%Drafts"  ;; store drafts in 'postponed'
+          wl-trash-folder "%Trash"   ;; put trash in 'trash'
+
+          wl-stay-folder-window t
+          wl-folder-window-width 25
+          wl-folder-use-frame nil
+
+          wl-message-ignored-field-list '("^.*")
+          wl-message-visible-field-list '("^From:" "^To:" "^Cc:" "^Date:" "^Subject:")
+          wl-message-sort-field-list wl-message-visible-field-list
+          wl-summary-width 120 ;; No width
+          wl-summary-default-sort-spec 'date
+          wl-message-window-size '(1 . 2)
+
+          ;; Always download emails without confirmation
+          wl-prefetch-threshold nil
+          wl-message-buffer-prefetch-threshold nil
+          elmo-message-fetch-threshold nil
+
+          ;; Rendering of messages using 'shr', Emacs' simple html
+          ;; renderer, but without fancy coloring that distorts the
+          ;; looks
+          mime-view-text/html-previewer 'shr
+          shr-use-colors nil
+
+          wl-draft-config-alist
+          '(((string-match "1" "1")
+             (bottom . "\n--\n") (bottom-file . "~/.folders/Library/dot.signature"))
+            )
+
+          ;; don't ****ing split large messages
+          mime-edit-split-message nil
+          )
+    ) ; use-package wanderlust
 
 #+end_src
 
