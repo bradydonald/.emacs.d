@@ -305,12 +305,23 @@ Requires installation of sqlite:
 
 #+begin_src emacs-lisp
 
+(setq org-roam-directory-alist '("~/OrgDocuments"
+                                 "~/Deloitte (O365D)/Team Donald - General"))
+
+(defun db/toggle-org-roam-directory ()
+  "cycles through a list of directories and configures org-roam directory"
+  (interactive)
+  (setq org-roam-directory-alist (append (cdr org-roam-directory-alist) (cons (car org-roam-directory-alist) ())))
+  (setq org-roam-directory (car org-roam-directory-alist))
+  (org-roam-db-build-cache)
+  (message "org-roam-directory now '%s'" (car org-roam-directory-alist)))
+
 (use-package emacsql-sqlite3)
 (use-package org-roam
       :hook
       (after-init . org-roam-mode)
       :custom
-      (org-roam-directory "c:/Users/donaldbrady/Deloitte (O365D)/Team Donald - General")
+      (org-roam-directory (car org-roam-directory-alist))
       :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
