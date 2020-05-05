@@ -13,7 +13,7 @@
     ("2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" default)))
  '(package-selected-packages
    (quote
-    (easy-hugo auto-compile yaml-mode use-package swiper default-text-scale afternoon-theme))))
+    (org-roam emacsql-sqlite3 auto-compile yaml-mode use-package swiper default-text-scale afternoon-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
