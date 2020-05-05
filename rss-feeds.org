@@ -4,30 +4,31 @@
 *** http://planet.emacsen.org/atom.xml
 *** http://feeds.feedburner.com/XahsEmacsBlog
 *** http://pragmaticemacs.com/feed/
-** strategy
+*** https://karl-voit.at/feeds/lazyblorg-all.atom_1.0.links-and-teaser.xml
+** strategy                                                        :strategy:
 *** http://steveblank.com/feed/
 *** http://stratechery.com/feed
 *** http://adcontrarian.blogspot.com/feeds/posts/default
 *** https://api.profgalloway.com/feed/
-** venture
+** venture                                                          :venture:
 *** http://feeds.feedburner.com/AVC
 *** http://feeds.feedburner.com/FeldThoughts
 *** http://tomtunguz.com/index.xml
 *** http://firstround.com/review/feed.xml
-** tech
+** tech                                                                :tech:
 *** https://mobile-ar.reality.news/rss.xml
 *** https://medium.com/feed/walmartlabs
 *** https://medium.com/feed/@tonyparisi
 *** https://mobile-ar.reality.news/rss.xml
-** humor
+** humor                                                              :humor:
 *** http://www.postsecret.com/feeds/posts/default
 *** http://xkcd.com/rss.xml
-** politics
+** politics                                                        :politics:
 *** http://feeds.feedburner.com/blogspot/bRuz
 *** https://feeds.dailykos.com/
 *** https://www.feedspot.com/?followfeedid=4469733
 *** https://digbysblog.net/feed/
-** economy
+** economics                                                      :economics:
 *** https://wolfstreet.com/feed/
 *** https://www.nakedcapitalism.com/feed
 
