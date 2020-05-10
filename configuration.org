@@ -295,6 +295,57 @@ Use =o= to browse the entry in a Web browser.
 
 #+end_src
 
+* Org Mode
+
+Some basic configuration for Org Mode
+
+** Display preferences
+
+Use syntax highlighting in source blocks while editing.
+
+#+begin_src emacs-lisp
+  (setq org-src-fontify-natively t)
+#+end_src
+
+Make TAB act as if it were issued in a buffer of the language's major mode.
+
+#+begin_src emacs-lisp
+  (setq org-src-tab-acts-natively t)
+#+end_src
+
+When editing a code snippet, use the current window rather than popping open a
+new one (which shows the same information).
+
+#+begin_src emacs-lisp
+  (setq org-src-window-setup 'current-window)
+#+end_src
+
+** Task and org-capture management
+
+Two locations for org files. One is personal and managed under git, the other is work and managed
+under OneDrive and may not exist
+
+#+begin_src emacs-lisp
+  (setq org-agenda-files '("~/OrgDocuments"))
+  (if (file-directory-p "~/Deloitte (O365D)/Team Donald - General")
+    (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - Genera"))))
+#+end_src
+
+Ensure that a task can't be marked as done if it contains unfinished subtasks or
+checklist items. This is handy for organizing "blocking" tasks hierarchically.
+
+#+begin_src emacs-lisp
+  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
+#+end_src
+
+Default to one weeks of agenda starting with /today/
+
+#+begin_src emacs-lisp
+  (setq org-agenda-span 7)
+  (setq org-agenda-start-on-weekday nil)
+#+end_src
+
 * Org Roam
 
 Requires installation of sqlite:
