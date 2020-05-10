@@ -96,7 +96,8 @@ Place for a grab bag of basic settings
   (setq-default tab-width 4)            
   ;; smart tab behavior - indent or complete
   (setq tab-always-indent 'complete)
-
+  (global-display-line-numbers-mode 1) ; line number in margin
+  (global-hl-line-mode 1) ; highlight current line
 
 #+end_src
 
