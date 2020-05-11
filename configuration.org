@@ -329,7 +329,7 @@ under OneDrive and may not exist
 #+begin_src emacs-lisp
   (setq org-agenda-files '("~/OrgDocuments"))
   (if (file-directory-p "~/Deloitte (O365D)/Team Donald - General")
-    (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - Genera"))))
+    (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - General"))))
 #+end_src
 
 Ensure that a task can't be marked as done if it contains unfinished subtasks or
