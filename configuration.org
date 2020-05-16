@@ -212,7 +212,7 @@ Configuration for a bunch of built in packages.
 
 * Exporting
 
-Allow =babel= to evaluate Emacs lisp, Ruby, dot, or Gnuplot code.
+Allow =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
 
 #+begin_src emacs-lisp
   (use-package gnuplot)
@@ -221,7 +221,7 @@ Allow =babel= to evaluate Emacs lisp, Ruby, dot, or Gnuplot code.
    'org-babel-load-languages
    '((emacs-lisp . t)
      (ruby . t)
-     (dot . t)
+     (python . t)
      (gnuplot . t)))
 #+end_src
 
@@ -353,7 +353,6 @@ Requires installation of sqlite:
 
 ~pacman -S sqlite~
 
-** TODO Need a org-roam-toggle-roam-directory
 
 #+begin_src emacs-lisp
 
