@@ -116,17 +116,22 @@ dictionaries which can be downloaded from [[https://github.com/LibreOffice/dicti
 
 #+begin_src emacs-lisp
 
-(setq ispell-program-name (executable-find "hunspell"))
-(setq ispell-hunspell-dict-paths-alist '(("en_US" "C:/msys64/usr/share/hunspell/en_US.aff")))
-(setq ispell-local-dictionary "en_US")
-(setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
-(use-package flyspell
-  :config
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'gfm-mode-hook 'flyspell-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode)
-  (add-hook 'git-commit-mode-hook 'flyspell-mode)
-  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode))
+  ; this is windows specific now that I am using linux as well
+  (if (string-equal system-type "windows-nt")
+      (progn
+        (setq ispell-program-name (executable-find "hunspell"))
+        (setq ispell-hunspell-dict-paths-alist '(("en_US" "C:/msys64/usr/share/hunspell/en_US.aff")))
+        (setq ispell-local-dictionary "en_US")
+        (setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))))
+
+  ; default is just use flyspell package
+  (use-package flyspell
+    :config
+    (add-hook 'text-mode-hook 'flyspell-mode)
+    (add-hook 'gfm-mode-hook 'flyspell-mode)
+    (add-hook 'org-mode-hook 'flyspell-mode)
+    (add-hook 'git-commit-mode-hook 'flyspell-mode)
+    (add-hook 'mu4e-compose-mode-hook 'flyspell-mode))
 
 #+end_src
 
