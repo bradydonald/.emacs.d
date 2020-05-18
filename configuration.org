@@ -333,13 +333,42 @@ new one (which shows the same information).
 
 ** Task and org-capture management
 
+*** Takes care of work and play
 Two locations for org files. One is personal and managed under git, the other is work and managed
-under OneDrive and may not exist
+under OneDrive and may not exist.
 
 #+begin_src emacs-lisp
   (setq org-agenda-files '("~/OrgDocuments"))
+  (setq org-default-notes-file "~/OrgDocuments/notes.org")
+
   (if (file-directory-p "~/Deloitte (O365D)/Team Donald - General")
-    (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - General"))))
+      (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - General"))))
+#+end_src
+
+*** TODO Attempt to get Chrome capture working
+
+Org capture templates for Chrome org-capture from site:
+~https://github.com/sprig/org-capture-extension~
+
+Added this file: ~/.local/share/applications/org-protocol.desktop~
+
+#+begin_src emacs-lisp
+  (setq org-modules (quote (org-protocol))) 
+  (require 'org-protocol)
+
+  ;; if you set this variable you have to redefine the default t/Todo.
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline "~/OrgDocuments/notes.org" "Tasks")
+           "* TODO %?\n  %i\n  %a")
+          ("j" "Journal" entry (file+datetree "~/OrgDocuments/journal.org")
+           "* %?\nEntered on %U\n  %i\n  %a")
+          ;; these are for chrome link capture. Not working. 
+          ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+           "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+          ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+           "* %? [[%:link][%:description]] \nCaptured On: %U")
+          ))
+
 #+end_src
 
 Ensure that a task can't be marked as done if it contains unfinished subtasks or
