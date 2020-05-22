@@ -338,6 +338,7 @@ Two locations for org files. One is personal and managed under git, the other is
 under OneDrive and may not exist.
 
 #+begin_src emacs-lisp
+  (setq org-directory "~/OrgDocuments")
   (setq org-agenda-files '("~/OrgDocuments"))
   (setq org-default-notes-file "~/OrgDocuments/notes.org")
 
@@ -356,17 +357,28 @@ Added this file: ~/.local/share/applications/org-protocol.desktop~
   (setq org-modules (quote (org-protocol))) 
   (require 'org-protocol)
 
+#+end_src
+
+Setting up org-protocol handler. This page has best description:
+~https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs~
+
+#+begin_src emacs-lisp
+
+  (defun transform-square-brackets-to-round-ones(string-to-transform)
+    "Transforms [ into ( and ] into ), other chars left unchanged."
+    (concat 
+    (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
+    )
+
   ;; if you set this variable you have to redefine the default t/Todo.
-  (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/OrgDocuments/notes.org" "Tasks")
+  (setq org-capture-templates 
+        `(
+          ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
            "* TODO %?\n  %i\n  %a")
-          ("j" "Journal" entry (file+datetree "~/OrgDocuments/journal.org")
-           "* %?\nEntered on %U\n  %i\n  %a")
-          ;; these are for chrome link capture. Not working. 
-          ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-           "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-          ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-           "* %? [[%:link][%:description]] \nCaptured On: %U")
+          ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+           "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")	
+          ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+           "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n")
           ))
 
 #+end_src
@@ -377,6 +389,10 @@ checklist items. This is handy for organizing "blocking" tasks hierarchically.
 #+begin_src emacs-lisp
   (setq org-enforce-todo-dependencies t)
   (setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-todo-keywords
+        '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
 #+end_src
 
 Default to one weeks of agenda starting with /today/
@@ -445,4 +461,7 @@ This section has all globally set keys unless they are related to a package or m
   (global-set-key (kbd "C-x C-b") #'ibuffer)
 
 #+end_src
+
+* Finally, start a server
+(server-start)
 
