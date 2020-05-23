@@ -331,22 +331,21 @@ new one (which shows the same information).
   (setq org-src-window-setup 'current-window)
 #+end_src
 
-** Task and org-capture management
+** Takes care of work and play
 
-*** Takes care of work and play
 Two locations for org files. One is personal and managed under git, the other is work and managed
 under OneDrive and may not exist.
 
 #+begin_src emacs-lisp
   (setq org-directory "~/OrgDocuments")
-  (setq org-agenda-files '("~/OrgDocuments"))
-  (setq org-default-notes-file "~/OrgDocuments/notes.org")
+  (setq org-agenda-files (directory-files-recursively "~/OrgDocuments" "org$"))
+  (setq org-default-notes-file "~/OrgDocuments/index.org")
 
   (if (file-directory-p "~/Deloitte (O365D)/Team Donald - General")
       (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - General"))))
 #+end_src
 
-*** TODO Attempt to get Chrome capture working
+** Org Capture Setup
 
 Org capture templates for Chrome org-capture from site:
 ~https://github.com/sprig/org-capture-extension~
@@ -356,10 +355,14 @@ Added this file: ~/.local/share/applications/org-protocol.desktop~
 #+begin_src emacs-lisp
   (setq org-modules (quote (org-protocol))) 
   (require 'org-protocol)
-
 #+end_src
 
-Setting up org-protocol handler. This page has best description:
+*** TODO Setting up org-protocol handler. This page has best description:
+    :LOGBOOK:
+    - State "TODO"       from              [2020-05-23 Sat 08:10] \\
+      this is working for links but not well for text selections. the transform square defun is not
+      working well.
+    :END:
 ~https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs~
 
 #+begin_src emacs-lisp
@@ -383,6 +386,8 @@ Setting up org-protocol handler. This page has best description:
 
 #+end_src
 
+** Task handling and states
+
 Ensure that a task can't be marked as done if it contains unfinished subtasks or
 checklist items. This is handy for organizing "blocking" tasks hierarchically.
 
@@ -395,6 +400,7 @@ checklist items. This is handy for organizing "blocking" tasks hierarchically.
   (setq org-log-into-drawer t)
 #+end_src
 
+** Agenda Settings
 Default to one weeks of agenda starting with /today/
 
 #+begin_src emacs-lisp
