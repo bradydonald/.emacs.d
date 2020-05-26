@@ -308,6 +308,10 @@ Use =o= to browse the entry in a Web browser.
 
 * Org Mode
 
+Ran into an org-mode error where agenda does not work. Running 
+~(byte-recompile-directory package-user-dir nil 'force)~
+fixes is as recommended in this [[https://stackoverflow.com/questions/54580647/org-agenda-wrong-number-of-arguments-error/58731899#58731899?newreg=759b3def501940dcbe190fdd2498b1f4][article]]:
+
 Some basic configuration for Org Mode
 
 ** Display preferences
@@ -339,6 +343,7 @@ under OneDrive and may not exist.
 #+begin_src emacs-lisp
   (setq org-directory "~/OrgDocuments")
   (setq org-agenda-files (directory-files-recursively "~/OrgDocuments" "org$"))
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
   (setq org-default-notes-file "~/OrgDocuments/index.org")
 
   (if (file-directory-p "~/Deloitte (O365D)/Team Donald - General")
