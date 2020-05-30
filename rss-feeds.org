@@ -1,6 +1,7 @@
 * blogs                                                        :elfeed:
 ** emacs                                                        :emacs:
 *** http://www.reddit.com/r/emacs/.rss
+*** https://www.reddit.com/r/orgmode/.rss
 *** http://planet.emacsen.org/atom.xml
 *** http://feeds.feedburner.com/XahsEmacsBlog
 *** http://pragmaticemacs.com/feed/
@@ -32,5 +33,3 @@
 ** economics                                                      :economics:
 *** https://wolfstreet.com/feed/
 *** https://www.nakedcapitalism.com/feed
-
-
