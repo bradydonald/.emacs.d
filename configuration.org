@@ -135,6 +135,47 @@ dictionaries which can be downloaded from [[https://github.com/LibreOffice/dicti
 
 #+end_src
 
+
+* magit
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :bind
+    ("C-x g" . magit-status)
+    :config
+    ;;    (use-package evil-magit)
+    ;;    (use-package with-editor)
+    (setq magit-push-always-verify nil)
+
+    (with-eval-after-load 'magit-remote
+      (magit-define-popup-action 'magit-push-popup ?P
+                                 'magit-push-implicitly--desc
+                                 'magit-push-implicitly ?p t))
+
+    ;;    (add-hook 'with-editor-mode-hook 'evil-insert-state)
+    )
+#+end_src
+
+I've been playing around with the newly-released =forge= for managing GitHub PRs
+and issues. Seems slick so far.
+
+#+begin_src emacs-lisp
+  (use-package ghub)
+  (use-package forge)
+#+end_src
+
+git-timemachine, which lets you quickly page through the history of a file.
+
+#+begin_src emacs-lisp
+  (use-package git-timemachine)
+#+end_src
+
+Tree-based undo management. 
+
+#+begin_src emacs-lisp
+  (use-package undo-tree)
+#+end_src
+
 * Hippie Expand Setup
 
 This is a more powerful completion system.
@@ -403,6 +444,7 @@ checklist items. This is handy for organizing "blocking" tasks hierarchically.
         '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
+  (setq org-log-reschedule 'note)
 #+end_src
 
 ** Agenda Settings

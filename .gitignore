@@ -11,4 +11,6 @@ configuration.el
 *~
 %backup%*
 *.html
+*.sqlite
+games
 
