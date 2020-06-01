@@ -255,6 +255,7 @@ Allow =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
    '((emacs-lisp . t)
      (ruby . t)
      (python . t)
+     (sql . t)
      (gnuplot . t)))
 #+end_src
 

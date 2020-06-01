@@ -6,6 +6,7 @@
 *** http://feeds.feedburner.com/XahsEmacsBlog
 *** http://pragmaticemacs.com/feed/
 *** https://karl-voit.at/feeds/lazyblorg-all.atom_1.0.links-and-teaser.xml
+*** https://feeds.feedburner.com/d0od                                :ubuntu:
 ** strategy                                                        :strategy:
 *** http://steveblank.com/feed/
 *** http://stratechery.com/feed
