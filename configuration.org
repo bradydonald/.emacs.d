@@ -143,25 +143,7 @@ dictionaries which can be downloaded from [[https://github.com/LibreOffice/dicti
     :bind
     ("C-x g" . magit-status)
     :config
-    ;;    (use-package evil-magit)
-    ;;    (use-package with-editor)
-    (setq magit-push-always-verify nil)
-
-    (with-eval-after-load 'magit-remote
-      (magit-define-popup-action 'magit-push-popup ?P
-                                 'magit-push-implicitly--desc
-                                 'magit-push-implicitly ?p t))
-
-    ;;    (add-hook 'with-editor-mode-hook 'evil-insert-state)
-    )
-#+end_src
-
-I've been playing around with the newly-released =forge= for managing GitHub PRs
-and issues. Seems slick so far.
-
-#+begin_src emacs-lisp
-  (use-package ghub)
-  (use-package forge)
+    (setq magit-push-always-verify nil))
 #+end_src
 
 git-timemachine, which lets you quickly page through the history of a file.
