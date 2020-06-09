@@ -23,6 +23,7 @@
 *** https://medium.com/feed/@tonyparisi
 *** https://mobile-ar.reality.news/rss.xml
 *** https://www.blog.google/products/android-enterprise/rss
+*** https://blogs.unity3d.com/feed/
 ** humor                                                              :humor:
 *** http://www.postsecret.com/feeds/posts/default
 *** http://xkcd.com/rss.xml

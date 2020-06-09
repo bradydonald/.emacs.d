@@ -499,6 +499,9 @@ This section has all globally set keys unless they are related to a package or m
   ;; replace buffer-menu with ibuffer
   (global-set-key (kbd "C-x C-b") #'ibuffer)
 
+  ;; Lenovo Function Key Bindings
+  (global-set-key (kbd "<XF86Favorites>") 'bury-buffer) ;; The Star on F12
+
 #+end_src
 
 * Finally, start a server
