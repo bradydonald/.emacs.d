@@ -24,6 +24,7 @@
 *** https://mobile-ar.reality.news/rss.xml
 *** https://www.blog.google/products/android-enterprise/rss
 *** https://blogs.unity3d.com/feed/
+*** https://www.reddit.com/r/AR_MR_XR/.rss
 ** humor                                                              :humor:
 *** http://www.postsecret.com/feeds/posts/default
 *** http://xkcd.com/rss.xml
