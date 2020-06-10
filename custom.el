@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-protocol org-roam emacsql-sqlite3 easy-hugo elfeed-org elfeed htmlize gnuplot default-text-scale swiper ivy auto-compile use-package))))
+    (magit org-protocol org-roam emacsql-sqlite3 easy-hugo elfeed-org elfeed htmlize gnuplot default-text-scale swiper ivy auto-compile use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
