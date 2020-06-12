@@ -98,12 +98,21 @@ Place for a grab bag of basic settings
   (setq tab-always-indent 'complete)
   (global-display-line-numbers-mode 1) ; line number in margin
   (global-hl-line-mode 1) ; highlight current line
+  ;; Attempts to optimize Windows - way too slow
+  (setq inhibit-compacting-font-caches t)
+  (setq undo-limit 40000)
+  ;; (when (boundp 'w32-pipe-read-delay)
+  ;;   (setq w32-pipe-read-delay 0))
 
 #+end_src
 
 * Flyspell / hunspell Configuration
 
-** Install hunspell in msys2.   
+** TODO Install hunspell in msys2.   
+   :LOGBOOK:
+   - Note taken on [2020-06-11 Thu 13:57] \\
+     Windows performance is terrible so need to work this.
+   :END:
 
 Install [[https://www.msys2.org/][msys2]]. Install the developer packages and git:
 
@@ -124,14 +133,15 @@ dictionaries which can be downloaded from [[https://github.com/LibreOffice/dicti
         (setq ispell-local-dictionary "en_US")
         (setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))))
 
-  ; default is just use flyspell package
-  (use-package flyspell
-    :config
-    (add-hook 'text-mode-hook 'flyspell-mode)
-    (add-hook 'gfm-mode-hook 'flyspell-mode)
-    (add-hook 'org-mode-hook 'flyspell-mode)
-    (add-hook 'git-commit-mode-hook 'flyspell-mode)
-    (add-hook 'mu4e-compose-mode-hook 'flyspell-mode))
+  ;; default is just use flyspell package
+  ;; performance on windows
+  ;;(use-package flyspell
+  ;;:config
+  ;; (add-hook 'gfm-mode-hook 'flyspell-mode)
+
+  ;; (add-hook 'text-mode-hook 'flyspell-mode)
+  ;; (add-hook 'org-mode-hook 'flyspell-mode)
+  ;; (add-hook 'git-commit-mode-hook 'flyspell-mode))
 
 #+end_src
 
@@ -365,13 +375,17 @@ Two locations for org files. One is personal and managed under git, the other is
 under OneDrive and may not exist.
 
 #+begin_src emacs-lisp
-  (setq org-directory "~/OrgDocuments")
-  (setq org-agenda-files (directory-files-recursively "~/OrgDocuments" "org$"))
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-  (setq org-default-notes-file "~/OrgDocuments/index.org")
 
-  (if (file-directory-p "~/Deloitte (O365D)/Team Donald - General")
-      (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - General"))))
+  ;; Set up agenda files
+  (setq org-agenda-files (directory-files-recursively "~/OrgDocuments" "org$"))
+  (if (file-directory-p "~/Deloitte (O365D)/Team Donald - General") ;; we're at work
+      (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - General/OrgDocuments"))))
+
+  ;; some other defaults
+  (setq org-directory "~/OrgDocuments")
+  (setq org-default-notes-file "~/OrgDocuments/index.org")
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+
 #+end_src
 
 ** Org Capture Setup
@@ -448,7 +462,7 @@ Requires installation of sqlite:
 #+begin_src emacs-lisp
 
   (setq org-roam-directory-alist '("~/OrgDocuments"
-                                   "~/Deloitte (O365D)/Team Donald - General"))
+                                   "~/Deloitte (O365D)/Team Donald - General/OrgDocuments"))
 
   (defun db/toggle-org-roam-directory ()
     "cycles through a list of directories and configures org-roam directory"
@@ -456,6 +470,7 @@ Requires installation of sqlite:
     (setq org-roam-directory-alist (append (cdr org-roam-directory-alist) (cons (car org-roam-directory-alist) ())))
     (setq org-roam-directory (car org-roam-directory-alist))
     (org-roam-db-build-cache)
+    (setq org-default-notes-file (append org-roam-directory "/index.org"))
     (message "org-roam-directory now '%s'" (car org-roam-directory-alist)))
 
   (use-package emacsql-sqlite3)
