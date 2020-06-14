@@ -438,6 +438,29 @@ Default to one weeks of agenda starting with /today/
   (setq org-agenda-start-on-weekday nil)
 #+end_src
 
+** Pomodoro
+
+A leightweight implementation of the Pomodoro Technique is implemented
+through customizing orgmode. For every Clock that is started (=C-c C-x
+C-i=) an automatic Timer is scheduled to 25min. After these 25min are
+up, a "Time to take a break!" message is played and a pop-up
+notification is shown.
+
+The timer is not automatically stopped on clocking out, because clocking
+in should still work on new tasks without resetting the Pomodoro.
+
+The timer can manyally be stopped with =M-x org-timer-stop=.
+
+A break can be started with =M-x pomodoro-break=. A pomodoro can also
+manually be started without clocking in via =M-x pomodoro-start=.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Configure primary org pomodoro buffer to which the timers will get
+  ;; attached to.
+  (setq ok-pomodoro-buffer "things.org")
+  (load "~/.emacs.d/org-pomodoro")
+#+END_SRC
+
 * Org Roam
 
 Requires installation of sqlite:
