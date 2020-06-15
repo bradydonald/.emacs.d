@@ -20,4 +20,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+;; make sure that my custom location for lisp is added to the .emacs.d path
+(setq load-path (cons (directory-file-name "~/.emacs.d/lisp") load-path))
+
 (org-babel-load-file "~/.emacs.d/configuration.org")
