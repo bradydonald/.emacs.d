@@ -106,6 +106,18 @@ Place for a grab bag of basic settings
 
 #+end_src
 
+* Spray Speed Reader
+
+[[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
+and slower, q quits
+
+#+begin_src emacs-lisp
+
+(require 'spray)
+(setq spray-wpm 200)
+
+#+end_src
+
 * Flyspell / hunspell Configuration
 
 ** TODO Install hunspell in msys2.   
@@ -144,7 +156,6 @@ dictionaries which can be downloaded from [[https://github.com/LibreOffice/dicti
   ;; (add-hook 'git-commit-mode-hook 'flyspell-mode))
 
 #+end_src
-
 
 * magit
 
