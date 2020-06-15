@@ -452,7 +452,11 @@ Default to one weeks of agenda starting with /today/
   (setq org-agenda-start-on-weekday nil)
 #+end_src
 
-** Pomodoro
+** TODO Pomodoro
+   :LOGBOOK:
+   - Note taken on [2020-06-14 Sun 16:32] \\
+     Causing emacs crashes
+   :END:
 
 A leightweight implementation of the Pomodoro Technique is implemented
 through customizing orgmode. For every Clock that is started (=C-c C-x
@@ -471,8 +475,8 @@ manually be started without clocking in via =M-x pomodoro-start=.
 #+BEGIN_SRC emacs-lisp
   ;; Configure primary org pomodoro buffer to which the timers will get
   ;; attached to.
-  (setq ok-pomodoro-buffer "things.org")
-  (load "~/.emacs.d/org-pomodoro")
+;;  (setq ok-pomodoro-buffer "things.org")
+;;  (load "~/.emacs.d/org-pomodoro")
 #+END_SRC
 
 * Org Roam
