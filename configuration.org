@@ -381,10 +381,20 @@ new one (which shows the same information).
   (setq org-src-window-setup 'current-window)
 #+end_src
 
-** Takes care of work and play
+** TODO Takes care of work and play
+   :LOGBOOK:
+   - Note taken on [2020-06-15 Mon 20:58] \\
+     Need to filter out YYYY-MM entries from refile targets
+   :END:
 
 Two locations for org files. One is personal and managed under git, the other is work and managed
-under OneDrive and may not exist.
+under OneDrive and may not exist if on personal laptop. I also keep monthly journal files of
+meetings and notes named:
+
+~YYYY/MM~ (Personal) and
+~YYYY/MMw~ (Work)
+
+These should not be refile targets, they are a source of refile org entries.
 
 #+begin_src emacs-lisp
 
@@ -396,6 +406,7 @@ under OneDrive and may not exist.
   ;; some other defaults
   (setq org-directory "~/OrgDocuments")
   (setq org-default-notes-file "~/OrgDocuments/index.org")
+  ;; (setq org-refile-targets '(((seq-remove (lambda (s) (string-match-p "2[0-9]*\-[0-9]+w?" s)) org-agenda-files) :maxlevel . 3)))
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 
 #+end_src
