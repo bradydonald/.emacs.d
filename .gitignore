@@ -14,3 +14,4 @@ configuration.el
 *.sqlite
 games
 
+/eww-bookmarks
