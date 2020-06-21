@@ -309,33 +309,6 @@ Allow export to markdown (for hugo) and beamer (for presentations).
   (require 'ox-beamer)
 #+end_src
 
-* RSS with =elfeed=
-
-Install elfeed and load up my feeds.
-
-#+begin_src emacs-lisp
-  (use-package elfeed
-    :config
-    (elfeed-set-max-connections 32))
-  (use-package elfeed-org
-    :config
-    (progn
-      (elfeed-org)
-      (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" user-emacs-directory)))))
-#+end_src
-
-Open =elfeed= with =C-c r=:
-
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-c r") 'elfeed)
-#+end_src
-
-Use =o= to browse the entry in a Web browser.
-
-#+begin_src emacs-lisp
-  (define-key elfeed-show-mode-map "o" 'elfeed-show-visit)
-  (define-key elfeed-search-mode-map "o" 'elfeed-search-browse-url)
-#+end_src
 * Blogging with =Hugo=
 
 #+begin_src emacs-lisp
@@ -360,25 +333,34 @@ fixes is as recommended in this [[https://stackoverflow.com/questions/54580647/o
 
 Some basic configuration for Org Mode
 
-** Display preferences
-
-Use syntax highlighting in source blocks while editing.
+** A few variables for home and work
 
 #+begin_src emacs-lisp
-  (setq org-src-fontify-natively t)
+  (setq db-home-org-dir "~/OrgDocuments")
+  (setq db-work-org-dir "~/Deloitte (O365D)/Team Donald - General/OrgDocuments")
+  (setq db-org-at-work (file-directory-p db-work-org-dir))
 #+end_src
 
-Make TAB act as if it were issued in a buffer of the language's major mode.
+** General Settings
 
 #+begin_src emacs-lisp
-  (setq org-src-tab-acts-natively t)
-#+end_src
+  (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
+  (setq org-src-tab-acts-natively t) ;; Make TAB act as if language's major mode.
+  (setq org-src-window-setup 'current-window) ;; Use the current window rather than popping open a new onw
 
-When editing a code snippet, use the current window rather than popping open a
-new one (which shows the same information).
+  ;; task handling
+  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-todo-keywords
+        '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+  (setq org-log-reschedule 'note)
 
-#+begin_src emacs-lisp
-  (setq org-src-window-setup 'current-window)
+  ;; agenda settings
+  (setq org-agenda-span 7)
+  (setq org-agenda-start-on-weekday nil)
+
 #+end_src
 
 ** TODO Takes care of work and play
@@ -399,13 +381,13 @@ These should not be refile targets, they are a source of refile org entries.
 #+begin_src emacs-lisp
 
   ;; Set up agenda files
-  (setq org-agenda-files (directory-files-recursively "~/OrgDocuments" "org$"))
-  (if (file-directory-p "~/Deloitte (O365D)/Team Donald - General") ;; we're at work
-      (setq org-agenda-files (append org-agenda-files '("~/Deloitte (O365D)/Team Donald - General/OrgDocuments"))))
+  (setq org-agenda-files (directory-files-recursively db-home-org-dir "org$"))
+  (if db-org-at-work
+      (setq org-agenda-files (append org-agenda-files '(db-work-org-dir))))
 
   ;; some other defaults
-  (setq org-directory "~/OrgDocuments")
-  (setq org-default-notes-file "~/OrgDocuments/index.org")
+  (setq org-directory db-home-org-dir)
+  (setq org-default-notes-file (expand-file-name db-home-org-dir "index.org"))
   ;; (setq org-refile-targets '(((seq-remove (lambda (s) (string-match-p "2[0-9]*\-[0-9]+w?" s)) org-agenda-files) :maxlevel . 3)))
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 
@@ -452,28 +434,6 @@ Added this file: ~/.local/share/applications/org-protocol.desktop~
 
 #+end_src
 
-** Task handling and states
-
-Ensure that a task can't be marked as done if it contains unfinished subtasks or
-checklist items. This is handy for organizing "blocking" tasks hierarchically.
-
-#+begin_src emacs-lisp
-  (setq org-enforce-todo-dependencies t)
-  (setq org-enforce-todo-checkbox-dependencies t)
-  (setq org-todo-keywords
-        '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-  (setq org-log-reschedule 'note)
-#+end_src
-
-** Agenda Settings
-Default to one weeks of agenda starting with /today/
-
-#+begin_src emacs-lisp
-  (setq org-agenda-span 7)
-  (setq org-agenda-start-on-weekday nil)
-#+end_src
 
 ** TODO Pomodoro
    :LOGBOOK:
@@ -498,8 +458,8 @@ manually be started without clocking in via =M-x pomodoro-start=.
 #+BEGIN_SRC emacs-lisp
   ;; Configure primary org pomodoro buffer to which the timers will get
   ;; attached to.
-;;  (setq ok-pomodoro-buffer "things.org")
-;;  (load "~/.emacs.d/org-pomodoro")
+  ;;  (setq ok-pomodoro-buffer "things.org")
+  ;;  (load "~/.emacs.d/org-pomodoro")
 #+END_SRC
 
 * Org Roam
@@ -543,6 +503,33 @@ Requires installation of sqlite:
 
 #+end_src
 
+* RSS with =elfeed=
+
+Install elfeed and load up my feeds.
+
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :config
+    (elfeed-set-max-connections 32))
+  (use-package elfeed-org
+    :config
+    (progn
+      (elfeed-org)
+      (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" db-home-org-dir)))))
+#+end_src
+
+Open =elfeed= with =C-c r=:
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-c r") 'elfeed)
+#+end_src
+
+Use =o= to browse the entry in a Web browser.
+
+#+begin_src emacs-lisp
+  (define-key elfeed-show-mode-map "o" 'elfeed-show-visit)
+  (define-key elfeed-search-mode-map "o" 'elfeed-search-browse-url)
+#+end_src
 * Globally Set Keys
 
 This section has all globally set keys unless they are related to a package or mode config. 
