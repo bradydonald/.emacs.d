@@ -121,11 +121,7 @@ and slower, q quits
 
 * Flyspell / hunspell Configuration
 
-** TODO Install hunspell in msys2.   
-   :LOGBOOK:
-   - Note taken on [2020-06-11 Thu 13:57] \\
-     Windows performance is terrible so need to work this.
-   :END:
+** Install hunspell in msys2.   
 
 Install [[https://www.msys2.org/][msys2]]. Install the developer packages and git:
 
@@ -328,12 +324,15 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 * Org Mode
 
 Ran into an org-mode error where agenda does not work. Running 
-~(byte-recompile-directory package-user-dir nil 'force)~
-fixes is as recommended in this [[https://stackoverflow.com/questions/54580647/org-agenda-wrong-number-of-arguments-error/58731899#58731899?newreg=759b3def501940dcbe190fdd2498b1f4][article]]:
+=(byte-recompile-directory package-user-dir nil 'force)=
+fixes is as recommended in this [[https://stackoverflow.com/questions/54580647/org-agenda-wrong-number-of-arguments-error/58731899#58731899?newreg=759b3def501940dcbe190fdd2498b1f4][article]].
 
 Some basic configuration for Org Mode
 
-** A few variables for home and work
+** Personald and Work
+
+I use Org Mode at work and for personal purposes. I use =db-home-org-dir= and =db-work-org-dir= to
+locate the relevant directories.
 
 #+begin_src emacs-lisp
   (setq db-home-org-dir "~/OrgDocuments")
@@ -343,14 +342,26 @@ Some basic configuration for Org Mode
 
 ** General Settings
 
+*** Source Blocks
+
 #+begin_src emacs-lisp
   (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
   (setq org-src-tab-acts-natively t) ;; Make TAB act as if language's major mode.
   (setq org-src-window-setup 'current-window) ;; Use the current window rather than popping open a new onw
 
+#+end_src
+
+** TODO Task Handling and Agenda
+   On both linux and windows with dependencies turned on trying to complete a parent task in the agena
+      causes a hang.
+
+Establishes the states and other setting related to task handling. 
+
+#+BEGIN_SRC emacs-lisp
+
   ;; task handling
-  (setq org-enforce-todo-dependencies t)
-  (setq org-enforce-todo-checkbox-dependencies t)
+  ;; (setq org-enforce-todo-dependencies t)
+  ;; (setq org-enforce-todo-checkbox-dependencies t)
   (setq org-todo-keywords
         '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
   (setq org-log-done 'time)
@@ -363,20 +374,9 @@ Some basic configuration for Org Mode
 
 #+end_src
 
-** TODO Takes care of work and play
-   :LOGBOOK:
-   - Note taken on [2020-06-15 Mon 20:58] \\
-     Need to filter out YYYY-MM entries from refile targets
-   :END:
+** Takes care of work and play
 
-Two locations for org files. One is personal and managed under git, the other is work and managed
-under OneDrive and may not exist if on personal laptop. I also keep monthly journal files of
-meetings and notes named:
-
-~YYYY/MM~ (Personal) and
-~YYYY/MMw~ (Work)
-
-These should not be refile targets, they are a source of refile org entries.
+Set up the agenda files which are in two directories, one for personal and one for work. 
 
 #+begin_src emacs-lisp
 
@@ -388,8 +388,21 @@ These should not be refile targets, they are a source of refile org entries.
   ;; some other defaults
   (setq org-directory db-home-org-dir)
   (setq org-default-notes-file (expand-file-name db-home-org-dir "index.org"))
-  ;; (setq org-refile-targets '(((seq-remove (lambda (s) (string-match-p "2[0-9]*\-[0-9]+w?" s)) org-agenda-files) :maxlevel . 3)))
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+
+#+end_src
+
+I have monthly log files used to take notes / journal that are sources of refile items but not
+targets. They are named YYYY-MM(w).org
+
+#+begin_src emacs-lisp
+
+  (defun db-filtered-refile-targets ()
+    "Removes month journals as valid refile targets"
+    (remove nil (mapcar (lambda (x)
+                          (if (string-match-p "2[0-9]*\-[0-9]+w?" x)
+                              nil x)) org-agenda-files)))
+
+  (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 5)))
 
 #+end_src
 
@@ -406,12 +419,7 @@ Added this file: ~/.local/share/applications/org-protocol.desktop~
 #+end_src
 
 *** TODO Setting up org-protocol handler. This page has best description:
-    :LOGBOOK:
-    - State "TODO"       from              [2020-05-23 Sat 08:10] \\
-      this is working for links but not well for text selections. the transform square defun is not
-      working well.
-    :END:
-~https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs~
+[[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
 
 #+begin_src emacs-lisp
 
@@ -434,12 +442,8 @@ Added this file: ~/.local/share/applications/org-protocol.desktop~
 
 #+end_src
 
-
 ** TODO Pomodoro
-   :LOGBOOK:
-   - Note taken on [2020-06-14 Sun 16:32] \\
-     Causing emacs crashes
-   :END:
+*This is causeing crashes.*
 
 A leightweight implementation of the Pomodoro Technique is implemented
 through customizing orgmode. For every Clock that is started (=C-c C-x
