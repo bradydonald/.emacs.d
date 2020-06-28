@@ -106,22 +106,74 @@ Place for a grab bag of basic settings
 
 #+end_src
 
-* Spray
-Speed Reader
+* TODO Custom Packages
+  :LOGBOOK:
+  - Note taken on [2020-06-27 Sat 17:07] \\
+    25:  (use-package auto-compile
+         55:  (use-package saveplace
+         61:  (use-package savehist
+        186:  ;;(use-package flyspell
+        236:      (use-package paren
+        240:      (use-package elec-pair
+        244:      ;; (use-package abbrev
+        249:      (use-package recentf
+        259:      (use-package ivy
+        268:      (use-package swiper
+        274:      (use-package default-text-scale
+        279:      (use-package elisp-slime-nav)
+        296:  (use-package gnuplot)
+        316:  (use-package htmlize)
+        342:(use-package easy-hugo
+        520:  (use-package emacsql-sqlite3)
+        521:  (use-package org-roam
+  :END:
+Use this method as an easier way to identify and load packages
+
+#+BEGIN_SRC emacs-lisp
+
+  (defvar my-packages '(
+                        elfeed
+                        elfeed-org
+                        git-timemachine
+                        magit
+                        pdf-tools
+                        undo-tree
+                        ))
+#+END_SRC
+
+* Install packages
+
+#+BEGIN_SRC emacs-lisp
+  (dolist (p my-packages)
+    (unless (package-installed-p p)
+      (package-refresh-contents)
+      (package-install p))
+    (add-to-list 'package-selected-packages p))
+#+END_SRC
+
+* Spray Speed Reader
 
 [[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
 and slower, q quits
 
 #+begin_src emacs-lisp
 
-(require 'spray)
-(setq spray-wpm 200)
+  (require 'spray)
+  (setq spray-wpm 200)
 
 #+end_src
 
+* PDF Tools
+
+[[https://github.com/politza/pdf-tools][PDF Tools]] is a much better pdf viewer
+
+#+BEGIN_SRC emacs-lisp
+  (pdf-loader-install)
+#+END_SRC
+
 * Flyspell / hunspell Configuration
 
-** Install hunspell in msys2.   
+** Install hunspell in msys2.                                         :win32:
 
 Install [[https://www.msys2.org/][msys2]]. Install the developer packages and git:
 
@@ -142,6 +194,13 @@ dictionaries which can be downloaded from [[https://github.com/LibreOffice/dicti
         (setq ispell-local-dictionary "en_US")
         (setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))))
 
+#+end_src
+
+The performance of emacs on windows in a heavy corp spyware environment is much worse. Do not want
+to default spell check a bunch of org files that would be loaded
+
+#+begin_src emacs-lisp
+
   ;; default is just use flyspell package
   ;; performance on windows
   ;;(use-package flyspell
@@ -157,24 +216,12 @@ dictionaries which can be downloaded from [[https://github.com/LibreOffice/dicti
 * magit
 
 #+begin_src emacs-lisp
-  (use-package magit
-    :bind
-    ("C-x g" . magit-status)
-    :config
-    (setq magit-push-always-verify nil))
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (setq magit-push-always-verify nil)
 #+end_src
 
-git-timemachine, which lets you quickly page through the history of a file.
-
-#+begin_src emacs-lisp
-  (use-package git-timemachine)
-#+end_src
-
-Tree-based undo management. 
-
-#+begin_src emacs-lisp
-  (use-package undo-tree)
-#+end_src
+=git-timemachine=, which lets you quickly page through the history of a file and =undo-tree= are both
+loaded as well.
 
 * Hippie Expand Setup
 
@@ -304,6 +351,9 @@ Allow export to markdown (for hugo) and beamer (for presentations).
   (require 'ox-md)
   (require 'ox-beamer)
 #+end_src
+
+#+RESULTS:
+: ox-beamer
 
 * Blogging with =Hugo=
 
@@ -512,14 +562,9 @@ Requires installation of sqlite:
 Install elfeed and load up my feeds.
 
 #+begin_src emacs-lisp
-  (use-package elfeed
-    :config
-    (elfeed-set-max-connections 32))
-  (use-package elfeed-org
-    :config
-    (progn
-      (elfeed-org)
-      (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" db-home-org-dir)))))
+  (setq elfeed-set-max-connections 32)
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" db-home-org-dir)))
 #+end_src
 
 Open =elfeed= with =C-c r=:
