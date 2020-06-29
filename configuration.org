@@ -321,6 +321,7 @@ Allow =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
      (ruby . t)
      (python . t)
      (sql . t)
+     (shell . t)
      (gnuplot . t)))
 #+end_src
 
@@ -473,22 +474,22 @@ Added this file: ~/.local/share/applications/org-protocol.desktop~
 
 #+begin_src emacs-lisp
 
-  (defun transform-square-brackets-to-round-ones(string-to-transform)
-    "Transforms [ into ( and ] into ), other chars left unchanged."
-    (concat 
-    (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
-    )
+ (defun transform-square-brackets-to-round-ones(string-to-transform)
+   "Transforms [ into ( and ] into ), other chars left unchanged."
+   (concat 
+   (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
+   )
 
-  ;; if you set this variable you have to redefine the default t/Todo.
-  (setq org-capture-templates 
-        `(
-          ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* TODO %?\n\n  %i\n  %a")
-          ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")	
-          ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n")
-          ))
+ ;; if you set this variable you have to redefine the default t/Todo.
+ (setq org-capture-templates 
+       `(
+         ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+          "* TODO %?\n\n  %i\n  %a")
+         ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")	
+         ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+          "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n")
+         ))
 
 #+end_src
 
