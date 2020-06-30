@@ -434,7 +434,7 @@ Set up the agenda files which are in two directories, one for personal and one f
   ;; Set up agenda files
   (setq org-agenda-files (directory-files-recursively db-home-org-dir "org$"))
   (if db-org-at-work
-      (setq org-agenda-files (append org-agenda-files '(db-work-org-dir))))
+      (setq org-agenda-files (append org-agenda-files (directory-files-recursively db-work-org-dir "org$"))))
 
   ;; some other defaults
   (setq org-directory db-home-org-dir)
@@ -607,5 +607,6 @@ This section has all globally set keys unless they are related to a package or m
 #+end_src
 
 * Finally, start a server
-(server-start)
-
+#+begin_src emacs-lisp
+  (server-start)
+#+end_src
