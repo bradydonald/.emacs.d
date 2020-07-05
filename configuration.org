@@ -106,37 +106,30 @@ Place for a grab bag of basic settings
 
 #+end_src
 
-* TODO Custom Packages
-  :LOGBOOK:
-  - Note taken on [2020-06-27 Sat 17:07] \\
-    25:  (use-package auto-compile
-         55:  (use-package saveplace
-         61:  (use-package savehist
-        186:  ;;(use-package flyspell
-        236:      (use-package paren
-        240:      (use-package elec-pair
-        244:      ;; (use-package abbrev
-        249:      (use-package recentf
-        259:      (use-package ivy
-        268:      (use-package swiper
-        274:      (use-package default-text-scale
-        279:      (use-package elisp-slime-nav)
-        296:  (use-package gnuplot)
-        316:  (use-package htmlize)
-        342:(use-package easy-hugo
-        520:  (use-package emacsql-sqlite3)
-        521:  (use-package org-roam
-  :END:
-Use this method as an easier way to identify and load packages
+* Custom Packages
+
+Use this method as an easier way to identify and load packages but it does separate the
+confiuration from the use-package
 
 #+BEGIN_SRC emacs-lisp
 
   (defvar my-packages '(
+                        default-text-scale
+                        easy-hugo
+                        elec-pair
                         elfeed
                         elfeed-org
+                        emacsql-sqlite3
                         git-timemachine
+                        gnuplot
+                        htmlize
+                        ivy
                         magit
+                        org-roam
+                        paren
                         pdf-tools
+                        recentf
+                        swiper
                         undo-tree
                         ))
 #+END_SRC
@@ -150,6 +143,45 @@ Use this method as an easier way to identify and load packages
       (package-install p))
     (add-to-list 'package-selected-packages p))
 #+END_SRC
+
+* Configure Built-in Packages
+
+Configuration for a bunch of built in packages.
+
+#+begin_src emacs-lisp
+
+  ;; paren matching
+  (show-paren-mode +1)
+  (electric-pair-mode +1)
+
+  ;; recent files
+  (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
+  (setq recentf-max-saved-items 500)
+  (setq recentf-max-menu-items 15)
+  (setq recentf-auto-cleanup 'never)
+  (recentf-mode +1)
+
+  ;; ivy
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+
+  ;; swiper
+  (global-set-key "\C-s" 'swiper)
+
+  ;; default text scale
+  ;; binds C-M-= and C-M-- to increase and decrease the face size
+  (setq default-text-scale-mode t)
+
+  ;; config changes made through the customize UI will be stored here
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+  (when (file-exists-p custom-file)
+    (load custom-file))
+
+#+end_src
 
 * Spray Speed Reader
 
@@ -247,73 +279,11 @@ This is a more powerful completion system.
 
 #+end_src
 
-* Configure Built-in Packages
-
-Configuration for a bunch of built in packages.
-
-#+begin_src emacs-lisp
-
-      (use-package paren
-        :config
-        (show-paren-mode +1))
-
-      (use-package elec-pair
-        :config
-        (electric-pair-mode +1))
-
-      ;; (use-package abbrev
-      ;;   :config
-      ;;   (setq save-abbrevs 'silently)
-      ;;   (setq-default abbrev-mode t))
-
-      (use-package recentf
-        :config
-        (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir)
-              recentf-max-saved-items 500
-              recentf-max-menu-items 15
-              ;; disable recentf-cleanup on Emacs start, because it can cause
-              ;; problems with remote files
-              recentf-auto-cleanup 'never)
-        (recentf-mode +1))
-
-      (use-package ivy
-        :ensure t
-        :config
-        (ivy-mode 1)
-        (setq ivy-use-virtual-buffers t)
-        (setq enable-recursive-minibuffers t)
-        (global-set-key (kbd "C-c C-r") 'ivy-resume)
-        (global-set-key (kbd "<f6>") 'ivy-resume))
-
-      (use-package swiper
-        :ensure t
-        :config
-        (global-set-key "\C-s" 'swiper))
-
-      ;; binds C-M-= and C-M-- to increase and decrease the face size
-      (use-package default-text-scale
-        :config
-        (setq default-text-scale-mode t))
-
-      ;; slime namvigation of elisp M-. and M-,
-      (use-package elisp-slime-nav)
-      (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-        (add-hook hook 'turn-on-elisp-slime-nav-mode))
-
-      ;; config changes made through the customize UI will be stored here
-      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-      (when (file-exists-p custom-file)
-        (load custom-file))
-
-#+end_src
-
 * Exporting
 
 Allow =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
 
 #+begin_src emacs-lisp
-  (use-package gnuplot)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -331,11 +301,7 @@ Don't ask before evaluating code blocks.
   (setq org-confirm-babel-evaluate nil)
 #+end_src
 
-Use =htmlize= to ensure that exported code blocks use syntax highlighting.
-
-#+begin_src emacs-lisp
-  (use-package htmlize)
-#+end_src
+=htmlize= is used to ensure that exported code blocks use syntax highlighting.
 
 Translate regular ol' straight quotes to typographically-correct curly quotes
 when exporting.
@@ -353,22 +319,17 @@ Allow export to markdown (for hugo) and beamer (for presentations).
   (require 'ox-beamer)
 #+end_src
 
-#+RESULTS:
-: ox-beamer
-
 * Blogging with =Hugo=
 
 #+begin_src emacs-lisp
 
-(use-package easy-hugo
-  :init
   (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
   (setq easy-hugo-url "https://bradydonald.github.io/")
   (setq easy-hugo-sshdomain "bradydonald")
   (setq easy-hugo-postdir "content/posts")
   (setq easy-hugo-root "/home/blog/")
   (setq easy-hugo-previewtime "300")
-  :bind ("C-c C-e" . easy-hugo))
+  (global-set-key (kbd "C-c C-e") 'easy-hugo)
 
 #+end_src
 
@@ -391,9 +352,8 @@ locate the relevant directories.
   (setq db-org-at-work (file-directory-p db-work-org-dir))
 #+end_src
 
-** General Settings
 
-*** Source Blocks
+** Source Blocks
 
 #+begin_src emacs-lisp
   (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
@@ -403,8 +363,8 @@ locate the relevant directories.
 #+end_src
 
 ** TODO Task Handling and Agenda
-   On both linux and windows with dependencies turned on trying to complete a parent task in the agena
-      causes a hang.
+   On both linux and windows with dependencies turned on trying to complete a parent task in the agenda
+      causes a hang so turning off enforcing of dependencies.
 
 Establishes the states and other setting related to task handling. 
 
@@ -523,11 +483,10 @@ Requires installation of sqlite:
 
 ~pacman -S sqlite~
 
-
 #+begin_src emacs-lisp
 
   (setq org-roam-directory-alist '("~/OrgDocuments"
-                                   "~/Deloitte (O365D)/Team Donald - General/OrgDocuments"))
+                                       "~/Deloitte (O365D)/Team Donald - General/OrgDocuments"))
 
   (defun db/toggle-org-roam-directory ()
     "cycles through a list of directories and configures org-roam directory"
@@ -538,23 +497,18 @@ Requires installation of sqlite:
     (setq org-default-notes-file (append org-roam-directory "/index.org"))
     (message "org-roam-directory now '%s'" (car org-roam-directory-alist)))
 
-  (use-package emacsql-sqlite3)
-  (use-package org-roam
-        :hook
-        (after-init . org-roam-mode)
-        :custom
-        (org-roam-directory (car org-roam-directory-alist))
-        (org-roam-index-file "index.org")
-        :bind (:map org-roam-mode-map
-                (("C-c n l" . org-roam)
-                 ("C-c n f" . org-roam-find-file)
-                 ("C-c n j" . org-roam-jump-to-index)
-                 ("C-c n b" . org-roam-switch-to-buffer)
-                 ("C-c n g" . org-roam-graph))
-                :map org-mode-map
-                (("C-c n i" . org-roam-insert)
-                 ("C-c l". org-store-link)
-                )))
+  (org-roam-mode)
+  (setq org-roam-directory (car org-roam-directory-alist))
+  (setq org-roam-index-file "index.org")
+
+  (define-key org-roam-mode-map "C-c n l" 'org-roam)
+  (define-key org-roam-mode-map "C-c n f" 'org-roam-find-file)
+  (define-key org-roam-mode-map "C-c n j" 'org-roam-jump-to-index)
+  (define-key org-roam-mode-map "C-c n b" 'org-roam-switch-to-buffer)
+  (define-key org-roam-mode-map "C-c n g" 'org-roam-graph)
+
+  (define-key org-mode-map "C-c n i" 'org-roam-insert)
+  (define-key org-mode-map "C-c l" 'org-store-link)
 
 #+end_src
 
@@ -607,6 +561,7 @@ This section has all globally set keys unless they are related to a package or m
 #+end_src
 
 * Finally, start a server
+
 #+begin_src emacs-lisp
   (server-start)
 #+end_src
