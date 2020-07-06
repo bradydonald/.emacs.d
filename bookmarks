@@ -9,12 +9,12 @@
  (position . 3654))
 ("org-refile-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Project ")
- (rear-context-string . "TODO Deactivate\n")
- (position . 3653))
-("org-capture-last-stored"
- (filename . "~/OrgDocuments/index.org")
- (front-context-string . "**  [[https://ww")
+ (front-context-string . "** TODO Reach ou")
  (rear-context-string . "Brady\n\n* Refile\n")
  (position . 58))
+("org-capture-last-stored"
+ (filename . "~/OrgDocuments/index.org")
+ (front-context-string . "** TODO Move the")
+ (rear-context-string . "2020-07-08 Wed>\n")
+ (position . 118))
 )

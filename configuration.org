@@ -173,7 +173,7 @@ Configuration for a bunch of built in packages.
 
   ;; default text scale
   ;; binds C-M-= and C-M-- to increase and decrease the face size
-  (setq default-text-scale-mode t)
+  (default-text-scale-mode)
 
   ;; config changes made through the customize UI will be stored here
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
