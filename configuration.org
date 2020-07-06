@@ -486,7 +486,7 @@ Requires installation of sqlite:
 #+begin_src emacs-lisp
 
   (setq org-roam-directory-alist '("~/OrgDocuments"
-                                       "~/Deloitte (O365D)/Team Donald - General/OrgDocuments"))
+                                   "~/Deloitte (O365D)/Team Donald - General/OrgDocuments"))
 
   (defun db/toggle-org-roam-directory ()
     "cycles through a list of directories and configures org-roam directory"
@@ -501,14 +501,14 @@ Requires installation of sqlite:
   (setq org-roam-directory (car org-roam-directory-alist))
   (setq org-roam-index-file "index.org")
 
-  (define-key org-roam-mode-map "C-c n l" 'org-roam)
-  (define-key org-roam-mode-map "C-c n f" 'org-roam-find-file)
-  (define-key org-roam-mode-map "C-c n j" 'org-roam-jump-to-index)
-  (define-key org-roam-mode-map "C-c n b" 'org-roam-switch-to-buffer)
-  (define-key org-roam-mode-map "C-c n g" 'org-roam-graph)
+  (define-key org-roam-mode-map (kbd "C-c n l") 'org-roam)
+  (define-key org-roam-mode-map (kbd "C-c n f") 'org-roam-find-file)
+  (define-key org-roam-mode-map (kbd "C-c n j") 'org-roam-jump-to-index)
+  (define-key org-roam-mode-map (kbd "C-c n b") 'org-roam-switch-to-buffer)
+  (define-key org-roam-mode-map (kbd "C-c n g") 'org-roam-graph)
 
-  (define-key org-mode-map "C-c n i" 'org-roam-insert)
-  (define-key org-mode-map "C-c l" 'org-store-link)
+  (define-key org-mode-map (kbd "C-c n i") 'org-roam-insert)
+  (define-key org-mode-map (kbd "C-c l") 'org-store-link)
 
 #+end_src
 

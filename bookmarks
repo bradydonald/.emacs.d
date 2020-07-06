@@ -14,7 +14,7 @@
  (position . 58))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Move the")
- (rear-context-string . "2020-07-08 Wed>\n")
- (position . 118))
+ (front-context-string . "** This company ")
+ (rear-context-string . "g to work files\n")
+ (position . 158))
 )
