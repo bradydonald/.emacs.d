@@ -103,7 +103,10 @@ Place for a grab bag of basic settings
   (setq undo-limit 40000)
   ;; (when (boundp 'w32-pipe-read-delay)
   ;;   (setq w32-pipe-read-delay 0))
-
+  ;; 
+  
+  ;; scroll to the bottom of repls on output
+  (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
 #+end_src
 
 * Custom Packages
