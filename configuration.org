@@ -87,7 +87,6 @@ Place for a grab bag of basic settings
   (setq require-final-newline t)
   (setq-default fill-column 80)
   (add-hook 'text-mode-hook 'auto-fill-mode)
-  (add-hook 'org-mode-hook 'auto-fill-mode 'org-roam-mode)
   (prefer-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
@@ -129,6 +128,7 @@ confiuration from the use-package
                         ivy
                         magit
                         org-roam
+                        org-superstar
                         paren
                         pdf-tools
                         recentf
@@ -243,7 +243,6 @@ to default spell check a bunch of org files that would be loaded
   ;; (add-hook 'gfm-mode-hook 'flyspell-mode)
 
   ;; (add-hook 'text-mode-hook 'flyspell-mode)
-  ;; (add-hook 'org-mode-hook 'flyspell-mode)
   ;; (add-hook 'git-commit-mode-hook 'flyspell-mode))
 
 #+end_src
@@ -338,13 +337,17 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 
 * Org Mode
 
-Ran into an org-mode error where agenda does not work. Running 
-=(byte-recompile-directory package-user-dir nil 'force)=
-fixes is as recommended in this [[https://stackoverflow.com/questions/54580647/org-agenda-wrong-number-of-arguments-error/58731899#58731899?newreg=759b3def501940dcbe190fdd2498b1f4][article]].
+Ran into an org-mode error where agenda does not work. Running
+=(byte-recompile-directory package-user-dir nil 'force)= fixes is as recommended
+in this [[https://stackoverflow.com/questions/54580647/org-agenda-wrong-number-of-arguments-error/58731899#58731899?newreg=759b3def501940dcbe190fdd2498b1f4][article]].
 
-Some basic configuration for Org Mode
+Some basic configuration for Org Mode beginning with minor modes
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'auto-fill-mode 'org-roam-mode 'flyspell-mode)
+  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+#+END_SRC
 
-** Personald and Work
+** Personal and Work
 
 I use Org Mode at work and for personal purposes. I use =db-home-org-dir= and =db-work-org-dir= to
 locate the relevant directories.
@@ -352,6 +355,7 @@ locate the relevant directories.
 #+begin_src emacs-lisp
   (setq db-home-org-dir "~/OrgDocuments")
   (setq db-work-org-dir "~/Deloitte (O365D)/Team Donald - General/OrgDocuments")
+  ;; the existence of the above directory tells me this is my work laptop
   (setq db-org-at-work (file-directory-p db-work-org-dir))
 #+end_src
 
@@ -455,30 +459,6 @@ Added this file: ~/.local/share/applications/org-protocol.desktop~
          ))
 
 #+end_src
-
-** TODO Pomodoro
-*This is causeing crashes.*
-
-A leightweight implementation of the Pomodoro Technique is implemented
-through customizing orgmode. For every Clock that is started (=C-c C-x
-C-i=) an automatic Timer is scheduled to 25min. After these 25min are
-up, a "Time to take a break!" message is played and a pop-up
-notification is shown.
-
-The timer is not automatically stopped on clocking out, because clocking
-in should still work on new tasks without resetting the Pomodoro.
-
-The timer can manyally be stopped with =M-x org-timer-stop=.
-
-A break can be started with =M-x pomodoro-break=. A pomodoro can also
-manually be started without clocking in via =M-x pomodoro-start=.
-
-#+BEGIN_SRC emacs-lisp
-  ;; Configure primary org pomodoro buffer to which the timers will get
-  ;; attached to.
-  ;;  (setq ok-pomodoro-buffer "things.org")
-  ;;  (load "~/.emacs.d/org-pomodoro")
-#+END_SRC
 
 * Org Roam
 

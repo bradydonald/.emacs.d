@@ -4,17 +4,17 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Deactiva")
- (rear-context-string . "-13 Sat 19:22]\n\n")
- (position . 3654))
+ (front-context-string . "** TODO [[https:")
+ (rear-context-string . "2020-08-09 Sun>\n")
+ (position . 9130))
 ("org-refile-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "*** TODO Look at")
- (rear-context-string . "-07-02 Fri -3m>\n")
- (position . 2386))
+ (front-context-string . "** To Read: http")
+ (rear-context-string . "aling.\n   :END:\n")
+ (position . 10873))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Put a pr")
- (rear-context-string . "R for #XRJobs]]\n")
- (position . 516))
+ (front-context-string . "** A science fic")
+ (rear-context-string . "           :vc:\n")
+ (position . 461))
 )
