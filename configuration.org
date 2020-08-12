@@ -159,7 +159,7 @@ Configuration for a bunch of built in packages.
 
   ;; recent files
   (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
-  (setq recentf-max-saved-items 500)
+  (setq recentf-max-saved-items 100)
   (setq recentf-max-menu-items 15)
   (setq recentf-auto-cleanup 'never)
   (recentf-mode +1)
@@ -389,6 +389,8 @@ Establishes the states and other setting related to task handling.
   ;; agenda settings
   (setq org-agenda-span 7)
   (setq org-agenda-start-on-weekday nil)
+  (setq diary-file (expand-file-name "diary" db-home-org-dir))
+  (setq org-agenda-include-diary t)
 
 #+end_src
 

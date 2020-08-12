@@ -14,7 +14,7 @@
  (position . 10873))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** A science fic")
- (rear-context-string . "           :vc:\n")
- (position . 461))
+ (front-context-string . "** TODO Move xr ")
+ (rear-context-string . "2020-08-10 Mon>\n")
+ (position . 786))
 )
