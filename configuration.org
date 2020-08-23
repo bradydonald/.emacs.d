@@ -121,6 +121,7 @@ confiuration from the use-package
                         elec-pair
                         elfeed
                         elfeed-org
+                        elpy
                         emacsql-sqlite3
                         git-timemachine
                         gnuplot

@@ -1,20 +1,20 @@
-;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO [[https:")
- (rear-context-string . "2020-08-09 Sun>\n")
- (position . 9130))
+ (front-context-string . "** PROJECT BOOTS")
+ (rear-context-string . "2020-08-22 Sat>\n")
+ (position . 7016))
 ("org-refile-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** To Read: http")
- (rear-context-string . "aling.\n   :END:\n")
- (position . 10873))
+ (front-context-string . "*** TODO verify ")
+ (rear-context-string . "83045\n    :END:\n")
+ (position . 7027))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Move xr ")
- (rear-context-string . "2020-08-10 Mon>\n")
- (position . 786))
+ (front-context-string . "** TODO Rebook h")
+ (rear-context-string . "2020-08-20 Thu>\n")
+ (position . 818))
 )
