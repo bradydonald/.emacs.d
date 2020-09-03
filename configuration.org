@@ -134,8 +134,8 @@ confiuration from the use-package
                         paren
                         pdf-tools
                         recentf
+                        s
                         swiper
-                        undo-tree
                         ))
 #+END_SRC
 
@@ -497,7 +497,7 @@ Requires installation of sqlite:
     (define-key org-mode-map (kbd "C-c l") 'org-store-link)
 
 #+end_src
-
+p
 * RSS with =elfeed=
 
 Install elfeed and load up my feeds.

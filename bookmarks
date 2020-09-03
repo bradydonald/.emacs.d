@@ -4,17 +4,17 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** PROJECT BOOTS")
- (rear-context-string . "2020-08-22 Sat>\n")
- (position . 7016))
+ (front-context-string . "** TODO Move car")
+ (rear-context-string . "9-02 Wed 08:00>\n")
+ (position . 112))
 ("org-refile-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "*** TODO verify ")
- (rear-context-string . "83045\n    :END:\n")
- (position . 7027))
+ (front-context-string . "** TODO Move car")
+ (rear-context-string . "9-02 Wed 08:00>\n")
+ (position . 112))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Rebook h")
- (rear-context-string . "2020-08-20 Thu>\n")
- (position . 818))
+ (front-context-string . "**  [[https://ww")
+ (rear-context-string . "9-02 Wed 08:00>\n")
+ (position . 112))
 )
