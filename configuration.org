@@ -123,6 +123,7 @@ confiuration from the use-package
                         elfeed-org
                         elpy
                         emacsql-sqlite3
+                        epresent
                         git-timemachine
                         gnuplot
                         htmlize
@@ -226,7 +227,7 @@ dictionaries which can be downloaded from [[https://github.com/LibreOffice/dicti
   (if (string-equal system-type "windows-nt")
       (progn
         (setq ispell-program-name (executable-find "hunspell"))
-        (setq ispell-hunspell-dict-paths-alist '(("en_US" "C:/msys64/usr/share/hunspell/en_US.aff")))
+        (setq ispell-hunspell-dict-paths-alist '(("en_US" "/usr/share/hunspell/en_US.aff")))
         (setq ispell-local-dictionary "en_US")
         (setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))))
 
