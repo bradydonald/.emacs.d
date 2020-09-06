@@ -126,6 +126,7 @@ confiuration from the use-package
                         ivy
                         lsp-mode
                         magit
+                        org-re-reveal
                         org-roam
                         org-superstar
                         paren
