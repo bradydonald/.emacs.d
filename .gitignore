@@ -18,3 +18,10 @@ games
 server/server
 /elpy/
 eshell/history
+
+#lsp files should not be tracked
+.lsp*
+#node version
+v[0-9]*
+
+

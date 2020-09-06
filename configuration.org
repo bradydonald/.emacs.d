@@ -112,21 +112,27 @@ confiuration from the use-package
   (defvar my-packages '(
                         default-text-scale
                         easy-hugo
+                        eglot
                         elec-pair
                         elfeed
                         elfeed-org
                         elpy
                         emacsql-sqlite3
                         epresent
+                        exec-path-from-shell ; ensure emacs env matches shell!!
                         git-timemachine
                         gnuplot
                         htmlize
                         ivy
+                        lsp-mode
                         magit
                         org-roam
                         org-superstar
                         paren
                         pdf-tools
+                        projectile
+                        python
+                        pyvenv
                         recentf
                         s
                         swiper
@@ -149,37 +155,39 @@ Configuration for a bunch of built in packages.
 
 #+begin_src emacs-lisp
 
-  ;; paren matching
-  (show-paren-mode +1)
-  (electric-pair-mode +1)
+    ;; paren matching
+    (show-paren-mode +1)
+    (electric-pair-mode +1)
 
-  ;; recent files
-  (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
-  (setq recentf-max-saved-items 100)
-  (setq recentf-max-menu-items 15)
-  (setq recentf-auto-cleanup 'never)
-  (recentf-mode +1)
+    ;; recent files
+    (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
+    (setq recentf-max-saved-items 100)
+    (setq recentf-max-menu-items 15)
+    (setq recentf-auto-cleanup 'never)
+    (recentf-mode +1)
 
-  ;; ivy
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  (global-set-key (kbd "<f6>") 'ivy-resume)
+    ;; ivy
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    (global-set-key (kbd "<f6>") 'ivy-resume)
 
-  ;; swiper
-  (global-set-key "\C-s" 'swiper)
+    ;; swiper
+    (global-set-key "\C-s" 'swiper)
 
-  ;; default text scale
-  ;; binds C-M-= and C-M-- to increase and decrease the face size
-  (default-text-scale-mode)
+    ;; default text scale
+    ;; binds C-M-= and C-M-- to increase and decrease the face size
+    (default-text-scale-mode)
 
-  ;; config changes made through the customize UI will be stored here
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+    ;; config changes made through the customize UI will be stored here
+    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-  (when (file-exists-p custom-file)
-    (load custom-file))
+    (when (file-exists-p custom-file)
+      (load custom-file))
 
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize))
 #+end_src
 
 * Spray Speed Reader
@@ -202,7 +210,16 @@ and slower, q quits
   (pdf-loader-install)
 #+END_SRC
 
-* magit
+* Projectile
+Use =projectile= for projects navigation
+
+#+BEGIN_SRC emacs-lisp
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+#+END_SRC
+
+* Magit
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-x g") 'magit-status)
@@ -236,12 +253,41 @@ This is a more powerful completion system.
 
 #+end_src
 
-* Exporting
-
-Allow =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
+* Blogging with =Hugo=
 
 #+begin_src emacs-lisp
 
+  (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
+  (setq easy-hugo-url "https://bradydonald.github.io/")
+  (setq easy-hugo-sshdomain "bradydonald")
+  (setq easy-hugo-postdir "content/posts")
+  (setq easy-hugo-root "/home/blog/")
+  (setq easy-hugo-previewtime "300")
+  (global-set-key (kbd "C-c C-e") 'easy-hugo)
+
+#+end_src
+
+* Org Mode
+
+Set up for all things =org-mode=
+
+Ran into an org-mode error where agenda does not work. Running
+=(byte-recompile-directory package-user-dir nil 'force)= fixes is as recommended
+in this [[https://stackoverflow.com/questions/54580647/org-agenda-wrong-number-of-arguments-error/58731899#58731899?newreg=759b3def501940dcbe190fdd2498b1f4][article]].
+
+Some basic configuration for Org Mode beginning with minor modes for spell
+checking and replacing the =*='s with various types of bullets.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'auto-fill-mode 'org-roam-mode 'flyspell-mode)
+  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+#+END_SRC
+
+
+** Exporting
+
+Setup =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
+
+#+begin_src emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -267,41 +313,6 @@ when exporting.
   (setq org-export-with-smart-quotes t)
 #+end_src
 
-** Exporting
-
-Allow export to markdown (for hugo) and beamer (for presentations).
-
-#+begin_src emacs-lisp
-  (require 'ox-md)
-  (require 'ox-beamer)
-#+end_src
-
-* Blogging with =Hugo=
-
-#+begin_src emacs-lisp
-
-  (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
-  (setq easy-hugo-url "https://bradydonald.github.io/")
-  (setq easy-hugo-sshdomain "bradydonald")
-  (setq easy-hugo-postdir "content/posts")
-  (setq easy-hugo-root "/home/blog/")
-  (setq easy-hugo-previewtime "300")
-  (global-set-key (kbd "C-c C-e") 'easy-hugo)
-
-#+end_src
-
-* Org Mode
-
-Ran into an org-mode error where agenda does not work. Running
-=(byte-recompile-directory package-user-dir nil 'force)= fixes is as recommended
-in this [[https://stackoverflow.com/questions/54580647/org-agenda-wrong-number-of-arguments-error/58731899#58731899?newreg=759b3def501940dcbe190fdd2498b1f4][article]].
-
-Some basic configuration for Org Mode beginning with minor modes
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook 'auto-fill-mode 'org-roam-mode 'flyspell-mode)
-  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-#+END_SRC
-
 ** Personal and Work
 
 I use Org Mode at work and for personal purposes. I use =db-home-org-dir= and =db-work-org-dir= to
@@ -314,14 +325,12 @@ locate the relevant directories.
   (setq db-org-at-work (file-directory-p db-work-org-dir))
 #+end_src
 
-
 ** Source Blocks
 
 #+begin_src emacs-lisp
   (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
   (setq org-src-tab-acts-natively t) ;; Make TAB act as if language's major mode.
   (setq org-src-window-setup 'current-window) ;; Use the current window rather than popping open a new onw
-
 #+end_src
 
 ** TODO Task Handling and Agenda
@@ -417,6 +426,15 @@ Added this file: ~/.local/share/applications/org-protocol.desktop~
 
 #+end_src
 
+** Exporting
+
+Allow export to markdown (for hugo) and beamer (for presentations).
+
+#+begin_src emacs-lisp
+  (require 'ox-md)
+  (require 'ox-beamer)
+#+end_src
+
 * Org Roam
 
 Requires installation of sqlite:
@@ -450,7 +468,7 @@ Requires installation of sqlite:
     (define-key org-mode-map (kbd "C-c l") 'org-store-link)
 
 #+end_src
-p
+
 * RSS with =elfeed=
 
 Install elfeed and load up my feeds.
@@ -549,9 +567,104 @@ to default spell check a bunch of org files that would be loaded
   ;;   (setq w32-pipe-read-delay 0))
   ;; 
 #+end_src
+* Python Setup
+
+Configuration for /Python/ development including lsp using =pyright=. Pyright uses
+=node=.
+
+Good practice is to install =nvm= which lets you install and manage multiple
+node versions, similar to =pyenv=. Once =nvm= is installed then install the latest
+version of node. 
+
+*Caution* when using =npm= to install pyright no sudo is needed
+as =npm= isn't a command, but a shell script. Using sudo will fail as the right
+environment won't be present. To install pyright do =npm install -g pyright &&
+pip install black flake8= along with =black= and =flake8=
+
+*Caution* =nvm= manipulates your environment variables to manage the current
+ version of =node=. 
+
+#+BEGIN_EXAMPLE
+  d@extreme-u:~/.emacs.d$ nvm list
+  ->      v14.9.0
+  default -> v14.9.0
+  node -> stable (-> v14.9.0) (default)
+  stable -> 14.9 (-> v14.9.0) (default)
+  iojs -> N/A (default)
+  unstable -> N/A (default)
+  lts/* -> lts/erbium (-> N/A)
+  lts/argon -> v4.9.1 (-> N/A)
+  lts/boron -> v6.17.1 (-> N/A)
+  lts/carbon -> v8.17.0 (-> N/A)
+  lts/dubnium -> v10.22.0 (-> N/A)
+  lts/erbium -> v12.18.3 (-> N/A)
+  d@extreme-u:~/.emacs.d$ which node
+  /home/d/.nvm/versions/node/v14.9.0/bin/node
+#END_EXAMPLE
+
+so make sure to use the =exec-path-from-shell= package to prevent issues with
+=pyright= no having =node= in the path.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package python
+    :hook
+    (python-mode . flycheck-mode)
+    (python-mode . lsp-deferred)
+    (python-mode . db/activate-pyvenv))
+
+#+END_SRC
+
+Use pyvenv to support multiple python environments
+
+#+BEGIN_SRC emacs-lisp
+(use-package pyvenv
+  :after python
+  :config
+  (defun db/activate-pyvenv ()
+    "Activate python environment according to the `.venv' file."
+    (interactive)
+    (pyvenv-mode)
+    (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".venv")))
+      (if (file-exists-p pfile)
+          (pyvenv-workon (with-temp-buffer
+                           (insert-file-contents pfile)
+                           (nth 0 (split-string (buffer-string)))))))))
+#+END_SRC
+
+Use pyright as an lsp
+
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-mode
+  :commands lsp
+  :custom
+  (lsp-auto-guess-root t)
+  (lsp-keymap-prefix "M-m l")
+  (lsp-modeline-diagnostics-enable nil)
+  (lsp-keep-workspace-alive nil)
+  (lsp-auto-execute-action nil)
+  (lsp-before-save-edits nil)
+  (lsp-eldoc-enable-hover nil)
+  (lsp-diagnostic-package :none)
+  (lsp-file-watch-threshold 1500)  ; pyright has more than 1000
+  (lsp-enable-links nil)
+  :hook
+  (lsp-mode . lsp-enable-which-key-integration))
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-pyright
+    :after lsp-mode
+    :custom
+    (lsp-pyright-auto-import-completions nil)
+    (lsp-pyright-auto-search-paths t)
+    (lsp-pyright-python-executable-cmd "python3")
+    (lsp-pyright-typechecking-mode "off"))
+#+END_SRC
 * Start a server
 
 #+begin_src emacs-lisp
   (server-start)
 #+end_src
+
 
