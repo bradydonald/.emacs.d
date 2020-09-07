@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: speaker
+# key: <sp
+# --
+#+begin_notes
+$0
+#+end_notes

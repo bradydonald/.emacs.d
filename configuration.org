@@ -5,9 +5,6 @@
 
 * Configure =use-package=
 
-This setup borrows heavily from the fantastic Org Mode talk here: [[https://www.youtube.com/watch?v=SzA2YODtgK4][Great Org Mode Talk]]
-by Harry Schwartz.
-
 Use =use-package= to install and configure packages. My =init.el= includes
 the initial setup for =package.el= and ensures that =use-package= is installed.
 
@@ -105,7 +102,7 @@ Place for a grab bag of basic settings
 * Custom Packages
 
 Use this method as an easier way to identify and load packages but it does separate the
-confiuration from the use-package
+configuration from the use-package
 
 #+BEGIN_SRC emacs-lisp
 
@@ -137,6 +134,8 @@ confiuration from the use-package
                         recentf
                         s
                         swiper
+                        yasnippet
+                        yasnippet-snippets
                         ))
 #+END_SRC
 
@@ -158,7 +157,6 @@ Configuration for a bunch of built in packages.
 
     ;; paren matching
     (show-paren-mode +1)
-    (electric-pair-mode +1)
 
     ;; recent files
     (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
@@ -226,9 +224,6 @@ Use =projectile= for projects navigation
   (global-set-key (kbd "C-x g") 'magit-status)
   (setq magit-push-always-verify nil)
 #+end_src
-
-=git-timemachine=, which lets you quickly page through the history of a file and =undo-tree= are both
-loaded as well.
 
 * Hippie Expand Setup
 
@@ -625,7 +620,7 @@ pip install black flake8= along with =black= and =flake8=
   lts/erbium -> v12.18.3 (-> N/A)
   d@extreme-u:~/.emacs.d$ which node
   /home/d/.nvm/versions/node/v14.9.0/bin/node
-#END_EXAMPLE
+#+END_EXAMPLE
 
 so make sure to use the =exec-path-from-shell= package to prevent issues with
 =pyright= no having =node= in the path.
@@ -686,10 +681,16 @@ Use pyright as an lsp
     (lsp-pyright-python-executable-cmd "python3")
     (lsp-pyright-typechecking-mode "off"))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(yas-global-mode 1)
+#+END_SRC
+
 * Start a server
 
 #+begin_src emacs-lisp
   (server-start)
 #+end_src
+
 
 
