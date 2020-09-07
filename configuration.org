@@ -126,7 +126,7 @@ confiuration from the use-package
                         ivy
                         lsp-mode
                         magit
-                        org-re-reveal
+                        ox-reveal
                         org-roam
                         org-superstar
                         paren
@@ -440,6 +440,16 @@ and then run =update-desktop-database ~/.local/share/applications/=
          ))
 
 #+end_src
+
+** Org Reveal
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-reveal
+  :ensure ox-reveal)
+
+  (use-package htmlize
+  :ensure t)
+#+END_SRC
 
 ** Exporting
 
