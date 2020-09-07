@@ -393,10 +393,24 @@ targets. They are named YYYY-MM(w).org
 
 ** Org Capture Setup
 
-Org capture templates for Chrome org-capture from site:
-~https://github.com/sprig/org-capture-extension~
+Org capture templates for Chrome org-capture from [[https://github.com/sprig/org-capture-extension][site]].
 
-Added this file: ~/.local/share/applications/org-protocol.desktop~
+Added this file: ~/.local/share/applications/org-protocol.desktop~ using the
+following command:
+
+#+BEGIN_EXAMPLE
+  cat > "${HOME}/.local/share/applications/org-protocol.desktop" << EOF
+  [Desktop Entry]
+  Name=org-protocol
+  Exec=emacsclient %u
+  Type=Application
+  Terminal=false
+  Categories=System;
+  MimeType=x-scheme-handler/org-protocol;
+  EOF
+#+END_EXAMPLE
+
+and then run =update-desktop-database ~/.local/share/applications/=
 
 #+begin_src emacs-lisp
   (setq org-modules (quote (org-protocol))) 
