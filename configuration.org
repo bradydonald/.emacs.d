@@ -107,6 +107,7 @@ configuration from the use-package
 #+BEGIN_SRC emacs-lisp
 
   (defvar my-packages '(
+                        avy
                         default-text-scale
                         easy-hugo
                         eglot
@@ -117,6 +118,7 @@ configuration from the use-package
                         emacsql-sqlite3
                         epresent
                         exec-path-from-shell ; ensure emacs env matches shell!!
+                        flycheck
                         git-timemachine
                         gnuplot
                         htmlize
@@ -329,17 +331,20 @@ locate the relevant directories.
   (setq org-src-window-setup 'current-window) ;; Use the current window rather than popping open a new onw
 #+end_src
 
-** TODO Task Handling and Agenda
-   On both linux and windows with dependencies turned on trying to complete a parent task in the agenda
-      causes a hang so turning off enforcing of dependencies.
+** Task Handling and Agenda
 
-Establishes the states and other setting related to task handling. 
+Establishes the states and other settings related to task handling. 
 
 #+BEGIN_SRC emacs-lisp
 
   ;; task handling
+
+  ;; On both linux and windows with dependencies turned on trying to complete a
+  ;; parent task in the agenda causes a hang so turning off enforcing of
+  ;; dependencies.
   ;; (setq org-enforce-todo-dependencies t)
   ;; (setq org-enforce-todo-checkbox-dependencies t)
+
   (setq org-todo-keywords
         '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
   (setq org-log-done 'time)
@@ -356,7 +361,8 @@ Establishes the states and other setting related to task handling.
 
 ** Takes care of work and play
 
-Set up the agenda files which are in two directories, one for personal and one for work. 
+Set up the agenda files which are in two directories, one for personal and one
+for work.
 
 #+begin_src emacs-lisp
 
@@ -371,8 +377,8 @@ Set up the agenda files which are in two directories, one for personal and one f
 
 #+end_src
 
-I have monthly log files used to take notes / journal that are sources of refile items but not
-targets. They are named YYYY-MM(w).org
+I have monthly log files used to take notes / journal that are sources of refile
+items but not targets. They are named YYYY-MM(w).org
 
 #+begin_src emacs-lisp
 
@@ -427,7 +433,7 @@ and then run =update-desktop-database ~/.local/share/applications/=
  (setq org-capture-templates 
        `(
          ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-          "* TODO %?\n\n  %i\n  %a")
+          "* TODO %?\n\n  %i\n")
          ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
           "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")	
          ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
@@ -435,6 +441,10 @@ and then run =update-desktop-database ~/.local/share/applications/=
          ))
 
 #+end_src
+
+#+RESULTS:
+| t | Todo | entry | (file+headline ~/OrgDocuments/index.org Refile) | * TODO %? |
+
 
 ** Org Reveal
 
@@ -534,6 +544,9 @@ This section has all globally set keys unless they are related to a package or m
 
   ;; Lenovo Function Key Bindings
   (global-set-key (kbd "<XF86Favorites>") 'bury-buffer) ;; The Star on F12
+
+  ;; avy goto line is quite useful
+  (global-set-key (kbd "M-g f") 'avy-goto-line)
 
 #+end_src
 

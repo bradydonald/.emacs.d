@@ -4,17 +4,17 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Move car")
- (rear-context-string . "9-02 Wed 08:00>\n")
- (position . 112))
+ (front-context-string . "**  [[https://ww")
+ (rear-context-string . "2020-09-12 Sat>\n")
+ (position . 7663))
 ("org-refile-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Move car")
- (rear-context-string . "9-02 Wed 08:00>\n")
- (position . 112))
+ (front-context-string . "** [[https://www")
+ (rear-context-string . "News]] :health:\n")
+ (position . 11560))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "**  [[https://ww")
- (rear-context-string . "9-02 Wed 08:00>\n")
- (position . 112))
+ (front-context-string . "** TODO PROJECT:")
+ (rear-context-string . "ODO Check taxes\n")
+ (position . 675))
 )
