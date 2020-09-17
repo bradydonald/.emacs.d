@@ -278,8 +278,10 @@ checking and replacing the =*='s with various types of bullets.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook 'auto-fill-mode 'org-roam-mode 'flyspell-mode)
   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+  (define-key org-mode-map (kbd "C-c n i") 'org-roam-insert)
+  (define-key org-mode-map (kbd "C-c l") 'org-store-link)
+  (define-key org-mode-map (kbd "C-x n s") 'org-toggle-narrow-to-subtree)
 #+END_SRC
-
 
 ** Exporting
 
@@ -442,10 +444,6 @@ and then run =update-desktop-database ~/.local/share/applications/=
 
 #+end_src
 
-#+RESULTS:
-| t | Todo | entry | (file+headline ~/OrgDocuments/index.org Refile) | * TODO %? |
-
-
 ** Org Reveal
 
 #+BEGIN_SRC emacs-lisp
@@ -463,40 +461,6 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 #+begin_src emacs-lisp
   (require 'ox-md)
   (require 'ox-beamer)
-#+end_src
-
-* Org Roam
-
-Requires installation of sqlite:
-
-~pacman -S sqlite~
-
-#+begin_src emacs-lisp
-
-    (setq org-roam-directory-alist '("~/OrgDocuments"
-                                     "~/Deloitte (O365D)/Team Donald - General/OrgDocuments"))
-
-    (defun db/toggle-org-roam-directory ()
-      "cycles through a list of directories and configures org-roam directory"
-      (interactive)
-      (setq org-roam-directory-alist (append (cdr org-roam-directory-alist) (cons (car org-roam-directory-alist) ())))
-      (setq org-roam-directory (car org-roam-directory-alist))
-      (org-roam-db-build-cache)
-      (setq org-default-notes-file (append org-roam-directory "/index.org"))
-      (message "org-roam-directory now '%s'" (car org-roam-directory-alist)))
-
-    (setq org-roam-directory (car org-roam-directory-alist))
-    (setq org-roam-index-file "index.org")
-
-    ;; (define-key org-roam-mode-map (kbd "C-c n l") 'org-roam)
-    ;; (define-key org-roam-mode-map (kbd "C-c n f") 'org-roam-find-file)
-    ;; (define-key org-roam-mode-map (kbd "C-c n j") 'org-roam-jump-to-index)
-    ;; (define-key org-roam-mode-map (kbd "C-c n b") 'org-roam-switch-to-buffer)
-    ;; (define-key org-roam-mode-map (kbd "C-c n g") 'org-roam-graph)
-
-    (define-key org-mode-map (kbd "C-c n i") 'org-roam-insert)
-    (define-key org-mode-map (kbd "C-c l") 'org-store-link)
-
 #+end_src
 
 * RSS with =elfeed=
