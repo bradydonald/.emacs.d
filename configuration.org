@@ -115,7 +115,6 @@ configuration from the use-package
                         elfeed
                         elfeed-org
                         elpy
-                        emacsql-sqlite3
                         epresent
                         exec-path-from-shell ; ensure emacs env matches shell!!
                         flycheck
