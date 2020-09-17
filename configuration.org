@@ -126,7 +126,6 @@ configuration from the use-package
                         lsp-mode
                         magit
                         ox-reveal
-                        org-roam
                         org-superstar
                         paren
                         pdf-tools
