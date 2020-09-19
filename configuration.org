@@ -216,6 +216,8 @@ Use =projectile= for projects navigation
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  ;; prefer to show directory in the project vs finding a file
+  (setq projectile-switch-project-action #'projectile-dired)
 #+END_SRC
 
 * Magit
@@ -510,6 +512,9 @@ This section has all globally set keys unless they are related to a package or m
   ;; avy goto line is quite useful
   (global-set-key (kbd "M-g f") 'avy-goto-line)
 
+  ;; M-0 to toggle hiding
+  (global-set-key (kbd "M-0") 'hs-toggle-hiding)
+
 #+end_src
 
 * Execute and windows specific configuration
@@ -605,8 +610,8 @@ so make sure to use the =exec-path-from-shell= package to prevent issues with
     :hook
     (python-mode . flycheck-mode)
     (python-mode . lsp-deferred)
-    (python-mode . db/activate-pyvenv))
-
+    (python-mode . db/activate-pyvenv)
+    (python-mode . hs-minor-mode))
 #+END_SRC
 
 Use pyvenv to support multiple python environments
@@ -615,7 +620,7 @@ Use pyvenv to support multiple python environments
 (use-package pyvenv
   :after python
   :config
-  (defun db/activate-pyvenv ()
+
     "Activate python environment according to the `.venv' file."
     (interactive)
     (pyvenv-mode)
