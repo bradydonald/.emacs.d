@@ -189,6 +189,19 @@ Configuration for a bunch of built in packages.
       (exec-path-from-shell-initialize))
 #+end_src
 
+* Dired Mode
+
+Dired mode is powerful but easy to forget the commands and capabilities. Make
+things a bit easuer to remember
+
+#+BEGIN_SRC emacs-lisp
+  (require 'dired-x)
+  (setq-default dired-omit-files-p t) ; Buffer-local variable
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+  (define-key dired-mode-map (kbd "% f") 'find-name-dired)
+  (define-key dired-mode-map (kbd "% .") 'dired-omit-mode)
+#+END_SRC
+
 * Spray Speed Reader
 
 [[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
@@ -283,7 +296,7 @@ checking and replacing the =*='s with various types of bullets.
   (define-key org-mode-map (kbd "C-x n s") 'org-toggle-narrow-to-subtree)
 #+END_SRC
 
-** Exporting
+** Language Support
 
 Setup =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
 
@@ -319,10 +332,17 @@ I use Org Mode at work and for personal purposes. I use =db-home-org-dir= and =d
 locate the relevant directories.
 
 #+begin_src emacs-lisp
+  ;; under git control
   (setq db-home-org-dir "~/OrgDocuments")
+
+  ;; under OneDrive control at work
   (setq db-work-org-dir "~/Deloitte (O365D)/Team Donald - General/OrgDocuments")
   ;; the existence of the above directory tells me this is my work laptop
   (setq db-org-at-work (file-directory-p db-work-org-dir))
+
+  ;; Dropbox as well, for sync with orgzly
+  (setq db-dropbox-org-dir "~/Dropbox/OrgDocuments")
+
 #+end_src
 
 ** Source Blocks
@@ -361,38 +381,44 @@ Establishes the states and other settings related to task handling.
 
 #+end_src
 
-** Takes care of work and play
+*** Takes care of work and play
 
-Set up the agenda files which are in two directories, one for personal and one
-for work.
+ Set up the agenda files which are in several directories and may or may not be
+ available dependening on if work or home context.
 
-#+begin_src emacs-lisp
+ #+begin_src emacs-lisp
 
-  ;; Set up agenda files
-  (setq org-agenda-files (directory-files-recursively db-home-org-dir "org$"))
-  (if db-org-at-work
-      (setq org-agenda-files (append org-agenda-files (directory-files-recursively db-work-org-dir "org$"))))
+   ;; Always available as managed in git
+   (setq org-agenda-files (directory-files-recursively db-home-org-dir "org$"))
 
-  ;; some other defaults
-  (setq org-directory db-home-org-dir)
-  (setq org-default-notes-file (expand-file-name db-home-org-dir "index.org"))
+   ;; If not at work add the Dropbox
+   (if (not db-home-org-dir)
+       (setq org-agenda-files (append org-agenda-files (directory-files-recursively db-dropbox-org-dir "org$"))))
 
-#+end_src
+   ;; if at work add the OneDrive
+   (if db-org-at-work
+       (setq org-agenda-files (append org-agenda-files (directory-files-recursively db-work-org-dir "org$"))))
 
-I have monthly log files used to take notes / journal that are sources of refile
-items but not targets. They are named YYYY-MM(w).org
+   ;; some other defaults
+   (setq org-directory db-home-org-dir)
+   (setq org-default-notes-file (expand-file-name db-home-org-dir "index.org"))
 
-#+begin_src emacs-lisp
+ #+end_src
 
-  (defun db-filtered-refile-targets ()
-    "Removes month journals as valid refile targets"
-    (remove nil (mapcar (lambda (x)
-                          (if (string-match-p "2[0-9]*\-[0-9]+w?" x)
-                              nil x)) org-agenda-files)))
+ I have monthly log files used to take notes / journal that are sources of refile
+ items but not targets. They are named YYYY-MM(w).org
 
-  (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 5)))
+ #+begin_src emacs-lisp
 
-#+end_src
+   (defun db-filtered-refile-targets ()
+     "Removes month journals as valid refile targets"
+     (remove nil (mapcar (lambda (x)
+                           (if (string-match-p "2[0-9]*\-[0-9]+w?" x)
+                               nil x)) org-agenda-files)))
+
+   (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 5)))
+
+ #+end_src
 
 ** Org Capture Setup
 
