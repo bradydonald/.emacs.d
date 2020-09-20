@@ -617,18 +617,18 @@ so make sure to use the =exec-path-from-shell= package to prevent issues with
 Use pyvenv to support multiple python environments
 
 #+BEGIN_SRC emacs-lisp
-(use-package pyvenv
-  :after python
-  :config
-
-    "Activate python environment according to the `.venv' file."
-    (interactive)
-    (pyvenv-mode)
-    (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".venv")))
-      (if (file-exists-p pfile)
-          (pyvenv-workon (with-temp-buffer
-                           (insert-file-contents pfile)
-                           (nth 0 (split-string (buffer-string)))))))))
+  (use-package pyvenv
+    :after python
+    :config
+    (defun db/activate-pyvenv ()
+      "Activate python environment according to the `.venv' file."
+      (interactive)
+      (pyvenv-mode)
+      (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".venv")))
+        (if (file-exists-p pfile)
+            (pyvenv-workon (with-temp-buffer
+                             (insert-file-contents pfile)
+                             (nth 0 (split-string (buffer-string)))))))))
 #+END_SRC
 
 Use pyright as an lsp
