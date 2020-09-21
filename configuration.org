@@ -208,9 +208,9 @@ things a bit easuer to remember
     (define-key dired-mode-map (kbd "^")
       (lambda () (interactive) (find-alternate-file "..")))
     (define-key dired-mode-map (kbd "e")
-      (lambda () (interactive) (find-alternate-file (dired-filename-at-point))))
+      (lambda () (interactive) (find-alternate-file (dired-copy-filename-as-kill))))
     (define-key dired-mode-map (kbd "f")
-      (lambda () (interactive) (find-alternate-file (dired-filename-at-point))))))
+      (lambda () (interactive) (find-alternate-file (dired-copy-filename-as-kill))))))
 
 #+END_SRC
 
