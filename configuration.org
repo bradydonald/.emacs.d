@@ -200,6 +200,18 @@ things a bit easuer to remember
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
   (define-key dired-mode-map (kbd "% f") 'find-name-dired)
   (define-key dired-mode-map (kbd "% .") 'dired-omit-mode)
+
+  ;; Changes to prevent navigating in dired mode from creating a bunch of buffers for every directory
+  (put 'dired-find-alternate-file 'disabled nil)
+  (add-hook 'dired-mode-hook
+   (lambda ()
+    (define-key dired-mode-map (kbd "^")
+      (lambda () (interactive) (find-alternate-file "..")))
+    (define-key dired-mode-map (kbd "e")
+      (lambda () (interactive) (find-alternate-file (dired-filename-at-point))))
+    (define-key dired-mode-map (kbd "f")
+      (lambda () (interactive) (find-alternate-file (dired-filename-at-point))))))
+
 #+END_SRC
 
 * Spray Speed Reader
