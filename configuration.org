@@ -214,6 +214,28 @@ things a bit easuer to remember
 
 #+END_SRC
 
+These functions mimic Directory Opus by bringing up two dired buffers via
+/db\/dopus-in/, one in the directory you were in, and one in your home
+directory. When exting via /db\/dopus-out/ the window state is restored.
+
+#+BEGIN_SRC emacs-lisp
+  (defun db/dopus-in ()
+    "Stores the current buffer state and switches to a splt view with two dired
+    mode buffers ala Dopus on windows"
+    (interactive)
+    (window-configuration-to-register 'a)
+    (delete-other-windows)
+    (dired default-directory)
+    (dired-other-window (expand-file-name "~"))
+    (other-window 1))
+
+  (defun db/dopus-out ()
+    "Returns the stored buffer state after your all done manipulating files Dopus style"
+    (interactive)
+    (jump-to-register 'a 'DELETE))
+
+#+END_SRC
+
 * Spray Speed Reader
 
 [[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
@@ -537,6 +559,9 @@ This section has all globally set keys unless they are related to a package or m
   (global-set-key (kbd "<f1>") #'start-kbd-macro)
   (global-set-key (kbd "<f2>") #'end-kbd-macro)
   (global-set-key (kbd "<f3>") #'call-last-kbd-macro)
+  (global-set-key (kbd "<f4>") 'db/dopus-in)
+  (global-set-key (kbd "<f5>") 'db/dopus-out)
+
   ;; org keys
   (define-key global-map "\C-ca" 'org-agenda)
   (define-key global-map "\C-cc" 'org-capture)
