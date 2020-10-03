@@ -27,3 +27,5 @@ v[0-9]*
 
 /eshell/
 /.dir-locals.el
+/ido.last
+/image-dired/

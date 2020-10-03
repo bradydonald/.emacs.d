@@ -124,6 +124,7 @@ configuration from the use-package
                         ivy
                         lsp-mode
                         magit
+                        org-edna
                         ox-reveal
                         org-superstar
                         paren
@@ -414,6 +415,13 @@ Establishes the states and other settings related to task handling.
   (setq org-agenda-include-diary t)
 
 #+end_src
+
+** Org Edna
+   More powerful org dependency management
+
+#+BEGIN_SRC emacs-lisp
+  (org-edna-mode)
+#+END_SRC
 
 *** Takes care of work and play
 
