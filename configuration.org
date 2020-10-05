@@ -4,6 +4,9 @@
 #+OPTIONS: toc:nil num:nil
 
 * Configure =use-package=
+  :PROPERTIES:
+  :ID:       8352bab3-a374-4b98-b11c-9755ba47431e
+  :END:
 
 Use =use-package= to install and configure packages. My =init.el= includes
 the initial setup for =package.el= and ensures that =use-package= is installed.
@@ -26,6 +29,9 @@ Always compile packages, and use the newest version available.
 #+end_src
 
 * Personal Details Setup
+  :PROPERTIES:
+  :ID:       600d0ff3-d412-44f0-ba75-2f5d83eaf1d8
+  :END:
 
 Sets up some personal information sucha as email
 
@@ -36,6 +42,9 @@ Sets up some personal information sucha as email
 #+end_src
 
 * Set up savefile, backup, and autosave directories
+  :PROPERTIES:
+  :ID:       657d5eef-edf6-4bd9-9c42-7fc2a4f6003f
+  :END:
 
 #+begin_src emacs-lisp
 
@@ -69,6 +78,9 @@ Sets up some personal information sucha as email
 #+end_src
 
 * Basic Configurations
+  :PROPERTIES:
+  :ID:       f45f3dbd-7b86-4e74-8d8e-1e2abf00a8d5
+  :END:
 
 Place for a grab bag of basic settings
 
@@ -100,6 +112,9 @@ Place for a grab bag of basic settings
 #+end_src
 
 * Custom Packages
+  :PROPERTIES:
+  :ID:       1e034465-4892-4d7e-90f9-5c083c71898c
+  :END:
 
 Use this method as an easier way to identify and load packages but it does separate the
 configuration from the use-package
@@ -141,6 +156,9 @@ configuration from the use-package
 #+END_SRC
 
 * Install packages
+  :PROPERTIES:
+  :ID:       2e841ff0-7be9-4535-8b9d-f6bf9441e3b0
+  :END:
 
 #+BEGIN_SRC emacs-lisp
   (dolist (p my-packages)
@@ -151,6 +169,9 @@ configuration from the use-package
 #+END_SRC
 
 * Configure Built-in Packages
+  :PROPERTIES:
+  :ID:       242eccaa-df22-4bbe-9c99-b2d9d733a18b
+  :END:
 
 Configuration for a bunch of built in packages.
 
@@ -191,6 +212,9 @@ Configuration for a bunch of built in packages.
 #+end_src
 
 * Dired Mode
+  :PROPERTIES:
+  :ID:       65626b8b-5aee-420a-8ac8-8b80234fa939
+  :END:
 
 Dired mode is powerful but easy to forget the commands and capabilities. Make
 things a bit easuer to remember
@@ -238,6 +262,9 @@ directory. When exting via /db\/dopus-out/ the window state is restored.
 #+END_SRC
 
 * Spray Speed Reader
+  :PROPERTIES:
+  :ID:       cccfbec6-0803-42ee-871b-501ec95f2829
+  :END:
 
 [[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
 and slower, q quits
@@ -250,6 +277,9 @@ and slower, q quits
 #+end_src
 
 * PDF Tools
+  :PROPERTIES:
+  :ID:       e5a1d999-0f70-443a-80ed-4a93272e16ef
+  :END:
 
 [[https://github.com/politza/pdf-tools][PDF Tools]] is a much better pdf viewer
 
@@ -258,6 +288,9 @@ and slower, q quits
 #+END_SRC
 
 * Projectile
+  :PROPERTIES:
+  :ID:       32b9642e-b3af-4ee0-9d52-a5ce6383cd33
+  :END:
 Use =projectile= for projects navigation
 
 #+BEGIN_SRC emacs-lisp
@@ -269,6 +302,9 @@ Use =projectile= for projects navigation
 #+END_SRC
 
 * Magit
+  :PROPERTIES:
+  :ID:       a3bd4086-b584-4b88-a4fe-b305fb07bcde
+  :END:
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-x g") 'magit-status)
@@ -276,6 +312,9 @@ Use =projectile= for projects navigation
 #+end_src
 
 * Hippie Expand Setup
+  :PROPERTIES:
+  :ID:       c1331a7e-cf79-40d0-801b-c17d0825e024
+  :END:
 
 This is a more powerful completion system.
 
@@ -300,6 +339,9 @@ This is a more powerful completion system.
 #+end_src
 
 * Blogging with =Hugo=
+  :PROPERTIES:
+  :ID:       67481416-6aae-4e6a-b5e5-738865758abf
+  :END:
 
 #+begin_src emacs-lisp
 
@@ -314,6 +356,9 @@ This is a more powerful completion system.
 #+end_src
 
 * Org Mode
+  :PROPERTIES:
+  :ID:       e0126b34-3618-44d3-b02c-c66a886be06d
+  :END:
 
 Set up for all things =org-mode=
 
@@ -332,6 +377,9 @@ checking and replacing the =*='s with various types of bullets.
 #+END_SRC
 
 ** Language Support
+   :PROPERTIES:
+   :ID:       94b80e87-3dc2-4b51-9d1d-04eeaf40be93
+   :END:
 
 Setup =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
 
@@ -362,6 +410,9 @@ when exporting.
 #+end_src
 
 ** Personal and Work
+   :PROPERTIES:
+   :ID:       4aea64cb-a921-4bac-b3af-f7911a3f6dda
+   :END:
 
 I use Org Mode at work and for personal purposes. I use =db-home-org-dir= and =db-work-org-dir= to
 locate the relevant directories.
@@ -381,6 +432,9 @@ locate the relevant directories.
 #+end_src
 
 ** Source Blocks
+   :PROPERTIES:
+   :ID:       4874d2a6-f4db-4124-a9c7-f3b612855894
+   :END:
 
 #+begin_src emacs-lisp
   (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
@@ -389,6 +443,9 @@ locate the relevant directories.
 #+end_src
 
 ** Task Handling and Agenda
+   :PROPERTIES:
+   :ID:       60ae4867-c4fc-493e-be7b-bfa4d325b38e
+   :END:
 
 Establishes the states and other settings related to task handling. 
 
@@ -417,13 +474,38 @@ Establishes the states and other settings related to task handling.
 #+end_src
 
 ** Org Edna
+   :PROPERTIES:
+   :ID:       9ccb479a-26d3-4936-a920-650a6917e2a3
+   :END:
    More powerful org dependency management
 
 #+BEGIN_SRC emacs-lisp
   (org-edna-mode)
+
+  ;; create id's when using org capture
+  (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
+
+  (defun db/org-add-ids-to-headlines-in-file ()
+    "Add ID properties to all headlines in the current file which
+      do not already have one."
+    (interactive)
+    (org-map-entries 'org-id-get-create))
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (add-hook 'before-save-hook 'db/org-add-ids-to-headlines-in-file nil 'local)))
+
+  (defun db/org-current-id ()
+    "Get the current ID to make it easier to set up BLOCKER ids"
+    (interactive)
+    (org-entry-get (point) "ID"))
+
 #+END_SRC
 
-*** Takes care of work and play
+** Takes care of work and play
+   :PROPERTIES:
+   :ID:       371fd705-0777-403b-8e3d-c8bee04500bf
+   :END:
 
  Set up the agenda files which are in several directories and may or may not be
  available dependening on if work or home context.
@@ -463,6 +545,9 @@ Establishes the states and other settings related to task handling.
  #+end_src
 
 ** Org Capture Setup
+   :PROPERTIES:
+   :ID:       a71b8e30-4d07-4515-a505-214f5ed7fd76
+   :END:
 
 Org capture templates for Chrome org-capture from [[https://github.com/sprig/org-capture-extension][site]].
 
@@ -489,6 +574,9 @@ and then run =update-desktop-database ~/.local/share/applications/=
 #+end_src
 
 *** TODO Setting up org-protocol handler. This page has best description:
+    :PROPERTIES:
+    :ID:       6529722e-7964-4622-93d0-d08981cbf965
+    :END:
 [[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
 
 #+begin_src emacs-lisp
@@ -513,6 +601,9 @@ and then run =update-desktop-database ~/.local/share/applications/=
 #+end_src
 
 ** Org Reveal
+   :PROPERTIES:
+   :ID:       0f688a3c-1ad0-4c44-97d0-1fc11a47b9d0
+   :END:
 
 #+BEGIN_SRC emacs-lisp
   (use-package ox-reveal
@@ -523,6 +614,9 @@ and then run =update-desktop-database ~/.local/share/applications/=
 #+END_SRC
 
 ** Exporting
+   :PROPERTIES:
+   :ID:       e337068f-fd8d-4534-94dd-07a779cec7ce
+   :END:
 
 Allow export to markdown (for hugo) and beamer (for presentations).
 
@@ -532,6 +626,9 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 #+end_src
 
 * RSS with =elfeed=
+  :PROPERTIES:
+  :ID:       f06c120a-78db-401b-beba-d813bf323ee9
+  :END:
 
 Install elfeed and load up my feeds.
 
@@ -554,6 +651,9 @@ Use =o= to browse the entry in a Web browser.
   (define-key elfeed-search-mode-map "o" 'elfeed-search-browse-url)
 #+end_src
 * Globally Set Keys
+  :PROPERTIES:
+  :ID:       8bcad50b-37df-42a4-aece-fce4b6db05e2
+  :END:
 
 This section has all globally set keys unless they are related to a package or mode config. 
 
@@ -589,7 +689,13 @@ This section has all globally set keys unless they are related to a package or m
 #+end_src
 
 * Execute and windows specific configuration
+  :PROPERTIES:
+  :ID:       f71cbf9c-e18e-430b-a0ef-c3d883f9de56
+  :END:
 ** Flyspell / hunspell Configuration                                  :win32:
+   :PROPERTIES:
+   :ID:       3a161139-f490-440b-859a-14ad475c1a1c
+   :END:
 
 Install [[https://www.msys2.org/][msys2]]. Install the developer packages and git:
 
@@ -629,6 +735,9 @@ to default spell check a bunch of org files that would be loaded
 #+end_src
 
 ** Some attempted Windows performance tweaks                          :win32:
+   :PROPERTIES:
+   :ID:       ae3f7356-6d74-4660-8b85-bc0505bddede
+   :END:
 
 #+begin_src emacs-lisp
   ;; Attempts to optimize Windows - way too slow
@@ -639,6 +748,9 @@ to default spell check a bunch of org files that would be loaded
   ;; 
 #+end_src
 * Python Setup
+  :PROPERTIES:
+  :ID:       d07ce918-587d-4d3c-8ea0-5441dc3c674b
+  :END:
 
 Configuration for /Python/ development including lsp using =pyright=. Pyright uses
 =node=.
@@ -738,6 +850,9 @@ Use pyright as an lsp
 #+END_SRC
 
 * Start a server
+  :PROPERTIES:
+  :ID:       562dc6e4-7bf9-4f3c-90b3-5413aba11238
+  :END:
 
 #+begin_src emacs-lisp
   (server-start)

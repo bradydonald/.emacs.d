@@ -14,7 +14,7 @@
  (position . 671))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "** TODO Swimming")
+ (front-context-string . "** TODO This wor")
  (rear-context-string . "gy - FedScoop]]\n")
  (position . 515))
 )

@@ -29,3 +29,4 @@ v[0-9]*
 /.dir-locals.el
 /ido.last
 /image-dired/
+/.org-id-locations
