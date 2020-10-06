@@ -17,6 +17,7 @@ available.
 #+begin_src emacs-lisp
   (require 'use-package-ensure)
   (setq use-package-always-ensure t)
+  (setq package-check-signature nil)
 #+end_src
 
 Always compile packages, and use the newest version available.
@@ -477,28 +478,29 @@ Establishes the states and other settings related to task handling.
    :PROPERTIES:
    :ID:       9ccb479a-26d3-4936-a920-650a6917e2a3
    :END:
-   More powerful org dependency management
-
+   More powerful org dependency management but unfortunaely way too slow on
+   windows. Turning off. 
+   
 #+BEGIN_SRC emacs-lisp
-  (org-edna-mode)
+  ;; (org-edna-mode)
 
-  ;; create id's when using org capture
-  (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
+  ;; ;; create id's when using org capture
+  ;; (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
 
-  (defun db/org-add-ids-to-headlines-in-file ()
-    "Add ID properties to all headlines in the current file which
-      do not already have one."
-    (interactive)
-    (org-map-entries 'org-id-get-create))
+  ;; (defun db/org-add-ids-to-headlines-in-file ()
+  ;;   "Add ID properties to all headlines in the current file which
+  ;;     do not already have one."
+  ;;   (interactive)
+  ;;   (org-map-entries 'org-id-get-create))
 
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (add-hook 'before-save-hook 'db/org-add-ids-to-headlines-in-file nil 'local)))
+  ;; (add-hook 'org-mode-hook
+  ;;           (lambda ()
+  ;;             (add-hook 'before-save-hook 'db/org-add-ids-to-headlines-in-file nil 'local)))
 
-  (defun db/org-current-id ()
-    "Get the current ID to make it easier to set up BLOCKER ids"
-    (interactive)
-    (org-entry-get (point) "ID"))
+  ;; (defun db/org-current-id ()
+  ;;   "Get the current ID to make it easier to set up BLOCKER ids"
+  ;;   (interactive)
+  ;;   (org-entry-get (point) "ID"))
 
 #+END_SRC
 
