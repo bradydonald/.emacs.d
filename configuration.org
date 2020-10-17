@@ -4,9 +4,6 @@
 #+OPTIONS: toc:nil num:nil
 
 * Configure =use-package=
-  :PROPERTIES:
-  :ID:       8352bab3-a374-4b98-b11c-9755ba47431e
-  :END:
 
 Use =use-package= to install and configure packages. My =init.el= includes
 the initial setup for =package.el= and ensures that =use-package= is installed.
@@ -30,22 +27,16 @@ Always compile packages, and use the newest version available.
 #+end_src
 
 * Personal Details Setup
-  :PROPERTIES:
-  :ID:       600d0ff3-d412-44f0-ba75-2f5d83eaf1d8
-  :END:
 
 Sets up some personal information sucha as email
 
 #+begin_src emacs-lisp
 
-  (setq user-full-name "Donald Brady" user-mail-address "donaldbrady@gmail.com")
+  (setq user-full-name "Donald Brady" user-mail-address "d@donald-brady.com")
 
 #+end_src
 
 * Set up savefile, backup, and autosave directories
-  :PROPERTIES:
-  :ID:       657d5eef-edf6-4bd9-9c42-7fc2a4f6003f
-  :END:
 
 #+begin_src emacs-lisp
 
@@ -79,9 +70,6 @@ Sets up some personal information sucha as email
 #+end_src
 
 * Basic Configurations
-  :PROPERTIES:
-  :ID:       f45f3dbd-7b86-4e74-8d8e-1e2abf00a8d5
-  :END:
 
 Place for a grab bag of basic settings
 
@@ -113,9 +101,6 @@ Place for a grab bag of basic settings
 #+end_src
 
 * Custom Packages
-  :PROPERTIES:
-  :ID:       1e034465-4892-4d7e-90f9-5c083c71898c
-  :END:
 
 Use this method as an easier way to identify and load packages but it does separate the
 configuration from the use-package
@@ -157,9 +142,6 @@ configuration from the use-package
 #+END_SRC
 
 * Install packages
-  :PROPERTIES:
-  :ID:       2e841ff0-7be9-4535-8b9d-f6bf9441e3b0
-  :END:
 
 #+BEGIN_SRC emacs-lisp
   (dolist (p my-packages)
@@ -170,9 +152,6 @@ configuration from the use-package
 #+END_SRC
 
 * Configure Built-in Packages
-  :PROPERTIES:
-  :ID:       242eccaa-df22-4bbe-9c99-b2d9d733a18b
-  :END:
 
 Configuration for a bunch of built in packages.
 
@@ -213,9 +192,6 @@ Configuration for a bunch of built in packages.
 #+end_src
 
 * Dired Mode
-  :PROPERTIES:
-  :ID:       65626b8b-5aee-420a-8ac8-8b80234fa939
-  :END:
 
 Dired mode is powerful but easy to forget the commands and capabilities. Make
 things a bit easuer to remember
@@ -263,9 +239,6 @@ directory. When exting via /db\/dopus-out/ the window state is restored.
 #+END_SRC
 
 * Spray Speed Reader
-  :PROPERTIES:
-  :ID:       cccfbec6-0803-42ee-871b-501ec95f2829
-  :END:
 
 [[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
 and slower, q quits
@@ -278,9 +251,6 @@ and slower, q quits
 #+end_src
 
 * PDF Tools
-  :PROPERTIES:
-  :ID:       e5a1d999-0f70-443a-80ed-4a93272e16ef
-  :END:
 
 [[https://github.com/politza/pdf-tools][PDF Tools]] is a much better pdf viewer
 
@@ -288,10 +258,134 @@ and slower, q quits
   (pdf-loader-install)
 #+END_SRC
 
+* Reading Email with mu4e
+  So, mu4e isn't in melpa (wtf) and has to be installed
+#+BEGIN_SRC sh
+  sudo apt install mu4e  
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+ (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+ (require 'mu4e)
+#+END_SRC
+
+** Contexts
+
+   No contexts for now as just one email account.
+   
+#+BEGIN_SRC emacs-lisp
+
+;; use mu4e for e-mail in emacs
+(setq mail-user-agent 'mu4e-user-agent)
+
+;; these must start with a "/", and must exist
+;; (i.e.. /home/user/Maildir/sent must exist)
+;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
+;; already exist
+
+(setq mu4e-sent-folder   "/Sent")
+(setq mu4e-drafts-folder "/Drafts")
+(setq mu4e-trash-folder  "/Trash")
+
+#+END_SRC
+
+** Fetching
+
+   The most comprehensive setup documentation I have found for setting up your
+   own email server using iRedMail is [[https://www.linuxbabe.com/mail-server/ubuntu-18-04-iredmail-email-server][here]]. Fetching is accomplished with
+   =offlineimap= running periodically. 
+   
+** Composing
+
+** Reading
+
+   Save attachments to Downloads
+   
+#+BEGIN_SRC emacs-lisp
+   (setq mu4e-attachment-dir "~/Downloads")  
+#+END_SRC
+
+  Use C-c C-o to open links
+
+#+BEGIN_SRC emacs-lisp
+  (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
+#+END_SRC
+
+  While HTML emails are just fundamentally awful, we usually still need to read
+  them. This ensures that their formatting in Emacs isn’t too hideous:
+
+#+BEGIN_SRC emacs-lisp
+
+  (require 'mu4e-contrib)
+  (setq mu4e-html2text-command 'mu4e-shr2text
+        shr-color-visible-luminance-min 60
+        shr-color-visible-distance-min 5
+        shr-use-fonts nil
+        shr-use-colors nil)
+  (advice-add #'shr-colorize-region
+              :around (defun shr-no-colourise-region (&rest ignore)))
+
+#+END_SRC
+
+  But some HTML emails are just too messy to display in Emacs. This binds a h to
+  open the current email in my default Web browser.
+
+#+BEGIN_SRC emacs-lisp
+
+  (add-to-list 'mu4e-view-actions
+               '("html in browser" . mu4e-action-view-in-browser)
+               t)
+#+END_SRC
+
+** Archiving
+
+** TODO Encryption
+
+** Sending
+
+   You will need to install =msmtp= and configure that as needed.
+   
+#+BEGIN_SRC emacs-lisp
+  (setq message-send-mail-function 'message-send-mail-with-sendmail)
+  (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+  (setq message-sendmail-f-is-evil 't)
+  (setq sendmail-program "msmtp") 
+#+END_SRC
+
+** Org Agena Integration
+
+   =org-mu4e= lets me store links to emails. I use this to reference emails in
+   my TODO list while keeping my inbox empty. When storing a link to a message
+   in the headers view, link to the message instead of the search that resulted
+   in that view.
+
+#+BEGIN_SRC emacs-lisp
+
+  (require 'org-mu4e)
+  (setq org-mu4e-link-query-in-headers-mode nil)
+
+#+END_SRC
+
+
+** Org Contacts
+
+   Use an org-contacts file to manage my address book.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-contacts
+    :ensure nil
+    :after org
+    :custom (org-contacts-files '("~/OrgDocuments/contacts.org")))
+
+  (setq mu4e-org-contacts-file (car org-contacts-files))
+  (add-to-list 'mu4e-headers-actions
+               '("org-contact-add" . mu4e-action-add-org-contact) t)
+  (add-to-list 'mu4e-view-actions
+               '("org-contact-add" . mu4e-action-add-org-contact) t)
+
+#+END_SRC
+  
 * Projectile
-  :PROPERTIES:
-  :ID:       32b9642e-b3af-4ee0-9d52-a5ce6383cd33
-  :END:
 Use =projectile= for projects navigation
 
 #+BEGIN_SRC emacs-lisp
@@ -303,9 +397,6 @@ Use =projectile= for projects navigation
 #+END_SRC
 
 * Magit
-  :PROPERTIES:
-  :ID:       a3bd4086-b584-4b88-a4fe-b305fb07bcde
-  :END:
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-x g") 'magit-status)
@@ -313,9 +404,6 @@ Use =projectile= for projects navigation
 #+end_src
 
 * Hippie Expand Setup
-  :PROPERTIES:
-  :ID:       c1331a7e-cf79-40d0-801b-c17d0825e024
-  :END:
 
 This is a more powerful completion system.
 
@@ -340,9 +428,6 @@ This is a more powerful completion system.
 #+end_src
 
 * Blogging with =Hugo=
-  :PROPERTIES:
-  :ID:       67481416-6aae-4e6a-b5e5-738865758abf
-  :END:
 
 #+begin_src emacs-lisp
 
@@ -357,11 +442,14 @@ This is a more powerful completion system.
 #+end_src
 
 * Org Mode
-  :PROPERTIES:
-  :ID:       e0126b34-3618-44d3-b02c-c66a886be06d
-  :END:
 
 Set up for all things =org-mode=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :ensure org-plus-contrib
+  )
+#+END_SRC
 
 Ran into an org-mode error where agenda does not work. Running
 =(byte-recompile-directory package-user-dir nil 'force)= fixes is as recommended
@@ -378,9 +466,6 @@ checking and replacing the =*='s with various types of bullets.
 #+END_SRC
 
 ** Language Support
-   :PROPERTIES:
-   :ID:       94b80e87-3dc2-4b51-9d1d-04eeaf40be93
-   :END:
 
 Setup =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
 
@@ -411,9 +496,6 @@ when exporting.
 #+end_src
 
 ** Personal and Work
-   :PROPERTIES:
-   :ID:       4aea64cb-a921-4bac-b3af-f7911a3f6dda
-   :END:
 
 I use Org Mode at work and for personal purposes. I use =db-home-org-dir= and =db-work-org-dir= to
 locate the relevant directories.
@@ -433,9 +515,6 @@ locate the relevant directories.
 #+end_src
 
 ** Source Blocks
-   :PROPERTIES:
-   :ID:       4874d2a6-f4db-4124-a9c7-f3b612855894
-   :END:
 
 #+begin_src emacs-lisp
   (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
@@ -444,9 +523,6 @@ locate the relevant directories.
 #+end_src
 
 ** Task Handling and Agenda
-   :PROPERTIES:
-   :ID:       60ae4867-c4fc-493e-be7b-bfa4d325b38e
-   :END:
 
 Establishes the states and other settings related to task handling. 
 
@@ -475,9 +551,6 @@ Establishes the states and other settings related to task handling.
 #+end_src
 
 ** Org Edna
-   :PROPERTIES:
-   :ID:       9ccb479a-26d3-4936-a920-650a6917e2a3
-   :END:
    More powerful org dependency management but unfortunaely way too slow on
    windows. Turning off. 
    
@@ -505,9 +578,6 @@ Establishes the states and other settings related to task handling.
 #+END_SRC
 
 ** Takes care of work and play
-   :PROPERTIES:
-   :ID:       371fd705-0777-403b-8e3d-c8bee04500bf
-   :END:
 
  Set up the agenda files which are in several directories and may or may not be
  available dependening on if work or home context.
@@ -547,9 +617,6 @@ Establishes the states and other settings related to task handling.
  #+end_src
 
 ** Org Capture Setup
-   :PROPERTIES:
-   :ID:       a71b8e30-4d07-4515-a505-214f5ed7fd76
-   :END:
 
 Org capture templates for Chrome org-capture from [[https://github.com/sprig/org-capture-extension][site]].
 
@@ -576,36 +643,41 @@ and then run =update-desktop-database ~/.local/share/applications/=
 #+end_src
 
 *** TODO Setting up org-protocol handler. This page has best description:
-    :PROPERTIES:
-    :ID:       6529722e-7964-4622-93d0-d08981cbf965
-    :END:
 [[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
 
 #+begin_src emacs-lisp
 
- (defun transform-square-brackets-to-round-ones(string-to-transform)
-   "Transforms [ into ( and ] into ), other chars left unchanged."
-   (concat 
-   (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
-   )
+    (defun transform-square-brackets-to-round-ones(string-to-transform)
+      "Transforms [ into ( and ] into ), other chars left unchanged."
+      (concat 
+      (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
+      )
 
- ;; if you set this variable you have to redefine the default t/Todo.
- (setq org-capture-templates 
-       `(
-         ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-          "* TODO %?\n\n  %i\n")
-         ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")	
-         ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-          "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n")
-         ))
+  (defvar my/org-contacts-template "* %(org-contacts-template-name)
+  :PROPERTIES:
+  :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+  :BIRTHDAY: %^{yyyy-mm-dd}
+  :EMAIL: %(org-contacts-template-email)
+  :NOTE: %^{NOTE}
+  :END:" "Template for org-contacts.")
+
+    ;; if you set this variable you have to redefine the default t/Todo.
+    (setq org-capture-templates 
+          `(
+            ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+             "* TODO %?\n\n  %i\n")
+            ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+             "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")	
+            ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+             "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n")
+            ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Friends"),
+             my/org-contacts-template
+             :empty-lines 1)
+            ))
 
 #+end_src
 
 ** Org Reveal
-   :PROPERTIES:
-   :ID:       0f688a3c-1ad0-4c44-97d0-1fc11a47b9d0
-   :END:
 
 #+BEGIN_SRC emacs-lisp
   (use-package ox-reveal
@@ -616,9 +688,6 @@ and then run =update-desktop-database ~/.local/share/applications/=
 #+END_SRC
 
 ** Exporting
-   :PROPERTIES:
-   :ID:       e337068f-fd8d-4534-94dd-07a779cec7ce
-   :END:
 
 Allow export to markdown (for hugo) and beamer (for presentations).
 
@@ -628,9 +697,6 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 #+end_src
 
 * RSS with =elfeed=
-  :PROPERTIES:
-  :ID:       f06c120a-78db-401b-beba-d813bf323ee9
-  :END:
 
 Install elfeed and load up my feeds.
 
@@ -653,9 +719,6 @@ Use =o= to browse the entry in a Web browser.
   (define-key elfeed-search-mode-map "o" 'elfeed-search-browse-url)
 #+end_src
 * Globally Set Keys
-  :PROPERTIES:
-  :ID:       8bcad50b-37df-42a4-aece-fce4b6db05e2
-  :END:
 
 This section has all globally set keys unless they are related to a package or mode config. 
 
@@ -691,13 +754,7 @@ This section has all globally set keys unless they are related to a package or m
 #+end_src
 
 * Execute and windows specific configuration
-  :PROPERTIES:
-  :ID:       f71cbf9c-e18e-430b-a0ef-c3d883f9de56
-  :END:
 ** Flyspell / hunspell Configuration                                  :win32:
-   :PROPERTIES:
-   :ID:       3a161139-f490-440b-859a-14ad475c1a1c
-   :END:
 
 Install [[https://www.msys2.org/][msys2]]. Install the developer packages and git:
 
@@ -737,9 +794,6 @@ to default spell check a bunch of org files that would be loaded
 #+end_src
 
 ** Some attempted Windows performance tweaks                          :win32:
-   :PROPERTIES:
-   :ID:       ae3f7356-6d74-4660-8b85-bc0505bddede
-   :END:
 
 #+begin_src emacs-lisp
   ;; Attempts to optimize Windows - way too slow
@@ -750,9 +804,6 @@ to default spell check a bunch of org files that would be loaded
   ;; 
 #+end_src
 * Python Setup
-  :PROPERTIES:
-  :ID:       d07ce918-587d-4d3c-8ea0-5441dc3c674b
-  :END:
 
 Configuration for /Python/ development including lsp using =pyright=. Pyright uses
 =node=.
@@ -852,9 +903,6 @@ Use pyright as an lsp
 #+END_SRC
 
 * Start a server
-  :PROPERTIES:
-  :ID:       562dc6e4-7bf9-4f3c-90b3-5413aba11238
-  :END:
 
 #+begin_src emacs-lisp
   (server-start)

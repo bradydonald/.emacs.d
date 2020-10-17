@@ -32,3 +32,4 @@ v[0-9]*
 /.org-id-locations
 snippets/*
 themes/*
+/network-security.data
