@@ -275,18 +275,19 @@ and slower, q quits
    
 #+BEGIN_SRC emacs-lisp
 
-;; use mu4e for e-mail in emacs
-(setq mail-user-agent 'mu4e-user-agent)
+  ;; use mu4e for e-mail in emacs
+  (setq mail-user-agent 'mu4e-user-agent)
 
-;; these must start with a "/", and must exist
-;; (i.e.. /home/user/Maildir/sent must exist)
-;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
-;; already exist
+  ;; these must start with a "/", and must exist
+  ;; (i.e.. /home/user/Maildir/sent must exist)
+  ;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
+  ;; already exist
 
-(setq mu4e-sent-folder   "/Sent")
-(setq mu4e-drafts-folder "/Drafts")
-(setq mu4e-trash-folder  "/Trash")
-
+  (setq mu4e-sent-folder   "/Sent")
+  (setq mu4e-drafts-folder "/Drafts")
+  (setq mu4e-trash-folder  "/Trash")
+  (setq mu4e-refile-folder "/Archive")
+      
 #+END_SRC
 
 ** Fetching
@@ -339,7 +340,7 @@ and slower, q quits
 
 ** Archiving
 
-** TODO Encryption
+** Encryption
 
 ** Sending
 
@@ -365,7 +366,6 @@ and slower, q quits
   (setq org-mu4e-link-query-in-headers-mode nil)
 
 #+END_SRC
-
 
 ** Org Contacts
 
