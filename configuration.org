@@ -528,27 +528,36 @@ Establishes the states and other settings related to task handling.
 
 #+BEGIN_SRC emacs-lisp
 
-  ;; task handling
+    ;; task handling
 
-  ;; On both linux and windows with dependencies turned on trying to complete a
-  ;; parent task in the agenda causes a hang so turning off enforcing of
-  ;; dependencies.
-  ;; (setq org-enforce-todo-dependencies t)
-  ;; (setq org-enforce-todo-checkbox-dependencies t)
+    ;; On both linux and windows with dependencies turned on trying to complete a
+    ;; parent task in the agenda causes a hang so turning off enforcing of
+    ;; dependencies.
+    ;; (setq org-enforce-todo-dependencies t)
+    ;; (setq org-enforce-todo-checkbox-dependencies t)
 
-  (setq org-todo-keywords
-        '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-  (setq org-log-reschedule 'note)
+    (setq org-todo-keywords
+          '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
+    (setq org-log-done 'time)
+    (setq org-log-into-drawer t)
+    (setq org-log-reschedule 'note)
 
-  ;; agenda settings
-  (setq org-agenda-span 7)
-  (setq org-agenda-start-on-weekday nil)
+    ;; agenda settings
+    (setq org-agenda-span 7)
+    (setq org-agenda-start-on-weekday nil)
+
+  #END_SRC
+
+** Diary Settings
+
+#+BEGIN_SRC emacs-lisp
   (setq diary-file (expand-file-name "diary" db-home-org-dir))
   (setq org-agenda-include-diary t)
-
-#+end_src
+  (setq calendar-bahai-all-holidays-flag nil)
+  (setq calendar-christian-all-holidays-flag t)
+  (setq calendar-hebrew-all-holidays-flag t)
+  (setq calendar-islamic-all-holidays-flag t)
+#+END_SRC
 
 ** Org Edna
    More powerful org dependency management but unfortunaely way too slow on
