@@ -113,8 +113,8 @@ Place for a grab bag of basic settings
 
 * Custom Packages
 
-Use this method as an easier way to identify and load packages but it does separate the
-configuration from the use-package
+Packages here don't have any configuration and are just loaded using
+=use-package=
 
 #+BEGIN_SRC emacs-lisp
 
@@ -123,11 +123,9 @@ configuration from the use-package
                         elec-pair
                         elpy
                         epresent
-                        exec-path-from-shell ; ensure emacs env matches shell!!
                         flycheck
                         git-timemachine
                         gnuplot
-                        htmlize
                         ivy
                         lsp-mode
                         magit
@@ -135,15 +133,11 @@ configuration from the use-package
                         ox-reveal
                         org-superstar
                         paren
-                        pdf-tools
                         projectile
                         python
                         pyvenv
                         recentf
                         s
-                        swiper
-                        yasnippet
-                        yasnippet-snippets
                         ))
 #+END_SRC
 
@@ -180,17 +174,22 @@ Configuration for a bunch of built in packages.
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
     (global-set-key (kbd "<f6>") 'ivy-resume)
 
-    ;; swiper
-    (global-set-key "\C-s" 'swiper)
-
     ;; config changes made through the customize UI will be stored here
     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
     (when (file-exists-p custom-file)
       (load custom-file))
 
-    (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize))
+#+END_SRC
+
+* Additional Path Setup
+  There are some nuances with environment variables especially on windows.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 #+END_SRC
 
 * Avy
@@ -266,6 +265,14 @@ directory. When exting via /db\/dopus-out/ the window state is restored.
       (default-text-scale-mode))
 #+END_SRC
 
+* Swiper
+  A generic completion front end
+
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+  :bind (("C-s" . swiper)))
+#+END_SRC
+
 * Spray Speed Reader
 
 [[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
@@ -283,9 +290,21 @@ and slower, q quits
 [[https://github.com/politza/pdf-tools][PDF Tools]] is a much better pdf viewer
 
 #+BEGIN_SRC emacs-lisp
-  (pdf-loader-install)
+      (use-package pdf-tools
+        :config
+        (pdf-loader-install))
 #+END_SRC
 
+* (Yas) ASnippets
+  Use =yas-snippets= for handy text completion
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+  :ensure yasnippet-snippets
+  :config
+  (yas-global-mode 1))
+#+END_SRC
+  
 * Reading Email with mu4e
   So, mu4e isn't in melpa (wtf) and has to be installed
 #+BEGIN_SRC sh
@@ -723,10 +742,8 @@ and then run =update-desktop-database ~/.local/share/applications/=
 
 #+BEGIN_SRC emacs-lisp
   (use-package ox-reveal
-  :ensure ox-reveal)
-
-  (use-package htmlize
-  :ensure t)
+  :ensure ox-reveal
+  :ensure htmlize)
 #+END_SRC
 
 ** Exporting
@@ -935,10 +952,6 @@ Use pyright as an lsp
     (lsp-pyright-auto-search-paths t)
     (lsp-pyright-python-executable-cmd "python3")
     (lsp-pyright-typechecking-mode "off"))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(yas-global-mode 1)
 #+END_SRC
 
 * Start a server
