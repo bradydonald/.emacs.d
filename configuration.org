@@ -113,8 +113,7 @@ Place for a grab bag of basic settings
 
 * Custom Packages
 
-Packages here don't have any configuration and are just loaded using
-=use-package=
+Packages here maily don't have any major configuration and are loaded vanilla.
 
 #+BEGIN_SRC emacs-lisp
 
@@ -127,18 +126,13 @@ Packages here don't have any configuration and are just loaded using
                         git-timemachine
                         gnuplot
                         lsp-mode
-                        magit
-                        org-edna
-                        ox-reveal
-                        org-superstar
-                        projectile
                         python
                         pyvenv
                         s ; some nice easy string manipulation functions
                         ))
 #+END_SRC
 
-* Install packages
+Loop over the above list, loading using =use-package=
 
 #+BEGIN_SRC emacs-lisp
   (dolist (p my-packages)
@@ -306,194 +300,6 @@ and slower, q quits
   (yas-global-mode 1))
 #+END_SRC
   
-* Reading Email with mu4e
-  So, mu4e isn't in melpa (wtf) and has to be installed
-#+BEGIN_SRC sh
-  sudo apt install mu4e  
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
- (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
- (require 'mu4e)
-#+END_SRC
-
-** Contexts
-
-   No contexts for now as just one email account.
-   
-#+BEGIN_SRC emacs-lisp
-
-  ;; use mu4e for e-mail in emacs
-  (setq mail-user-agent 'mu4e-user-agent)
-
-  ;; these must start with a "/", and must exist
-  ;; (i.e.. /home/user/Maildir/sent must exist)
-  ;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
-  ;; already exist
-
-  (setq mu4e-sent-folder   "/Sent")
-  (setq mu4e-drafts-folder "/Drafts")
-  (setq mu4e-trash-folder  "/Trash")
-  (setq mu4e-refile-folder "/Archive")
-      
-#+END_SRC
-
-** Fetching
-
-   The most comprehensive setup documentation I have found for setting up your
-   own email server using iRedMail is [[https://www.linuxbabe.com/mail-server/ubuntu-18-04-iredmail-email-server][here]]. Fetching is accomplished with
-   =offlineimap= running periodically. 
-   
-** Composing
-
-** Reading
-
-   Save attachments to Downloads
-   
-#+BEGIN_SRC emacs-lisp
-   (setq mu4e-attachment-dir "~/Downloads")  
-#+END_SRC
-
-  Use C-c C-o to open links
-
-#+BEGIN_SRC emacs-lisp
-  (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
-#+END_SRC
-
-  While HTML emails are just fundamentally awful, we usually still need to read
-  them. This ensures that their formatting in Emacs isn’t too hideous:
-
-#+BEGIN_SRC emacs-lisp
-
-  (require 'mu4e-contrib)
-  (setq mu4e-html2text-command 'mu4e-shr2text
-        shr-color-visible-luminance-min 60
-        shr-color-visible-distance-min 5
-        shr-use-fonts nil
-        shr-use-colors nil)
-  (advice-add #'shr-colorize-region
-              :around (defun shr-no-colourise-region (&rest ignore)))
-
-#+END_SRC
-
-  But some HTML emails are just too messy to display in Emacs. This binds a h to
-  open the current email in my default Web browser.
-
-#+BEGIN_SRC emacs-lisp
-
-  (add-to-list 'mu4e-view-actions
-               '("html in browser" . mu4e-action-view-in-browser)
-               t)
-#+END_SRC
-
-** Archiving
-
-** Encryption
-
-** Sending
-
-   You will need to install =msmtp= and configure that as needed.
-   
-#+BEGIN_SRC emacs-lisp
-  (setq message-send-mail-function 'message-send-mail-with-sendmail)
-  (setq message-sendmail-extra-arguments '("--read-envelope-from"))
-  (setq message-sendmail-f-is-evil 't)
-  (setq sendmail-program "msmtp") 
-#+END_SRC
-
-** Org Agena Integration
-
-   =org-mu4e= lets me store links to emails. I use this to reference emails in
-   my TODO list while keeping my inbox empty. When storing a link to a message
-   in the headers view, link to the message instead of the search that resulted
-   in that view.
-
-#+BEGIN_SRC emacs-lisp
-
-  (require 'org-mu4e)
-  (setq org-mu4e-link-query-in-headers-mode nil)
-
-#+END_SRC
-
-** Org Contacts
-
-   Use an org-contacts file to manage my address book.
-
-#+BEGIN_SRC emacs-lisp
- (use-package org-contacts
-   :ensure nil
-   :after org
-   :custom (org-contacts-files '("~/OrgDocuments/contacts.org")))
-
- (setq mu4e-org-contacts-file (car org-contacts-files))
- (add-to-list 'mu4e-headers-actions
-              '("org-contact-add" . mu4e-action-add-org-contact) t)
- (add-to-list 'mu4e-view-actions
-              '("org-contact-add" . mu4e-action-add-org-contact) t)
-
-#+END_SRC
-  
-* Projectile
-Use =projectile= for projects navigation
-
-#+BEGIN_SRC emacs-lisp
-  (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  ;; prefer to show directory in the project vs finding a file
-  (setq projectile-switch-project-action #'projectile-dired)
-#+END_SRC
-
-* Magit
-
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x g") 'magit-status)
-  (setq magit-push-always-verify nil)
-#+END_SRC
-
-* Hippie Expand Setup
-
-This is a more powerful completion system.
-
-#+BEGIN_SRC emacs-lisp
-
-;; hippie expand is dabbrev expand on steroids
-(setq hippie-expand-try-functions-list '(try-expand-dabbrev
-                                         try-expand-dabbrev-all-buffers
-                                         try-expand-dabbrev-from-kill
-                                         try-complete-file-name-partially
-                                         try-complete-file-name
-                                         try-expand-all-abbrevs
-                                         try-expand-list
-                                         try-expand-line
-                                         try-complete-lisp-symbol-partially
-                                         try-complete-lisp-symbol))
-
-;; use hippie-expand instead of dabbrev
-(global-set-key (kbd "M-/") #'hippie-expand)
-(global-set-key (kbd "s-/") #'hippie-expand)
-
-#+END_SRC
-
-* Blogging with Hugo
-
-  [[https://gohugo.io/][Hugo]] is a static website generator great for blogging
-  
-#+BEGIN_SRC emacs-lisp
-
-  (use-package easy-hugo
-    :config
-    (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
-    (setq easy-hugo-url "https://bradydonald.github.io/")
-    (setq easy-hugo-sshdomain "bradydonald")
-    (setq easy-hugo-postdir "content/posts")
-    (setq easy-hugo-root "/home/blog/")
-    (setq easy-hugo-previewtime "300")
-    :bind
-    (("C-c C-e" . easy-hugo)))
-
-#+END_SRC
-
 * Org Mode
 
 Set up for all things =org-mode=
@@ -501,6 +307,8 @@ Set up for all things =org-mode=
 #+BEGIN_SRC emacs-lisp
   (use-package org
     :ensure org-plus-contrib
+    :ensure org-superstar
+    :ensure org-edna
   )
 #+END_SRC
 
@@ -754,6 +562,196 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 #+BEGIN_SRC emacs-lisp
   (require 'ox-md)
   (require 'ox-beamer)
+#+END_SRC
+
+* Reading Email with mu4e
+  So, mu4e isn't in melpa (wtf) and has to be installed
+#+BEGIN_SRC sh
+  sudo apt install mu4e  
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+ (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+ (require 'mu4e)
+#+END_SRC
+
+** Contexts
+
+   No contexts for now as just one email account.
+   
+#+BEGIN_SRC emacs-lisp
+
+  ;; use mu4e for e-mail in emacs
+  (setq mail-user-agent 'mu4e-user-agent)
+
+  ;; these must start with a "/", and must exist
+  ;; (i.e.. /home/user/Maildir/sent must exist)
+  ;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
+  ;; already exist
+
+  (setq mu4e-sent-folder   "/Sent")
+  (setq mu4e-drafts-folder "/Drafts")
+  (setq mu4e-trash-folder  "/Trash")
+  (setq mu4e-refile-folder "/Archive")
+      
+#+END_SRC
+
+** Fetching
+
+   The most comprehensive setup documentation I have found for setting up your
+   own email server using iRedMail is [[https://www.linuxbabe.com/mail-server/ubuntu-18-04-iredmail-email-server][here]]. Fetching is accomplished with
+   =offlineimap= running periodically. 
+   
+** Composing
+
+** Reading
+
+   Save attachments to Downloads
+   
+#+BEGIN_SRC emacs-lisp
+   (setq mu4e-attachment-dir "~/Downloads")  
+#+END_SRC
+
+  Use C-c C-o to open links
+
+#+BEGIN_SRC emacs-lisp
+  (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
+#+END_SRC
+
+  While HTML emails are just fundamentally awful, we usually still need to read
+  them. This ensures that their formatting in Emacs isn’t too hideous:
+
+#+BEGIN_SRC emacs-lisp
+
+  (require 'mu4e-contrib)
+  (setq mu4e-html2text-command 'mu4e-shr2text
+        shr-color-visible-luminance-min 60
+        shr-color-visible-distance-min 5
+        shr-use-fonts nil
+        shr-use-colors nil)
+  (advice-add #'shr-colorize-region
+              :around (defun shr-no-colourise-region (&rest ignore)))
+
+#+END_SRC
+
+  But some HTML emails are just too messy to display in Emacs. This binds a h to
+  open the current email in my default Web browser.
+
+#+BEGIN_SRC emacs-lisp
+
+  (add-to-list 'mu4e-view-actions
+               '("html in browser" . mu4e-action-view-in-browser)
+               t)
+#+END_SRC
+
+** Archiving
+
+** Encryption
+
+** Sending
+
+   You will need to install =msmtp= and configure that as needed.
+   
+#+BEGIN_SRC emacs-lisp
+  (setq message-send-mail-function 'message-send-mail-with-sendmail)
+  (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+  (setq message-sendmail-f-is-evil 't)
+  (setq sendmail-program "msmtp") 
+#+END_SRC
+
+** Org Agena Integration
+
+   =org-mu4e= lets me store links to emails. I use this to reference emails in
+   my TODO list while keeping my inbox empty. When storing a link to a message
+   in the headers view, link to the message instead of the search that resulted
+   in that view.
+
+#+BEGIN_SRC emacs-lisp
+
+  (require 'org-mu4e)
+  (setq org-mu4e-link-query-in-headers-mode nil)
+
+#+END_SRC
+
+** Org Contacts
+
+   Use an org-contacts file to manage my address book.
+
+#+BEGIN_SRC emacs-lisp
+ (use-package org-contacts
+   :ensure nil
+   :after org
+   :custom (org-contacts-files '("~/OrgDocuments/contacts.org")))
+
+ (setq mu4e-org-contacts-file (car org-contacts-files))
+ (add-to-list 'mu4e-headers-actions
+              '("org-contact-add" . mu4e-action-add-org-contact) t)
+ (add-to-list 'mu4e-view-actions
+              '("org-contact-add" . mu4e-action-add-org-contact) t)
+
+#+END_SRC
+  
+* Projectile
+Use =projectile= for projects navigation
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+  :config
+  (setq projectile-switch-project-action #'projectile-dired)
+  (projectile-mode +1))
+#+END_SRC
+
+* Magit
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+  :config
+  (setq magit-push-always-verify nil)
+  :bind 
+  (("C-x g" . magit-status)))
+#+END_SRC
+
+* Hippie Expand Setup
+
+This is a more powerful completion system.
+
+#+BEGIN_SRC emacs-lisp
+
+;; hippie expand is dabbrev expand on steroids
+(setq hippie-expand-try-functions-list '(try-expand-dabbrev
+                                         try-expand-dabbrev-all-buffers
+                                         try-expand-dabbrev-from-kill
+                                         try-complete-file-name-partially
+                                         try-complete-file-name
+                                         try-expand-all-abbrevs
+                                         try-expand-list
+                                         try-expand-line
+                                         try-complete-lisp-symbol-partially
+                                         try-complete-lisp-symbol))
+
+;; use hippie-expand instead of dabbrev
+(global-set-key (kbd "M-/") #'hippie-expand)
+(global-set-key (kbd "s-/") #'hippie-expand)
+
+#+END_SRC
+
+* Blogging with Hugo
+
+  [[https://gohugo.io/][Hugo]] is a static website generator great for blogging
+  
+#+BEGIN_SRC emacs-lisp
+
+  (use-package easy-hugo
+    :config
+    (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
+    (setq easy-hugo-url "https://bradydonald.github.io/")
+    (setq easy-hugo-sshdomain "bradydonald")
+    (setq easy-hugo-postdir "content/posts")
+    (setq easy-hugo-root "/home/blog/")
+    (setq easy-hugo-previewtime "300")
+    :bind
+    (("C-c C-e" . easy-hugo)))
+
 #+END_SRC
 
 * RSS with =elfeed=
