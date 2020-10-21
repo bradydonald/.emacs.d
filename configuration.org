@@ -110,8 +110,6 @@ configuration from the use-package
   (defvar my-packages '(
                         eglot
                         elec-pair
-                        elfeed
-                        elfeed-org
                         elpy
                         epresent
                         exec-path-from-shell ; ensure emacs env matches shell!!
@@ -731,26 +729,28 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 
 * RSS with =elfeed=
 
-Install elfeed and load up my feeds.
+Install elfeed and load up my feeds stored in =~OrgDocuments/rss-feeds.org=. Key
+bindings are:
+
+| Key   | Binding                                |
+| C-c r | Read news                              |
+| o     | In article or heading, open in browser |
 
 #+begin_src emacs-lisp
-  (setq elfeed-set-max-connections 32)
-  (elfeed-org)
-  (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" db-home-org-dir)))
+  (use-package elfeed
+    :ensure elfeed-org
+    :config
+    (setq elfeed-set-max-connections 32)
+    (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" db-home-org-dir)))
+    (elfeed-org)
+    :bind
+    (("C-c r" . elfeed)
+     :map elfeed-show-mode-map
+     ("o" . elfeed-show-visit)
+     :map elfeed-search-mode-map
+    ("o" . elfeed-search-browse-url)))
 #+end_src
 
-Open =elfeed= with =C-c r=:
-
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-c r") 'elfeed)
-#+end_src
-
-Use =o= to browse the entry in a Web browser.
-
-#+begin_src emacs-lisp
-  (define-key elfeed-show-mode-map "o" 'elfeed-show-visit)
-  (define-key elfeed-search-mode-map "o" 'elfeed-search-browse-url)
-#+end_src
 * Globally Set Keys
 
 This section has all globally set keys unless they are related to a package or mode config. 
