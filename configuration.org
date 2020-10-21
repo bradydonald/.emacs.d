@@ -126,17 +126,14 @@ Packages here don't have any configuration and are just loaded using
                         flycheck
                         git-timemachine
                         gnuplot
-                        ivy
                         lsp-mode
                         magit
                         org-edna
                         ox-reveal
                         org-superstar
-                        paren
                         projectile
                         python
                         pyvenv
-                        recentf
                         s
                         ))
 #+END_SRC
@@ -151,37 +148,6 @@ Packages here don't have any configuration and are just loaded using
     (add-to-list 'package-selected-packages p))
 #+END_SRC
 
-* Configure Built-in Packages
-
-Configuration for a bunch of built in packages.
-
-#+BEGIN_SRC emacs-lisp
-
-    ;; paren matching
-    (show-paren-mode +1)
-
-    ;; recent files
-    (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
-    (setq recentf-max-saved-items 100)
-    (setq recentf-max-menu-items 15)
-    (setq recentf-auto-cleanup 'never)
-    (recentf-mode +1)
-
-    ;; ivy
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    (global-set-key (kbd "<f6>") 'ivy-resume)
-
-    ;; config changes made through the customize UI will be stored here
-    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-    (when (file-exists-p custom-file)
-      (load custom-file))
-
-#+END_SRC
-
 * Additional Path Setup
   There are some nuances with environment variables especially on windows.
 
@@ -190,6 +156,30 @@ Configuration for a bunch of built in packages.
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
+#+END_SRC
+
+* Recent File Saving
+
+#+BEGIN_SRC emacs-lisp
+  (use-package recentf
+  :config
+  (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
+  (setq recentf-max-saved-items 25)
+  (setq recentf-max-menu-items 15)
+  (setq recentf-auto-cleanup 'never)
+  (recentf-mode +1))
+#+END_SRC
+
+* Paren Matching
+
+Configuration for a bunch of built in packages.
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package paren
+  :config
+  (show-paren-mode +1))
+
 #+END_SRC
 
 * Avy
@@ -265,6 +255,17 @@ directory. When exting via /db\/dopus-out/ the window state is restored.
       (default-text-scale-mode))
 #+END_SRC
 
+* Ivy
+  Ivy is a completion framework
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (ivy-mode 1))
+#+END_SRC
+
 * Swiper
   A generic completion front end
 
@@ -295,7 +296,7 @@ and slower, q quits
         (pdf-loader-install))
 #+END_SRC
 
-* (Yas) ASnippets
+* (Yas) Snippets
   Use =yas-snippets= for handy text completion
 
 #+BEGIN_SRC emacs-lisp
@@ -954,8 +955,19 @@ Use pyright as an lsp
     (lsp-pyright-typechecking-mode "off"))
 #+END_SRC
 
-* Start a server
+* Load any Custom Code
+  If there is a file =custom.el= in .emacs directory load it
 
+#+BEGIN_SRC emacs-lisp
+  ;; config changes made through the customize UI will be stored here
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (when (file-exists-p custom-file)
+    (load custom-file))
+#+END_SRC
+
+* Start a server
+  Finally start a server
+  
 #+BEGIN_SRC emacs-lisp
   (server-start)
 #+END_SRC
