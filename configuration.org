@@ -134,7 +134,7 @@ Packages here don't have any configuration and are just loaded using
                         projectile
                         python
                         pyvenv
-                        s
+                        s ; some nice easy string manipulation functions
                         ))
 #+END_SRC
 
