@@ -108,7 +108,6 @@ configuration from the use-package
 #+BEGIN_SRC emacs-lisp
 
   (defvar my-packages '(
-                        avy
                         default-text-scale
                         easy-hugo
                         eglot
@@ -191,13 +190,24 @@ Configuration for a bunch of built in packages.
       (exec-path-from-shell-initialize))
 #+end_src
 
-* Dired Mode
-
-Dired mode is powerful but easy to forget the commands and capabilities. Make
-things a bit easuer to remember
+* Avy
+  Avy has one really useful function =avy-goto-line= which supports multiple
+  buffers
 
 #+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :bind (("M-g f" . avy-goto-line)))
+#+END_SRC
+  
+* Dired Mode
+
+Dired mode is built in and powerful but easy to forget the commands and
+capabilities. Make things a bit easier to remember for me
+
+#+BEGIN_SRC emacs-lisp
+  ;; dired-x comes with emacs but isn't loaded by default.
   (require 'dired-x)
+
   (setq-default dired-omit-files-p t) ; Buffer-local variable
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
   (define-key dired-mode-map (kbd "% f") 'find-name-dired)
@@ -216,7 +226,7 @@ things a bit easuer to remember
 
 #+END_SRC
 
-These functions mimic Directory Opus by bringing up two dired buffers via
+These functions mimic [[https://www.gpsoft.com.au/][Directory Opus]] by bringing up two dired buffers via
 /db\/dopus-in/, one in the directory you were in, and one in your home
 directory. When exting via /db\/dopus-out/ the window state is restored.
 
@@ -235,6 +245,10 @@ directory. When exting via /db\/dopus-out/ the window state is restored.
     "Returns the stored buffer state after your all done manipulating files Dopus style"
     (interactive)
     (jump-to-register 'a 'DELETE))
+
+  ;; put these on F4 and F5
+  (global-set-key (kbd "<f4>") 'db/dopus-in)
+  (global-set-key (kbd "<f5>") 'db/dopus-out)
 
 #+END_SRC
 
@@ -372,16 +386,16 @@ and slower, q quits
    Use an org-contacts file to manage my address book.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package org-contacts
-    :ensure nil
-    :after org
-    :custom (org-contacts-files '("~/OrgDocuments/contacts.org")))
+ (use-package org-contacts
+   :ensure nil
+   :after org
+   :custom (org-contacts-files '("~/OrgDocuments/contacts.org")))
 
-  (setq mu4e-org-contacts-file (car org-contacts-files))
-  (add-to-list 'mu4e-headers-actions
-               '("org-contact-add" . mu4e-action-add-org-contact) t)
-  (add-to-list 'mu4e-view-actions
-               '("org-contact-add" . mu4e-action-add-org-contact) t)
+ (setq mu4e-org-contacts-file (car org-contacts-files))
+ (add-to-list 'mu4e-headers-actions
+              '("org-contact-add" . mu4e-action-add-org-contact) t)
+ (add-to-list 'mu4e-view-actions
+              '("org-contact-add" . mu4e-action-add-org-contact) t)
 
 #+END_SRC
   
@@ -546,7 +560,7 @@ Establishes the states and other settings related to task handling.
     (setq org-agenda-span 7)
     (setq org-agenda-start-on-weekday nil)
 
-  #END_SRC
+#+END_SRC
 
 ** Diary Settings
 
@@ -741,8 +755,6 @@ This section has all globally set keys unless they are related to a package or m
   (global-set-key (kbd "<f1>") #'start-kbd-macro)
   (global-set-key (kbd "<f2>") #'end-kbd-macro)
   (global-set-key (kbd "<f3>") #'call-last-kbd-macro)
-  (global-set-key (kbd "<f4>") 'db/dopus-in)
-  (global-set-key (kbd "<f5>") 'db/dopus-out)
 
   ;; org keys
   (define-key global-map "\C-ca" 'org-agenda)
@@ -753,9 +765,6 @@ This section has all globally set keys unless they are related to a package or m
 
   ;; Lenovo Function Key Bindings
   (global-set-key (kbd "<XF86Favorites>") 'bury-buffer) ;; The Star on F12
-
-  ;; avy goto line is quite useful
-  (global-set-key (kbd "M-g f") 'avy-goto-line)
 
   ;; M-0 to toggle hiding
   (global-set-key (kbd "M-0") 'hs-toggle-hiding)
