@@ -108,8 +108,6 @@ configuration from the use-package
 #+BEGIN_SRC emacs-lisp
 
   (defvar my-packages '(
-                        default-text-scale
-                        easy-hugo
                         eglot
                         elec-pair
                         elfeed
@@ -175,10 +173,6 @@ Configuration for a bunch of built in packages.
 
     ;; swiper
     (global-set-key "\C-s" 'swiper)
-
-    ;; default text scale
-    ;; binds C-M-= and C-M-- to increase and decrease the face size
-    (default-text-scale-mode)
 
     ;; config changes made through the customize UI will be stored here
     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -250,6 +244,17 @@ directory. When exting via /db\/dopus-out/ the window state is restored.
   (global-set-key (kbd "<f4>") 'db/dopus-in)
   (global-set-key (kbd "<f5>") 'db/dopus-out)
 
+#+END_SRC
+
+* Text Scaling
+
+  =default-text-scale= allows you to quickly resize text. By default binds to
+  C-M-= and C-M-- to increase and decrease the face size 
+
+#+BEGIN_SRC emacs-lisp
+  (use-package default-text-scale
+    :config
+      (default-text-scale-mode))
 #+END_SRC
 
 * Spray Speed Reader
@@ -441,17 +446,22 @@ This is a more powerful completion system.
 
 #+end_src
 
-* Blogging with =Hugo=
+* Blogging with Hugo
 
+  [[https://gohugo.io/][Hugo]] is a static website generator great for blogging
+  
 #+begin_src emacs-lisp
 
-  (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
-  (setq easy-hugo-url "https://bradydonald.github.io/")
-  (setq easy-hugo-sshdomain "bradydonald")
-  (setq easy-hugo-postdir "content/posts")
-  (setq easy-hugo-root "/home/blog/")
-  (setq easy-hugo-previewtime "300")
-  (global-set-key (kbd "C-c C-e") 'easy-hugo)
+  (use-package easy-hugo
+    :config
+    (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
+    (setq easy-hugo-url "https://bradydonald.github.io/")
+    (setq easy-hugo-sshdomain "bradydonald")
+    (setq easy-hugo-postdir "content/posts")
+    (setq easy-hugo-root "/home/blog/")
+    (setq easy-hugo-previewtime "300")
+    :bind
+    (("C-c C-e" . easy-hugo)))
 
 #+end_src
 
