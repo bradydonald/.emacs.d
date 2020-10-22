@@ -113,7 +113,7 @@ Place for a grab bag of basic settings
 
 * Custom Packages
 
-Packages here maily don't have any major configuration and are loaded vanilla.
+Packages here don't have any major configuration and are loaded vanilla.
 
 #+BEGIN_SRC emacs-lisp
 
@@ -122,13 +122,10 @@ Packages here maily don't have any major configuration and are loaded vanilla.
                         elec-pair
                         elpy
                         epresent
-                        flycheck
+                        flycheck            
                         git-timemachine
-                        gnuplot
-                        lsp-mode
-                        python
-                        pyvenv
-                        s ; some nice easy string manipulation functions
+                        gnuplot 
+                        s                   ; some nice easy string manipulation functions
                         ))
 #+END_SRC
 
