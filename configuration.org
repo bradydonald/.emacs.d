@@ -692,10 +692,11 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 Use =projectile= for projects navigation
 
 #+BEGIN_SRC emacs-lisp
-  (use-package projectile
-  :config
-  (setq projectile-switch-project-action #'projectile-dired)
-  (projectile-mode +1))
+    (use-package projectile
+    :config
+    (setq projectile-switch-project-action #'projectile-dired)
+    (projectile-mode +1)
+    :bind ("C-c p p" . projectile-switch-project))
 #+END_SRC
 
 * Magit
