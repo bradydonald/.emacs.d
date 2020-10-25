@@ -574,7 +574,44 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 
 ** Contexts
 
-   No contexts for now as just one email account.
+#+begin_src emacs-lisp
+ (setq mu4e-contexts
+    `( ,(make-mu4e-context
+	  :name "Private"
+	  :enter-func (lambda () (mu4e-message "Entering Private context"))
+          :leave-func (lambda () (mu4e-message "Leaving Private context"))
+	  ;; we match based on the contact-fields of the message
+	  :match-func (lambda (msg)
+			(when msg
+			  (mu4e-message-contact-field-matches msg
+			    :to "d@donald-brady.com")))
+	  :vars '( ( user-mail-address	    . "d@donald-brady.com"  )
+		   ( user-full-name	    . "Donald Brady" )
+		   ( mu4e-compose-signature .
+		     (concat
+		       "Donald Brady\n"
+		       "e: d@donald-brady.com\n"))))
+       ,(make-mu4e-context
+	  :name "Gmail"
+	  :enter-func (lambda () (mu4e-message "Switch to the Gmail context"))
+	  ;; no leave-func
+	  ;; we match based on the maildir of the message
+	  ;; this matches maildir /Arkham and its sub-directories
+	  :match-func (lambda (msg)
+			(when msg
+			  (mu4e-message-contact-field-matches msg
+			    :to "donald.brady@gmail.com")))
+	  :vars '( ( user-mail-address	     . "donald.brady@mail.com" )
+		   ( user-full-name	     . "Donald Brady" )
+		   ( mu4e-compose-signature  .
+		     (concat
+		       "Donald Brady\n"
+		       "e: donald.brady@gmail.com\n"))))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq mu4e-context-policy 'pick-first)
+#+end_src
    
 #+BEGIN_SRC emacs-lisp
 
