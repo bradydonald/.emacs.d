@@ -209,32 +209,6 @@ capabilities. Make things a bit easier to remember for me
 
 #+END_SRC
 
-These functions mimic [[https://www.gpsoft.com.au/][Directory Opus]] by bringing up two dired buffers via
-/db\/dopus-in/, one in the directory you were in, and one in your home
-directory. When exting via /db\/dopus-out/ the window state is restored.
-
-#+BEGIN_SRC emacs-lisp
-  (defun db/dopus-in ()
-    "Stores the current buffer state and switches to a splt view with two dired
-    mode buffers ala Dopus on windows"
-    (interactive)
-    (window-configuration-to-register 'a)
-    (delete-other-windows)
-    (dired default-directory)
-    (dired-other-window (expand-file-name "~"))
-    (other-window 1))
-
-  (defun db/dopus-out ()
-    "Returns the stored buffer state after your all done manipulating files Dopus style"
-    (interactive)
-    (jump-to-register 'a 'DELETE))
-
-  ;; put these on F4 and F5
-  (global-set-key (kbd "<f4>") 'db/dopus-in)
-  (global-set-key (kbd "<f5>") 'db/dopus-out)
-
-#+END_SRC
-
 * Text Scaling
 
   =default-text-scale= allows you to quickly resize text. By default binds to
@@ -601,7 +575,7 @@ Allow export to markdown (for hugo) and beamer (for presentations).
 			(when msg
 			  (mu4e-message-contact-field-matches msg
 			    :to "donald.brady@gmail.com")))
-	  :vars '( ( user-mail-address	     . "donald.brady@mail.com" )
+	  :vars '( ( user-mail-address	     . "donald.brady@gmail.com" )
 		   ( user-full-name	     . "Donald Brady" )
 		   ( mu4e-compose-signature  .
 		     (concat
@@ -724,6 +698,17 @@ Allow export to markdown (for hugo) and beamer (for presentations).
               '("org-contact-add" . mu4e-action-add-org-contact) t)
 
 #+END_SRC
+
+** Key Bindings
+
+#+BEGIN_SRC emacs-lisp
+
+  (global-set-key (kbd "C-c m") 'mu4e)
+
+#+END_SRC
+
+#+RESULTS:
+: mu4e
   
 * Projectile
 Use =projectile= for projects navigation
