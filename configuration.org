@@ -155,7 +155,7 @@ Loop over the above list, loading using =use-package=
   (use-package recentf
   :config
   (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
-  (setq recentf-max-saved-items 25)
+  (setq recentf-max-saved-items 50)
   (setq recentf-max-menu-items 15)
   (setq recentf-auto-cleanup 'never)
   (recentf-mode +1))
@@ -432,10 +432,6 @@ Establishes the states and other settings related to task handling.
    (if (not db-home-org-dir)
        (setq org-agenda-files (append org-agenda-files (directory-files-recursively db-dropbox-org-dir "org$"))))
 
-   ;; if at work add the OneDrive
-   (if db-org-at-work
-       (setq org-agenda-files (append org-agenda-files (directory-files-recursively db-work-org-dir "org$"))))
-
    ;; some other defaults
    (setq org-directory db-home-org-dir)
    (setq org-default-notes-file (expand-file-name db-home-org-dir "index.org"))
@@ -453,7 +449,7 @@ Establishes the states and other settings related to task handling.
                            (if (string-match-p "2[0-9]*\-[0-9]+w?" x)
                                nil x)) org-agenda-files)))
 
-   (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 5)))
+   (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 10)))
 
  #+END_SRC
 

@@ -3,18 +3,18 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
- (filename . "~/OrgDocuments/ideas.org")
- (front-context-string . "** Glassdoor alt")
- (rear-context-string . " time.\n   :END:\n")
- (position . 3045))
+ (filename . "~/OrgDocuments/linux.org")
+ (front-context-string . "**  [[http://www")
+ (rear-context-string . " OMG! Ubuntu!]]\n")
+ (position . 2298))
 ("org-refile-last-stored"
- (filename . "~/OrgDocuments/ideas.org")
- (front-context-string . "** Glassdoor alt")
- (rear-context-string . "yees (b2b2e)\n\n \n")
- (position . 1235))
+ (filename . "~/OrgDocuments/linux.org")
+ (front-context-string . "**  [[http://www")
+ (rear-context-string . " OMG! Ubuntu!]]\n")
+ (position . 2298))
 ("org-capture-last-stored"
- (filename . "~/OrgDocuments/contacts.org")
- (front-context-string . "* Donald Brady\n:")
- (rear-context-string)
- (position . 1))
+ (filename . "~/OrgDocuments/index.org")
+ (front-context-string . "**  [[http://www")
+ (rear-context-string . "bout membership\n")
+ (position . 168))
 )
