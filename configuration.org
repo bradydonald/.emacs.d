@@ -1,6 +1,9 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Donald Brady
 #+EMAIL: d@donald-brady.com
+#+OPTIONS: toc:nil
+#+STARTUP: overview
+
 
 * See .init.el
 
@@ -280,6 +283,7 @@ Set up for all things =org-mode=
     :ensure org-plus-contrib
     :ensure org-superstar
     :ensure org-edna
+    :ensure org-super-agenda
   )
 #+END_SRC
 
@@ -396,27 +400,51 @@ Establishes the states and other settings related to task handling.
    windows. Turning off. 
    
 #+BEGIN_SRC emacs-lisp
-  (org-edna-mode)
+    (org-edna-mode)
 
-      ;; ;; create id's when using org capture
-      ;; (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
+        ;; ;; create id's when using org capture
+        ;; (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
 
-      ;; (defun db/org-add-ids-to-headlines-in-file ()
-      ;;   "Add ID properties to all headlines in the current file which
-      ;;     do not already have one."
-      ;;   (interactive)
-      ;;   (org-map-entries 'org-id-get-create))
+        ;; (defun db/org-add-ids-to-headlines-in-file ()
+        ;;   "Add ID properties to all headlines in the current file which
+        ;;     do not already have one."
+        ;;   (interactive)
+        ;;   (org-map-entries 'org-id-get-create))
 
-      ;; (add-hook 'org-mode-hook
-      ;;           (lambda ()
-      ;;             (add-hook 'before-save-hook 'db/org-add-ids-to-headlines-in-file nil 'local)))
+        ;; (add-hook 'org-mode-hook
+        ;;           (lambda ()
+        ;;             (add-hook 'before-save-hook 'db/org-add-ids-to-headlines-in-file nil 'local)))
 
-  (defun db/org-current-id ()
+  (defun db/org-edna-blocked-by-descendants ()
+    "Adds PROPERTY blocking this tasks unless descendants are DONE"
+    (interactive)
+    (org-set-property "BLOCKER" "descendants"))
+
+  (defun db/org-edna-blocked-by-ancestors ()
+    "Adds PROPERTY blocking this tasks unless ancestors are DONE"
+    (interactive)
+    (org-set-property "BLOCKER" "ancestors"))
+
+  (defun db/org-edna-current-id ()
     "Get the current ID to make it easier to set up BLOCKER ids"
     (interactive)
-    (org-entry-get (point) "ID"))
+    (set-register 'i (org-entry-get (point) "ID"))
+    (message "ID stored"))
+
+  (defun db/org-edna-blocked-by-id ()
+    "Adds PROPERTY blocking task at point with specific task ID"
+    (interactive)
+    (org-set-property "BLOCKER" (s-concat "ids(" (get-register 'i) ")")))
+
+  (define-key org-mode-map (kbd "C-c C-x <up>") 'db/org-edna-blocked-by-ancestors)
+  (define-key org-mode-map (kbd "C-c C-x <down>") 'db/org-edna-blocked-by-descendants)
+  (define-key org-mode-map (kbd "C-c C-x <left>") 'db/org-edna-current-id)
+  (define-key org-mode-map (kbd "C-c C-x <right>") 'db/org-edna-blocked-by-id)
 
 #+END_SRC
+
+#+RESULTS:
+: db/org-edna-blocked-by-id
 
 ** Takes care of work and play
 
@@ -452,6 +480,26 @@ Establishes the states and other settings related to task handling.
    (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 10)))
 
  #+END_SRC
+
+** Super Agenda Setup
+
+#+BEGIN_SRC emacs-lisp
+  (org-superstar-mode)
+  (setq org-super-agenda-groups
+        '(
+          (:name "Important"
+                 :priority "A")
+          (:name "With Caden"
+               :tag ("caden"))
+          (:name "Next Items"
+               :time-grid t
+               :tag ("NEXT" "outbox"))
+          (:name "Quick Picks"
+                 :effort< "0:30")
+          (:priority<= "B"
+                       :scheduled future
+                       :order 1)))
+#+END_SRC
 
 ** Org Capture Setup
 
@@ -910,7 +958,7 @@ pip install black flake8= along with =black= and =flake8=
 #+END_EXAMPLE
 
 so make sure to use the =exec-path-from-shell= package to prevent issues with
-=pyright= no having =node= in the path.
+=pyright= not having =node= in the path.
 
 #+BEGIN_SRC emacs-lisp
   (use-package python
