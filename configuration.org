@@ -382,9 +382,11 @@ Establishes the states and other settings related to task handling.
   (setq org-agenda-start-on-weekday nil)
 
   ;; Normally bound to org-agenda-sunrise-sunset which is kinda useless
-  (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)
+  (add-hook 'org-agenda-mode-hook (lambda ()
+                                    (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)))
   ;; Normally bound to toggle diary inclusion which would never really do
-  (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)
+  (add-hook 'org-agenda-mode-hook (lambda ()
+                                    (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
 
 #+END_SRC
 
