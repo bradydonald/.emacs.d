@@ -10,7 +10,7 @@
   =.init.el= set up the magic that is =use-package= and =org-babel-load-file= to
   allow for confirguration to be literate.
   
-* Configure =use-package=
+* Configure use-package
 
 Use =use-package= to install and configure packages. My =init.el= includes
 the initial setup for =package.el= and ensures that =use-package= is installed.
@@ -299,6 +299,7 @@ checking and replacing the =*='s with various types of bullets.
   (define-key org-mode-map (kbd "C-c n i") 'org-roam-insert)
   (define-key org-mode-map (kbd "C-c l") 'org-store-link)
   (define-key org-mode-map (kbd "C-x n s") 'org-toggle-narrow-to-subtree)
+  (setq org-image-actual-width nil)
 #+END_SRC
 
 ** Language Support
@@ -364,23 +365,26 @@ Establishes the states and other settings related to task handling.
 
 #+BEGIN_SRC emacs-lisp
 
-    ;; task handling
+  ;; task handling
 
-    ;; On both linux and windows with dependencies turned on trying to complete a
-    ;; parent task in the agenda causes a hang so turning off enforcing of
-    ;; dependencies.
-    ;; (setq org-enforce-todo-dependencies t)
-    ;; (setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-deadline-warning-days 7)
 
-    (setq org-todo-keywords
-          '((sequence "TODO" "STARTED" "|" "DONE" "SUSPENDED")))
-    (setq org-log-done 'time)
-    (setq org-log-into-drawer t)
-    (setq org-log-reschedule 'note)
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "SUSPENDED")))
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+  (setq org-log-reschedule 'note)
 
-    ;; agenda settings
-    (setq org-agenda-span 7)
-    (setq org-agenda-start-on-weekday nil)
+  ;; agenda settings
+  (setq org-agenda-span 1)
+  (setq org-agenda-start-on-weekday nil)
+
+  ;; Normally bound to org-agenda-sunrise-sunset which is kinda useless
+  (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)
+  ;; Normally bound to toggle diary inclusion which would never really do
+  (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)
 
 #+END_SRC
 
@@ -396,8 +400,7 @@ Establishes the states and other settings related to task handling.
 #+END_SRC
 
 ** Org Edna
-   More powerful org dependency management but unfortunaely way too slow on
-   windows. Turning off. 
+   [[https://savannah.nongnu.org/projects/org-edna-el/][Org Edna]] provides more powerful org dependency management.
    
 #+BEGIN_SRC emacs-lisp
     (org-edna-mode)
@@ -440,11 +443,9 @@ Establishes the states and other settings related to task handling.
   (define-key org-mode-map (kbd "C-c C-x <down>") 'db/org-edna-blocked-by-descendants)
   (define-key org-mode-map (kbd "C-c C-x <left>") 'db/org-edna-current-id)
   (define-key org-mode-map (kbd "C-c C-x <right>") 'db/org-edna-blocked-by-id)
+  (define-key org-mode-map (kbd "C-c C-x i") 'org-id-get-create)
 
 #+END_SRC
-
-#+RESULTS:
-: db/org-edna-blocked-by-id
 
 ** Takes care of work and play
 
@@ -483,19 +484,23 @@ Establishes the states and other settings related to task handling.
 
 ** Super Agenda Setup
 
+   [[https://github.com/alphapapa/org-super-agenda][Super Agenda]] allows for grouping of items that appear on the
+   agenda. It doesn't alter what will appear.
+   
 #+BEGIN_SRC emacs-lisp
-  (org-superstar-mode)
+
+  (org-super-agenda-mode)
+
   (setq org-super-agenda-groups
-        '(
+        '((:name "Next Items"
+                 :time-grid t
+                 :tag ("NEXT" "outbox"))
           (:name "Important"
                  :priority "A")
-          (:name "With Caden"
-               :tag ("caden"))
-          (:name "Next Items"
-               :time-grid t
-               :tag ("NEXT" "outbox"))
           (:name "Quick Picks"
                  :effort< "0:30")
+          (:name "With Caden"
+                 :tag ("caden"))
           (:priority<= "B"
                        :scheduled future
                        :order 1)))
@@ -818,9 +823,9 @@ This is a more powerful completion system.
 
 #+END_SRC
 
-* RSS with =elfeed=
+* RSS with elfeed
 
-Install elfeed and load up my feeds stored in =~OrgDocuments/rss-feeds.org=. Key
+Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=. Key
 bindings are:
 
 | Key   | Binding                                |
