@@ -597,6 +597,13 @@ Allow export to markdown (for hugo) and beamer (for presentations).
  (require 'mu4e)
 #+END_SRC
 
+Some html emails seem to use large number of lisp bindings causing an
+error. Need to increase the number available.
+
+#+begin_src emacs-lisp
+ (setq max-specpdl-size 13000)  
+#+end_src
+
 ** Contexts
 
 #+begin_src emacs-lisp
