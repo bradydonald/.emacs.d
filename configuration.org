@@ -1041,6 +1041,12 @@ Use pyright as an lsp
     (load custom-file))
 #+END_SRC
 
+* Theme
+  Kinda like this theme
+#+begin_src emacs-lisp
+  (load-theme 'misterioso)
+#+end_src
+  
 * Start a server
   Finally start a server
   
