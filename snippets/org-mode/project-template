@@ -1,0 +1,47 @@
+# -*- mode: snippet -*-
+# name: project-template
+# key: opt
+# --
+#+TITLE: ${1:project name}
+#+AUTHOR: Donald Brady
+#+CATEGORY: ${2:category}
+#+FILETAGS: ${3:file tags}
+#+STARTUP: overview
+
+* $1 Background
+
+* $1 Tasks
+
+** Team
+
+*** TODO Identify Pursuit Lead
+*** TODO Identify Extended Team
+
+** Response
+
+*** TODO Setup Team Site
+*** TODO Added Team Members
+*** TODO Win Themes
+
+** Pricing
+
+*** TODO Pricing Model
+*** TODO Pricing Approvals
+
+* $1 Call Log  
+
+* Effort
+** This Week
+#+BEGIN: clocktable :scope agenda-with-archives :block thisweek :tags t :stepskip0 t :fileskip0 t :match "$3"
+#+CAPTION: Clock summary at [2020-10-30 Fri 14:08], for week 2020-W44.
+#+END:
+
+** Until Now
+
+#+BEGIN: clocktable :scope agenda-with-archives :block untilnow :tags t :stepskip0 t :fileskip0 t :match "$3"
+#+CAPTION: Clock summary at [2020-10-30 Fri 14:08], for now.
+#+END:
+$0
+
+
+

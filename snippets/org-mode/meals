@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: meals
+# key: meals
+# --
+| Meal      | Ate |
+| Breakfast |     |
+| Lunch     |     |
+| Dinner    |     |

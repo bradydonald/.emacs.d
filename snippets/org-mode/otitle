@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: otitle
+# key: otitle
+# --
+#+TITLE: $0
+#+AUTHOR: Donald Brady
+#+CATEGORY: 
+#+FILETAGS: 
+#+STARTUP: overview
+
+
