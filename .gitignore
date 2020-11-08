@@ -30,6 +30,5 @@ v[0-9]*
 /ido.last
 /image-dired/
 /.org-id-locations
-snippets/*
 themes/*
 /network-security.data
