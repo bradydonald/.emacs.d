@@ -278,6 +278,9 @@ and slower, q quits
 
 Set up for all things =org-mode=
 
+** Org and Exetensions
+   Load org and other related packages. 
+
 #+BEGIN_SRC emacs-lisp
   (use-package org
     :ensure org-plus-contrib
@@ -286,10 +289,6 @@ Set up for all things =org-mode=
     :ensure org-super-agenda
   )
 #+END_SRC
-
-Ran into an org-mode error where agenda does not work. Running
-=(byte-recompile-directory package-user-dir nil 'force)= fixes is as recommended
-in this [[https://stackoverflow.com/questions/54580647/org-agenda-wrong-number-of-arguments-error/58731899#58731899?newreg=759b3def501940dcbe190fdd2498b1f4][article]].
 
 Some basic configuration for Org Mode beginning with minor modes for spell
 checking and replacing the =*='s with various types of bullets.
@@ -300,6 +299,9 @@ checking and replacing the =*='s with various types of bullets.
   (define-key org-mode-map (kbd "C-c l") 'org-store-link)
   (define-key org-mode-map (kbd "C-x n s") 'org-toggle-narrow-to-subtree)
   (setq org-image-actual-width nil)
+  (setq org-modules (append '(org-protocol) org-modules))
+  (setq org-modules (append '(habit) org-modules))
+
 #+END_SRC
 
 ** Language Support
@@ -530,7 +532,6 @@ following command:
 and then run =update-desktop-database ~/.local/share/applications/=
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-modules (quote (org-protocol))) 
   (require 'org-protocol)
 #+END_SRC
 

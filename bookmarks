@@ -3,18 +3,18 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
- (filename . "~/OrgDocuments/emacs.org")
- (front-context-string . "**  [[https://em")
- (rear-context-string . " file structure\n")
- (position . 815))
+ (filename . "~/OrgDocuments/index.org")
+ (front-context-string . "** TODO Shave\n  ")
+ (rear-context-string . " habit\n   :END:\n")
+ (position . 1260))
 ("org-refile-last-stored"
- (filename . "~/OrgDocuments/emacs.org")
- (front-context-string . "**  [[https://em")
- (rear-context-string . " file structure\n")
- (position . 815))
+ (filename . "~/OrgDocuments/index.org")
+ (front-context-string . "** TODO Shave\n  ")
+ (rear-context-string . " habit\n   :END:\n")
+ (position . 1260))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "**  [[https://em")
+ (front-context-string . "** TODO Shave\n  ")
  (rear-context-string . "2020-12-04 Fri>\n")
  (position . 819))
 )
