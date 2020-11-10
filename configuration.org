@@ -461,8 +461,7 @@ Establishes the states and other settings related to task handling.
    ;; Always available as managed in git
    (setq org-agenda-files (directory-files-recursively db-home-org-dir "org$"))
 
-   ;; If not at work add the Dropbox
-   (if (not db-home-org-dir)
+   (if (file-directory-p db-dropbox-org-dir)
        (setq org-agenda-files (append org-agenda-files (directory-files-recursively db-dropbox-org-dir "org$"))))
 
    ;; some other defaults
