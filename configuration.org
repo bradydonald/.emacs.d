@@ -108,7 +108,7 @@ Place for a grab bag of basic settings
   ;; smart tab behavior - indent or complete
   (setq tab-always-indent 'complete)
   (global-display-line-numbers-mode 1) ; line number in margin
-  (global-hl-line-mode 1) ; highlight current line
+  ;(global-hl-line-mode 1) ; highlight current line
   
   ;; scroll to the bottom of repls on output
   (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
@@ -301,6 +301,7 @@ checking and replacing the =*='s with various types of bullets.
   (setq org-image-actual-width nil)
   (setq org-modules (append '(org-protocol) org-modules))
   (setq org-modules (append '(habit) org-modules))
+  (setq org-catch-invisible-edits t)
 
 #+END_SRC
 
@@ -813,7 +814,11 @@ This is a more powerful completion system.
 
 #+END_SRC
 
-* Blogging with Hugo
+* TODO Blogging with Hugo                                             :emacs:
+  :LOGBOOK:
+  - Note taken on [2020-11-14 Sat 07:34] \\
+    Fix up the HUGO config. Has dead stuff in there.
+  :END:
 
   [[https://gohugo.io/][Hugo]] is a static website generator great for blogging
   
@@ -828,9 +833,12 @@ This is a more powerful completion system.
     (setq easy-hugo-root "/home/blog/")
     (setq easy-hugo-previewtime "300")
     :bind
-    (("C-c C-e" . easy-hugo)))
+    (("C-c h" . easy-hugo)))
 
 #+END_SRC
+
+#+RESULTS:
+: easy-hugo
 
 * RSS with elfeed
 
@@ -1044,7 +1052,7 @@ Use pyright as an lsp
 * Theme
   Kinda like this theme
 #+begin_src emacs-lisp
-  (load-theme 'misterioso)
+  (load-theme 'anti-zenburn)
 #+end_src
   
 * Start a server
