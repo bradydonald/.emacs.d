@@ -89,29 +89,35 @@ Place for a grab bag of basic settings
 
 #+BEGIN_SRC emacs-lisp
 
-  (setq inhibit-startup-screen t)
-  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (setq ring-bell-function 'ignore)
-  (line-number-mode t)
-  (column-number-mode t)
-  (size-indication-mode t)
-  (fset 'yes-or-no-p 'y-or-n-p)
-  (setq require-final-newline t)
-  (setq-default fill-column 80)
-  (add-hook 'text-mode-hook 'auto-fill-mode)
-  (prefer-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (setq-default indent-tabs-mode nil)   
-  (setq-default tab-width 4)            
-  ;; smart tab behavior - indent or complete
-  (setq tab-always-indent 'complete)
-  (global-display-line-numbers-mode 1) ; line number in margin
-  ;(global-hl-line-mode 1) ; highlight current line
-  
-  ;; scroll to the bottom of repls on output
-  (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
+    (setq inhibit-startup-screen t)
+    (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+    (setq ring-bell-function 'ignore)
+    (line-number-mode t)
+    (column-number-mode t)
+    (size-indication-mode t)
+    (fset 'yes-or-no-p 'y-or-n-p)
+    (setq require-final-newline t)
+    (setq-default fill-column 80)
+    (add-hook 'text-mode-hook 'auto-fill-mode)
+    (prefer-coding-system 'utf-8)
+    (set-default-coding-systems 'utf-8)
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (setq-default indent-tabs-mode nil)   
+    (setq-default tab-width 4)            
+    ;; smart tab behavior - indent or complete
+    (setq tab-always-indent 'complete)
+    (global-display-line-numbers-mode 1) ; line number in margin
+    ;(global-hl-line-mode 1) ; highlight current line
+
+    ;; scroll to the bottom of repls on output
+    (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
+
+    (defvar default-gc-cons-threshold 16777216 ; 16mb
+      "my default desired value of `gc-cons-threshold' during normal emacs operations.")
+
+  ;; make garbage collector less invasive
+  (setq gc-cons-threshold  most-positive-fixnum gc-cons-percentage 0.6)
 #+END_SRC
 
 * Custom Packages
@@ -349,9 +355,6 @@ locate the relevant directories.
   ;; the existence of the above directory tells me this is my work laptop
   (setq db-org-at-work (file-directory-p db-work-org-dir))
 
-  ;; Dropbox as well, for sync with orgzly
-  (setq db-dropbox-org-dir "~/Dropbox/OrgDocuments")
-
 #+END_SRC
 
 ** Source Blocks
@@ -461,9 +464,6 @@ Establishes the states and other settings related to task handling.
 
    ;; Always available as managed in git
    (setq org-agenda-files (directory-files-recursively db-home-org-dir "org$"))
-
-   (if (file-directory-p db-dropbox-org-dir)
-       (setq org-agenda-files (append org-agenda-files (directory-files-recursively db-dropbox-org-dir "org$"))))
 
    ;; some other defaults
    (setq org-directory db-home-org-dir)
