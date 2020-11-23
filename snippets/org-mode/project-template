@@ -32,6 +32,11 @@
 
 * $1 Call Log  
 
+* Status
+
+#+BEGIN: org-ql :query "todo:" :columns (todo (priority "P") deadline heading) :sort (deadline priority) :take 7 :ts-format "%Y-%m-%d %H:%M"
+#+END:
+
 * Effort
 ** This Week
 #+BEGIN: clocktable :scope agenda-with-archives :block thisweek :tags t :stepskip0 t :fileskip0 t :match "$3"
