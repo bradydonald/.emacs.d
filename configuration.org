@@ -284,16 +284,25 @@ and slower, q quits
 
 Set up for all things =org-mode=
 
-** Org and Exetensions
+** Org and Extensions
    Load org and other related packages. 
 
 #+BEGIN_SRC emacs-lisp
+  ;; (use-package org
+  ;;          :ensure org-plus-contrib
+  ;;          :ensure org-superstar
+  ;;          :ensure org-edna
+  ;;          :ensure org-super-agenda
+  ;;          :ensure org-ql
+  ;;        )
+
   (use-package org
-    :ensure org-plus-contrib
-    :ensure org-superstar
-    :ensure org-edna
-    :ensure org-super-agenda
-  )
+    :ensure org-plus-contrib)
+  (use-package org-superstar)
+  (use-package org-edna)
+  (use-package org-super-agenda)
+  (use-package org-ql
+    :demand)
 #+END_SRC
 
 Some basic configuration for Org Mode beginning with minor modes for spell
@@ -814,11 +823,7 @@ This is a more powerful completion system.
 
 #+END_SRC
 
-* TODO Blogging with Hugo                                             :emacs:
-  :LOGBOOK:
-  - Note taken on [2020-11-14 Sat 07:34] \\
-    Fix up the HUGO config. Has dead stuff in there.
-  :END:
+* Blogging with Hugo                                                  :emacs:
 
   [[https://gohugo.io/][Hugo]] is a static website generator great for blogging
   
@@ -827,18 +832,14 @@ This is a more powerful completion system.
   (use-package easy-hugo
     :config
     (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
-    (setq easy-hugo-url "https://bradydonald.github.io/")
-    (setq easy-hugo-sshdomain "bradydonald")
+    (setq easy-hugo-url "https://www.donald-brady.com")
+    (setq easy-hugo-sshdomain "donald-brady")
     (setq easy-hugo-postdir "content/posts")
-    (setq easy-hugo-root "/home/blog/")
     (setq easy-hugo-previewtime "300")
     :bind
     (("C-c h" . easy-hugo)))
 
 #+END_SRC
-
-#+RESULTS:
-: easy-hugo
 
 * RSS with elfeed
 

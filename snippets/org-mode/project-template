@@ -34,7 +34,7 @@
 
 * Status
 
-#+BEGIN: org-ql :query "todo:" :columns (todo (priority "P") deadline heading) :sort (deadline priority) :take 7 :ts-format "%Y-%m-%d %H:%M"
+#+BEGIN: org-ql :query "todo:" :columns (todo (priority "P") scheduled deadline heading) :sort (deadline priority) :ts-format "%Y-%m-%d %H:%M"
 #+END:
 
 * Effort
