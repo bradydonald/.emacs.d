@@ -3,18 +3,18 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
- (filename . "~/OrgDocuments/os-notes.org")
- (front-context-string . "**  [[https://bl")
- (rear-context-string . "ger in Ubuntu]]\n")
- (position . 2994))
+ (filename . "~/OrgDocuments/index.org")
+ (front-context-string . "** TODO Pick up ")
+ (rear-context-string . " Sun 20:00 +1d>\n")
+ (position . 3930))
 ("org-refile-last-stored"
- (filename . "~/OrgDocuments/os-notes.org")
- (front-context-string . "**  [[https://bl")
- (rear-context-string . "ger in Ubuntu]]\n")
- (position . 2994))
+ (filename . "~/OrgDocuments/index.org")
+ (front-context-string . "** TODO Pick up ")
+ (rear-context-string . " Sun 20:00 +1d>\n")
+ (position . 3930))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/index.org")
- (front-context-string . "**  [[https://bl")
- (rear-context-string . "rview\n\n* Refile\n")
- (position . 120))
+ (front-context-string . "** TODO Pick up ")
+ (rear-context-string . "| VentureBeat]]\n")
+ (position . 316))
 )

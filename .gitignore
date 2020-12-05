@@ -32,3 +32,4 @@ v[0-9]*
 /.org-id-locations
 themes/*
 /network-security.data
+/org-roam.db

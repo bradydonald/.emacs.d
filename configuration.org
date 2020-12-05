@@ -129,7 +129,6 @@ Packages here don't have any major configuration and are loaded vanilla.
   (defvar my-packages '(
                         eglot
                         elec-pair
-                        elpy
                         epresent
                         flycheck            
                         git-timemachine
@@ -284,7 +283,12 @@ and slower, q quits
 
 Set up for all things =org-mode=
 
-** Org and Extensions
+** TODO Org and Extensions
+   :LOGBOOK:
+   - Note taken on [2020-11-25 Wed 08:43] \\
+     There are dependency issues with org-ql at least. Have to manually invoke a
+     org-ql call before being able to use inine org-ql blocks.
+   :END:
    Load org and other related packages. 
 
 #+BEGIN_SRC emacs-lisp
@@ -308,15 +312,33 @@ Set up for all things =org-mode=
 Some basic configuration for Org Mode beginning with minor modes for spell
 checking and replacing the =*='s with various types of bullets.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook 'auto-fill-mode 'org-roam-mode 'flyspell-mode)
   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-  (define-key org-mode-map (kbd "C-c n i") 'org-roam-insert)
   (define-key org-mode-map (kbd "C-c l") 'org-store-link)
   (define-key org-mode-map (kbd "C-x n s") 'org-toggle-narrow-to-subtree)
   (setq org-image-actual-width nil)
   (setq org-modules (append '(org-protocol) org-modules))
   (setq org-modules (append '(habit) org-modules))
   (setq org-catch-invisible-edits t)
+
+#+END_SRC
+
+* Org Roam
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package org-roam
+        :ensure t
+        :hook
+        (after-init . org-roam-mode)
+        :custom
+        (org-roam-directory "~/OrgDocuments")
+        :bind (:map org-roam-mode-map
+                (("C-c n l" . org-roam)
+                 ("C-c n f" . org-roam-find-file)
+                 ("C-c n g" . org-roam-graph))
+                :map org-mode-map
+                (("C-c n i" . org-roam-insert))
+                (("C-c n I" . org-roam-insert-immediate))))
 
 #+END_SRC
 
@@ -544,7 +566,7 @@ and then run =update-desktop-database ~/.local/share/applications/=
   (require 'org-protocol)
 #+END_SRC
 
-*** TODO Setting up org-protocol handler. This page has best description:
+*** Setting up org-protocol handler. This page has best description:
 [[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
 
 #+BEGIN_SRC emacs-lisp
@@ -568,6 +590,8 @@ and then run =update-desktop-database ~/.local/share/applications/=
           `(
             ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
              "* TODO %?\n\n  %i\n")
+            ("n" "Note" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+             "* %? %(%i)\n")
             ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
              "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")	
             ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
@@ -720,6 +744,14 @@ error. Need to increase the number available.
                t)
 #+END_SRC
 
+View images inline
+
+#+begin_src emacs-lisp
+  (setq mu4e-view-show-images t)
+  (when (fboundp 'imagemagick-register-types)
+    (imagemagick-register-types))
+#+end_src
+
 ** Archiving
 
 ** Encryption
@@ -775,9 +807,6 @@ error. Need to increase the number available.
 
 #+END_SRC
 
-#+RESULTS:
-: mu4e
-  
 * Projectile
 Use =projectile= for projects navigation
 
@@ -864,6 +893,20 @@ bindings are:
      :map elfeed-search-mode-map
     ("o" . elfeed-search-browse-url)))
 #+END_SRC
+
+* Printing
+  To enable easier printing on linux install gtklp
+
+#+BEGIN_EXAMPLE
+  sudo apt install gtklp
+#+END_EXAMPLE
+
+and then will allow a grpahical choice of printer and more. 
+
+#+begin_src emacs-lisp
+  (setq lpr-command "gtklp")
+  (setq ps-lpr-command "gtklp")
+#+end_src
 
 * Globally Set Keys
 
@@ -990,6 +1033,14 @@ so make sure to use the =exec-path-from-shell= package to prevent issues with
     (python-mode . lsp-deferred)
     (python-mode . db/activate-pyvenv)
     (python-mode . hs-minor-mode))
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package elpy
+    :ensure t
+    :init
+    (elpy-enable))
 #+END_SRC
 
 Use pyvenv to support multiple python environments
