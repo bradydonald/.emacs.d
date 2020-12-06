@@ -322,7 +322,17 @@ checking and replacing the =*='s with various types of bullets.
 
 #+END_SRC
 
-* Org Roam
+** Org File Locations
+
+Just one location and using git to manage sharing as needed. 
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-directory "~/OrgDocuments")
+  (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+  (setq org-default-notes-file (expand-file-name org-directory "index.org"))
+#+END_SRC
+
+** Org Roam
 
 #+BEGIN_SRC emacs-lisp
 
@@ -344,7 +354,7 @@ checking and replacing the =*='s with various types of bullets.
 
 ** Language Support
 
-Setup =babel= to evaluate Emacs lisp, Ruby, Python, or Gnuplot code.
+Setup =babel= to evaluate the languages / scripts I use.
 
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
@@ -372,23 +382,7 @@ when exporting.
   (setq org-export-with-smart-quotes t)
 #+END_SRC
 
-** Personal and Work
-
-I use Org Mode at work and for personal purposes. I use =db-home-org-dir= and =db-work-org-dir= to
-locate the relevant directories.
-
-#+BEGIN_SRC emacs-lisp
-  ;; under git control
-  (setq db-home-org-dir "~/OrgDocuments")
-
-  ;; under OneDrive control at work
-  (setq db-work-org-dir "~/Deloitte (O365D)/Team Donald - General/OrgDocuments")
-  ;; the existence of the above directory tells me this is my work laptop
-  (setq db-org-at-work (file-directory-p db-work-org-dir))
-
-#+END_SRC
-
-** Source Blocks
+Settings related to source code blocks
 
 #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
@@ -401,9 +395,6 @@ locate the relevant directories.
 Establishes the states and other settings related to task handling. 
 
 #+BEGIN_SRC emacs-lisp
-
-  ;; task handling
-
   (setq org-enforce-todo-dependencies t)
   (setq org-enforce-todo-checkbox-dependencies t)
   (setq org-deadline-warning-days 7)
@@ -430,7 +421,7 @@ Establishes the states and other settings related to task handling.
 ** Diary Settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq diary-file (expand-file-name "diary" db-home-org-dir))
+  (setq diary-file (expand-file-name "diary" org-directory))
   (setq org-agenda-include-diary t)
   (setq calendar-bahai-all-holidays-flag nil)
   (setq calendar-christian-all-holidays-flag t)
@@ -486,21 +477,7 @@ Establishes the states and other settings related to task handling.
 
 #+END_SRC
 
-** Takes care of work and play
-
- Set up the agenda files which are in several directories and may or may not be
- available dependening on if work or home context.
-
- #+BEGIN_SRC emacs-lisp
-
-   ;; Always available as managed in git
-   (setq org-agenda-files (directory-files-recursively db-home-org-dir "org$"))
-
-   ;; some other defaults
-   (setq org-directory db-home-org-dir)
-   (setq org-default-notes-file (expand-file-name db-home-org-dir "index.org"))
-
- #+END_SRC
+** Filter Refile Targets
 
  I have monthly log files used to take notes / journal that are sources of refile
  items but not targets. They are named YYYY-MM(w).org
@@ -852,7 +829,7 @@ This is a more powerful completion system.
 
 #+END_SRC
 
-* Blogging with Hugo                                                  :emacs:
+* Blogging with Hugo
 
   [[https://gohugo.io/][Hugo]] is a static website generator great for blogging
   
@@ -884,7 +861,7 @@ bindings are:
     :ensure elfeed-org
     :config
     (setq elfeed-set-max-connections 32)
-    (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" db-home-org-dir)))
+    (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory)))
     (elfeed-org)
     :bind
     (("C-c r" . elfeed)
@@ -990,47 +967,10 @@ to default spell check a bunch of org files that would be loaded
 #+END_SRC
 * Python Setup
 
-Configuration for /Python/ development including lsp using =pyright=. Pyright uses
-=node=.
-
-Good practice is to install =nvm= which lets you install and manage multiple
-node versions, similar to =pyenv=. Once =nvm= is installed then install the latest
-version of node. 
-
-*Caution* when using =npm= to install pyright no sudo is needed
-as =npm= isn't a command, but a shell script. Using sudo will fail as the right
-environment won't be present. To install pyright do =npm install -g pyright &&
-pip install black flake8= along with =black= and =flake8=
-
-*Caution* =nvm= manipulates your environment variables to manage the current
- version of =node=. 
-
-#+BEGIN_EXAMPLE
-  d@extreme-u:~/.emacs.d$ nvm list
-  ->      v14.9.0
-  default -> v14.9.0
-  node -> stable (-> v14.9.0) (default)
-  stable -> 14.9 (-> v14.9.0) (default)
-  iojs -> N/A (default)
-  unstable -> N/A (default)
-  lts/* -> lts/erbium (-> N/A)
-  lts/argon -> v4.9.1 (-> N/A)
-  lts/boron -> v6.17.1 (-> N/A)
-  lts/carbon -> v8.17.0 (-> N/A)
-  lts/dubnium -> v10.22.0 (-> N/A)
-  lts/erbium -> v12.18.3 (-> N/A)
-  d@extreme-u:~/.emacs.d$ which node
-  /home/d/.nvm/versions/node/v14.9.0/bin/node
-#+END_EXAMPLE
-
-so make sure to use the =exec-path-from-shell= package to prevent issues with
-=pyright= not having =node= in the path.
-
 #+BEGIN_SRC emacs-lisp
   (use-package python
     :hook
     (python-mode . flycheck-mode)
-    (python-mode . lsp-deferred)
     (python-mode . db/activate-pyvenv)
     (python-mode . hs-minor-mode))
 
@@ -1060,36 +1000,6 @@ Use pyvenv to support multiple python environments
                              (nth 0 (split-string (buffer-string)))))))))
 #+END_SRC
 
-Use pyright as an lsp
-
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-mode
-  :commands lsp
-  :custom
-  (lsp-auto-guess-root t)
-  (lsp-keymap-prefix "M-m l")
-  (lsp-modeline-diagnostics-enable nil)
-  (lsp-keep-workspace-alive nil)
-  (lsp-auto-execute-action nil)
-  (lsp-before-save-edits nil)
-  (lsp-eldoc-enable-hover nil)
-  (lsp-diagnostic-package :none)
-  (lsp-file-watch-threshold 1500)  ; pyright has more than 1000
-  (lsp-enable-links nil)
-  :hook
-  (lsp-mode . lsp-enable-which-key-integration))
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-pyright
-    :after lsp-mode
-    :custom
-    (lsp-pyright-auto-import-completions nil)
-    (lsp-pyright-auto-search-paths t)
-    (lsp-pyright-python-executable-cmd "python3")
-    (lsp-pyright-typechecking-mode "off"))
-#+END_SRC
 
 * Load any Custom Code
   If there is a file =custom.el= in .emacs directory load it
