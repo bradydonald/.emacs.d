@@ -915,56 +915,6 @@ This section has all globally set keys unless they are related to a package or m
 
 #+END_SRC
 
-* Execute and windows specific configuration
-** Flyspell / hunspell Configuration                                  :win32:
-
-Install [[https://www.msys2.org/][msys2]]. Install the developer packages and git:
-
-~pacman -S --needed base-devel msys2-devel~
-
-This involves downloading and building hunspell from the its [[https://github.com/hunspell/hunspell][repo]]. This does not come with
-dictionaries which can be downloaded from [[https://github.com/LibreOffice/dictionaries][here]] and placed into:
-
-~/usr/share/hunspell~ 
-
-#+BEGIN_SRC emacs-lisp
-
-  ; this is windows specific now that I am using linux as well
-  (if (string-equal system-type "windows-nt")
-      (progn
-        (setq ispell-program-name (executable-find "hunspell"))
-        (setq ispell-hunspell-dict-paths-alist '(("en_US" "/usr/share/hunspell/en_US.aff")))
-        (setq ispell-local-dictionary "en_US")
-        (setq ispell-local-dictionary-alist '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))))
-
-#+END_SRC
-
-The performance of emacs on windows in a heavy corp spyware environment is much worse. Do not want
-to default spell check a bunch of org files that would be loaded
-
-#+BEGIN_SRC emacs-lisp
-
-  ;; default is just use flyspell package
-  ;; performance on windows
-  ;;(use-package flyspell
-  ;;:config
-  ;; (add-hook 'gfm-mode-hook 'flyspell-mode)
-
-  ;; (add-hook 'text-mode-hook 'flyspell-mode)
-  ;; (add-hook 'git-commit-mode-hook 'flyspell-mode))
-
-#+END_SRC
-
-** Some attempted Windows performance tweaks                          :win32:
-
-#+BEGIN_SRC emacs-lisp
-  ;; Attempts to optimize Windows - way too slow
-  (setq inhibit-compacting-font-caches t)
-  (setq undo-limit 40000)
-  ;; (when (boundp 'w32-pipe-read-delay)
-  ;;   (setq w32-pipe-read-delay 0))
-  ;; 
-#+END_SRC
 * Python Setup
 
 #+BEGIN_SRC emacs-lisp
@@ -999,7 +949,6 @@ Use pyvenv to support multiple python environments
                              (insert-file-contents pfile)
                              (nth 0 (split-string (buffer-string)))))))))
 #+END_SRC
-
 
 * Load any Custom Code
   If there is a file =custom.el= in .emacs directory load it
