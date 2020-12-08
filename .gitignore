@@ -33,3 +33,4 @@ v[0-9]*
 themes/*
 /network-security.data
 /org-roam.db
+/request/
