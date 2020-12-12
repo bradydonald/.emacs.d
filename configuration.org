@@ -677,8 +677,12 @@ error. Need to increase the number available.
 
    The most comprehensive setup documentation I have found for setting up your
    own email server using iRedMail is [[https://www.linuxbabe.com/mail-server/ubuntu-18-04-iredmail-email-server][here]]. Fetching is accomplished with
-   =offlineimap= running periodically. 
-   
+   =offlineimap= running periodically or launched from mu4e.
+
+#+begin_src emacs-lisp
+  (setq mu4e-get-mail-command "offlineimap")
+#+end_src
+
 ** Composing
 
 ** Reading
