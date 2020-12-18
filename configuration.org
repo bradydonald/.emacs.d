@@ -395,26 +395,32 @@ Settings related to source code blocks
 Establishes the states and other settings related to task handling. 
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-enforce-todo-dependencies t)
-  (setq org-enforce-todo-checkbox-dependencies t)
-  (setq org-deadline-warning-days 7)
+              (setq org-enforce-todo-dependencies t)
+              (setq org-enforce-todo-checkbox-dependencies t)
+              (setq org-deadline-warning-days 7)
 
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "SUSPENDED")))
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-  (setq org-log-reschedule 'note)
+              (setq org-todo-keywords '((sequence
+                                         "TODO(t)"
+                                         "STARTED(s)"
+                                         "NEXT(n)"
+                                         "WAITING(w)" "|"
+                                         "DONE(d)"
+                                         "SUSPENDED(u)"
+                                         "SKIPPED(k)")))
+              (setq org-log-done 'time)
+              (setq org-log-into-drawer t)
+              (setq org-log-reschedule 'note)
 
-  ;; agenda settings
-  (setq org-agenda-span 1)
-  (setq org-agenda-start-on-weekday nil)
+              ;; agenda settings
+              (setq org-agenda-span 1)
+              (setq org-agenda-start-on-weekday nil)
 
-  ;; Normally bound to org-agenda-sunrise-sunset which is kinda useless
-  (add-hook 'org-agenda-mode-hook (lambda ()
-                                    (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)))
-  ;; Normally bound to toggle diary inclusion which would never really do
-  (add-hook 'org-agenda-mode-hook (lambda ()
-                                    (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
+              ;; Normally bound to org-agenda-sunrise-sunset which is kinda useless
+              (add-hook 'org-agenda-mode-hook (lambda ()
+                                                (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)))
+              ;; Normally bound to toggle diary inclusion which would never really do
+              (add-hook 'org-agenda-mode-hook (lambda ()
+                                                (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
 
 #+END_SRC
 
