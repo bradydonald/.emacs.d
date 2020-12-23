@@ -107,7 +107,7 @@ Place for a grab bag of basic settings
     (setq-default tab-width 4)            
     ;; smart tab behavior - indent or complete
     (setq tab-always-indent 'complete)
-    (global-display-line-numbers-mode 1) ; line number in margin
+    (global-display-line-numbers-mode 0) ; line number in margin
     ;(global-hl-line-mode 1) ; highlight current line
 
     ;; scroll to the bottom of repls on output
@@ -963,6 +963,9 @@ This section has all globally set keys unless they are related to a package or m
 
   ;; M-0 to toggle hiding
   (global-set-key (kbd "M-0") 'hs-toggle-hiding)
+
+  ;; toggle line numbers
+  (global-set-key (kbd "C-c l") 'display-line-numbers-mode)
 
 #+END_SRC
 
