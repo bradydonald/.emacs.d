@@ -571,22 +571,61 @@ and then run =update-desktop-database ~/.local/share/applications/=
   ;; if you set this variable you have to redefine the default t/Todo.
   (setq org-capture-templates 
         `(
+          ;; TODO     (t) Todo template
           ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* TODO %?\n\n  %i\n")
+           "* TODO %?"
+           :empty-lines 1)
+
+          ;; Note (n) template
           ("n" "Note" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* %? %(%i)\n")
+           "* %? %(%i)"
+           :empty-lines 1)
+
+          ;; Protocol (p) template
           ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")	
+           "* %^{Title}
+              Source: %u, %c
+             ,#+BEGIN_QUOTE
+             %i
+             ,#+END_QUOTE
+             %?"
+           :empty-lines 1)
+
+          ;; Protocol Link (L) template
           ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n")
+           "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+           :empty-lines 1)
+
+          ;; Goal (G) template
           ("G" "Goal" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* GOAL %^{Describe your goal}\nAdded on %U - Last reviewed on %U\n:SMART:\n:Sense: %^{What is the sense of this goal?}\n:Measurable: %^{How do you measure it?}\n:Actions: %^{What actions are needed?}\n:Resources: %^{Which resources do you need?}\n:Timebox: %^{How much time are you spending for it?}\n:END:\n")
-          ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Friends"),
-           my/org-contacts-template
+           "* GOAL %^{Describe your goal}
+Added on %U - Last reviewed on %U
+:SMART:
+:Sense: %^{What is the sense of this goal?}
+:Measurable: %^{How do you measure it?}
+:Actions: %^{What actions are needed?}
+:Resources: %^{Which resources do you need?}
+:Timebox: %^{How much time are you spending for it?}
+:END:"
+           :empty-lines 1)
+        ;; Contact (c) template
+          ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Contacts")
+           "* %(org-contacts-template-name)
+:PROPERTIES:
+:ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+:BIRTHDAY: %^{yyyy-mm-dd}
+:EMAIL: %(org-contacts-template-email)
+:NOTE: %^{NOTE}
+:END:"
            :empty-lines 1)
           ))
 
 #+END_SRC
+
+#+RESULTS:
+| t | Todo     | entry | (file+headline ~/OrgDocuments/index.org Refile) | * TODO %?   | :empty-lines | 1 |
+| n | Note     | entry | (file+headline ~/OrgDocuments/index.org Refile) | * %? %(%i)  | :empty-lines | 1 |
+| p | Protocol | entry | (file+headline ~/OrgDocuments/index.org Refile) | * %^{Title} |              |   |
 
 ** Org Reveal
 
