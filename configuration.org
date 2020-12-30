@@ -480,6 +480,8 @@ Establishes the states and other settings related to task handling.
   (define-key org-mode-map (kbd "C-c C-x <left>") 'db/org-edna-current-id)
   (define-key org-mode-map (kbd "C-c C-x <right>") 'db/org-edna-blocked-by-id)
   (define-key org-mode-map (kbd "C-c C-x i") 'org-id-get-create)
+  ;; override y (agenda year) with more useful todo yesterday for marking habits done prior day 
+  (define-key org-agenda-mode-map (kbd "y") 'org-agenda-todo-yesterday)
 
 #+END_SRC
 
@@ -612,10 +614,11 @@ Added on %U - Last reviewed on %U
           ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Contacts")
            "* %(org-contacts-template-name)
 :PROPERTIES:
-:ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+ :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
 :BIRTHDAY: %^{yyyy-mm-dd}
-:EMAIL: %(org-contacts-template-email)
-:NOTE: %^{NOTE}
+   :EMAIL: %(org-contacts-template-email)
+     :TEL: %^{NUMBER}
+    :NOTE: %^{NOTE}
 :END:"
            :empty-lines 1)
           ))
@@ -1017,7 +1020,7 @@ Use pyvenv to support multiple python environments
 * Theme
   Kinda like this theme
 #+begin_src emacs-lisp
-  (load-theme 'anti-zenburn)
+  (load-theme 'wombat)
 #+end_src
   
 * Start a server
