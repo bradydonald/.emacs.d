@@ -108,7 +108,7 @@ Place for a grab bag of basic settings
     ;; smart tab behavior - indent or complete
     (setq tab-always-indent 'complete)
     (global-display-line-numbers-mode 0) ; line number in margin
-    ;(global-hl-line-mode 1) ; highlight current line
+    (global-hl-line-mode 1) ; highlight current line
 
     ;; scroll to the bottom of repls on output
     (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
@@ -318,8 +318,8 @@ checking and replacing the =*='s with various types of bullets.
   (setq org-image-actual-width nil)
   (setq org-modules (append '(org-protocol) org-modules))
   (setq org-modules (append '(habit) org-modules))
-  (setq org-catch-invisible-edits t)
-
+  (setq org-catch-invisible-edits 'smart)
+  (setq org-ctrl-k-protect-subtree t)
 #+END_SRC
 
 ** Org File Locations
@@ -602,13 +602,13 @@ and then run =update-desktop-database ~/.local/share/applications/=
           ("G" "Goal" entry (file+headline ,(concat org-directory "/index.org") "Refile")
            "* GOAL %^{Describe your goal}
 Added on %U - Last reviewed on %U
-:SMART:
+     :SMART:
      :Sense: %^{What is the sense of this goal?}
 :Measurable: %^{How do you measure it?}
    :Actions: %^{What actions are needed?}
  :Resources: %^{Which resources do you need?}
    :Timebox: %^{How much time are you spending for it?}
-:END:"
+       :END:"
            :empty-lines 1)
         ;; Contact (c) template
           ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Contacts")

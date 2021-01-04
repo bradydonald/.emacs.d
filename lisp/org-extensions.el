@@ -2,7 +2,7 @@
 ;; file for any handy org related code.
 ;;
 
-(defun org-reverse-headers ()
+(defun db/org-reverse-headers ()
   "Reverse headers of current org file"
   (interactive)
   (let (str
@@ -13,3 +13,13 @@
        (dolist (header content)
      (princ (buffer-substring (plist-get (cadr header) :begin) (plist-get (cadr header) :end))))
        (delete-region (point-min) (point-max))))))
+
+
+(defun db/org-list-all-tags ()
+  "Returns a list of all tags"
+  (interactive)
+  (mapcar (lambda (tag) 
+          (substring-no-properties (car tag))) 
+          (org-global-tags-completion-table)))
+
+
