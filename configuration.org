@@ -12,82 +12,82 @@
   
 * Configure use-package
 
-Use =use-package= to install and configure packages. My =init.el= includes
-the initial setup for =package.el= and ensures that =use-package= is installed.
+  Use =use-package= to install and configure packages. My =init.el= includes
+  the initial setup for =package.el= and ensures that =use-package= is installed.
 
-This makes sure that =use-package= will install the package if it's not already
-available. 
+  This makes sure that =use-package= will install the package if it's not already
+  available. 
 
-#+BEGIN_SRC emacs-lisp
-  (require 'use-package-ensure)
-  (setq use-package-always-ensure t)
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (require 'use-package-ensure)
+    (setq use-package-always-ensure t)
+  #+END_SRC
 
-I use this on windows as well and things are just flakier over there so there I
-am going to turn off package signature check
+  I use this on windows as well and things are just flakier over there so there I
+  am going to turn off package signature check
 
-#+BEGIN_SRC emacs-lisp
-  (if (string-equal system-type "windows-nt")
-      (setq package-check-signature nil))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (if (string-equal system-type "windows-nt")
+        (setq package-check-signature nil))
+  #+END_SRC
 
-Always compile packages, and use the newest version available.
+  Always compile packages, and use the newest version available.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package auto-compile
-    :config (auto-compile-on-load-mode))
+  #+BEGIN_SRC emacs-lisp
+    (use-package auto-compile
+      :config (auto-compile-on-load-mode))
 
-  (setq load-prefer-newer t)
-#+END_SRC
+    (setq load-prefer-newer t)
+  #+END_SRC
 
 * Personal Details Setup
 
-Sets up some personal information sucha as email
+  Sets up some personal information sucha as email
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 
-  (setq user-full-name "Donald Brady" user-mail-address "d@donald-brady.com")
+    (setq user-full-name "Donald Brady" user-mail-address "d@donald-brady.com")
 
-#+END_SRC
+  #+END_SRC
 
 * Set up savefile, backup, and autosave directories
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 
-  (defconst dbrady-savefile-dir (expand-file-name "savefile" user-emacs-directory))
+    (defconst dbrady-savefile-dir (expand-file-name "savefile" user-emacs-directory))
 
-  ;; create the savefile dir if it doesn't exist
-  (unless (file-exists-p dbrady-savefile-dir) (make-directory dbrady-savefile-dir))
+    ;; create the savefile dir if it doesn't exist
+    (unless (file-exists-p dbrady-savefile-dir) (make-directory dbrady-savefile-dir))
 
-  ;; store all backup and autosave files in the tmp dir
-  (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
-  (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+    ;; store all backup and autosave files in the tmp dir
+    (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+    (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-  ;; saveplace remembers your location in a file when saving files
-  (use-package saveplace
-    :config
-    (setq save-place-file (expand-file-name "saveplace" dbrady-savefile-dir))
-    ;; activate it for all buffers
-    (setq-default save-place t))
+    ;; saveplace remembers your location in a file when saving files
+    (use-package saveplace
+      :config
+      (setq save-place-file (expand-file-name "saveplace" dbrady-savefile-dir))
+      ;; activate it for all buffers
+      (setq-default save-place t))
 
-  (use-package savehist
-    :config
-    (setq savehist-additional-variables
-    ;; search entries
-    '(search-ring regexp-search-ring)
-    ;; save every minute
-    savehist-autosave-interval 60
-    ;; keep the home clean
-    savehist-file (expand-file-name "savehist" dbrady-savefile-dir))
-    (savehist-mode +1))
+    (use-package savehist
+      :config
+      (setq savehist-additional-variables
+            ;; search entries
+            '(search-ring regexp-search-ring)
+            ;; save every minute
+            savehist-autosave-interval 60
+            ;; keep the home clean
+            savehist-file (expand-file-name "savehist" dbrady-savefile-dir))
+      (savehist-mode +1))
 
-#+END_SRC
+  #+END_SRC
 
 * Basic Configurations
 
-Place for a grab bag of basic settings
+  Place for a grab bag of basic settings
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 
     (setq inhibit-startup-screen t)
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -116,172 +116,171 @@ Place for a grab bag of basic settings
     (defvar default-gc-cons-threshold 16777216 ; 16mb
       "my default desired value of `gc-cons-threshold' during normal emacs operations.")
 
-  ;; make garbage collector less invasive
-  (setq gc-cons-threshold  most-positive-fixnum gc-cons-percentage 0.6)
-#+END_SRC
+    ;; make garbage collector less invasive
+    (setq gc-cons-threshold  most-positive-fixnum gc-cons-percentage 0.6)
+  #+END_SRC
 
 * Custom Packages
 
-Packages here don't have any major configuration and are loaded vanilla.
+  Packages here don't have any major configuration and are loaded vanilla.
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 
-  (defvar my-packages '(
-                        eglot
-                        elec-pair
-                        epresent
-                        flycheck            
-                        git-timemachine
-                        gnuplot 
-                        s                   ; some nice easy string manipulation functions
-                        ))
-#+END_SRC
+    (defvar my-packages '(
+                          eglot
+                          elec-pair
+                          flycheck            
+                          git-timemachine
+                          gnuplot 
+                          s                   ; some nice easy string manipulation functions
+                          ))
+  #+END_SRC
 
-Loop over the above list, loading using =use-package=
+  Loop over the above list, loading using =use-package=
 
-#+BEGIN_SRC emacs-lisp
-  (dolist (p my-packages)
-    (unless (package-installed-p p)
-      (package-refresh-contents)
-      (package-install p))
-    (add-to-list 'package-selected-packages p))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (dolist (p my-packages)
+      (unless (package-installed-p p)
+        (package-refresh-contents)
+        (package-install p))
+      (add-to-list 'package-selected-packages p))
+  #+END_SRC
 
 * Additional Path Setup
   There are some nuances with environment variables especially on windows.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package exec-path-from-shell
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package exec-path-from-shell
+      :config
+      (when (memq window-system '(mac ns x))
+        (exec-path-from-shell-initialize)))
+  #+END_SRC
 
 * Recent File Saving
 
-#+BEGIN_SRC emacs-lisp
-  (use-package recentf
-  :config
-  (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
-  (setq recentf-max-saved-items 50)
-  (setq recentf-max-menu-items 15)
-  (setq recentf-auto-cleanup 'never)
-  (recentf-mode +1))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package recentf
+      :config
+      (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
+      (setq recentf-max-saved-items 50)
+      (setq recentf-max-menu-items 15)
+      (setq recentf-auto-cleanup 'never)
+      (recentf-mode +1))
+  #+END_SRC
 
 * Paren Matching
 
-Configuration for a bunch of built in packages.
+  Configuration for a bunch of built in packages.
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 
-  (use-package paren
-  :config
-  (show-paren-mode +1))
+    (use-package paren
+      :config
+      (show-paren-mode +1))
 
-#+END_SRC
+  #+END_SRC
 
 * Avy
   Avy has one really useful function =avy-goto-line= which supports multiple
   buffers
 
-#+BEGIN_SRC emacs-lisp
-  (use-package avy
-    :bind (("M-g f" . avy-goto-line)))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package avy
+      :bind (("M-g f" . avy-goto-line)))
+  #+END_SRC
   
 * Dired Mode
 
-Dired mode is built in and powerful but easy to forget the commands and
-capabilities. Make things a bit easier to remember for me
+  Dired mode is built in and powerful but easy to forget the commands and
+  capabilities. Make things a bit easier to remember for me
 
-#+BEGIN_SRC emacs-lisp
-  ;; dired-x comes with emacs but isn't loaded by default.
-  (require 'dired-x)
+  #+BEGIN_SRC emacs-lisp
+    ;; dired-x comes with emacs but isn't loaded by default.
+    (require 'dired-x)
 
-  (setq-default dired-omit-files-p t) ; Buffer-local variable
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
-  (define-key dired-mode-map (kbd "% f") 'find-name-dired)
-  (define-key dired-mode-map (kbd "% .") 'dired-omit-mode)
+    (setq-default dired-omit-files-p t) ; Buffer-local variable
+    (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+    (define-key dired-mode-map (kbd "% f") 'find-name-dired)
+    (define-key dired-mode-map (kbd "% .") 'dired-omit-mode)
 
-  ;; Changes to prevent navigating in dired mode from creating a bunch of buffers for every directory
-  (put 'dired-find-alternate-file 'disabled nil)
-  (add-hook 'dired-mode-hook
-   (lambda ()
-    (define-key dired-mode-map (kbd "^")
-      (lambda () (interactive) (find-alternate-file "..")))
-    (define-key dired-mode-map (kbd "e")
-      (lambda () (interactive) (find-alternate-file (dired-copy-filename-as-kill))))
-    (define-key dired-mode-map (kbd "f")
-      (lambda () (interactive) (find-alternate-file (dired-copy-filename-as-kill))))))
+    ;; Changes to prevent navigating in dired mode from creating a bunch of buffers for every directory
+    (put 'dired-find-alternate-file 'disabled nil)
+    (add-hook 'dired-mode-hook
+              (lambda ()
+                (define-key dired-mode-map (kbd "^")
+                  (lambda () (interactive) (find-alternate-file "..")))
+                (define-key dired-mode-map (kbd "e")
+                  (lambda () (interactive) (find-alternate-file (dired-copy-filename-as-kill))))
+                (define-key dired-mode-map (kbd "f")
+                  (lambda () (interactive) (find-alternate-file (dired-copy-filename-as-kill))))))
 
-#+END_SRC
+  #+END_SRC
 
 * Text Scaling
 
   =default-text-scale= allows you to quickly resize text. By default binds to
   C-M-= and C-M-- to increase and decrease the face size 
 
-#+BEGIN_SRC emacs-lisp
-  (use-package default-text-scale
-    :config
+  #+BEGIN_SRC emacs-lisp
+    (use-package default-text-scale
+      :config
       (default-text-scale-mode))
-#+END_SRC
+  #+END_SRC
 
 * Ivy
   Ivy is a completion framework
 
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (ivy-mode 1))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package ivy
+      :config
+      (setq ivy-use-virtual-buffers t)
+      (setq enable-recursive-minibuffers t)
+      (ivy-mode 1))
+  #+END_SRC
 
 * Swiper
   A generic completion front end
 
-#+BEGIN_SRC emacs-lisp
-  (use-package swiper
-  :bind (("C-s" . swiper)))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package swiper
+      :bind (("C-s" . swiper)))
+  #+END_SRC
 
 * Spray Speed Reader
 
-[[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
-and slower, q quits
+  [[https://gitlab.com/iankelling/spray][Speed reading mode]]. Just enter the mode and use keys h/left arrow, l/right arrow, f and s for faster
+  and slower, q quits
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 
-  (require 'spray)
-  (setq spray-wpm 200)
+    (require 'spray)
+    (setq spray-wpm 200)
 
-#+END_SRC
+  #+END_SRC
 
 * PDF Tools
 
-[[https://github.com/politza/pdf-tools][PDF Tools]] is a much better pdf viewer
+  [[https://github.com/politza/pdf-tools][PDF Tools]] is a much better pdf viewer
 
-#+BEGIN_SRC emacs-lisp
-      (use-package pdf-tools
-        :config
-        (pdf-loader-install))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package pdf-tools
+      :config
+      (pdf-loader-install))
+  #+END_SRC
 
 * (Yas) Snippets
   Use =yas-snippets= for handy text completion
 
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-  :ensure yasnippet-snippets
-  :config
-  (yas-global-mode 1))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package yasnippet
+      :ensure yasnippet-snippets
+      :config
+      (yas-global-mode 1))
+  #+END_SRC
   
 * Org Mode
 
-Set up for all things =org-mode=
+  Set up for all things =org-mode=
 
 ** TODO Org and Extensions
    :LOGBOOK:
@@ -291,362 +290,382 @@ Set up for all things =org-mode=
    :END:
    Load org and other related packages. 
 
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package org
-  ;;          :ensure org-plus-contrib
-  ;;          :ensure org-superstar
-  ;;          :ensure org-edna
-  ;;          :ensure org-super-agenda
-  ;;          :ensure org-ql
-  ;;        )
+   #+BEGIN_SRC emacs-lisp
+     ;; (use-package org
+     ;;          :ensure org-plus-contrib
+     ;;          :ensure org-superstar
+     ;;          :ensure org-edna
+     ;;          :ensure org-super-agenda
+     ;;          :ensure org-ql
+     ;;        )
 
-  (use-package org
-    :ensure org-plus-contrib)
-  (use-package org-superstar)
-  (use-package org-edna)
-  (use-package org-super-agenda)
-  (use-package org-ql
-    :demand)
-#+END_SRC
+     (use-package org
+       :ensure org-plus-contrib)
+     (use-package org-superstar)
+     (use-package org-edna)
+     (use-package org-super-agenda)
+     (use-package org-ql
+       :demand)
+   #+END_SRC
 
-Some basic configuration for Org Mode beginning with minor modes for spell
-checking and replacing the =*='s with various types of bullets.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-  (define-key org-mode-map (kbd "C-c l") 'org-store-link)
-  (define-key org-mode-map (kbd "C-x n s") 'org-toggle-narrow-to-subtree)
-  (setq org-image-actual-width nil)
-  (setq org-modules (append '(org-protocol) org-modules))
-  (setq org-modules (append '(habit) org-modules))
-  (setq org-catch-invisible-edits 'smart)
-  (setq org-ctrl-k-protect-subtree t)
-#+END_SRC
+   Some basic configuration for Org Mode beginning with minor modes for spell
+   checking and replacing the =*='s with various types of bullets.
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+     (define-key org-mode-map (kbd "C-c l") 'org-store-link)
+     (define-key org-mode-map (kbd "C-x n s") 'org-toggle-narrow-to-subtree)
+     (setq org-image-actual-width nil)
+     (setq org-modules (append '(org-protocol) org-modules))
+     (setq org-modules (append '(habit) org-modules))
+     (setq org-catch-invisible-edits 'smart)
+     (setq org-ctrl-k-protect-subtree t)
+   #+END_SRC
 
 ** Org File Locations
 
-Just one location and using git to manage sharing as needed. 
+   Just one location and using git to manage sharing as needed. 
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-directory "~/OrgDocuments")
-  (setq org-agenda-files (directory-files-recursively org-directory "org$"))
-  (setq org-default-notes-file (expand-file-name org-directory "index.org"))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq org-directory "~/OrgDocuments")
+     (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+     (setq org-default-notes-file (expand-file-name org-directory "index.org"))
+   #+END_SRC
 
 ** Org Roam
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 
-  (use-package org-roam
-        :ensure t
-        :hook
-        (after-init . org-roam-mode)
-        :custom
-        (org-roam-directory "~/OrgDocuments")
-        :bind (:map org-roam-mode-map
-                (("C-c n l" . org-roam)
-                 ("C-c n f" . org-roam-find-file)
-                 ("C-c n g" . org-roam-graph))
-                :map org-mode-map
-                (("C-c n i" . org-roam-insert))
-                (("C-c n I" . org-roam-insert-immediate))))
+     (use-package org-roam
+       :ensure t
+       :hook
+       (after-init . org-roam-mode)
+       :custom
+       (org-roam-directory "~/OrgDocuments")
+       :bind (:map org-roam-mode-map
+                   (("C-c n l" . org-roam)
+                    ("C-c n f" . org-roam-find-file)
+                    ("C-c n g" . org-roam-graph))
+                   :map org-mode-map
+                   (("C-c n i" . org-roam-insert))
+                   (("C-c n I" . org-roam-insert-immediate))))
 
-#+END_SRC
+   #+END_SRC
 
 ** Language Support
 
-Setup =babel= to evaluate the languages / scripts I use.
+   Setup =babel= to evaluate the languages / scripts I use.
 
-#+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (ruby . t)
-     (python . t)
-     (sql . t)
-     (shell . t)
-     (gnuplot . t)))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . t)
+        (ruby . t)
+        (python . t)
+        (sql . t)
+        (shell . t)
+        (gnuplot . t)))
+   #+END_SRC
 
-Don't ask before evaluating code blocks.
+   Don't ask before evaluating code blocks.
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-confirm-babel-evaluate nil)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq org-confirm-babel-evaluate nil)
+   #+END_SRC
 
-=htmlize= is used to ensure that exported code blocks use syntax highlighting.
+   =htmlize= is used to ensure that exported code blocks use syntax highlighting.
 
-Translate regular ol' straight quotes to typographically-correct curly quotes
-when exporting.
+   Translate regular ol' straight quotes to typographically-correct curly quotes
+   when exporting.
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-export-with-smart-quotes t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq org-export-with-smart-quotes t)
+   #+END_SRC
 
-Settings related to source code blocks
+   Settings related to source code blocks
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
-  (setq org-src-tab-acts-natively t) ;; Make TAB act as if language's major mode.
-  (setq org-src-window-setup 'current-window) ;; Use the current window rather than popping open a new onw
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq org-src-fontify-natively t) ;; syntax highlighting in source blocks
+     (setq org-src-tab-acts-natively t) ;; Make TAB act as if language's major mode.
+     (setq org-src-window-setup 'current-window) ;; Use the current window rather than popping open a new onw
+   #+END_SRC
 
 ** Task Handling and Agenda
 
-Establishes the states and other settings related to task handling. 
+   Establishes the states and other settings related to task handling. 
 
-#+BEGIN_SRC emacs-lisp
-              (setq org-enforce-todo-dependencies t)
-              (setq org-enforce-todo-checkbox-dependencies t)
-              (setq org-deadline-warning-days 7)
+   #+BEGIN_SRC emacs-lisp
+     (setq org-enforce-todo-dependencies t)
+     (setq org-enforce-todo-checkbox-dependencies t)
+     (setq org-deadline-warning-days 7)
 
-              (setq org-todo-keywords '((sequence
-                                         "TODO(t)"
-                                         "STARTED(s)"
-                                         "NEXT(n)"
-                                         "WAITING(w)" "|"
-                                         "DONE(d)"
-                                         "SUSPENDED(u)"
-                                         "SKIPPED(k)")))
-              (setq org-log-done 'time)
-              (setq org-log-into-drawer t)
-              (setq org-log-reschedule 'note)
+     (setq org-todo-keywords '((sequence
+                                "TODO(t)"
+                                "STARTED(s)"
+                                "NEXT(n)"
+                                "WAITING(w)" "|"
+                                "DONE(d)"
+                                "SUSPENDED(u)"
+                                "SKIPPED(k)")))
+     (setq org-log-done 'time)
+     (setq org-log-into-drawer t)
+     (setq org-log-reschedule 'note)
 
-              ;; agenda settings
-              (setq org-agenda-span 1)
-              (setq org-agenda-start-on-weekday nil)
+     ;; agenda settings
+     (setq org-agenda-span 1)
+     (setq org-agenda-start-on-weekday nil)
 
-              ;; Normally bound to org-agenda-sunrise-sunset which is kinda useless
-              (add-hook 'org-agenda-mode-hook (lambda ()
-                                                (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)))
-              ;; Normally bound to toggle diary inclusion which would never really do
-              (add-hook 'org-agenda-mode-hook (lambda ()
-                                                (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
+     ;; Normally bound to org-agenda-sunrise-sunset which is kinda useless
+     (add-hook 'org-agenda-mode-hook (lambda ()
+                                       (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)))
+     ;; Normally bound to toggle diary inclusion which would never really do
+     (add-hook 'org-agenda-mode-hook (lambda ()
+                                       (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
 
-#+END_SRC
+   #+END_SRC
 
 ** Diary Settings
 
-#+BEGIN_SRC emacs-lisp
-  (setq diary-file (expand-file-name "diary" org-directory))
-  (setq org-agenda-include-diary t)
-  (setq calendar-bahai-all-holidays-flag nil)
-  (setq calendar-christian-all-holidays-flag t)
-  (setq calendar-hebrew-all-holidays-flag t)
-  (setq calendar-islamic-all-holidays-flag t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq diary-file (expand-file-name "diary" org-directory))
+     (setq org-agenda-include-diary t)
+     (setq calendar-bahai-all-holidays-flag nil)
+     (setq calendar-christian-all-holidays-flag t)
+     (setq calendar-hebrew-all-holidays-flag t)
+     (setq calendar-islamic-all-holidays-flag t)
+   #+END_SRC
 
 ** Org Edna
    [[https://savannah.nongnu.org/projects/org-edna-el/][Org Edna]] provides more powerful org dependency management.
    
-#+BEGIN_SRC emacs-lisp
-    (org-edna-mode)
+   #+BEGIN_SRC emacs-lisp
+     (org-edna-mode)
 
-        ;; ;; create id's when using org capture
-        ;; (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
+     ;; ;; create id's when using org capture
+     ;; (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
 
-        ;; (defun db/org-add-ids-to-headlines-in-file ()
-        ;;   "Add ID properties to all headlines in the current file which
-        ;;     do not already have one."
-        ;;   (interactive)
-        ;;   (org-map-entries 'org-id-get-create))
+     ;; (defun db/org-add-ids-to-headlines-in-file ()
+     ;;   "Add ID properties to all headlines in the current file which
+     ;;     do not already have one."
+     ;;   (interactive)
+     ;;   (org-map-entries 'org-id-get-create))
 
-        ;; (add-hook 'org-mode-hook
-        ;;           (lambda ()
-        ;;             (add-hook 'before-save-hook 'db/org-add-ids-to-headlines-in-file nil 'local)))
+     ;; (add-hook 'org-mode-hook
+     ;;           (lambda ()
+     ;;             (add-hook 'before-save-hook 'db/org-add-ids-to-headlines-in-file nil 'local)))
 
-  (defun db/org-edna-blocked-by-descendants ()
-    "Adds PROPERTY blocking this tasks unless descendants are DONE"
-    (interactive)
-    (org-set-property "BLOCKER" "descendants"))
+     (defun db/org-edna-blocked-by-descendants ()
+       "Adds PROPERTY blocking this tasks unless descendants are DONE"
+       (interactive)
+       (org-set-property "BLOCKER" "descendants"))
 
-  (defun db/org-edna-blocked-by-ancestors ()
-    "Adds PROPERTY blocking this tasks unless ancestors are DONE"
-    (interactive)
-    (org-set-property "BLOCKER" "ancestors"))
+     (defun db/org-edna-blocked-by-ancestors ()
+       "Adds PROPERTY blocking this tasks unless ancestors are DONE"
+       (interactive)
+       (org-set-property "BLOCKER" "ancestors"))
 
-  (defun db/org-edna-current-id ()
-    "Get the current ID to make it easier to set up BLOCKER ids"
-    (interactive)
-    (set-register 'i (org-entry-get (point) "ID"))
-    (message "ID stored"))
+     (defun db/org-edna-current-id ()
+       "Get the current ID to make it easier to set up BLOCKER ids"
+       (interactive)
+       (set-register 'i (org-entry-get (point) "ID"))
+       (message "ID stored"))
 
-  (defun db/org-edna-blocked-by-id ()
-    "Adds PROPERTY blocking task at point with specific task ID"
-    (interactive)
-    (org-set-property "BLOCKER" (s-concat "ids(" (get-register 'i) ")")))
+     (defun db/org-edna-blocked-by-id ()
+       "Adds PROPERTY blocking task at point with specific task ID"
+       (interactive)
+       (org-set-property "BLOCKER" (s-concat "ids(" (get-register 'i) ")")))
 
-  (define-key org-mode-map (kbd "C-c C-x <up>") 'db/org-edna-blocked-by-ancestors)
-  (define-key org-mode-map (kbd "C-c C-x <down>") 'db/org-edna-blocked-by-descendants)
-  (define-key org-mode-map (kbd "C-c C-x <left>") 'db/org-edna-current-id)
-  (define-key org-mode-map (kbd "C-c C-x <right>") 'db/org-edna-blocked-by-id)
-  (define-key org-mode-map (kbd "C-c C-x i") 'org-id-get-create)
-  ;; override y (agenda year) with more useful todo yesterday for marking habits done prior day 
-  (define-key org-agenda-mode-map (kbd "y") 'org-agenda-todo-yesterday)
+     (define-key org-mode-map (kbd "C-c C-x <up>") 'db/org-edna-blocked-by-ancestors)
+     (define-key org-mode-map (kbd "C-c C-x <down>") 'db/org-edna-blocked-by-descendants)
+     (define-key org-mode-map (kbd "C-c C-x <left>") 'db/org-edna-current-id)
+     (define-key org-mode-map (kbd "C-c C-x <right>") 'db/org-edna-blocked-by-id)
+     (define-key org-mode-map (kbd "C-c C-x i") 'org-id-get-create)
+     ;; override y (agenda year) with more useful todo yesterday for marking habits done prior day 
+     (define-key org-agenda-mode-map (kbd "y") 'org-agenda-todo-yesterday)
 
-#+END_SRC
+   #+END_SRC
 
 ** Filter Refile Targets
 
- I have monthly log files used to take notes / journal that are sources of refile
- items but not targets. They are named YYYY-MM(w).org
+   I have monthly log files used to take notes / journal that are sources of refile
+   items but not targets. They are named YYYY-MM(w).org
 
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 
-   (defun db-filtered-refile-targets ()
-     "Removes month journals as valid refile targets"
-     (remove nil (mapcar (lambda (x)
-                           (if (string-match-p "2[0-9]*\-[0-9]+w?" x)
-                               nil x)) org-agenda-files)))
+     (defun db-filtered-refile-targets ()
+       "Removes month journals as valid refile targets"
+       (remove nil (mapcar (lambda (x)
+                             (if (string-match-p "2[0-9]*\-[0-9]+w?" x)
+                                 nil x)) org-agenda-files)))
 
-   (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 10)))
+     (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 10)))
 
- #+END_SRC
+   #+END_SRC
 
 ** Super Agenda Setup
 
    [[https://github.com/alphapapa/org-super-agenda][Super Agenda]] allows for grouping of items that appear on the
    agenda. It doesn't alter what will appear.
    
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 
-  (org-super-agenda-mode)
+     (org-super-agenda-mode)
 
-  (setq org-super-agenda-groups
-        '((:name "Next Items"
-                 :time-grid t
-                 :tag ("NEXT" "outbox"))
-          (:name "Important"
-                 :priority "A")
-          (:name "Quick Picks"
-                 :effort< "0:30")
-          (:name "With Caden"
-                 :tag ("caden"))
-          (:priority<= "B"
-                       :scheduled future
-                       :order 1)))
-#+END_SRC
+     (setq org-super-agenda-groups
+           '((:name "Next Items"
+                    :time-grid t
+                    :tag ("NEXT" "outbox"))
+             (:name "Important"
+                    :priority "A")
+             (:name "Quick Picks"
+                    :effort< "0:30")
+             (:name "With Caden"
+                    :tag ("caden"))
+             (:priority<= "B"
+                          :scheduled future
+                          :order 1)))
+   #+END_SRC
 
 ** Org Capture Setup
 
-Org capture templates for Chrome org-capture from [[https://github.com/sprig/org-capture-extension][site]].
+   Org capture templates for Chrome org-capture from [[https://github.com/sprig/org-capture-extension][site]].
 
-Added this file: ~/.local/share/applications/org-protocol.desktop~ using the
-following command:
+   Added this file: ~/.local/share/applications/org-protocol.desktop~ using the
+   following command:
 
-#+BEGIN_EXAMPLE
-  cat > "${HOME}/.local/share/applications/org-protocol.desktop" << EOF
-  [Desktop Entry]
-  Name=org-protocol
-  Exec=emacsclient %u
-  Type=Application
-  Terminal=false
-  Categories=System;
-  MimeType=x-scheme-handler/org-protocol;
-  EOF
-#+END_EXAMPLE
+   #+BEGIN_EXAMPLE
+     cat > "${HOME}/.local/share/applications/org-protocol.desktop" << EOF
+     [Desktop Entry]
+     Name=org-protocol
+     Exec=emacsclient %u
+     Type=Application
+     Terminal=false
+     Categories=System;
+     MimeType=x-scheme-handler/org-protocol;
+     EOF
+   #+END_EXAMPLE
 
-and then run =update-desktop-database ~/.local/share/applications/=
+   and then run =update-desktop-database ~/.local/share/applications/=
 
-#+BEGIN_SRC emacs-lisp
-  (require 'org-protocol)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (require 'org-protocol)
+   #+END_SRC
 
 *** Setting up org-protocol handler. This page has best description:
-[[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
+    [[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
 
-  (defun transform-square-brackets-to-round-ones(string-to-transform)
-    "Transforms [ into ( and ] into ), other chars left unchanged."
-    (concat 
-     (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
-    )
+      (defun transform-square-brackets-to-round-ones(string-to-transform)
+        "Transforms [ into ( and ] into ), other chars left unchanged."
+        (concat 
+         (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
+        )
 
-  (defvar my/org-contacts-template "* %(org-contacts-template-name)
-  :PROPERTIES:
-  :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
-  :BIRTHDAY: %^{yyyy-mm-dd}
-  :EMAIL: %(org-contacts-template-email)
-  :NOTE: %^{NOTE}
-  :END:" "Template for org-contacts.")
+      (defvar my/org-contacts-template "* %(org-contacts-template-name)
+        :PROPERTIES:
+        :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+        :BIRTHDAY: %^{yyyy-mm-dd}
+        :EMAIL: %(org-contacts-template-email)
+        :NOTE: %^{NOTE}
+        :END:" "Template for org-contacts.")
 
-  ;; if you set this variable you have to redefine the default t/Todo.
-  (setq org-capture-templates 
-        `(
-          ;; TODO     (t) Todo template
-          ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* TODO %?"
-           :empty-lines 1)
+      ;; if you set this variable you have to redefine the default t/Todo.
+      (setq org-capture-templates 
+            `(
+              ;; TODO     (t) Todo template
+              ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+               "* TODO %?"
+               :empty-lines 1)
 
-          ;; Note (n) template
-          ("n" "Note" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* %? %(%i)"
-           :empty-lines 1)
+              ;; Note (n) template
+              ("n" "Note" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+               "* %? %(%i)"
+               :empty-lines 1)
 
-          ;; Protocol (p) template
-          ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* %^{Title}
-              Source: %u, %c
-             ,#+BEGIN_QUOTE
-             %i
-             ,#+END_QUOTE
-             %?"
-           :empty-lines 1)
+              ;; Protocol (p) template
+              ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+               "* %^{Title}
+                    Source: %u, %c
+                   ,#+BEGIN_QUOTE
+                   %i
+                   ,#+END_QUOTE
+                   %?"
+               :empty-lines 1)
 
-          ;; Protocol Link (L) template
-          ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
-           :empty-lines 1)
+              ;; Protocol Link (L) template
+              ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+               "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+               :empty-lines 1)
 
-          ;; Goal (G) template
-          ("G" "Goal" entry (file+headline ,(concat org-directory "/index.org") "Refile")
-           "* GOAL %^{Describe your goal}
-Added on %U - Last reviewed on %U
-     :SMART:
-     :Sense: %^{What is the sense of this goal?}
-:Measurable: %^{How do you measure it?}
-   :Actions: %^{What actions are needed?}
- :Resources: %^{Which resources do you need?}
-   :Timebox: %^{How much time are you spending for it?}
-       :END:"
-           :empty-lines 1)
-        ;; Contact (c) template
-          ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Contacts")
-           "* %(org-contacts-template-name)
-:PROPERTIES:
- :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
-:BIRTHDAY: %^{yyyy-mm-dd}
-   :EMAIL: %(org-contacts-template-email)
-     :TEL: %^{NUMBER}
-    :NOTE: %^{NOTE}
-:END:"
-           :empty-lines 1)
-          ))
+              ;; Goal (G) template
+              ("G" "Goal" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+               "* GOAL %^{Describe your goal}
+      Added on %U - Last reviewed on %U
+           :SMART:
+           :Sense: %^{What is the sense of this goal?}
+      :Measurable: %^{How do you measure it?}
+         :Actions: %^{What actions are needed?}
+       :Resources: %^{Which resources do you need?}
+         :Timebox: %^{How much time are you spending for it?}
+             :END:"
+               :empty-lines 1)
+              ;; Contact (c) template
+              ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Contacts")
+               "* %(org-contacts-template-name)
+      :PROPERTIES:
+       :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+      :BIRTHDAY: %^{yyyy-mm-dd}
+         :EMAIL: %(org-contacts-template-email)
+           :TEL: %^{NUMBER}
+          :NOTE: %^{NOTE}
+      :END:"
+               :empty-lines 1)
+              ))
 
-#+END_SRC
+    #+END_SRC
 
-#+RESULTS:
-| t | Todo     | entry | (file+headline ~/OrgDocuments/index.org Refile) | * TODO %?   | :empty-lines | 1 |
-| n | Note     | entry | (file+headline ~/OrgDocuments/index.org Refile) | * %? %(%i)  | :empty-lines | 1 |
-| p | Protocol | entry | (file+headline ~/OrgDocuments/index.org Refile) | * %^{Title} |              |   |
+    #+RESULTS:
+    | t | Todo     | entry | (file+headline ~/OrgDocuments/index.org Refile) | * TODO %?   | :empty-lines | 1 |
+    | n | Note     | entry | (file+headline ~/OrgDocuments/index.org Refile) | * %? %(%i)  | :empty-lines | 1 |
+    | p | Protocol | entry | (file+headline ~/OrgDocuments/index.org Refile) | * %^{Title} |              |   |
 
 ** Org Reveal
 
-#+BEGIN_SRC emacs-lisp
-  (use-package ox-reveal
-  :ensure ox-reveal
-  :ensure htmlize)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package ox-reveal
+       :ensure ox-reveal
+       :ensure htmlize)
+   #+END_SRC
 
 ** Exporting
 
-Allow export to markdown (for hugo) and beamer (for presentations).
+   Allow export to markdown (for hugo) and beamer (for presentations).
 
-#+BEGIN_SRC emacs-lisp
-  (require 'ox-md)
-  (require 'ox-beamer)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (require 'ox-md)
+     (require 'ox-beamer)
+   #+END_SRC
 
+** Presentations with =org-tree-slide=
+
+#+begin_src emacs-lisp
+
+     (when (require 'org-tree-slide nil t)
+       (global-set-key (kbd "<f8>") 'org-tree-slide-mode)
+       (global-set-key (kbd "S-<f8>") 'org-tree-slide-skip-done-toggle)
+       (define-key org-tree-slide-mode-map (kbd "<f9>")
+         'org-tree-slide-move-previous-tree)
+       (define-key org-tree-slide-mode-map (kbd "<f10>")
+         'org-tree-slide-move-next-tree)
+       (define-key org-tree-slide-mode-map (kbd "<f11>")
+         'org-tree-slide-content)
+       (setq org-tree-slide-skip-outline-level 4)
+       (org-tree-slide-narrowing-control-profile)
+       (setq org-tree-slide-skip-done nil)
+       (setq org-image-actual-width nil))
+
+#+end_src
+   
 * Reading Email with mu4e
   So, mu4e isn't in melpa (wtf) and has to be installed
 #+BEGIN_SRC sh
