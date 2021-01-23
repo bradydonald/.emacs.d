@@ -87,7 +87,7 @@
 
   Place for a grab bag of basic settings
 
-  #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 
     (setq inhibit-startup-screen t)
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -118,7 +118,11 @@
 
     ;; make garbage collector less invasive
     (setq gc-cons-threshold  most-positive-fixnum gc-cons-percentage 0.6)
-  #+END_SRC
+
+    ;; ediff in same window
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+#+END_SRC
 
 * Custom Packages
 
@@ -624,11 +628,6 @@
 
     #+END_SRC
 
-    #+RESULTS:
-    | t | Todo     | entry | (file+headline ~/OrgDocuments/index.org Refile) | * TODO %?   | :empty-lines | 1 |
-    | n | Note     | entry | (file+headline ~/OrgDocuments/index.org Refile) | * %? %(%i)  | :empty-lines | 1 |
-    | p | Protocol | entry | (file+headline ~/OrgDocuments/index.org Refile) | * %^{Title} |              |   |
-
 ** Org Reveal
 
    #+BEGIN_SRC emacs-lisp
@@ -857,6 +856,16 @@ View images inline
 
 #+END_SRC
 
+* Openwith
+  Maps file extensions to applications
+
+#+BEGIN_SRC emacs-lisp
+  (use-package openwith)
+  (openwith-mode t)
+  (add-to-list  'mm-inhibit-file-name-handlers 'openwith-file-handler)
+  (setq openwith-associations '(("\\.pdf\\'" "pdfstudio2020" (file))))
+#+END_SRC
+  
 * Projectile
 Use =projectile= for projects navigation
 
