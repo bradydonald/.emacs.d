@@ -332,7 +332,7 @@
    #+BEGIN_SRC emacs-lisp
      (setq org-directory "~/OrgDocuments")
      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
-     (setq org-default-notes-file (expand-file-name org-directory "index.org"))
+     (setq org-default-notes-file (concat org-directory "/personal/index.org"))
    #+END_SRC
 
 ** Org Roam
@@ -577,17 +577,17 @@
       (setq org-capture-templates 
             `(
               ;; TODO     (t) Todo template
-              ("t" "Todo" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+              ("t" "Todo" entry (file+headline ,org-default-notes-file "Refile")
                "* TODO %?"
                :empty-lines 1)
 
               ;; Note (n) template
-              ("n" "Note" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+              ("n" "Note" entry (file+headline ,org-default-notes-file "Refile")
                "* %? %(%i)"
                :empty-lines 1)
 
               ;; Protocol (p) template
-              ("p" "Protocol" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+              ("p" "Protocol" entry (file+headline ,org-default-notes-file "Refile")
                "* %^{Title}
                     Source: %u, %c
                    ,#+BEGIN_QUOTE
@@ -597,12 +597,12 @@
                :empty-lines 1)
 
               ;; Protocol Link (L) template
-              ("L" "Protocol Link" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+              ("L" "Protocol Link" entry (file+headline ,org-default-notes-file "Refile")
                "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
                :empty-lines 1)
 
               ;; Goal (G) template
-              ("G" "Goal" entry (file+headline ,(concat org-directory "/index.org") "Refile")
+              ("G" "Goal" entry (file+headline ,org-default-notes-file "Refile")
                "* GOAL %^{Describe your goal}
       Added on %U - Last reviewed on %U
            :SMART:
