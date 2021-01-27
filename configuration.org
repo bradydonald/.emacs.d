@@ -838,7 +838,7 @@ View images inline
  (use-package org-contacts
    :ensure nil
    :after org
-   :custom (org-contacts-files '("~/OrgDocuments/contacts.org")))
+   :custom (org-contacts-files '("~/OrgDocuments/personal/contacts.org")))
 
  (setq mu4e-org-contacts-file (car org-contacts-files))
  (add-to-list 'mu4e-headers-actions
