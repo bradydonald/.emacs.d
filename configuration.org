@@ -688,20 +688,20 @@ error. Need to increase the number available.
 #+begin_src emacs-lisp
  (setq mu4e-contexts
     `( ,(make-mu4e-context
-	  :name "Private"
-	  :enter-func (lambda () (mu4e-message "Entering Private context"))
-          :leave-func (lambda () (mu4e-message "Leaving Private context"))
+	  :name "O365"
+	  :enter-func (lambda () (mu4e-message "Entering O365 context"))
+          :leave-func (lambda () (mu4e-message "Leaving O365 Context"))
 	  ;; we match based on the contact-fields of the message
 	  :match-func (lambda (msg)
 			(when msg
 			  (mu4e-message-contact-field-matches msg
-			    :to "d@donald-brady.com")))
-	  :vars '( ( user-mail-address	    . "d@donald-brady.com"  )
+			    :to "d@donaldbrady.info")))
+	  :vars '( ( user-mail-address	    . "d@donaldbrady.info"  )
 		   ( user-full-name	    . "Donald Brady" )
 		   ( mu4e-compose-signature .
 		     (concat
 		       "Donald Brady\n"
-		       "e: d@donald-brady.com\n"))))
+		       "e: d@donaldbrady.info\n"))))
        ,(make-mu4e-context
 	  :name "Gmail"
 	  :enter-func (lambda () (mu4e-message "Switch to the Gmail context"))
