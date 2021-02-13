@@ -638,7 +638,7 @@
 
 ** Exporting
 
-   Allow export to markdown (for hugo) and beamer (for presentations).
+   Allow export to markdown and beamer (for presentations).
 
    #+BEGIN_SRC emacs-lisp
      (require 'ox-md)
@@ -911,24 +911,20 @@ This is a more powerful completion system.
 
 #+END_SRC
 
-* Blogging with Hugo
+* Blogging with Wordpress and Org2Blog
 
-  [[https://gohugo.io/][Hugo]] is a static website generator great for blogging
+  [[https://github.com/org2blog/org2blog][Org2Blog]] is a package for blogging directly from org-mode to wordpress which
+  is about all I need to manage an online presence
+
+  #+begin_src emacs-lisp
+    (use-package org2blog
+      :config
+      (setq org2blog/wp-blog-alist
+            '(("wordpress"
+               :url "http://donaldbrady.info/xmlrpc.php"
+               :username "d@donaldbrady.info"))))
+  #+end_src
   
-#+BEGIN_SRC emacs-lisp
-
-  (use-package easy-hugo
-    :config
-    (setq easy-hugo-basedir "~/bradydonald.github.io_dev/")
-    (setq easy-hugo-url "https://www.donald-brady.com")
-    (setq easy-hugo-sshdomain "donald-brady")
-    (setq easy-hugo-postdir "content/posts")
-    (setq easy-hugo-previewtime "300")
-    :bind
-    (("C-c h" . easy-hugo)))
-
-#+END_SRC
-
 * RSS with elfeed
 
 Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=. Key
