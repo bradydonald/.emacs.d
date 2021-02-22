@@ -46,7 +46,7 @@
 
   #+BEGIN_SRC emacs-lisp
 
-    (setq user-full-name "Donald Brady" user-mail-address "d@donald-brady.com")
+    (setq user-full-name "Donald Brady" user-mail-address "d@donaldbrady.info")
 
   #+END_SRC
 
@@ -89,38 +89,38 @@
 
 #+BEGIN_SRC emacs-lisp
 
-    (setq inhibit-startup-screen t)
-    (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-    (setq ring-bell-function 'ignore)
-    (line-number-mode t)
-    (column-number-mode t)
-    (size-indication-mode t)
-    (fset 'yes-or-no-p 'y-or-n-p)
-    (setq require-final-newline t)
-    (setq-default fill-column 80)
-    (add-hook 'text-mode-hook 'auto-fill-mode)
-    (prefer-coding-system 'utf-8)
-    (set-default-coding-systems 'utf-8)
-    (set-terminal-coding-system 'utf-8)
-    (set-keyboard-coding-system 'utf-8)
-    (setq-default indent-tabs-mode nil)   
-    (setq-default tab-width 4)            
-    ;; smart tab behavior - indent or complete
-    (setq tab-always-indent 'complete)
-    (global-display-line-numbers-mode 0) ; line number in margin
-    (global-hl-line-mode 1) ; highlight current line
+  (setq inhibit-startup-screen t)
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (setq ring-bell-function 'ignore)
+  (line-number-mode t)
+  (column-number-mode t)
+  (size-indication-mode t)
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq require-final-newline t)
+  (setq-default fill-column 80)
+  (add-hook 'text-mode-hook 'auto-fill-mode)
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (setq-default indent-tabs-mode nil)   
+  (setq-default tab-width 4)            
+  ;; smart tab behavior - indent or complete
+  (setq tab-always-indent 'complete)
+  (global-display-line-numbers-mode 0) ; line number in margin
+  (global-hl-line-mode 1) ; highlight current line
+  (global-auto-revert-mode 1)
+  ;; scroll to the bottom of repls on output
+  (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
 
-    ;; scroll to the bottom of repls on output
-    (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
+  (defvar default-gc-cons-threshold 16777216 ; 16mb
+    "my default desired value of `gc-cons-threshold' during normal emacs operations.")
 
-    (defvar default-gc-cons-threshold 16777216 ; 16mb
-      "my default desired value of `gc-cons-threshold' during normal emacs operations.")
+  ;; make garbage collector less invasive
+  (setq gc-cons-threshold  most-positive-fixnum gc-cons-percentage 0.6)
 
-    ;; make garbage collector less invasive
-    (setq gc-cons-threshold  most-positive-fixnum gc-cons-percentage 0.6)
-
-    ;; ediff in same window
-    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  ;; ediff in same window
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 #+END_SRC
 
@@ -920,12 +920,7 @@ This is a more powerful completion system.
   
 * RSS with elfeed
 
-Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=. Key
-bindings are:
-
-| Key   | Binding                                |
-| C-c r | Read news                              |
-| o     | In article or heading, open in browser |
+Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package elfeed
