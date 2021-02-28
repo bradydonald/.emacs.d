@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: <nofig
+# key: <nofig
+# --
+@@html:
+<style>
+.figure-number {
+display: none;
+}
+</style>
+@@
