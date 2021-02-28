@@ -1,6 +1,6 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Donald Brady
-#+EMAIL: d@donald-brady.com
+#+EMAIL: d@donaldbrady.info
 #+OPTIONS: toc:nil
 #+STARTUP: overview
 
@@ -333,6 +333,8 @@
      (setq org-directory "~/OrgDocuments")
      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
      (setq org-default-notes-file (concat org-directory "/personal/index.org"))
+     (setq db/org-work-files-directory (expand-file-name "dcllp" org-directory))
+     (setq db/org-personal-files-directory (expand-file-name "personal" org-directory))
    #+END_SRC
 
 ** Org Roam
@@ -426,6 +428,31 @@
                                        (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
 
    #+END_SRC
+
+   Some custom functions for agenda, to allow narrowing to personal or work views
+
+   #+begin_src emacs-lisp
+
+     (defun db/org-narrow-to-work ()
+       (directory-files-recursively db/org-work-files-directory "org$"))
+
+     (defun db/org-narrow-to-personal ()
+       (directory-files-recursively db/org-personal-files-directory "org$"))
+
+     (defun db/org-widen ()
+       (directory-files-recursively org-directory "org$"))
+
+     (setq org-agenda-custom-commands
+           '(("p" "Personal Context"
+              ((agenda "" ((org-agenda-span 'day)
+                           (org-agenda-files (db/org-narrow-to-personal))))))
+             ("w" "Work Context"
+              ((agenda "" ((org-agenda-span 'day)
+                           (org-agenda-files (db/org-narrow-to-work))))))
+             ("B" "Both Context"
+              ((agenda "" ((org-agenda-span 'day)
+                           (org-agenda-files (db/org-widen))))))))
+   #+end_src
 
 ** Diary Settings
 
