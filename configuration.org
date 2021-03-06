@@ -692,6 +692,62 @@
 
 #+end_src
    
+** Other Customizations
+
+   This section is for additional customizations.
+
+   
+*** Add a CREATED timestamp property to all TODOs
+
+    All of this comes from [[https://gist.github.com/mrvdb/4037694][this gist]]. Would be nice if org mode just offered
+    this as a local set up option.
+
+    #+begin_src emacs-lisp
+
+      ;; Allow automatically handing of created/expired meta data.
+      (require 'org-expiry)
+
+      ;; Configure it a bit to my liking
+      (setq
+        org-expiry-created-property-name "CREATED" ; Name of property when an item is created
+        org-expiry-inactive-timestamps   t         ; Don't have everything in the agenda view
+      )
+
+      (defun db/insert-created-timestamp()
+        "Insert a CREATED property using org-expiry.el for TODO entries"
+        (org-expiry-insert-created)
+        (org-back-to-heading)
+        (org-end-of-line)
+        (insert " "))
+
+      ;; Whenever a TODO entry is created, I want a timestamp
+      ;; Advice org-insert-todo-heading to insert a created timestamp using org-expiry
+      (defadvice org-insert-todo-heading (after db/created-timestamp-advice activate)
+        "Insert a CREATED property using org-expiry.el for TODO entries"
+        (db/insert-created-timestamp))
+
+      ;; Make it active
+      (ad-activate 'org-insert-todo-heading)
+
+      (defadvice org-capture (after db/created-timestamp-advice activate)
+        "Insert a CREATED property using org-expiry.el for TODO entries"
+        ; Test if the captured entry is a TODO, if so insert the created
+        ; timestamp property, otherwise ignore
+        (when (member (org-get-todo-state) org-todo-keywords-1)
+          (db/insert-created-timestamp)))
+
+      (ad-activate 'org-capture)
+
+      ;; Add feature to allow easy adding of tags in a capture window
+      (defun db/add-tags-in-capture()
+        (interactive)
+        "Insert tags in a capture window without losing the point"
+        (save-excursion
+          (org-back-to-heading)
+          (org-set-tags)))
+
+    #+end_src
+
 * Reading Email with mu4e
   So, mu4e isn't in melpa (wtf) and has to be installed
 #+BEGIN_SRC sh
@@ -732,8 +788,6 @@ error. Need to increase the number available.
 
 #+end_src
 
-#+RESULTS:
-: e: donald.brady@gmail.com
 
 #+begin_src emacs-lisp
   (setq mu4e-context-policy 'pick-first)
