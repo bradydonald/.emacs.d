@@ -2,4 +2,19 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-()
+(("org-capture-last-stored-marker"
+ (filename . "~/OrgDocuments/dcllp/index.org")
+ (front-context-string . "** TODO  Unity S")
+ (rear-context-string . "Caden\n   :END:\n\n")
+ (position . 22452))
+("org-refile-last-stored"
+ (filename . "~/OrgDocuments/dcllp/index.org")
+ (front-context-string . "** TODO  Unity S")
+ (rear-context-string . "Caden\n   :END:\n\n")
+ (position . 22452))
+("org-capture-last-stored"
+ (filename . "~/OrgDocuments/personal/index.org")
+ (front-context-string . "** TODO  Unity S")
+ (rear-context-string . "2:19]\n   :END:\n\n")
+ (position . 430))
+)
