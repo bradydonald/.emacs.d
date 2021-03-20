@@ -748,191 +748,14 @@
 
     #+end_src
 
-* Reading Email with mu4e
-  So, mu4e isn't in melpa (wtf) and has to be installed
-#+BEGIN_SRC sh
-  sudo apt install mu4e  
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
- (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
- (require 'mu4e)
-#+END_SRC
-
-Some html emails seem to use large number of lisp bindings causing an
-error. Need to increase the number available.
-
-#+begin_src emacs-lisp
- (setq max-specpdl-size 13000)  
-#+end_src
-
-** Contexts
-
-#+begin_src emacs-lisp
-  (setq mu4e-contexts
-     `( ,(make-mu4e-context
-       :name "O365"
-       :enter-func (lambda () (mu4e-message "Entering O365 context"))
-           :leave-func (lambda () (mu4e-message "Leaving O365 Context"))
-       ;; we match based on the contact-fields of the message
-       :match-func (lambda (msg)
-             (when msg
-               (mu4e-message-contact-field-matches msg
-                 :to "d@donaldbrady.info")))
-       :vars '( ( user-mail-address	    . "d@donaldbrady.info"  )
-            ( user-full-name	    . "Donald Brady" )
-            ( mu4e-compose-signature .
-              (concat
-                "Donald Brady\n"
-                "e: d@donaldbrady.info\n"))))))
-
-#+end_src
-
-
-#+begin_src emacs-lisp
-  (setq mu4e-context-policy 'pick-first)
-#+end_src
-   
-#+BEGIN_SRC emacs-lisp
-
-  ;; use mu4e for e-mail in emacs
-  (setq mail-user-agent 'mu4e-user-agent)
-
-  ;; these must start with a "/", and must exist
-  ;; (i.e.. /home/user/Maildir/sent must exist)
-  ;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
-  ;; already exist
-
-  (setq mu4e-sent-folder   "/Sent")
-  (setq mu4e-drafts-folder "/Drafts")
-  (setq mu4e-trash-folder  "/Trash")
-  (setq mu4e-refile-folder "/Archive")
-      
-#+END_SRC
-
-** Fetching
-
-   The most comprehensive setup documentation I have found for setting up your
-   own email server using iRedMail is [[https://www.linuxbabe.com/mail-server/ubuntu-18-04-iredmail-email-server][here]]. Fetching is accomplished with
-   =offlineimap= running periodically or launched from mu4e.
-
-#+begin_src emacs-lisp
-  (setq mu4e-get-mail-command "offlineimap")
-#+end_src
-
-** Composing
-
-** Reading
-
-   Save attachments to Downloads
-   
-#+BEGIN_SRC emacs-lisp
-   (setq mu4e-attachment-dir "~/Downloads")  
-#+END_SRC
-
-  Use C-c C-o to open links
-
-#+BEGIN_SRC emacs-lisp
-  (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
-#+END_SRC
-
-  While HTML emails are just fundamentally awful, we usually still need to read
-  them. This ensures that their formatting in Emacs isn’t too hideous:
-
-#+BEGIN_SRC emacs-lisp
-
-  (require 'mu4e-contrib)
-  (setq mu4e-html2text-command 'mu4e-shr2text
-        shr-color-visible-luminance-min 60
-        shr-color-visible-distance-min 5
-        shr-use-fonts nil
-        shr-use-colors nil)
-  (advice-add #'shr-colorize-region
-              :around (defun shr-no-colourise-region (&rest ignore)))
-
-#+END_SRC
-
-  But some HTML emails are just too messy to display in Emacs. This binds a h to
-  open the current email in my default Web browser.
-
-#+BEGIN_SRC emacs-lisp
-
-  (add-to-list 'mu4e-view-actions
-               '("html in browser" . mu4e-action-view-in-browser)
-               t)
-#+END_SRC
-
-View images inline
-
-#+begin_src emacs-lisp
-  (setq mu4e-view-show-images t)
-  (when (fboundp 'imagemagick-register-types)
-    (imagemagick-register-types))
-#+end_src
-
-** Archiving
-
-** Encryption
-
-** Sending
-
-   You will need to install =msmtp= and configure that as needed.
-   
-#+BEGIN_SRC emacs-lisp
-  (setq message-send-mail-function 'message-send-mail-with-sendmail)
-  (setq message-sendmail-extra-arguments '("--read-envelope-from"))
-  (setq message-sendmail-f-is-evil 't)
-  (setq sendmail-program "msmtp") 
-#+END_SRC
-
-** Org Agena Integration
-
-   =org-mu4e= lets me store links to emails. I use this to reference emails in
-   my TODO list while keeping my inbox empty. When storing a link to a message
-   in the headers view, link to the message instead of the search that resulted
-   in that view.
-
-#+BEGIN_SRC emacs-lisp
-
-  (require 'org-mu4e)
-  (setq org-mu4e-link-query-in-headers-mode nil)
-
-#+END_SRC
-
-** Org Contacts
-
-   Use an org-contacts file to manage my address book.
-
-#+BEGIN_SRC emacs-lisp
- (use-package org-contacts
-   :ensure nil
-   :after org
-   :custom (org-contacts-files '("~/OrgDocuments/personal/contacts.org")))
-
- (setq mu4e-org-contacts-file (car org-contacts-files))
- (add-to-list 'mu4e-headers-actions
-              '("org-contact-add" . mu4e-action-add-org-contact) t)
- (add-to-list 'mu4e-view-actions
-              '("org-contact-add" . mu4e-action-add-org-contact) t)
-
-#+END_SRC
-
-** Key Bindings
-
-#+BEGIN_SRC emacs-lisp
-
-  (global-set-key (kbd "C-c m") 'mu4e)
-
-#+END_SRC
-
 * Openwith
   Maps file extensions to applications
 
 #+BEGIN_SRC emacs-lisp
-  (use-package openwith)
-  (openwith-mode t)
-  (add-to-list  'mm-inhibit-file-name-handlers 'openwith-file-handler)
-  (setq openwith-associations '(("\\.pdf\\'" "pdfstudio2020" (file))))
+;;  (use-package openwith)
+;;  (openwith-mode t)
+;;  (add-to-list  'mm-inhibit-file-name-handlers 'openwith-file-handler)
+;;  (setq openwith-associations '(("\\.pdf\\'" "pdfstudio2020" (file))))
 #+END_SRC
   
 * Projectile
@@ -988,17 +811,26 @@ This is a more powerful completion system.
   #+begin_src emacs-lisp
     (use-package org2blog
       :ensure t
-      :config
-      (setq org2blog/wp-blog-alist
-            '(("wordpress"
-               :url "https://donaldbrady.info/xmlrpc.php"
-               :username "d@donaldbrady.info")))
-      (setq org2blog/wp-image-upload t)
-      (setq org2blog/wp-image-thumbnails t)
       :bind
       (("C-c h" . org2blog-user-interface)))
 
+    (require 'org2blog-autoloads)
+    (require 'netrc)
+    (require 'auth-source)
+
+    (let (credentials)
+      (add-to-list 'auth-sources "~/.netrc")
+      (setq credentials (auth-source-user-and-password "wordpress"))
+      (setq org2blog/wp-blog-alist `(("wordpress" :url "https://donaldbrady.info/xmlrpc.php"
+                                      :username ,(car credentials)
+                                      :password ,(cadr credentials)
+                                      :default-title "Insert title"
+                                      :default-categories ("comments")
+                                      :tags-as-categories nil))))
+
+
   #+end_src
+
   
 * RSS with elfeed
 
