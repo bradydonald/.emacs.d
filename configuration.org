@@ -749,7 +749,11 @@
     #+end_src
 
 * Reading Email with mu4e
-  So, mu4e isn't in melpa (wtf) and has to be installed
+
+** Load mu4e
+   
+   So, mu4e isn't in melpa (wtf) and has to be installed
+   
 #+BEGIN_SRC sh
   sudo apt install mu4e  
 #+END_SRC
@@ -771,23 +775,22 @@ error. Need to increase the number available.
 #+begin_src emacs-lisp
   (setq mu4e-contexts
      `( ,(make-mu4e-context
-       :name "O365"
-       :enter-func (lambda () (mu4e-message "Entering O365 context"))
-           :leave-func (lambda () (mu4e-message "Leaving O365 Context"))
+       :name "gmail"
+       :enter-func (lambda () (mu4e-message "Entering gmail context"))
+           :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
        ;; we match based on the contact-fields of the message
        :match-func (lambda (msg)
              (when msg
                (mu4e-message-contact-field-matches msg
-                 :to "d@donaldbrady.info")))
-       :vars '( ( user-mail-address	    . "d@donaldbrady.info"  )
+                 :to "donald.brady@gmail.com")))
+       :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
             ( user-full-name	    . "Donald Brady" )
             ( mu4e-compose-signature .
               (concat
                 "Donald Brady\n"
-                "e: d@donaldbrady.info\n"))))))
+                "e: donald.brady@gmail.com\n"))))))
 
 #+end_src
-
 
 #+begin_src emacs-lisp
   (setq mu4e-context-policy 'pick-first)
