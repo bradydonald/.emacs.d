@@ -641,7 +641,7 @@
              :END:"
                :empty-lines 1)
               ;; Contact (c) template
-              ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Contacts")
+              ("c" "Contact" entry (file+headline ,(concat db/org-personal-files-directory "/contacts.org") "Contacts")
                "* %(org-contacts-template-name)
       :PROPERTIES:
        :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
