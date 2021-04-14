@@ -996,7 +996,7 @@ This is a more powerful completion system.
                     '(
                       ("domain"
                        :url "https://donaldbrady.info/xmlrpc.php"
-                       :username "d@donaldbrady.info")
+                       :username "admin")
                       ("wordpress"
                        :url "https://donaldbrady.wordpress.com/xmlrpc.php"
                        :username "donald.brady@gmail.com")))
@@ -1006,9 +1006,6 @@ This is a more powerful completion system.
               (("C-c h" . org2blog-user-interface)))
 
   #+end_src
-
-  #+RESULTS:
-  : org2blog-user-interface
   
 * RSS with elfeed
 
