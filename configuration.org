@@ -994,9 +994,6 @@ This is a more powerful completion system.
               :config
               (setq org2blog/wp-blog-alist
                     '(
-                      ("domain"
-                       :url "https://donaldbrady.info/xmlrpc.php"
-                       :username "admin")
                       ("wordpress"
                        :url "https://donaldbrady.wordpress.com/xmlrpc.php"
                        :username "donald.brady@gmail.com")))
