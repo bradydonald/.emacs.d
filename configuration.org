@@ -1,6 +1,6 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Donald Brady
-#+EMAIL: d@donaldbrady.info
+#+EMAIL: donald.brady@gmail.com
 #+OPTIONS: toc:nil
 #+STARTUP: overview
 
@@ -46,7 +46,7 @@
 
   #+BEGIN_SRC emacs-lisp
 
-    (setq user-full-name "Donald Brady" user-mail-address "d@donaldbrady.info")
+    (setq user-full-name "Donald Brady" user-mail-address "donald.brady@gmail.com")
 
   #+END_SRC
 
