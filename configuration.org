@@ -323,6 +323,7 @@
      (setq org-modules (append '(habit) org-modules))
      (setq org-catch-invisible-edits 'smart)
      (setq org-ctrl-k-protect-subtree t)
+     (set-face-attribute 'org-headline-done nil :strike-through t) 
    #+END_SRC
 
 ** Org File Locations
