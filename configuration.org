@@ -1118,7 +1118,7 @@ Use pyvenv to support multiple python environments
 * Theme
   Kinda like this theme
 #+begin_src emacs-lisp
-  (load-theme 'wombat)
+  (load-theme 'tron-legacy t)
 #+end_src
   
 * Start a server
