@@ -1,3 +1,4 @@
+
 # -*- mode: snippet -*-
 # name: project-template
 # key: opt
@@ -28,7 +29,10 @@
 
 ** Pricing
 
+*** TODO Identify EFA
+*** TODO Identify Rate Card if Any
 *** TODO Pricing Model
+*** TODO Pricing Approvers
 *** TODO Pricing Approvals
 
 * $1 Call Log  
