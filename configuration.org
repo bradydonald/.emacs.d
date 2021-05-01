@@ -286,22 +286,11 @@
 
   Set up for all things =org-mode=
 
-** TODO Org and Extensions
-   :LOGBOOK:
-   - Note taken on [2020-11-25 Wed 08:43] \\
-     There are dependency issues with org-ql at least. Have to manually invoke a
-     org-ql call before being able to use inine org-ql blocks.
-   :END:
-   Load org and other related packages. 
+** Org and Extensions
+
+   Load org and other related packages.
 
    #+BEGIN_SRC emacs-lisp
-     ;; (use-package org
-     ;;          :ensure org-plus-contrib
-     ;;          :ensure org-superstar
-     ;;          :ensure org-edna
-     ;;          :ensure org-super-agenda
-     ;;          :ensure org-ql
-     ;;        )
 
      (use-package org
        :ensure org-plus-contrib)
@@ -309,11 +298,17 @@
      (use-package org-edna)
      (use-package org-super-agenda)
      (use-package org-ql
-       :demand)
+       :ensure t
+       :commands (org-ql-search)
+       :config (progn
+            (require 'org-habit))
+       :ensure t)
+
    #+END_SRC
 
    Some basic configuration for Org Mode beginning with minor modes for spell
    checking and replacing the =*='s with various types of bullets.
+   
    #+BEGIN_SRC emacs-lisp
      (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
      (define-key org-mode-map (kbd "C-c l") 'org-store-link)
@@ -535,26 +530,36 @@
 
 ** Super Agenda Setup
 
-   [[https://github.com/alphapapa/org-super-agenda][Super Agenda]] allows for grouping of items that appear on the
-   agenda. It doesn't alter what will appear.
-   
-   #+BEGIN_SRC emacs-lisp
+ [[https://github.com/alphapapa/org-super-agenda][Super Agenda]] allows for grouping of items that appear on the
+ agenda. It doesn't alter what will appear.
 
-     (setq org-super-agenda-groups
-           '((:name "Today" :time-grid t :scheduled today)
-             (:name "Important" :priority "A")
-             (:name "Quick Picks" :effort< "0:15" :order 2)
-             (:name "With Caden" :property ("OWNER" "caden") :order 4)
-             (:name "Nice" :and (:priority<= "B" :scheduled future) :order 6)
-             (:name "Inflight Projects" :and (:heading-regexp "PROJECT" :todo "STARTED") :order 9)
-             (:name "Habits" :habit)))
+ #+BEGIN_SRC emacs-lisp
 
-     (add-hook 'org-agenda-mode-hook 'org-super-agenda-mode)
+   (setq org-agenda-skip-scheduled-if-done t
+         org-agenda-skip-deadline-if-done t
+         org-agenda-include-deadlines t
+         org-agenda-include-diary t
+         org-agenda-block-separator nil
+         org-agenda-compact-blocks t
+         org-agenda-start-with-log-mode t)
 
-   #+END_SRC
 
-   #+RESULTS:
-   | org-super-agenda-mode | (lambda nil (define-key org-agenda-mode-map (kbd D) 'org-agenda-deadline)) | (lambda nil (define-key org-agenda-mode-map (kbd S) 'org-agenda-schedule)) |
+   (setq org-super-agenda-groups
+            '((:name "Today" :time-grid t :scheduled today :order 1)
+              (:name "Important" :priority "A" :order 2)
+              (:name "Quick Picks" :effort< "0:15" :order 3)
+              (:name "With Caden" :and (:property ("OWNER" "caden") :scheduled future) :order 4)
+              (:name "Nice" :and (:priority<= "B" :scheduled future) :order 9)
+              (:name "Inflight Projects" :and (:heading-regexp "PROJECT" :todo "STARTED") :order 6)
+              (:name "Habits" :habit)))
+           
+
+      (add-hook 'org-agenda-mode-hook 'org-super-agenda-mode)
+
+ #+END_SRC
+
+ #+RESULTS:
+ | org-super-agenda-mode | (lambda nil (define-key org-agenda-mode-map (kbd D) 'org-agenda-deadline)) | (lambda nil (define-key org-agenda-mode-map (kbd S) 'org-agenda-schedule)) |
 
 ** Org Capture Setup
 
