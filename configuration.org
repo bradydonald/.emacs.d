@@ -541,7 +541,7 @@
          org-agenda-include-diary t
          org-agenda-block-separator nil
          org-agenda-compact-blocks t
-         org-agenda-start-with-log-mode t)
+         org-agenda-start-with-log-mode nil)
 
 
    (setq org-super-agenda-groups
@@ -550,7 +550,7 @@
               (:name "Quick Picks" :effort< "0:15" :order 3)
               (:name "With Caden" :and (:property ("OWNER" "caden") :scheduled future) :order 4)
               (:name "Nice" :and (:priority<= "B" :scheduled future) :order 9)
-              (:name "Inflight Projects" :and (:heading-regexp "PROJECT" :todo "STARTED") :order 6)
+              (:name "Inflight Projects" :and (:deadline future :heading-regexp "PROJECT" :todo "STARTED") :order 6)
               (:name "Habits" :habit)))
            
 
@@ -764,58 +764,51 @@
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
- (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
- (require 'mu4e)
+;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+;; (require 'mu4e)
 #+END_SRC
-
-Some html emails seem to use large number of lisp bindings causing an
-error. Need to increase the number available.
-
-#+begin_src emacs-lisp
- (setq max-specpdl-size 13000)  
-#+end_src
 
 ** Contexts
 
 #+begin_src emacs-lisp
-  (setq mu4e-contexts
-     `( ,(make-mu4e-context
-       :name "gmail"
-       :enter-func (lambda () (mu4e-message "Entering gmail context"))
-           :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
-       ;; we match based on the contact-fields of the message
-       :match-func (lambda (msg)
-             (when msg
-               (mu4e-message-contact-field-matches msg
-                 :to "donald.brady@gmail.com")))
-       :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
-            ( user-full-name	    . "Donald Brady" )
-            ( mu4e-compose-signature .
-              (concat
-                "Donald Brady\n"
-                "e: donald.brady@gmail.com\n"))))))
+  ;; (setq mu4e-contexts
+  ;;    `( ,(make-mu4e-context
+  ;;      :name "gmail"
+  ;;      :enter-func (lambda () (mu4e-message "Entering gmail context"))
+  ;;          :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
+  ;;      ;; we match based on the contact-fields of the message
+  ;;      :match-func (lambda (msg)
+  ;;            (when msg
+  ;;              (mu4e-message-contact-field-matches msg
+  ;;                :to "donald.brady@gmail.com")))
+  ;;      :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
+  ;;           ( user-full-name	    . "Donald Brady" )
+  ;;           ( mu4e-compose-signature .
+  ;;             (concat
+  ;;               "Donald Brady\n"
+  ;;               "e: donald.brady@gmail.com\n"))))))
 
 #+end_src
 
 #+begin_src emacs-lisp
-  (setq mu4e-context-policy 'pick-first)
+;;  (setq mu4e-context-policy 'pick-first)
 #+end_src
    
 #+BEGIN_SRC emacs-lisp
 
-  ;; use mu4e for e-mail in emacs
-  (setq mail-user-agent 'mu4e-user-agent)
+  ;; ;; use mu4e for e-mail in emacs
+  ;; (setq mail-user-agent 'mu4e-user-agent)
 
-  ;; these must start with a "/", and must exist
-  ;; (i.e.. /home/user/Maildir/sent must exist)
-  ;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
-  ;; already exist
+  ;; ;; these must start with a "/", and must exist
+  ;; ;; (i.e.. /home/user/Maildir/sent must exist)
+  ;; ;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
+  ;; ;; already exist
 
-  (setq mu4e-sent-folder   "/Sent")
-  (setq mu4e-drafts-folder "/Drafts")
-  (setq mu4e-trash-folder  "/Trash")
-  (setq mu4e-refile-folder "/Archive")
-      
+  ;; (setq mu4e-sent-folder   "/Sent")
+  ;; (setq mu4e-drafts-folder "/Drafts")
+  ;; (setq mu4e-trash-folder  "/Trash")
+  ;; (setq mu4e-refile-folder "/Archive")
+
 #+END_SRC
 
 ** Fetching
@@ -825,7 +818,7 @@ error. Need to increase the number available.
    =offlineimap= running periodically or launched from mu4e.
 
 #+begin_src emacs-lisp
-  (setq mu4e-get-mail-command "offlineimap")
+;;  (setq mu4e-get-mail-command "offlineimap")
 #+end_src
 
 ** Composing
@@ -835,13 +828,13 @@ error. Need to increase the number available.
    Save attachments to Downloads
    
 #+BEGIN_SRC emacs-lisp
-   (setq mu4e-attachment-dir "~/Downloads")  
+;;   (setq mu4e-attachment-dir "~/Downloads")  
 #+END_SRC
 
   Use C-c C-o to open links
 
 #+BEGIN_SRC emacs-lisp
-  (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
+;;  (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
 #+END_SRC
 
   While HTML emails are just fundamentally awful, we usually still need to read
@@ -849,14 +842,14 @@ error. Need to increase the number available.
 
 #+BEGIN_SRC emacs-lisp
 
-  (require 'mu4e-contrib)
-  (setq mu4e-html2text-command 'mu4e-shr2text
-        shr-color-visible-luminance-min 60
-        shr-color-visible-distance-min 5
-        shr-use-fonts nil
-        shr-use-colors nil)
-  (advice-add #'shr-colorize-region
-              :around (defun shr-no-colourise-region (&rest ignore)))
+  ;; (require 'mu4e-contrib)
+  ;; (setq mu4e-html2text-command 'mu4e-shr2text
+  ;;       shr-color-visible-luminance-min 60
+  ;;       shr-color-visible-distance-min 5
+  ;;       shr-use-fonts nil
+  ;;       shr-use-colors nil)
+  ;; (advice-add #'shr-colorize-region
+  ;;             :around (defun shr-no-colourise-region (&rest ignore)))
 
 #+END_SRC
 
@@ -865,17 +858,17 @@ error. Need to increase the number available.
 
 #+BEGIN_SRC emacs-lisp
 
-  (add-to-list 'mu4e-view-actions
-               '("html in browser" . mu4e-action-view-in-browser)
-               t)
+  ;; (add-to-list 'mu4e-view-actions
+  ;;              '("html in browser" . mu4e-action-view-in-browser)
+  ;;              t)
 #+END_SRC
 
 View images inline
 
 #+begin_src emacs-lisp
-  (setq mu4e-view-show-images t)
-  (when (fboundp 'imagemagick-register-types)
-    (imagemagick-register-types))
+  ;; (setq mu4e-view-show-images t)
+  ;; (when (fboundp 'imagemagick-register-types)
+  ;;   (imagemagick-register-types))
 #+end_src
 
 ** Archiving
@@ -887,10 +880,10 @@ View images inline
    You will need to install =msmtp= and configure that as needed.
    
 #+BEGIN_SRC emacs-lisp
-  (setq message-send-mail-function 'message-send-mail-with-sendmail)
-  (setq message-sendmail-extra-arguments '("--read-envelope-from"))
-  (setq message-sendmail-f-is-evil 't)
-  (setq sendmail-program "msmtp") 
+  ;; (setq message-send-mail-function 'message-send-mail-with-sendmail)
+  ;; (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+  ;; (setq message-sendmail-f-is-evil 't)
+  ;; (setq sendmail-program "msmtp") 
 #+END_SRC
 
 ** Org Agena Integration
@@ -902,8 +895,8 @@ View images inline
 
 #+BEGIN_SRC emacs-lisp
 
-  (require 'org-mu4e)
-  (setq org-mu4e-link-query-in-headers-mode nil)
+  ;; (require 'org-mu4e)
+  ;; (setq org-mu4e-link-query-in-headers-mode nil)
 
 #+END_SRC
 
@@ -912,16 +905,16 @@ View images inline
    Use an org-contacts file to manage my address book.
 
 #+BEGIN_SRC emacs-lisp
- (use-package org-contacts
-   :ensure nil
-   :after org
-   :custom (org-contacts-files '("~/OrgDocuments/personal/contacts.org")))
+  ;; (use-package org-contacts
+  ;;   :ensure nil
+  ;;   :after org
+  ;;   :custom (org-contacts-files '("~/OrgDocuments/personal/contacts.org")))
 
- (setq mu4e-org-contacts-file (car org-contacts-files))
- (add-to-list 'mu4e-headers-actions
-              '("org-contact-add" . mu4e-action-add-org-contact) t)
- (add-to-list 'mu4e-view-actions
-              '("org-contact-add" . mu4e-action-add-org-contact) t)
+  ;; (setq mu4e-org-contacts-file (car org-contacts-files))
+  ;; (add-to-list 'mu4e-headers-actions
+  ;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
+  ;; (add-to-list 'mu4e-view-actions
+  ;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
 
 #+END_SRC
 
@@ -929,7 +922,7 @@ View images inline
 
 #+BEGIN_SRC emacs-lisp
 
-  (global-set-key (kbd "C-c m") 'mu4e)
+;;  (global-set-key (kbd "C-c m") 'mu4e)
 
 #+END_SRC
 
@@ -937,10 +930,10 @@ View images inline
   Maps file extensions to applications
 
 #+BEGIN_SRC emacs-lisp
-  (use-package openwith)
-  (openwith-mode t)
-  (add-to-list  'mm-inhibit-file-name-handlers 'openwith-file-handler)
-  (setq openwith-associations '(("\\.pdf\\'" "pdfstudio2020" (file))))
+  ;; (use-package openwith)
+  ;; (openwith-mode t)
+  ;; (add-to-list  'mm-inhibit-file-name-handlers 'openwith-file-handler)
+  ;; (setq openwith-associations '(("\\.pdf\\'" "pdfstudio2020" (file))))
 #+END_SRC
   
 * Projectile
