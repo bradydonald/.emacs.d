@@ -293,7 +293,7 @@
    #+BEGIN_SRC emacs-lisp
 
      (use-package org)
-;;     (use-package org-plus-contrib)
+     (use-package org-plus-contrib)
      (require 'org-habit)
      (use-package org-superstar)
      (use-package org-edna)
