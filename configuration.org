@@ -292,17 +292,13 @@
 
    #+BEGIN_SRC emacs-lisp
 
-     (use-package org
-       :ensure org-plus-contrib)
+     (use-package org)
+;;     (use-package org-plus-contrib)
+     (require 'org-habit)
      (use-package org-superstar)
      (use-package org-edna)
      (use-package org-super-agenda)
-     (use-package org-ql
-       :ensure t
-       :commands (org-ql-search)
-       :config (progn
-            (require 'org-habit))
-       :ensure t)
+     (use-package org-ql)
 
    #+END_SRC
 
@@ -1059,6 +1055,7 @@ This section has all globally set keys unless they are related to a package or m
 
   ;; Lenovo Function Key Bindings
   (global-set-key (kbd "<XF86Favorites>") 'bury-buffer) ;; The Star on F12
+  (global-set-key (kbd "<f12>") 'bury-buffer) ;; F12 on logi keybpard
 
   ;; M-0 to toggle hiding
   (global-set-key (kbd "M-0") 'hs-toggle-hiding)
