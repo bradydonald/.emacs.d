@@ -526,36 +526,33 @@
 
 ** Super Agenda Setup
 
- [[https://github.com/alphapapa/org-super-agenda][Super Agenda]] allows for grouping of items that appear on the
- agenda. It doesn't alter what will appear.
+   [[https://github.com/alphapapa/org-super-agenda][Super Agenda]] allows for grouping of items that appear on the
+   agenda. It doesn't alter what will appear.
 
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 
-   (setq org-agenda-skip-scheduled-if-done t
-         org-agenda-skip-deadline-if-done t
-         org-agenda-include-deadlines t
-         org-agenda-include-diary t
-         org-agenda-block-separator nil
-         org-agenda-compact-blocks t
-         org-agenda-start-with-log-mode nil)
+     (setq org-agenda-skip-scheduled-if-done t
+           org-agenda-skip-deadline-if-done t
+           org-agenda-include-deadlines t
+           org-agenda-include-diary t
+           org-agenda-block-separator nil
+           org-agenda-compact-blocks t
+           org-agenda-start-with-log-mode nil)
 
 
-   (setq org-super-agenda-groups
-            '((:name "Today" :time-grid t :scheduled today :order 1)
-              (:name "Important" :priority "A" :order 2)
-              (:name "Quick Picks" :effort< "0:15" :order 3)
-              (:name "With Caden" :and (:property ("OWNER" "caden") :scheduled future) :order 4)
-              (:name "Nice" :and (:priority<= "B" :scheduled future) :order 9)
-              (:name "Inflight Projects" :and (:deadline future :heading-regexp "PROJECT" :todo "STARTED") :order 6)
-              (:name "Habits" :habit)))
-           
+     (setq org-super-agenda-groups
+              '((:name "Today" :time-grid t :scheduled today :order 1)
+                (:name "Important" :priority "A" :order 2)
+                (:name "Quick Picks" :effort< "0:15" :order 3)
+                (:name "With Caden" :and (:property ("OWNER" "caden") :scheduled future) :order 4)
+                (:name "Nice" :and (:priority<= "B" :scheduled future) :order 9)
+                (:name "Inflight Projects" :and (:deadline t :todo "STARTED") :order 6)
+                (:name "Habits" :habit)))
 
-      (add-hook 'org-agenda-mode-hook 'org-super-agenda-mode)
 
- #+END_SRC
+     (add-hook 'org-agenda-mode-hook 'org-super-agenda-mode)
 
- #+RESULTS:
- | org-super-agenda-mode | (lambda nil (define-key org-agenda-mode-map (kbd D) 'org-agenda-deadline)) | (lambda nil (define-key org-agenda-mode-map (kbd S) 'org-agenda-schedule)) |
+    #+END_SRC
 
 ** Org Capture Setup
 
@@ -753,68 +750,68 @@
 
 ** Load mu4e
    
-   So, mu4e isn't in melpa (wtf) and has to be installed
+   So, mu4e isn't in melpa (wtf) and has to be installed. Since switching to
+   Fedora 34 (wayland) now...
    
 #+BEGIN_SRC sh
-  sudo apt install mu4e  
+  sudo dnf install mu4e  
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-;; (require 'mu4e)
+  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+  (require 'mu4e)
 #+END_SRC
 
 ** Contexts
 
+   I just have one context which is gmail.
+   
 #+begin_src emacs-lisp
-  ;; (setq mu4e-contexts
-  ;;    `( ,(make-mu4e-context
-  ;;      :name "gmail"
-  ;;      :enter-func (lambda () (mu4e-message "Entering gmail context"))
-  ;;          :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
-  ;;      ;; we match based on the contact-fields of the message
-  ;;      :match-func (lambda (msg)
-  ;;            (when msg
-  ;;              (mu4e-message-contact-field-matches msg
-  ;;                :to "donald.brady@gmail.com")))
-  ;;      :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
-  ;;           ( user-full-name	    . "Donald Brady" )
-  ;;           ( mu4e-compose-signature .
-  ;;             (concat
-  ;;               "Donald Brady\n"
-  ;;               "e: donald.brady@gmail.com\n"))))))
+ (setq mu4e-contexts
+    `( ,(make-mu4e-context
+      :name "gmail"
+      :enter-func (lambda () (mu4e-message "Entering gmail context"))
+          :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
+      ;; we match based on the contact-fields of the message
+      :match-func (lambda (msg)
+            (when msg
+              (mu4e-message-contact-field-matches msg
+                :to "donald.brady@gmail.com")))
+      :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
+           ( user-full-name	    . "Donald Brady" )
+           ( mu4e-compose-signature .
+             (concat
+               "Donald Brady\n"
+               "e: donald.brady@gmail.com\n"))))))
 
 #+end_src
 
 #+begin_src emacs-lisp
-;;  (setq mu4e-context-policy 'pick-first)
+  (setq mu4e-context-policy 'pick-first)
 #+end_src
    
 #+BEGIN_SRC emacs-lisp
 
-  ;; ;; use mu4e for e-mail in emacs
-  ;; (setq mail-user-agent 'mu4e-user-agent)
+  ;; use mu4e for e-mail in emacs
+  (setq mail-user-agent 'mu4e-user-agent)
 
-  ;; ;; these must start with a "/", and must exist
-  ;; ;; (i.e.. /home/user/Maildir/sent must exist)
-  ;; ;; you use e.g. 'mu mkdir' to make the Maildirs if they don't
-  ;; ;; already exist
+  ;; these must start with a "/", and must exist
+  ;; (i.e.. /home/user/Maildir/gmail/Sent must exist) you use e.g. 'mu mkdir' and
+  ;; 'mu init' to make the Maildirs if they don't already exist.
 
-  ;; (setq mu4e-sent-folder   "/Sent")
-  ;; (setq mu4e-drafts-folder "/Drafts")
-  ;; (setq mu4e-trash-folder  "/Trash")
-  ;; (setq mu4e-refile-folder "/Archive")
+  (setq mu4e-sent-folder   "/gmail/Sent")
+  (setq mu4e-drafts-folder "/gmail/Drafts")
+  (setq mu4e-trash-folder  "/gmail/Trash")
+  (setq mu4e-refile-folder "/gmail/Archive")
 
 #+END_SRC
 
 ** Fetching
 
-   The most comprehensive setup documentation I have found for setting up your
-   own email server using iRedMail is [[https://www.linuxbabe.com/mail-server/ubuntu-18-04-iredmail-email-server][here]]. Fetching is accomplished with
-   =offlineimap= running periodically or launched from mu4e.
+   Use mbsync for fetching email.
 
 #+begin_src emacs-lisp
-;;  (setq mu4e-get-mail-command "offlineimap")
+  (setq mu4e-get-mail-command "mbsync -V gmail")
 #+end_src
 
 ** Composing
@@ -824,47 +821,21 @@
    Save attachments to Downloads
    
 #+BEGIN_SRC emacs-lisp
-;;   (setq mu4e-attachment-dir "~/Downloads")  
+  (setq mu4e-attachment-dir "~/Downloads")  
 #+END_SRC
 
   Use C-c C-o to open links
 
 #+BEGIN_SRC emacs-lisp
-;;  (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
-#+END_SRC
-
-  While HTML emails are just fundamentally awful, we usually still need to read
-  them. This ensures that their formatting in Emacs isn’t too hideous:
-
-#+BEGIN_SRC emacs-lisp
-
-  ;; (require 'mu4e-contrib)
-  ;; (setq mu4e-html2text-command 'mu4e-shr2text
-  ;;       shr-color-visible-luminance-min 60
-  ;;       shr-color-visible-distance-min 5
-  ;;       shr-use-fonts nil
-  ;;       shr-use-colors nil)
-  ;; (advice-add #'shr-colorize-region
-  ;;             :around (defun shr-no-colourise-region (&rest ignore)))
-
-#+END_SRC
-
-  But some HTML emails are just too messy to display in Emacs. This binds a h to
-  open the current email in my default Web browser.
-
-#+BEGIN_SRC emacs-lisp
-
-  ;; (add-to-list 'mu4e-view-actions
-  ;;              '("html in browser" . mu4e-action-view-in-browser)
-  ;;              t)
+  (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
 #+END_SRC
 
 View images inline
 
 #+begin_src emacs-lisp
-  ;; (setq mu4e-view-show-images t)
-  ;; (when (fboundp 'imagemagick-register-types)
-  ;;   (imagemagick-register-types))
+  (setq mu4e-view-show-images t)
+  (when (fboundp 'imagemagick-register-types)
+    (imagemagick-register-types))
 #+end_src
 
 ** Archiving
@@ -876,10 +847,10 @@ View images inline
    You will need to install =msmtp= and configure that as needed.
    
 #+BEGIN_SRC emacs-lisp
-  ;; (setq message-send-mail-function 'message-send-mail-with-sendmail)
-  ;; (setq message-sendmail-extra-arguments '("--read-envelope-from"))
-  ;; (setq message-sendmail-f-is-evil 't)
-  ;; (setq sendmail-program "msmtp") 
+  (setq message-send-mail-function 'message-send-mail-with-sendmail)
+  (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+  (setq message-sendmail-f-is-evil 't)
+  (setq sendmail-program "msmtp") 
 #+END_SRC
 
 ** Org Agena Integration
@@ -891,8 +862,8 @@ View images inline
 
 #+BEGIN_SRC emacs-lisp
 
-  ;; (require 'org-mu4e)
-  ;; (setq org-mu4e-link-query-in-headers-mode nil)
+  (require 'org-mu4e)
+  (setq org-mu4e-link-query-in-headers-mode nil)
 
 #+END_SRC
 
@@ -900,25 +871,25 @@ View images inline
 
    Use an org-contacts file to manage my address book.
 
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package org-contacts
-  ;;   :ensure nil
-  ;;   :after org
-  ;;   :custom (org-contacts-files '("~/OrgDocuments/personal/contacts.org")))
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-contacts
+       :ensure nil
+       :after org
+       :custom (org-contacts-files '("~/OrgDocuments/personal/contacts.org")))
 
-  ;; (setq mu4e-org-contacts-file (car org-contacts-files))
-  ;; (add-to-list 'mu4e-headers-actions
-  ;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
-  ;; (add-to-list 'mu4e-view-actions
-  ;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
+     (setq mu4e-org-contacts-file (car org-contacts-files))
+     (add-to-list 'mu4e-headers-actions
+                  '("org-contact-add" . mu4e-action-add-org-contact) t)
+     (add-to-list 'mu4e-view-actions
+                  '("org-contact-add" . mu4e-action-add-org-contact) t)
 
-#+END_SRC
+   #+END_SRC
 
 ** Key Bindings
 
 #+BEGIN_SRC emacs-lisp
 
-;;  (global-set-key (kbd "C-c m") 'mu4e)
+  (global-set-key (kbd "C-c m") 'mu4e)
 
 #+END_SRC
 
@@ -980,7 +951,9 @@ This is a more powerful completion system.
 * Blogging with Wordpress and Org2Blog
 
   [[https://github.com/org2blog/org2blog][Org2Blog]] is a package for blogging directly from org-mode to wordpress which
-  is about all I need to manage an online presence
+  is about all I need to manage an online presence.
+
+  http://donald-brady.wordpress.com
 
   #+begin_src emacs-lisp
             (use-package org2blog
