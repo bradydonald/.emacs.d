@@ -448,6 +448,8 @@
 
 ** Diary Settings
 
+   I've don't use the diary file but it's useful for holidays.
+
    #+BEGIN_SRC emacs-lisp
      (setq diary-file (expand-file-name "diary" org-directory))
      (setq org-agenda-include-diary t)
@@ -455,6 +457,31 @@
      (setq calendar-christian-all-holidays-flag t)
      (setq calendar-hebrew-all-holidays-flag t)
      (setq calendar-islamic-all-holidays-flag t)
+   #+END_SRC
+
+   
+** Calfw
+
+   [[https://github.com/kiwanami/emacs-calfw][Calfw]] generates useful calendar views suitable for printing or providing a
+   more visual outlook on the day, week, two weeks, or month
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package calfw)
+     (require 'calfw)
+     (require 'calfw-org)
+
+     (defun db:my-open-calendar ()
+       (interactive)
+       (cfw:open-calendar-buffer
+        :contents-sources
+        (list
+         (cfw:org-create-source "Green")  ; orgmode source
+     ;;    (cfw:howm-create-source "Blue")  ; howm source
+     ;;    (cfw:cal-create-source "Orange") ; diary source
+     ;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
+     ;;    (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed") ; google calendar ICS
+        )))
+
    #+END_SRC
 
 ** Org Edna
