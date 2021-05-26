@@ -1017,20 +1017,6 @@ Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=.
     ("o" . elfeed-search-browse-url)))
 #+END_SRC
 
-* Printing
-  To enable easier printing on linux install gtklp
-
-#+BEGIN_EXAMPLE
-  sudo apt install gtklp
-#+END_EXAMPLE
-
-and then will allow a grpahical choice of printer and more. 
-
-#+begin_src emacs-lisp
-  (setq lpr-command "gtklp")
-  (setq ps-lpr-command "gtklp")
-#+end_src
-
 * Globally Set Keys
 
 This section has all globally set keys unless they are related to a package or mode config. 
