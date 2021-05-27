@@ -361,6 +361,7 @@
         (python . t)
         (sql . t)
         (shell . t)
+        (clojure . t)
         (gnuplot . t)))
    #+END_SRC
 
@@ -1017,6 +1018,50 @@ Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=.
     ("o" . elfeed-search-browse-url)))
 #+END_SRC
 
+* Programming
+
+** Python
+
+ #+BEGIN_SRC emacs-lisp
+   (use-package python
+     :hook
+     (python-mode . flycheck-mode)
+     (python-mode . db/activate-pyvenv)
+     (python-mode . hs-minor-mode))
+
+ #+END_SRC
+
+ #+BEGIN_SRC emacs-lisp
+   (use-package elpy
+     :ensure t
+     :init
+     (elpy-enable))
+ #+END_SRC
+
+ Use pyvenv to support multiple python environments
+
+ #+BEGIN_SRC emacs-lisp
+   (use-package pyvenv
+     :after python
+     :config
+     (defun db/activate-pyvenv ()
+       "Activate python environment according to the `.venv' file."
+       (interactive)
+       (pyvenv-mode)
+       (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".venv")))
+         (if (file-exists-p pfile)
+             (pyvenv-workon (with-temp-buffer
+                              (insert-file-contents pfile)
+                              (nth 0 (split-string (buffer-string)))))))))
+ #+END_SRC
+ 
+** Clojure
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package clojure-mode)
+     (use-package cider)
+   #+END_SRC
+
 * Globally Set Keys
 
 This section has all globally set keys unless they are related to a package or mode config. 
@@ -1049,41 +1094,6 @@ This section has all globally set keys unless they are related to a package or m
   ;; toggle line numbers
   (global-set-key (kbd "C-c l") 'display-line-numbers-mode)
 
-#+END_SRC
-
-* Python Setup
-
-#+BEGIN_SRC emacs-lisp
-  (use-package python
-    :hook
-    (python-mode . flycheck-mode)
-    (python-mode . db/activate-pyvenv)
-    (python-mode . hs-minor-mode))
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package elpy
-    :ensure t
-    :init
-    (elpy-enable))
-#+END_SRC
-
-Use pyvenv to support multiple python environments
-
-#+BEGIN_SRC emacs-lisp
-  (use-package pyvenv
-    :after python
-    :config
-    (defun db/activate-pyvenv ()
-      "Activate python environment according to the `.venv' file."
-      (interactive)
-      (pyvenv-mode)
-      (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".venv")))
-        (if (file-exists-p pfile)
-            (pyvenv-workon (with-temp-buffer
-                             (insert-file-contents pfile)
-                             (nth 0 (split-string (buffer-string)))))))))
 #+END_SRC
 
 * Load any Custom Code

@@ -3,18 +3,18 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
- (filename . "~/OrgDocuments/dcllp/talespin.org")
- (front-context-string . "** TODO [#A]  Ta")
- (rear-context-string . " Sent\n   :END:\n\n")
- (position . 1402))
+ (filename . "~/OrgDocuments/personal/index.org")
+ (front-context-string . "** TODO EVENT: C")
+ (rear-context-string . " 0:15\n   :END:\n\n")
+ (position . 45132))
 ("org-refile-last-stored"
- (filename . "~/OrgDocuments/dcllp/talespin.org")
- (front-context-string . "** TODO [#A]  Ta")
- (rear-context-string . " Sent\n   :END:\n\n")
- (position . 1402))
+ (filename . "~/OrgDocuments/personal/index.org")
+ (front-context-string . "** TODO EVENT: C")
+ (rear-context-string . " 0:15\n   :END:\n\n")
+ (position . 45132))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/personal/index.org")
- (front-context-string . "** TODO [#A]  Ta")
- (rear-context-string . "8:09]\n   :END:\n\n")
- (position . 548))
+ (front-context-string . "** TODO EVENT: C")
+ (rear-context-string . " information]]\n\n")
+ (position . 744))
 )
