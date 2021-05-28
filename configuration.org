@@ -1116,8 +1116,5 @@ This section has all globally set keys unless they are related to a package or m
   Finally start a server
   
 #+BEGIN_SRC emacs-lisp
-  (unless (server-running-p)
-    (server-start))
+  (server-start)
 #+END_SRC
-
-
