@@ -4,7 +4,6 @@
 #+OPTIONS: toc:nil
 #+STARTUP: overview
 
-
 * See .init.el
 
   =.init.el= set up the magic that is =use-package= and =org-babel-load-file= to
@@ -338,7 +337,7 @@
        :hook
        (after-init . org-roam-mode)
        :custom
-       (org-roam-directory "~/OrgDocuments")
+       (org-roam-directory "~/OrgDocuments/roam")
        :bind (:map org-roam-mode-map
                    (("C-c n l" . org-roam)
                     ("C-c n f" . org-roam-find-file)
@@ -400,7 +399,6 @@
      (setq org-todo-keywords '((sequence
                                 "TODO(t)"
                                 "STARTED(s)"
-                                "NEXT(n)"
                                 "WAITING(w)" "|"
                                 "DONE(d)"
                                 "SUSPENDED(u)"
