@@ -313,7 +313,8 @@
      (setq org-modules (append '(habit) org-modules))
      (setq org-catch-invisible-edits 'smart)
      (setq org-ctrl-k-protect-subtree t)
-     (set-face-attribute 'org-headline-done nil :strike-through t) 
+     (set-face-attribute 'org-headline-done nil :strike-through t)
+     (setq org-return-follows-link t)
    #+END_SRC
 
 ** Org File Locations
@@ -331,21 +332,23 @@
 ** Org Roam
 
    #+BEGIN_SRC emacs-lisp
-
+     
      (use-package org-roam
        :ensure t
        :hook
        (after-init . org-roam-mode)
        :custom
-       (org-roam-directory "~/OrgDocuments/roam")
+       (org-roam-directory "~/OrgDocuments")
        :bind (:map org-roam-mode-map
                    (("C-c n l" . org-roam)
                     ("C-c n f" . org-roam-find-file)
                     ("C-c n g" . org-roam-graph))
                    :map org-mode-map
+                   (("C-\\" . org-previous-link))
                    (("C-c n i" . org-roam-insert))
+                   (("C-<return>" . org-next-link))
                    (("C-c n I" . org-roam-insert-immediate))))
-
+     
    #+END_SRC
 
 ** Language Support
