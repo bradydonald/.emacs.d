@@ -290,15 +290,14 @@
    Load org and other related packages.
 
    #+BEGIN_SRC emacs-lisp
-
-     (use-package org)
-     (use-package org-plus-contrib)
+     
+     (use-package org :ensure org-plus-contrib)
      (require 'org-habit)
      (use-package org-superstar)
      (use-package org-edna)
      (use-package org-super-agenda)
      (use-package org-ql)
-
+     
    #+END_SRC
 
    Some basic configuration for Org Mode beginning with minor modes for spell
@@ -466,6 +465,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package calfw)
+     (use-package calfw-org)
      (require 'calfw)
      (require 'calfw-org)
 
