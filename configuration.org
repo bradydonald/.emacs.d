@@ -350,6 +350,19 @@
      
    #+END_SRC
 
+*** Org-roam Capture Templates
+    
+    Starter pack. If there is only one, it uses this automatically
+
+    #+BEGIN_SRC emacs-lisp
+      (setq org-roam-capture-templates
+        '(("d" "default" plain (function org-roam--capture-get-point)
+          "%?"
+          :file-name "%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}\" (current-time) t)"
+          :head "#+title: ${title}\n#+roam_alias: ${alias}\n#+roam_tags: ${tags}\n"
+          :unnarrowed t)))
+    #+END_SRC
+
 ** Language Support
 
    Setup =babel= to evaluate the languages / scripts I use.
