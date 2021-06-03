@@ -159,6 +159,22 @@
         (exec-path-from-shell-initialize)))
   #+END_SRC
 
+  
+* Handling url's under WSL2
+
+  Cudos to this [[https://hungyi.net/posts/browse-emacs-urls-wsl/][article]]
+  
+  #+BEGIN_SRC emacs-lisp
+    (when (and (eq system-type 'gnu/linux)
+               (string-match
+                "Linux.*Microsoft.*Linux"
+              ((should )ell-command-to-string "uname -a")))
+      (setq
+       browse-url-generic-program  "/mnt/c/Windows/System32/cmd.exe"
+       browse-url-generic-args     '("/c" "start")
+       browse-url-browser-function #'browse-url-generic))
+  #+END_SRC
+
 * Recent File Saving
 
   #+BEGIN_SRC emacs-lisp
