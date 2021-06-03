@@ -36,6 +36,5 @@ themes/*
 /request/
 /session*
 /eln-cache/
-bookmarks
-bookmarks
-bookmarks
+/bookmarks
+/custom.el
