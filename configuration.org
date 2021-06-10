@@ -159,7 +159,6 @@
         (exec-path-from-shell-initialize)))
   #+END_SRC
 
-  
 * Handling url's under WSL2
 
   Cudos to this [[https://hungyi.net/posts/browse-emacs-urls-wsl/][article]]
@@ -334,10 +333,8 @@
 
 ** Org File Locations
 
-   Just one location and using git to manage sharing as needed. 
-
    #+BEGIN_SRC emacs-lisp
-     (setq org-directory "~/OrgDocuments")
+     (setq org-directory "~/OrgDocuments/personal")
      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
      (setq org-default-notes-file (concat org-directory "/personal/index.org"))
      (setq db/org-work-files-directory (expand-file-name "dcllp" org-directory))
@@ -353,7 +350,7 @@
        :hook
        (after-init . org-roam-mode)
        :custom
-       (org-roam-directory "~/OrgDocuments")
+       (org-roam-directory "~/OrgDocuments/personal")
        :bind (:map org-roam-mode-map
                    (("C-c n l" . org-roam)
                     ("C-c n f" . org-roam-find-file)
@@ -453,45 +450,18 @@
 
    #+END_SRC
 
-   Some custom functions for agenda, to allow narrowing to personal or work views
-
-   #+begin_src emacs-lisp
-
-     (defun db/org-narrow-to-work ()
-       (directory-files-recursively db/org-work-files-directory "org$"))
-
-     (defun db/org-narrow-to-personal ()
-       (directory-files-recursively db/org-personal-files-directory "org$"))
-
-     (defun db/org-widen ()
-       (directory-files-recursively org-directory "org$"))
-
-     (setq org-agenda-custom-commands
-           '(("p" "Personal Context"
-              ((agenda "" ((org-agenda-span 'day)
-                           (org-agenda-files (db/org-narrow-to-personal))))))
-             ("w" "Work Context"
-              ((agenda "" ((org-agenda-span 'day)
-                           (org-agenda-files (db/org-narrow-to-work))))))
-             ("B" "Both Context"
-              ((agenda "" ((org-agenda-span 'day)
-                           (org-agenda-files (db/org-widen))))))))
-   #+end_src
 
 ** Diary Settings
 
    I've don't use the diary file but it's useful for holidays.
 
    #+BEGIN_SRC emacs-lisp
-     (setq diary-file (expand-file-name "diary" org-directory))
-     (setq org-agenda-include-diary t)
      (setq calendar-bahai-all-holidays-flag nil)
      (setq calendar-christian-all-holidays-flag t)
      (setq calendar-hebrew-all-holidays-flag t)
      (setq calendar-islamic-all-holidays-flag t)
    #+END_SRC
 
-   
 ** Calfw
 
    [[https://github.com/kiwanami/emacs-calfw][Calfw]] generates useful calendar views suitable for printing or providing a
@@ -754,7 +724,32 @@
 
    This section is for additional customizations.
 
-   
+*** Allow the co-existence of work and persoinal contexts under one OrgDocuments directory
+
+    #+BEGIN_SRC elisp
+      (defun db/org-work-context ()
+        (interactive)
+        (setq org-directory "~/OrgDocuments/dcllp")
+        (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+        (setq org-default-notes-file (concat org-directory "/dcllp/index.org"))
+        (setq org-roam-directory org-directory)
+        (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+        (org-roam-db-build-cache))
+      
+      
+      
+      (defun db/org-personal-context ()
+        (interactive)
+        (setq org-directory "~/OrgDocuments/personal")
+        (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+        (setq org-default-notes-file (concat org-directory "/personal/index.org"))
+        (setq org-roam-directory org-directory)
+        (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+        (org-roam-db-build-cache))
+      
+  #+END_SRC
+
+
 *** Add a CREATED timestamp property to all TODOs
 
     All of this comes from [[https://gist.github.com/mrvdb/4037694][this gist]]. Would be nice if org mode just offered
