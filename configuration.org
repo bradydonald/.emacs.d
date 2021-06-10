@@ -331,18 +331,22 @@
      (setq org-return-follows-link t)
    #+END_SRC
 
-** Org File Locations
+n** Org File Locations
 
+   My setup now includes two org-directories under an umberlla OrgDocuments
+   directory. They are personal and dcllp (work). The default opening setup is
+   to default to personal.
+   
    #+BEGIN_SRC emacs-lisp
      (setq org-directory "~/OrgDocuments/personal")
      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
-     (setq org-default-notes-file (concat org-directory "/personal/index.org"))
-     (setq db/org-work-files-directory (expand-file-name "dcllp" org-directory))
-     (setq db/org-personal-files-directory (expand-file-name "personal" org-directory))
+     (setq org-default-notes-file (concat org-directory "/index.org"))
    #+END_SRC
 
 ** Org Roam
 
+   Likewise org-roam defaults to personal.
+   
    #+BEGIN_SRC emacs-lisp
      
      (use-package org-roam
@@ -367,7 +371,7 @@
 
 *** Org-roam Capture Templates
     
-    Starter pack. If there is only one, it uses this automatically
+    Starter pack. If there is only one, it uses automatically without asking.
 
     #+BEGIN_SRC emacs-lisp
       (setq org-roam-capture-templates
@@ -456,7 +460,6 @@
                                        (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
 
    #+END_SRC
-
 
 ** Diary Settings
 
@@ -676,7 +679,7 @@
              :END:"
                :empty-lines 1)
               ;; Contact (c) template
-              ("c" "Contact" entry (file+headline ,(concat db/org-personal-files-directory "/contacts.org") "Contacts")
+              ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Contacts")
                "* %(org-contacts-template-name)
       :PROPERTIES:
        :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
@@ -727,33 +730,30 @@
 
 #+end_src
    
-** Other Customizations
+** TODO Personal and Work Toggle
+   Need to add mode line display of context
 
-   This section is for additional customizations.
-
-*** Allow the co-existence of work and persoinal contexts under one OrgDocuments directory
-
-  #+BEGIN_SRC elisp
+ #+BEGIN_SRC elisp
     
-    (defun db/org-work-context ()
-      (interactive)
-      (setq org-directory "~/OrgDocuments/dcllp")
-      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
-      (setq org-default-notes-file (concat org-directory "/index.org"))
-      (setq org-roam-directory org-directory)
-      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
-      (org-roam-db-build-cache))
+   (defun db/org-work-context ()
+     (interactive)
+     (setq org-directory "~/OrgDocuments/dcllp")
+     (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+     (setq org-default-notes-file (concat org-directory "/index.org"))
+     (setq org-roam-directory org-directory)
+     (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+     (org-roam-db-build-cache))
     
-    (defun db/org-personal-context ()
-      (interactive)
-      (setq org-directory "~/OrgDocuments/personal")
-      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
-      (setq org-default-notes-file (concat org-directory "/index.org"))
-      (setq org-roam-directory org-directory)
-      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
-      (org-roam-db-build-cache))
+   (defun db/org-personal-context ()
+     (interactive)
+     (setq org-directory "~/OrgDocuments/personal")
+     (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+     (setq org-default-notes-file (concat org-directory "/index.org"))
+     (setq org-roam-directory org-directory)
+     (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+     (org-roam-db-build-cache))
     
-  #+END_SRC
+ #+END_SRC
 
 *** Add a CREATED timestamp property to all TODOs
 
@@ -805,6 +805,9 @@
           (org-set-tags)))
 
     #+end_src
+** Other Customizations
+
+   This section is for additional customizations.
 
 * Reading Email with mu4e
 
@@ -1016,19 +1019,19 @@ This is a more powerful completion system.
   http://donald-brady.wordpress.com
 
   #+begin_src emacs-lisp
-            (use-package org2blog
-              :ensure t
-              :config
-              (setq org2blog/wp-blog-alist
-                    '(
-                      ("wordpress"
-                       :url "https://donaldbrady.wordpress.com/xmlrpc.php"
-                       :username "donald.brady@gmail.com")))
-              (setq org2blog/wp-image-upload t)
-              (setq org2blog/wp-image-thumbnails t)
-              :bind
-              (("C-c h" . org2blog-user-interface)))
-
+    (use-package org2blog
+      :ensure t
+      :config
+      (setq org2blog/wp-blog-alist
+            '(
+              ("wordpress"
+               :url "https://donaldbrady.wordpress.com/xmlrpc.php"
+               :username "donald.brady@gmail.com")))
+      (setq org2blog/wp-image-upload t)
+      (setq org2blog/wp-image-thumbnails t)
+      :bind
+      (("C-c h" . org2blog-user-interface)))
+    
   #+end_src
   
 * RSS with elfeed
