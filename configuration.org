@@ -726,29 +726,27 @@
 
 *** Allow the co-existence of work and persoinal contexts under one OrgDocuments directory
 
-    #+BEGIN_SRC elisp
-      (defun db/org-work-context ()
-        (interactive)
-        (setq org-directory "~/OrgDocuments/dcllp")
-        (setq org-agenda-files (directory-files-recursively org-directory "org$"))
-        (setq org-default-notes-file (concat org-directory "/dcllp/index.org"))
-        (setq org-roam-directory org-directory)
-        (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
-        (org-roam-db-build-cache))
-      
-      
-      
-      (defun db/org-personal-context ()
-        (interactive)
-        (setq org-directory "~/OrgDocuments/personal")
-        (setq org-agenda-files (directory-files-recursively org-directory "org$"))
-        (setq org-default-notes-file (concat org-directory "/personal/index.org"))
-        (setq org-roam-directory org-directory)
-        (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
-        (org-roam-db-build-cache))
-      
+  #+BEGIN_SRC elisp
+    
+    (defun db/org-work-context ()
+      (interactive)
+      (setq org-directory "~/OrgDocuments/dcllp")
+      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+      (setq org-default-notes-file (concat org-directory "/index.org"))
+      (setq org-roam-directory org-directory)
+      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+      (org-roam-db-build-cache))
+    
+    (defun db/org-personal-context ()
+      (interactive)
+      (setq org-directory "~/OrgDocuments/personal")
+      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+      (setq org-default-notes-file (concat org-directory "/index.org"))
+      (setq org-roam-directory org-directory)
+      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+      (org-roam-db-build-cache))
+    
   #+END_SRC
-
 
 *** Add a CREATED timestamp property to all TODOs
 
