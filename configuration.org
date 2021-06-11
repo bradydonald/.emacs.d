@@ -367,6 +367,9 @@ n** Org File Locations
                    (("C-c n y". org-roam-dailies-find-yesterday))
                    (("C-c n I" . org-roam-insert-immediate))))
      
+     ;; required for org-roam bookmarklet 
+     (require 'org-roam-protocol)
+     
    #+END_SRC
 
 *** Org-roam Capture Templates
@@ -385,6 +388,12 @@ n** Org File Locations
           "%?"
           :file-name "%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}\" (current-time) t)"
           :head "#+title: ${title}\n#+roam_alias: \n#+roam_tags: \n%c\n"
+          :unnarrowed t)
+      
+          ("o" "org-roam-it" plain (function org-roam--capture-get-point)
+          "%?"
+          :file-name "%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}\" (current-time) t)"
+          :head "#+title: ${title}\n#+roam_alias: \n#+roam_tags: \n#+roam_key:{ref}\n%c\n"
           :unnarrowed t)
           ))
     #+END_SRC
