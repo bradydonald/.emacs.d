@@ -365,7 +365,13 @@ n** Org File Locations
                    (("C-<return>" . org-next-link))
                    (("C-c n d" . org-roam-dailies-find-today))
                    (("C-c n y". org-roam-dailies-find-yesterday))
-                   (("C-c n I" . org-roam-insert-immediate))))
+                   (("C-c n I" . org-roam-insert-immediate))
+                   :map org-agenda-mode-map
+                   (("C-c n d" . org-roam-dailies-find-today))
+                   (("C-c n y". org-roam-dailies-find-yesterday))
+                   (("C-c n I" . org-roam-insert-immediate))
+                   )
+       )
      
      ;; required for org-roam bookmarklet 
      (require 'org-roam-protocol)
