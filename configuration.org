@@ -215,12 +215,17 @@
   #+BEGIN_SRC emacs-lisp
     ;; dired-x comes with emacs but isn't loaded by default.
     (require 'dired-x)
-
+    
     (setq-default dired-omit-files-p t) ; Buffer-local variable
     (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+    (setq dired-dwim-target t) ;; guess destination
+    (setq dired-recursive-copies 'always)
+    (setq dired-recursive-deletes 'always)
+    
     (define-key dired-mode-map (kbd "% f") 'find-name-dired)
     (define-key dired-mode-map (kbd "% .") 'dired-omit-mode)
-
+    
+    
     ;; Changes to prevent navigating in dired mode from creating a bunch of buffers for every directory
     (put 'dired-find-alternate-file 'disabled nil)
     (add-hook 'dired-mode-hook
@@ -231,7 +236,7 @@
                   (lambda () (interactive) (find-alternate-file (dired-copy-filename-as-kill))))
                 (define-key dired-mode-map (kbd "f")
                   (lambda () (interactive) (find-alternate-file (dired-copy-filename-as-kill))))))
-
+    
   #+END_SRC
 
 * Text Scaling
