@@ -116,7 +116,7 @@
     "my default desired value of `gc-cons-threshold' during normal emacs operations.")
 
   ;; make garbage collector less invasive
-  (setq gc-cons-threshold  most-positive-fixnum gc-cons-percentage 0.6)
+  (setq gc-cons-threshold default-gc-cons-threshold gc-cons-percentage 0.6)
 
   ;; ediff in same window
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
