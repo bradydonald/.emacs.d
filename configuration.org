@@ -602,7 +602,7 @@ n** Org File Locations
 
      (setq org-super-agenda-groups
               '((:name "Today" :time-grid t :scheduled today :order 1)
-                (:name "Inflight Projects" :and (:deadline t :todo "STARTED") :order 2)
+                (:name "Inflight Projects" :and (:deadline t :todo "STARTED" :regexp("PROJECT:") ) :order 2)
                 (:name "Important" :priority "A" :order 3)
                 (:name "Quick Picks" :effort< "0:15" :order 4)
 ;;                (:name "With Caden" :and (:property ("OWNER" "caden") :scheduled future) :order 4)
@@ -613,6 +613,9 @@ n** Org File Locations
      (add-hook 'org-agenda-mode-hook 'org-super-agenda-mode)
 
     #+END_SRC
+
+    #+RESULTS:
+    | org-super-agenda-mode | (lambda nil (define-key org-agenda-mode-map (kbd D) 'org-agenda-deadline)) | (lambda nil (define-key org-agenda-mode-map (kbd S) 'org-agenda-schedule)) |
 
 ** Org Capture Setup
 
