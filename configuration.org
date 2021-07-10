@@ -1,4 +1,4 @@
-#+TITLE: Emacs Configuration
++TITLE: Emacs Configuration
 #+AUTHOR: Donald Brady
 #+EMAIL: donald.brady@gmail.com
 #+OPTIONS: toc:nil
@@ -602,11 +602,11 @@ n** Org File Locations
 
      (setq org-super-agenda-groups
               '((:name "Today" :time-grid t :scheduled today :order 1)
-                (:name "Important" :priority "A" :order 2)
-                (:name "Quick Picks" :effort< "0:15" :order 3)
+                (:name "Inflight Projects" :and (:deadline t :todo "STARTED") :order 2)
+                (:name "Important" :priority "A" :order 3)
+                (:name "Quick Picks" :effort< "0:15" :order 4)
 ;;                (:name "With Caden" :and (:property ("OWNER" "caden") :scheduled future) :order 4)
                 (:name "Nice" :and (:priority<= "B" :scheduled future) :order 9)
-                (:name "Inflight Projects" :and (:deadline t :todo "STARTED") :order 6)
                 (:name "Habits" :habit)))
 
 
