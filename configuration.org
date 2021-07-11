@@ -317,6 +317,7 @@
      (use-package org-edna)
      (use-package org-super-agenda)
      (use-package org-ql)
+     (use-package counsel)
      
    #+END_SRC
 
@@ -336,7 +337,7 @@
      (setq org-return-follows-link t)
    #+END_SRC
 
-n** Org File Locations
+** Org File Locations
 
    My setup now includes two org-directories under an umberlla OrgDocuments
    directory. They are personal and dcllp (work). The default opening setup is
@@ -371,6 +372,7 @@ n** Org File Locations
                    (("C-c n d" . org-roam-dailies-find-today))
                    (("C-c n y". org-roam-dailies-find-yesterday))
                    (("C-c n I" . org-roam-insert-immediate))
+                   (("C-c C-j" . counsel-org-goto))
                    :map org-agenda-mode-map
                    (("C-c n d" . org-roam-dailies-find-today))
                    (("C-c n y". org-roam-dailies-find-yesterday))
