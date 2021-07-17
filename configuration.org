@@ -354,6 +354,7 @@
    Likewise org-roam defaults to personal.
    
    #+BEGIN_SRC emacs-lisp
+     (setq org-roam-v2-ack t)
      
      (use-package org-roam
        :ensure t
@@ -1166,8 +1167,11 @@ This section has all globally set keys unless they are related to a package or m
 * Theme
   Kinda like this theme
 #+begin_src emacs-lisp
-  (load-theme 'tron-legacy t)
+  (load-theme 'weyland-yutani t)
 #+end_src
+
+#+RESULTS:
+: t
   
 * Start a server
   Finally start a server

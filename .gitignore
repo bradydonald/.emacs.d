@@ -38,3 +38,4 @@ themes/*
 /eln-cache/
 /bookmarks
 /custom.el
+/org-roam.db.bak
