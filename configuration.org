@@ -1167,7 +1167,7 @@ This section has all globally set keys unless they are related to a package or m
 * Theme
   Kinda like this theme
 #+begin_src emacs-lisp
-  (load-theme 'weyland-yutani t)
+;;  (load-theme 'weyland-yutani t)
 #+end_src
 
 #+RESULTS:
