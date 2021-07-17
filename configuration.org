@@ -312,12 +312,12 @@
    #+BEGIN_SRC emacs-lisp
      
      (use-package org :ensure org-plus-contrib)
-     (require 'org-habit)
      (use-package org-superstar)
      (use-package org-edna)
      (use-package org-super-agenda)
      (use-package org-ql)
      (use-package counsel)
+     (require 'org-habit)
      
    #+END_SRC
 
@@ -354,37 +354,43 @@
    Likewise org-roam defaults to personal.
    
    #+BEGIN_SRC emacs-lisp
-     (setq org-roam-v2-ack t)
      
-     (use-package org-roam
-       :ensure t
-       :hook
-       (after-init . org-roam-mode)
+     (use-package org-roam :ensure t
        :custom
        (org-roam-directory "~/OrgDocuments/personal")
-       :bind (:map org-roam-mode-map
-                   (("C-c n l" . org-roam)
-                    ("C-c n f" . org-roam-find-file)
-                    ("C-c n g" . org-roam-graph))
-                   :map org-mode-map
-                   (("C-\\" . org-previous-link))
-                   (("C-c n i" . org-roam-insert))
-                   (("C-<return>" . org-next-link))
-                   (("C-c n d" . org-roam-dailies-find-today))
-                   (("C-c n y". org-roam-dailies-find-yesterday))
-                   (("C-c n I" . org-roam-insert-immediate))
-                   (("C-c C-j" . counsel-org-goto))
-                   :map org-agenda-mode-map
-                   (("C-c n d" . org-roam-dailies-find-today))
-                   (("C-c n y". org-roam-dailies-find-yesterday))
-                   (("C-c n I" . org-roam-insert-immediate))
-                   )
-       )
+       (org-roam-v2-ack t)
+       :hook
+       (after-init . org-roam-setup)
+       :bind (
+              :map org-roam-mode-map
+              (("C-c n b" . org-roam-buffer))
+              (("C-c n f" . org-roam-node-find))
+              (("C-c n c" . org-roam-node-capture))              
+              (("C-c n g" . org-roam-graph))
+              :map org-mode-map
+              (("C-c n b" . org-roam-buffer))
+              (("C-c n f" . org-roam-node-find))
+              (("C-c n c" . org-roam-node-capture))              
+              (("C-c n g" . org-roam-graph))
+              (("C-\\" . org-previous-link))
+              (("C-c n i" . org-roam-insert))
+              (("C-<return>" . org-next-link))
+              (("C-c n d" . org-roam-dailies-find-today))
+              (("C-c n y". org-roam-dailies-find-yesterday))
+              (("C-c n I" . org-roam-insert-immediate))
+              (("C-c C-j" . counsel-org-goto))
+              :map org-agenda-mode-map
+              (("C-c n f" . org-roam-node-find))
+              (("C-c n c" . org-roam-node-capture))              
+              (("C-c n d" . org-roam-dailies-find-today))
+              (("C-c n y". org-roam-dailies-find-yesterday))
+              (("C-c n I" . org-roam-insert-immediate))))
      
      ;; required for org-roam bookmarklet 
      (require 'org-roam-protocol)
      
    #+END_SRC
+
 
 *** Org-roam Capture Templates
     
@@ -1167,11 +1173,8 @@ This section has all globally set keys unless they are related to a package or m
 * Theme
   Kinda like this theme
 #+begin_src emacs-lisp
-;;  (load-theme 'weyland-yutani t)
+  (load-theme 'weyland-yutani t)
 #+end_src
-
-#+RESULTS:
-: t
   
 * Start a server
   Finally start a server
