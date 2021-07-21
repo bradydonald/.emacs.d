@@ -360,32 +360,7 @@
        :custom
        (org-roam-directory "~/OrgDocuments/personal")
        :hook
-       (after-init . org-roam-setup)
-       :bind (
-              :map org-roam-mode-map
-              (("C-c n b" . org-roam-buffer))
-              (("C-c n f" . org-roam-node-find))
-              (("C-c n c" . org-roam-capture))              
-              (("C-c n g" . org-roam-graph))
-              :map org-mode-map
-              (("C-c n b" . org-roam-buffer))
-              (("C-c n f" . org-roam-node-find))
-              (("C-c n c" . org-roam-capture))              
-              (("C-c n g" . org-roam-graph))
-              (("C-\\" . org-previous-link))
-              (("C-c n i" . org-roam-insert))
-              (("C-<return>" . org-next-link))
-              (("C-c n d" . org-roam-dailies-find-today))
-              (("C-c n y". org-roam-dailies-find-yesterday))
-              (("C-c n i" . org-roam-node-insert))
-              (("C-c C-j" . counsel-org-goto))
-              :map org-agenda-mode-map
-              (("C-c n f" . org-roam-node-find))
-              (("C-c n c" . org-roam-capture))              
-              (("C-c n d" . org-roam-dailies-find-today))
-              (("C-c n y". org-roam-dailies-find-yesterday))
-              (("C-c n i" . org-roam-node-insert))))
-     
+       (after-init . org-roam-setup))
      ;; required for org-roam bookmarklet 
      (require 'org-roam-protocol)
      
@@ -1130,33 +1105,45 @@ Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=.
 This section has all globally set keys unless they are related to a package or mode config. 
 
 #+BEGIN_SRC emacs-lisp
-
+  
   ;; use hippie-expand instead of dabbrev
   (global-set-key (kbd "M-/") #'hippie-expand)
   (global-set-key (kbd "s-/") #'hippie-expand)
-
+  
   ;; keyboard macros
   (global-set-key (kbd "<f1>") #'start-kbd-macro)
   (global-set-key (kbd "<f2>") #'end-kbd-macro)
   (global-set-key (kbd "<f3>") #'call-last-kbd-macro)
-
-  ;; org keys
-  (define-key global-map "\C-ca" 'org-agenda)
-  (define-key global-map "\C-cc" 'org-capture)
-
+  
+  ;; org and org-roam keys
+  ;; some should be mode local but I spend most of my in org mode so being lazy 
+  (define-key global-map (kbd "\C-ca") 'org-agenda)
+  (define-key global-map (kbd "\C-cc") 'org-capture)
+  (define-key global-map (kbd "C-c n b") 'org-roam-buffer)
+  (define-key global-map (kbd "C-c n f") 'org-roam-node-find)
+  (define-key global-map (kbd "C-c n c") 'org-roam-capture)              
+  (define-key global-map (kbd "C-c n g") 'org-roam-graph)
+  (define-key global-map (kbd "C-\\") 'org-previous-link)
+  (define-key global-map (kbd "C-c n i") 'org-roam-insert)
+  (define-key global-map (kbd "C-<return>") 'org-next-link)
+  (define-key global-map (kbd "C-c n d") 'org-roam-dailies-find-today)
+  (define-key global-map (kbd "C-c n y") 'org-roam-dailies-find-yesterday)
+  (define-key global-map (kbd "C-c n i") 'org-roam-node-insert)
+  (define-key global-map (kbd "C-c C-j") 'counsel-org-goto)
+  
   ;; replace buffer-menu with ibuffer
   (global-set-key (kbd "C-x C-b") #'ibuffer)
-
+  
   ;; Lenovo Function Key Bindings
   (global-set-key (kbd "<XF86Favorites>") 'bury-buffer) ;; The Star on F12
   (global-set-key (kbd "<f12>") 'bury-buffer) ;; F12 on logi keybpard
-
+  
   ;; M-0 to toggle hiding
   (global-set-key (kbd "M-0") 'hs-toggle-hiding)
-
+  
   ;; toggle line numbers
   (global-set-key (kbd "C-c l") 'display-line-numbers-mode)
-
+  
 #+END_SRC
 
 * Load any Custom Code
