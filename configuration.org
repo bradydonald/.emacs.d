@@ -606,7 +606,7 @@
    Added this file: ~/.local/share/applications/org-protocol.desktop~ using the
    following command:
 
-   #+BEGIN_EXAMPLE
+   #+BEGIN_SRC sh
      cat > "${HOME}/.local/share/applications/org-protocol.desktop" << EOF
      [Desktop Entry]
      Name=org-protocol
@@ -616,9 +616,13 @@
      Categories=System;
      MimeType=x-scheme-handler/org-protocol;
      EOF
-   #+END_EXAMPLE
+   #+END_SRC
 
-   and then run =update-desktop-database ~/.local/share/applications/=
+   and then run
+
+   #+BEGIN_SRC sh
+     update-desktop-database ~/.local/share/applications
+   #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
      (require 'org-protocol)
