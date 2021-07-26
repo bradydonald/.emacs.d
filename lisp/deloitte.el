@@ -62,3 +62,13 @@
       (message period-s))
 
   period-s)
+
+
+
+;; wsl functions
+(defun db/dired-wsl-home ()
+  (interactive)
+  (dired-jump-other-window "/mnt/c/Users/donaldbrady/"))
+
+;; Some work specific key bindings
+(global-set-key (kbd "M-<home>") 'db/dired-wsl-home)

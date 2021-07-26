@@ -391,9 +391,6 @@
             ;;   ))
     #+END_SRC
 
-    #+RESULTS:
-    | d | default | plain | %? | :if-new | (file+head %(format-time-string "%Y-%m-%d--%H-%M-%SZ--${slug}" (current-time) t) #+title: ${title} |
-
 ** Language Support
 
    Setup =babel= to evaluate the languages / scripts I use.
@@ -1163,6 +1160,12 @@ This section has all globally set keys unless they are related to a package or m
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (when (file-exists-p custom-file)
     (load custom-file))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;; load any custom code for work.
+  (if (file-directory-p "~/OrgDocuments/dcllp")
+      (load (expand-file-name "lisp/deloitte.el" user-emacs-directory)))
 #+END_SRC
 
 * Theme
