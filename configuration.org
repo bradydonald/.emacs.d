@@ -759,10 +759,13 @@
      (setq org-default-notes-file (concat org-directory "/index.org"))
      (setq org-roam-directory org-directory)
      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
-     (org-roam-db-build-cache))
+     (org-roam-db-sync))
    
    
  #+END_SRC
+
+ #+RESULTS:
+ : db/org-switch-context
 
 *** Add a CREATED timestamp property to all TODOs
 
