@@ -107,7 +107,7 @@
   ;; smart tab behavior - indent or complete
   (setq tab-always-indent 'complete)
   (global-display-line-numbers-mode 0) ; line number in margin
-  (global-hl-line-mode 1) ; highlight current line
+  (global-hl-line-mode 0) ; highlight current line
   (global-auto-revert-mode 1)
   ;; scroll to the bottom of repls on output
   (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
@@ -1171,7 +1171,7 @@ This section has all globally set keys unless they are related to a package or m
 * Theme
   Kinda like this theme
 #+begin_src emacs-lisp
-  (load-theme 'weyland-yutani t)
+  (load-theme 'modus-operandi t)
 #+end_src
   
 * Start a server
