@@ -1172,6 +1172,8 @@ This section has all globally set keys unless they are related to a package or m
   Kinda like this theme
 #+begin_src emacs-lisp
   (load-theme 'modus-operandi t)
+  (setq modus-themes-variable-pitch-ui t)
+  (setq modus-themes-variable-pitch-headings t)
 #+end_src
   
 * Start a server
