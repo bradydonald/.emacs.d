@@ -73,14 +73,14 @@
 ;; Some work specific key bindings
 (global-set-key (kbd "M-<home>") 'db/dired-wsl-home)
 
-;; wsl path conversion
-;; TODO
-(defun dc/yank-win-path-to-wsl-path ()
-  (interactive)
-  ;; yank expecting a win path
-  ;; convert to wsl equivalent /mnt/c/...
-  )
+;; ;; wsl path conversion
+;; ;; TODO
+;; (defun dc/yank-win-path-to-wsl-path ()
+;;   (interactive)
+;;   ;; yank expecting a win path
+;;   ;; convert to wsl equivalent /mnt/c/...
+;;   )
 
-(defun db/convert-win-path-to-wsl-path str
-  (replace-regexp-in-string "\\" "\/" str))
+;; (defun db/convert-win-path-to-wsl-path str
+;;   (replace-regexp-in-string "\\" "\/" str))
 
