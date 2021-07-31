@@ -1,4 +1,9 @@
-;; some useful work related functions
+;;; package --- deloitte
+;;; Commentary:
+;;; provides fiscal period info and other useful functions mostly to do with wsl
+;;; hosting
+
+;;; Code:
 
 ;; Deloitte fiscal years begin on the Sunday before the first Monday of June
 ;; e.g. FY20 began on 6/2/20
@@ -13,9 +18,8 @@
 (defvar current-yy (string-to-number (format-time-string "%y")))
 (defvar current-mm (string-to-number (format-time-string "%m")))
 
-
 (defun deloitte-ts-start-of-current-fiscal-year ()
-  "Returns the start date of the current fiscal year as ts"
+  "Return the start date of the current fiscal year as ts."
 
   ;; adjust the year depening on the month. If we are before June then we are in
   ;; the fiscal year that began the prior year in June
@@ -33,17 +37,17 @@
 
 
 (defun deloitte-start-of-current-fiscal-year ()
-  "Returns the start of the current fiscal year in dd/mm/yy format"
+  "Return the start of the current fiscal year in dd/mm/yy format."
   (ts-format "%m/%d/%y" (deloitte-ts-start-of-current-fiscal-year)))
 
 
 (defun deloitte-current-fiscal-year-abbrev ()
-  "Returns the standard fiscal year abbreviation e.f. FY21"
+  "Return the standard fiscal year abbreviation e.f. FY21."
   (setq yy-string (car (last (s-split "/" (deloitte-start-of-current-fiscal-year)))))
   (s-concat "FY" (number-to-string (+ (string-to-number yy-string) 1))))
 
 (defun deloitte-financial-period ()
-  "Returns the deloitte financial period which is divided into 13 four week periods"
+  "Return the deloitte financial period which is divided into 13 four week periods."
   (interactive)
   ;; start at the begining of the year
   (setq period 0)
@@ -67,20 +71,28 @@
 
 ;; wsl functions
 (defun db/dired-wsl-home ()
+  "Launches dired in wsl windows host home."
   (interactive)
   (dired-jump-other-window "/mnt/c/Users/donaldbrady/"))
 
 ;; Some work specific key bindings
 (global-set-key (kbd "M-<home>") 'db/dired-wsl-home)
 
-;; ;; wsl path conversion
-;; ;; TODO
-;; (defun dc/yank-win-path-to-wsl-path ()
-;;   (interactive)
-;;   ;; yank expecting a win path
-;;   ;; convert to wsl equivalent /mnt/c/...
-;;   )
+;; wsl path conversion
+;; TODO
+(defun dc/yank-win-path-to-wsl-path ()
+  "Yank the wsl full path."
+  (interactive)
+  ;; yank expecting a win path
+  ;; convert to wsl equivalent /mnt/c/...
+  )
 
-;; (defun db/convert-win-path-to-wsl-path str
-;;   (replace-regexp-in-string "\\" "\/" str))
+(defun db/convert-win-path-to-wsl-path (str)
+  "Swaps path seperator and adds the /mnt path to str
+  e.g. c:\\Users -> /mnt/c/User"
+  (setq str-copy (subst-char-in-string ?\\ ?/ str))
+  (concat "/mnt/c" (substring str-copy 2)))
 
+(provide 'deloitte)
+
+;;; deloitte.el ends here
