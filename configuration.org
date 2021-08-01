@@ -1125,7 +1125,7 @@ This section has all globally set keys unless they are related to a package or m
   ;; some should be mode local but I spend most of my in org mode so being lazy 
   (define-key global-map (kbd "\C-ca") 'org-agenda)
   (define-key global-map (kbd "\C-cc") 'org-capture)
-  (define-key global-map (kbd "C-c n b") 'org-roam-buffer)
+  (define-key global-map (kbd "C-c n b") 'org-roam-buffer-toggle)
   (define-key global-map (kbd "C-c n f") 'org-roam-node-find)
   (define-key global-map (kbd "C-c n c") 'org-roam-capture)              
   (define-key global-map (kbd "C-c n g") 'org-roam-graph)
