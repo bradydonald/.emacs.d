@@ -344,7 +344,9 @@
    to default to personal.
    
    #+BEGIN_SRC emacs-lisp
-     (setq org-directory "~/OrgDocuments/personal")
+     (setq org-directory-personal "~/OrgDocuments/personal")
+     (setq org-directory-work "~/OrgDocuments/dcllp")
+     (setq org-directory org-directory-personal)
      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
      (setq org-default-notes-file (concat org-directory "/index.org"))
    #+END_SRC
@@ -358,7 +360,7 @@
      (setq org-roam-v2-ack t)
      (use-package org-roam :ensure t
        :custom
-       (org-roam-directory "~/OrgDocuments/personal")
+       (org-roam-directory org-directory-personal)
        :hook
        (after-init . org-roam-setup))
      ;; required for org-roam bookmarklet 
@@ -743,12 +745,12 @@
    
    (defun db/org-work-context ()
      (interactive)
-     (setq org-directory "~/OrgDocuments/dcllp")
+     (setq org-directory org-directory-work)
      (db/org-switch-context))
    
    (defun db/org-personal-context ()
      (interactive)
-     (setq org-directory "~/OrgDocuments/personal")
+     (setq org-directory org-directory-personal)
      (db/org-switch-context))
    
    (defun db/org-switch-context ()
@@ -1052,7 +1054,7 @@ Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=.
     :ensure elfeed-org
     :config
     (setq elfeed-set-max-connections 32)
-    (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory)))
+    (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory-personal)))
     (elfeed-org)
     :bind
     (("C-c r" . elfeed)
