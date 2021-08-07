@@ -376,21 +376,17 @@
       (setq org-roam-capture-templates
             '(("d" "default" plain "%?"
                :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
-               "#+title: ${title}\n")
-              :unnarrowed t)))
-      
-            ;;   ("y" "yank" plain (function org-roam--capture-get-point)
-            ;;   "%?"
-            ;;   :if-new "%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}\" (current-time) t)"
-            ;;   :head "#+title: ${title}\n#+roam_alias: \n#+roam_tags: \n%c\n"
-            ;;   :unnarrowed t)
-      
-            ;;   ("o" "org-roam-it" plain (function org-roam--capture-get-point)
-            ;;   "%?"
-            ;;   :if-new "%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}\" (current-time) t)"
-            ;;   :head "#+title: ${title}\n#+roam_alias: \n#+roam_tags: \n#+roam_key:{ref}\n%c\n"
-            ;;   :unnarrowed t)
-            ;;   ))
+               "#+title: ${title}\n#+filetags:\n")
+              :unnarrowed t)
+              ("y" "yank" plain "%?"
+               :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
+                                 "#+title: ${title}\n#+filetags:\n%c\n")
+               :unnarrowed t)
+              ("o" "org-roam-it" plain "%?"
+               :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
+                                 "#+title: ${title}\n#+filetags:\n{ref}\n")
+               :unnarrowed t)))
+
     #+END_SRC
 
 ** Language Support
