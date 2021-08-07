@@ -376,11 +376,11 @@
       (setq org-roam-capture-templates
             '(("d" "default" plain "%?"
                :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
-               "#+title: ${title}\n#+filetags:\n")
+               "#+title: ${title}\n#+filetags %^G:\n")
               :unnarrowed t)
               ("y" "yank" plain "%?"
                :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
-                                 "#+title: ${title}\n#+filetags:\n%c\n")
+                                 "#+title: ${title}\n#+filetags: %^G\n%c\n")
                :unnarrowed t)
               ("o" "org-roam-it" plain "%?"
                :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
