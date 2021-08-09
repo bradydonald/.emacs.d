@@ -503,19 +503,6 @@
    #+BEGIN_SRC emacs-lisp
      (org-edna-mode)
 
-     ;; ;; create id's when using org capture
-     ;; (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
-
-     ;; (defun db/org-add-ids-to-headlines-in-file ()
-     ;;   "Add ID properties to all headlines in the current file which
-     ;;     do not already have one."
-     ;;   (interactive)
-     ;;   (org-map-entries 'org-id-get-create))
-
-     ;; (add-hook 'org-mode-hook
-     ;;           (lambda ()
-     ;;             (add-hook 'before-save-hook 'db/org-add-ids-to-headlines-in-file nil 'local)))
-
      (defun db/org-edna-blocked-by-descendants ()
        "Adds PROPERTY blocking this tasks unless descendants are DONE"
        (interactive)
