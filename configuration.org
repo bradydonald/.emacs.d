@@ -112,8 +112,8 @@
   ;; scroll to the bottom of repls on output
   (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
 
-  (defvar default-gc-cons-threshold 1048576000 ; 1GB
-    "my default desired value of `gc-cons-threshold' during normal emacs operations.")
+  (defvar default-gc-cons-threshold most-positive-fixnum
+    "for startup make hella big during startup.")
 
   ;; make garbage collector less invasive
   (setq gc-cons-threshold default-gc-cons-threshold gc-cons-percentage 0.6)
@@ -1162,6 +1162,23 @@ This section has all globally set keys unless they are related to a package or m
   (setq modus-themes-variable-pitch-headings t)
 #+end_src
   
+* Test Garbage Collection Optimization
+
+  When entering the minibuffer sets it large so gc doesn't happen when
+  interacting. Once exited sets back to a smaller number to force more frequent
+  collection.
+  
+#+BEGIN_SRC emacs-lisp
+  (defun my-minibuffer-setup-hook ()
+    (setq gc-cons-threshold most-positive-fixnum))
+  
+  (defun my-minibuffer-exit-hook ()
+    (setq gc-cons-threshold 800000))
+  
+  (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
+  (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
+  
+#+END_SRC
 * Start a server
   Finally start a server
   
