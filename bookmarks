@@ -3,18 +3,18 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
- (filename . "~/OrgDocuments/personal/index.org")
- (front-context-string . "** TODO EVENT: C")
- (rear-context-string . " 0:15\n   :END:\n\n")
- (position . 45132))
+ (filename . "~/OrgDocuments/dcllp/index.org")
+ (front-context-string . "*** TODO  EVENT:")
+ (rear-context-string . "       :lenovo:\n")
+ (position . 13344))
 ("org-refile-last-stored"
- (filename . "~/OrgDocuments/personal/index.org")
- (front-context-string . "** TODO EVENT: C")
- (rear-context-string . " 0:15\n   :END:\n\n")
- (position . 45132))
+ (filename . "~/OrgDocuments/dcllp/index.org")
+ (front-context-string . "** DONE Send use")
+ (rear-context-string . "-23 Mon 14:21]\n\n")
+ (position . 19266))
 ("org-capture-last-stored"
  (filename . "~/OrgDocuments/personal/index.org")
- (front-context-string . "** TODO EVENT: C")
- (rear-context-string . " information]]\n\n")
- (position . 744))
+ (front-context-string . "** TODO  Reach o")
+ (rear-context-string . "t | LinkedIn]]\n\n")
+ (position . 905))
 )
