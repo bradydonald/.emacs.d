@@ -39,3 +39,4 @@ themes/*
 /bookmarks
 /custom.el
 /org-roam.db.bak
+/straight/
