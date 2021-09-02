@@ -748,9 +748,6 @@
    
  #+END_SRC
 
- #+RESULTS:
- : db/org-switch-context
-
 *** Add a CREATED timestamp property to all TODOs
 
     All of this comes from [[https://gist.github.com/mrvdb/4037694][this gist]]. Would be nice if org mode just offered
