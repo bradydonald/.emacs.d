@@ -39,15 +39,50 @@
     (setq load-prefer-newer t)
   #+END_SRC
 
-* Personal Details Setup
+* Basic Configurations
 
-  Sets up some personal information sucha as email
+  Place for a grab bag of basic settings
 
-  #+BEGIN_SRC emacs-lisp
-
-    (setq user-full-name "Donald Brady" user-mail-address "donald.brady@gmail.com")
-
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  
+  (setq inhibit-startup-screen t)
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (setq ring-bell-function 'ignore)
+  (line-number-mode t)
+  (column-number-mode t)
+  (size-indication-mode t)
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq require-final-newline t)
+  (setq-default fill-column 80)
+  (add-hook 'text-mode-hook 'auto-fill-mode)
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (setq-default indent-tabs-mode nil)   
+  (setq-default tab-width 4)            
+  ;; smart tab behavior - indent or complete
+  (setq tab-always-indent 'complete)
+  (global-display-line-numbers-mode 0) ; line number in margin
+  (global-hl-line-mode 0) ; highlight current line
+  (global-auto-revert-mode 1)
+  ;; scroll to the bottom of repls on output
+  (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
+  
+  (defvar default-gc-cons-threshold most-positive-fixnum
+    "for startup make hella big during startup.")
+  
+  ;; make garbage collector less invasive
+  (setq gc-cons-threshold default-gc-cons-threshold gc-cons-percentage 0.6)
+  
+  ;; ediff in same window
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  
+  ;; my email
+  (setq user-full-name "Donald Brady" user-mail-address "donald.brady@gmail.com")
+  
+  
+#+END_SRC
 
 * Set up savefile, backup, and autosave directories
 
@@ -82,47 +117,6 @@
 
   #+END_SRC
 
-* Basic Configurations
-
-  Place for a grab bag of basic settings
-
-#+BEGIN_SRC emacs-lisp
-
-  (setq inhibit-startup-screen t)
-  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (setq ring-bell-function 'ignore)
-  (line-number-mode t)
-  (column-number-mode t)
-  (size-indication-mode t)
-  (fset 'yes-or-no-p 'y-or-n-p)
-  (setq require-final-newline t)
-  (setq-default fill-column 80)
-  (add-hook 'text-mode-hook 'auto-fill-mode)
-  (prefer-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (setq-default indent-tabs-mode nil)   
-  (setq-default tab-width 4)            
-  ;; smart tab behavior - indent or complete
-  (setq tab-always-indent 'complete)
-  (global-display-line-numbers-mode 0) ; line number in margin
-  (global-hl-line-mode 0) ; highlight current line
-  (global-auto-revert-mode 1)
-  ;; scroll to the bottom of repls on output
-  (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
-
-  (defvar default-gc-cons-threshold most-positive-fixnum
-    "for startup make hella big during startup.")
-
-  ;; make garbage collector less invasive
-  (setq gc-cons-threshold default-gc-cons-threshold gc-cons-percentage 0.6)
-
-  ;; ediff in same window
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-#+END_SRC
-
 * Custom Packages
 
   Packages here don't have any major configuration and are loaded vanilla.
@@ -149,7 +143,7 @@
       (add-to-list 'package-selected-packages p))
   #+END_SRC
 
-* Additional Path Setup
+* Additional Path Setup                                             :windows:
   There are some nuances with environment variables especially on windows.
 
   #+BEGIN_SRC emacs-lisp
@@ -159,7 +153,7 @@
         (exec-path-from-shell-initialize)))
   #+END_SRC
 
-* Handling url's under WSL2
+* Handling url's under WSL2                                         :windows:
 
   Cudos to this [[https://hungyi.net/posts/browse-emacs-urls-wsl/][article]]
   
