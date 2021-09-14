@@ -923,12 +923,12 @@ View images inline
   Maps file extensions to applications
 
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package openwith)
-  ;; (openwith-mode t)
-  ;; (add-to-list  'mm-inhibit-file-name-handlers 'openwith-file-handler)
-  ;; (setq openwith-associations '(("\\.pdf\\'" "pdfstudio2020" (file))))
+  (use-package openwith)
+  (openwith-mode t)
+  (add-to-list  'mm-inhibit-file-name-handlers 'openwith-file-handler)
+  (setq openwith-associations '(("\\.pdf\\'" "pdfstudio" (file))))
 #+END_SRC
-  
+
 * Projectile
 Use =projectile= for projects navigation
 
