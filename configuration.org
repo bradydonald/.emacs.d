@@ -117,32 +117,6 @@
 
   #+END_SRC
 
-* Custom Packages
-
-  Packages here don't have any major configuration and are loaded vanilla.
-
-  #+BEGIN_SRC emacs-lisp
-
-    (defvar my-packages '(
-                          eglot
-                          elec-pair
-                          flycheck            
-                          git-timemachine
-                          gnuplot 
-                          s                   ; some nice easy string manipulation functions
-                          ))
-  #+END_SRC
-
-  Loop over the above list, loading using =use-package=
-
-  #+BEGIN_SRC emacs-lisp
-    (dolist (p my-packages)
-      (unless (package-installed-p p)
-        (package-refresh-contents)
-        (package-install p))
-      (add-to-list 'package-selected-packages p))
-  #+END_SRC
-
 * Additional Path Setup                                             :windows:
   There are some nuances with environment variables especially on windows.
 
@@ -166,6 +140,19 @@
        browse-url-generic-program  "/mnt/c/Windows/System32/cmd.exe"
        browse-url-generic-args     '("/c" "start")
        browse-url-browser-function #'browse-url-generic))
+  #+END_SRC
+
+* Vanilla Packages
+
+  The packages are loaded as is
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package eglot)
+    (use-package elec-pair)
+    (use-package flycheck)
+    (use-package git-timemachine)
+    (use-package gnuplot)
+    (use-package s) ;; some nice easy string manipulation functions
   #+END_SRC
 
 * Recent File Saving
