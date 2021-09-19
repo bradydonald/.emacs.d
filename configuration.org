@@ -319,6 +319,8 @@
      (setq org-directory-personal "~/OrgDocuments/personal")
      (setq org-directory-work "~/OrgDocuments/dcllp")
      (setq org-directory org-directory-personal)
+     (setq org-id-locations-file org-directory)
+     (setq org-attach-dir-relative t)
      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
      (setq org-default-notes-file (concat org-directory "/index.org"))
    #+END_SRC
@@ -332,7 +334,7 @@
      (setq org-roam-v2-ack t)
      (use-package org-roam :ensure t
        :custom
-       (org-roam-directory org-directory-personal)
+       (org-roam-directory (expand-file-name "roam" org-directory))
        :hook
        (after-init . org-roam-setup))
      ;; required for org-roam bookmarklet 
@@ -712,10 +714,10 @@
    (defun db/org-switch-context ()
      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
      (setq org-default-notes-file (concat org-directory "/index.org"))
-     (setq org-roam-directory org-directory)
+     (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
+     (setq org-roam-directory (expand-file-name "roam" org-directory))
      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
      (org-roam-db-sync))
-   
    
  #+END_SRC
 
