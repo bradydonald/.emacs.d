@@ -586,21 +586,22 @@
     [[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
 
     #+BEGIN_SRC emacs-lisp
-
+      
       (defun transform-square-brackets-to-round-ones(string-to-transform)
         "Transforms [ into ( and ] into ), other chars left unchanged."
         (concat 
          (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
         )
-
+      
       (defvar my/org-contacts-template "* %(org-contacts-template-name)
         :PROPERTIES:
         :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+        :MOBILE: %^{MOBILE}
         :BIRTHDAY: %^{yyyy-mm-dd}
         :EMAIL: %(org-contacts-template-email)
         :NOTE: %^{NOTE}
         :END:" "Template for org-contacts.")
-
+      
       ;; if you set this variable you have to redefine the default t/Todo.
       (setq org-capture-templates 
             `(
@@ -608,12 +609,12 @@
               ("t" "Todo" entry (file+headline ,org-default-notes-file "Refile")
                "* TODO %?"
                :empty-lines 1)
-
+      
               ;; Note (n) template
               ("n" "Note" entry (file+headline ,org-default-notes-file "Refile")
                "* %? %(%i)"
                :empty-lines 1)
-
+      
               ;; Protocol (p) template
               ("p" "Protocol" entry (file+headline ,org-default-notes-file "Refile")
                "* %^{Title}
@@ -623,12 +624,12 @@
                    ,#+END_QUOTE
                    %?"
                :empty-lines 1)
-
+      
               ;; Protocol Link (L) template
               ("L" "Protocol Link" entry (file+headline ,org-default-notes-file "Refile")
                "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
                :empty-lines 1)
-
+      
               ;; Goal (G) template
               ("G" "Goal" entry (file+headline ,org-default-notes-file "Refile")
                "* GOAL %^{Describe your goal}
@@ -653,7 +654,7 @@
       :END:"
                :empty-lines 1)
               ))
-
+      
     #+END_SRC
 
 ** Org Reveal
