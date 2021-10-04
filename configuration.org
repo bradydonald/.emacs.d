@@ -312,7 +312,6 @@
      (use-package org-super-agenda)
      (use-package org-ql)
      (use-package counsel)
-;;     (use-package org-plus-contrib)
      (require 'org-habit)
      
    #+END_SRC
