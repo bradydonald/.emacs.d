@@ -306,12 +306,13 @@
 
    #+BEGIN_SRC emacs-lisp
      
-     (use-package org :ensure org-plus-contrib)
+     (use-package org)
      (use-package org-superstar)
      (use-package org-edna)
      (use-package org-super-agenda)
      (use-package org-ql)
      (use-package counsel)
+;;     (use-package org-plus-contrib)
      (require 'org-habit)
      
    #+END_SRC
