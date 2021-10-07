@@ -332,6 +332,7 @@
      (setq org-ctrl-k-protect-subtree t)
      (set-face-attribute 'org-headline-done nil :strike-through t)
      (setq org-return-follows-link t)
+     (setq org-adapt-indentation t)
    #+END_SRC
 
 ** Org File Locations
