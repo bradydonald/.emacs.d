@@ -40,3 +40,4 @@ themes/*
 /custom.el
 /org-roam.db.bak
 /straight/
+/projectile.cache
