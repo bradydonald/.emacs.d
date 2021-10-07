@@ -543,7 +543,7 @@
      (defun db-filtered-refile-targets ()
        "Removes month journals as valid refile targets"
        (remove nil (mapcar (lambda (x)
-                             (if (string-match-p "2[0-9]*\-[0-9]+w?" x)
+                             (if (string-match-p "journals" x)
                                  nil x)) org-agenda-files)))
 
      (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 10)))
