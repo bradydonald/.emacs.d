@@ -345,7 +345,7 @@
      (setq org-directory-personal "~/OrgDocuments/personal")
      (setq org-directory-work "~/OrgDocuments/dcllp")
      (setq org-directory org-directory-personal)
-     (setq org-id-locations-file org-directory)
+     (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
      (setq org-attach-dir-relative t)
      (setq org-agenda-files (directory-files-recursively org-directory "org$"))
      (setq org-default-notes-file (concat org-directory "/index.org"))
