@@ -905,7 +905,7 @@ View images inline
   (use-package openwith)
   (openwith-mode t)
   (add-to-list  'mm-inhibit-file-name-handlers 'openwith-file-handler)
-  (setq openwith-associations '(("\\.pdf\\'" "pdfstudio" (file))))
+  (setq openwith-associations '(("\\.pdf\\'" "masterpdfeditor5" (file))))
 #+END_SRC
 
 * Projectile
