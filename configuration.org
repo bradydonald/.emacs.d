@@ -1039,6 +1039,25 @@ Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=.
      (use-package cider)
    #+END_SRC
 
+* Load any Custom Code
+  If there is a file =custom.el= in .emacs directory load it
+
+#+BEGIN_SRC emacs-lisp
+  ;; config changes made through the customize UI will be stored here
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (when (file-exists-p custom-file)
+    (load custom-file))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun load-directory (dir)
+    (let ((load-it (lambda (f)
+             (load-file (concat (file-name-as-directory dir) f)))
+           ))
+  (mapc load-it (directory-files dir nil "\\.el$"))))
+  (load-directory "~/.emacs.d/lisp")
+#+END_SRC
+
 * Globally Set Keys
 
 This section has all globally set keys unless they are related to a package or mode config. 
@@ -1083,25 +1102,6 @@ This section has all globally set keys unless they are related to a package or m
   ;; toggle line numbers
   (global-set-key (kbd "C-c l") 'display-line-numbers-mode)
 
-#+END_SRC
-
-* Load any Custom Code
-  If there is a file =custom.el= in .emacs directory load it
-
-#+BEGIN_SRC emacs-lisp
-  ;; config changes made through the customize UI will be stored here
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (when (file-exists-p custom-file)
-    (load custom-file))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (defun load-directory (dir)
-    (let ((load-it (lambda (f)
-             (load-file (concat (file-name-as-directory dir) f)))
-           ))
-  (mapc load-it (directory-files dir nil "\\.el$"))))
-  (load-directory "~/.emacs.d/lisp")
 #+END_SRC
 
 * Theme
