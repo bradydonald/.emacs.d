@@ -180,6 +180,25 @@
     (use-package s) ;; some nice easy string manipulation functions
   #+END_SRC
 
+* Load any Custom Code
+  If there is a file =custom.el= in .emacs directory load it
+
+#+BEGIN_SRC emacs-lisp
+  ;; config changes made through the customize UI will be stored here
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (when (file-exists-p custom-file)
+    (load custom-file))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun load-directory (dir)
+    (let ((load-it (lambda (f)
+             (load-file (concat (file-name-as-directory dir) f)))
+           ))
+  (mapc load-it (directory-files dir nil "\\.el$"))))
+  (load-directory "~/.emacs.d/lisp")
+#+END_SRC
+
 * Recent File Saving
 
   #+BEGIN_SRC emacs-lisp
@@ -221,15 +240,16 @@
   #+BEGIN_SRC emacs-lisp
     ;; dired-x comes with emacs but isn't loaded by default.
     (require 'dired-x)
-    
+
     (setq-default dired-omit-files-p t) ; Buffer-local variable
     (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
     (setq dired-dwim-target t) ;; guess destination
     (setq dired-recursive-copies 'always)
     (setq dired-recursive-deletes 'always)
-    
+
     (define-key dired-mode-map (kbd "% f") 'find-name-dired)
     (define-key dired-mode-map (kbd "% .") 'dired-omit-mode)
+    (define-key dired-mode-map (kbd "C-<return>") 'xah-xah-open-in-external-app)
 
   #+END_SRC
 
@@ -1039,25 +1059,6 @@ Install =elfeed= and load up my feeds stored in =~OrgDocuments/rss-feeds.org=.
      (use-package cider)
    #+END_SRC
 
-* Load any Custom Code
-  If there is a file =custom.el= in .emacs directory load it
-
-#+BEGIN_SRC emacs-lisp
-  ;; config changes made through the customize UI will be stored here
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (when (file-exists-p custom-file)
-    (load custom-file))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (defun load-directory (dir)
-    (let ((load-it (lambda (f)
-             (load-file (concat (file-name-as-directory dir) f)))
-           ))
-  (mapc load-it (directory-files dir nil "\\.el$"))))
-  (load-directory "~/.emacs.d/lisp")
-#+END_SRC
-
 * Globally Set Keys
 
 This section has all globally set keys unless they are related to a package or mode config. 
@@ -1080,9 +1081,7 @@ This section has all globally set keys unless they are related to a package or m
   (define-key global-map (kbd "C-c n f") 'org-roam-node-find)
   (define-key global-map (kbd "C-c n c") 'org-roam-capture)              
   (define-key global-map (kbd "C-c n g") 'org-roam-graph)
-  (define-key global-map (kbd "C-\\") 'org-previous-link)
   (define-key global-map (kbd "C-c n i") 'org-roam-insert)
-  (define-key global-map (kbd "C-<return>") 'org-next-link)
   (define-key global-map (kbd "C-c n .") 'org-roam-dailies-goto-today)
   (define-key global-map (kbd "C-c n d") 'org-roam-dailies-capture-today)
   (define-key global-map (kbd "C-c n y") 'org-roam-dailies-goto-yesterday)
