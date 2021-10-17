@@ -1096,9 +1096,12 @@ This section has all globally set keys unless they are related to a package or m
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  ;; load any custom code for work.
-  (if (file-directory-p "~/OrgDocuments/dcllp")
-      (load (expand-file-name "lisp/deloitte.el" user-emacs-directory)))
+  (defun load-directory (dir)
+    (let ((load-it (lambda (f)
+             (load-file (concat (file-name-as-directory dir) f)))
+           ))
+  (mapc load-it (directory-files dir nil "\\.el$"))))
+  (load-directory "~/.emacs.d/lisp")
 #+END_SRC
 
 * Theme
