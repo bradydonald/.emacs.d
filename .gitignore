@@ -41,3 +41,4 @@ themes/*
 /org-roam.db.bak
 /straight/
 /projectile.cache
+/.cache/
