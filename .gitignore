@@ -39,6 +39,8 @@ themes/*
 /bookmarks
 /custom.el
 /org-roam.db.bak
-/straight/
+/straight/build
+/straight/repos
+/straight/build-cache.el
 /projectile.cache
 /.cache/
