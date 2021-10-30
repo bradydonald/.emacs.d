@@ -2,19 +2,9 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-capture-last-stored-marker"
- (filename . "~/OrgDocuments/dcllp/index.org")
- (front-context-string . "*** TODO  EVENT:")
- (rear-context-string . "       :lenovo:\n")
- (position . 13344))
-("org-refile-last-stored"
- (filename . "~/OrgDocuments/dcllp/index.org")
- (front-context-string . "** DONE Send use")
- (rear-context-string . "-23 Mon 14:21]\n\n")
- (position . 19266))
-("org-capture-last-stored"
- (filename . "~/OrgDocuments/personal/index.org")
- (front-context-string . "** TODO  Reach o")
- (rear-context-string . "t | LinkedIn]]\n\n")
- (position . 905))
+(("org-capture-last-stored"
+ (filename . "~/OrgDocuments/personal/roam/2021-10-28--17-38-59Z--emacs_on_ubuntu.org")
+ (front-context-string . "\n* Installing Em")
+ (rear-context-string . " :emacs:ubuntu:\n")
+ (position . 120))
 )
