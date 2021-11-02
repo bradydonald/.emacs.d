@@ -56,6 +56,8 @@
 ;; my email
 (setq user-full-name "Donald Brady" user-mail-address "donald.brady@gmail.com")
 
+;; make epa ask for passwords in minibuffer
+(setq epa-pinentry-mode 'loopback)
 
 ;;;;
 ;;;; Savefile, backup and autosave directories
