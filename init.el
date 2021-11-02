@@ -59,9 +59,9 @@
 ;; make epa ask for passwords in minibuffer
 (setq epa-pinentry-mode 'loopback)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Savefile, backup and autosave directories
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defconst dbrady-savefile-dir (expand-file-name "savefile" user-emacs-directory))
 
@@ -88,9 +88,9 @@
 (savehist-mode +1)
 
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Handle any custom code
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; custom settings will be saved in custom.el and loaded from there
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -108,9 +108,9 @@
 (load-directory "~/.emacs.d/lisp")
 
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Vanilla Packages
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; enable use-package syntactic sugar
 (straight-use-package 'use-package)
@@ -123,9 +123,9 @@
 (straight-use-package 's) ;; some nice easy string manipulation functions
 (straight-use-package 'magit)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Recent File Saving
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'recentf)
 (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
@@ -134,9 +134,9 @@
 (setq recentf-auto-cleanup 'never)
 (recentf-mode +1)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Dired Mode
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Dired mode is built in and powerful but easy to forget the commands and
 ;; capabilities. Make things a bit easier to remember for me
@@ -153,16 +153,16 @@
 (define-key dired-mode-map (kbd "% f") 'find-name-dired)
 (define-key dired-mode-map (kbd "% .") 'dired-omit-mode)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Text Scaling
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'default-text-scale)
 (default-text-scale-mode)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Ivy
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Ivy is a completion framework
 
@@ -172,23 +172,23 @@
 (setq enable-recursive-minibuffers t)
 (ivy-mode 1)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Swiper
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'swiper)
 (define-key global-map (kbd "\C-s") 'swiper)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Pdf Tools
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'pdf-tools)
 (pdf-loader-install)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Yas Snippets
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'yasnippet)
 (straight-use-package 'yasnippet-snippets)
@@ -196,9 +196,9 @@
 
 
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Projetile
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'projectile)
 (setq projectile-switch-project-action #'projectile-dired)
@@ -206,9 +206,9 @@
 (define-key global-map (kbd "\C-c p p") projectile-switch-project-action)
 
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Org Mode
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'org)
 (straight-use-package 'org-superstar)
@@ -633,9 +633,9 @@
 (global-set-key (kbd "C-c m") 'mu4e)
 
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Elfeed
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'elfeed-org)
 (use-package elfeed :straight t
@@ -651,9 +651,9 @@
    :map elfeed-search-mode-map
    ("o" . elfeed-search-browse-url)))
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Blogging / Org2Blog
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; http://donald-brady.wordpress.com
 
@@ -671,9 +671,9 @@
 (define-key global-map (kbd "\C-c h") 'org2blog-user-interface)
 
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Globally set keys
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; keyboard macros
 (global-set-key (kbd "<f1>") 'start-kbd-macro)
@@ -706,9 +706,9 @@
 ;; toggle line numbers
 (global-set-key (kbd "C-c l") 'display-line-numbers-mode)
 
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; theme
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (load-theme 'modus-operandi t)
 (setq modus-themes-variable-pitch-ui t)
