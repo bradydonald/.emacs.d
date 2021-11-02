@@ -655,7 +655,7 @@
 ;;;; Blogging / Org2Blog
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; http://donald-brady.wordpress.com
+;; https://www.donald-brady.com
 
 
 (straight-use-package 'org2blog)
