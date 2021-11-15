@@ -718,4 +718,5 @@
 ;;;; start a server
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(load "server")
 (unless (server-running-p) (server-start))
