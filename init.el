@@ -713,3 +713,9 @@
 (load-theme 'modus-vivendi t)
 (setq modus-themes-variable-pitch-ui t)
 (setq modus-themes-variable-pitch-headings t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; start a server
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(unless (server-running-p) (server-start))
