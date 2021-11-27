@@ -226,7 +226,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (straight-use-package 'projectile)
-(setq projectile-switch-project-action #'projectile-dired)
+(setq projectile-switch-project-action #'projectile-switch-project)
 (projectile-mode +1)
 (define-key global-map (kbd "\C-c p p") projectile-switch-project-action)
 
