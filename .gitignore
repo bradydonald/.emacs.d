@@ -44,3 +44,4 @@ themes/*
 /straight/build-cache.el
 /projectile.cache
 /.cache/
+bookmarks

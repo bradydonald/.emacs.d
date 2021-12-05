@@ -8,13 +8,13 @@
  (rear-context-string . "       :lenovo:\n")
  (position . 13344))
 ("org-refile-last-stored"
- (filename . "~/OrgDocuments/dcllp/index.org")
- (front-context-string . "** DONE Send use")
- (rear-context-string . "-23 Mon 14:21]\n\n")
- (position . 19266))
-("org-capture-last-stored"
  (filename . "~/OrgDocuments/personal/index.org")
- (front-context-string . "** TODO  Reach o")
- (rear-context-string . "t | LinkedIn]]\n\n")
- (position . 905))
+ (front-context-string . "**  [[https://gi")
+ (rear-context-string . "0 Elderslie St\n\n")
+ (position . 62019))
+("org-capture-last-stored"
+ (filename . "~/OrgDocuments/personal/roam/2021-12-05--13-54-32Z--metaverse_categories.org")
+ (front-context-string . "\n* Metaverse Cat")
+ (rear-context-string . "gs: :metaverse:\n")
+ (position . 122))
 )
