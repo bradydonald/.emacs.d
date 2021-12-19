@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Export 800px
+# key: 800px
+# --
+#+attr_html: :width 800px
+#+attr_latex: :width 800px
