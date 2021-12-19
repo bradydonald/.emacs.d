@@ -745,3 +745,4 @@
 
 (load "server")
 (unless (server-running-p) (server-start))
+(put 'upcase-region 'disabled nil)
