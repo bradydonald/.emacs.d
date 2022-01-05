@@ -841,6 +841,14 @@
 
 (define-key global-map (kbd "\C-c h") 'org2blog-user-interface)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Nice Org visual indent mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(straight-use-package
+ '(org-visual-outline :type git :host github :repo "legalnonsense/org-visual-outline"))
+(require 'org-visual-indent)
+(org-visual-indent-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Globally set keys
