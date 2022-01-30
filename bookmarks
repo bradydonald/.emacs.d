@@ -3,18 +3,18 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
- (filename . "~/OrgDocuments/dcllp/index.org")
- (front-context-string . "*** TODO  EVENT:")
- (rear-context-string . "       :lenovo:\n")
- (position . 13344))
+ (filename . "~/OrgDocuments/personal/ocean/ocean.org")
+ (front-context-string . "**  [[mu4e:msgid")
+ (rear-context-string . "actually. \n   \n\n")
+ (position . 792))
 ("org-refile-last-stored"
- (filename . "~/OrgDocuments/personal/index.org")
- (front-context-string . "**  [[https://gi")
- (rear-context-string . "0 Elderslie St\n\n")
- (position . 62019))
+ (filename . "~/OrgDocuments/personal/ocean/ocean.org")
+ (front-context-string . "**  [[mu4e:msgid")
+ (rear-context-string . "actually. \n   \n\n")
+ (position . 792))
 ("org-capture-last-stored"
- (filename . "~/OrgDocuments/personal/roam/2021-12-05--13-54-32Z--metaverse_categories.org")
- (front-context-string . "\n* Metaverse Cat")
- (rear-context-string . "gs: :metaverse:\n")
- (position . 122))
+ (filename . "~/OrgDocuments/personal/roam/2022-01-29--15-07-47Z--web3_tech_architecture.org")
+ (front-context-string . "\n* Web3 Tech Arc")
+ (rear-context-string . "iletags: :web3:\n")
+ (position . 119))
 )
