@@ -46,3 +46,4 @@ themes/*
 /.cache/
 bookmarks
 bookmarks
+custom.el
