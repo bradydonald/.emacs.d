@@ -123,6 +123,7 @@
 (straight-use-package 'gnuplot)
 (straight-use-package 's) ;; some nice easy string manipulation functions
 (straight-use-package 'magit)
+(straight-use-package 'deadgrep)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Recent File Saving
