@@ -13,7 +13,7 @@
 ;; | 5/31/20 | 6/28/20 | 7/26/20 | 8/23/20 | 9/20/20  |
 ;; | 6/27/20 | 7/25/20 | 8/22/20 | 9/19/20 | 10/17/20 |
 
-(straight-use-package 'ts)
+(use-package ts)
 (require 'ts)
 
 (defvar current-yy (string-to-number (format-time-string "%y")))

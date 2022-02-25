@@ -47,3 +47,4 @@ themes/*
 bookmarks
 bookmarks
 custom.el
+/.last-package-update-day
