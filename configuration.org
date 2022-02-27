@@ -28,7 +28,8 @@
           '(("gnu"          . "https://elpa.gnu.org/packages/")
             ("melpa"        . "https://melpa.org/packages/")
             ("melpa-stable" . "https://stable.melpa.org/packages/")
-            ("org"          . "https://orgmode.org/elpa/")))
+            ("org"          . "https://orgmode.org/elpa/")
+            ("nongnu"       . "https://elpa.nongnu.org/nongnu/")))
   #+END_SRC
 
   Now that Emacs knows where get from let's initialize:
@@ -347,9 +348,6 @@
      (use-package counsel)
      (require 'org-habit)
   #+END_SRC
-
-  #+RESULTS:
-  : org-habit
 
 ** Basic Org Config  
 
