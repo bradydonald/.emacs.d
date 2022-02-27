@@ -947,8 +947,9 @@
   Read news with elfeed
 
   #+BEGIN_SRC emacs-lisp
+    (use-package elfeed)
     (use-package elfeed-org
-      :config
+      :init
       (setq elfeed-set-max-connections 32)
       (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory-personal)))
       (elfeed-org)
