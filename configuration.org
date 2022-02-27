@@ -171,26 +171,41 @@
   #+END_SRC
 
 * Load any Custom Code
-  If there is a file =custom.el= in .emacs directory load it. Also loads any .el
-  files in =.emacs.d/lisp= directory
 
-#+BEGIN_SRC emacs-lisp
-  ;; config changes made through the customize UI will be stored here
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (when (file-exists-p custom-file)
-    (load custom-file))
-#+END_SRC
+  If there is a file =custom.el= in .emacs directory load it. 
 
-#+BEGIN_SRC emacs-lisp
-  (defun load-directory (dir)
-    (let ((load-it (lambda (f)
-             (load-file (concat (file-name-as-directory dir) f)))
-           ))
-  (mapc load-it (directory-files dir nil "\\.el$"))))
-  (load-directory "~/.emacs.d/lisp")
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    ;; config changes made through the customize UI will be stored here
+    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+    (when (file-exists-p custom-file)
+      (load custom-file))
+  #+END_SRC
 
 
+* Load any lisp files
+
+  Load any .el files in =.emacs.d/lisp= directory. This is not recursive so any
+  code in sub-directories will not be loaded. This is intentional to allow for
+  later selective loading if there are dependencies. 
+  
+  #+BEGIN_SRC emacs-lisp
+    (defun load-directory (dir)
+      (let ((load-it (lambda (f)
+               (load-file (concat (file-name-as-directory dir) f)))
+             ))
+    (mapc load-it (directory-files dir nil "\\.el$"))))
+    (load-directory "~/.emacs.d/lisp")
+  #+END_SRC
+  
+* Page Break Lines
+
+  Displays horizontal line for ctrl-L characters
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'page-break-lines)
+    (global-page-break-lines-mode)
+  #+END_SRC
+
 * Paren Matching
 
   Configuration for a bunch of built in packages.
@@ -306,15 +321,6 @@
       :config
       (yas-global-mode 1))
     (use-package yasnippet-snippets)
-  #+END_SRC
-
-* Page Break Lines
-
-  Displays horizontal line for ctrl-L characters
-
-  #+BEGIN_SRC emacs-lisp
-    (require 'page-break-lines)
-    (global-page-break-lines-mode)
   #+END_SRC
 
 * TODO Projectile
@@ -930,7 +936,8 @@
 ** Org Contacts
 
    #+BEGIN_SRC emacs-lisp
-     (use-package org-contacts)
+     (load-file (expand-file-name "lisp/org-contacts/org-contacts.el" user-emacs-directory))
+     (require 'org-contacts)
 
      (setq org-contacts-files '("~/OrgDocuments/personal/contacts.org"))
      (setq mu4e-org-contacts-file (car org-contacts-files))
