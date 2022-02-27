@@ -314,7 +314,7 @@
 
   #+BEGIN_SRC emacs-lisp
     (require 'page-break-lines)
-    (page-break-lines-mode)
+    (global-page-break-lines-mode)
   #+END_SRC
 
 * TODO Projectile
