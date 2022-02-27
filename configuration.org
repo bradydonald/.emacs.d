@@ -338,13 +338,17 @@
 ** Org Mode Packages
 
    #+BEGIN_SRC emacs-lisp
-    (use-package org)
-    (use-package org-superstar)
-    (use-package org-edna)
-    (use-package org-ql)
-    (use-package counsel)
-    (require 'org-habit)
+     (use-package org)
+     (use-package org-contrib :ensure t)
+     (use-package org-superstar)
+     (use-package org-edna)
+     (use-package org-ql)
+     (use-package counsel)
+     (require 'org-habit)
   #+END_SRC
+
+  #+RESULTS:
+  : org-habit
 
 ** Basic Org Config  
 
