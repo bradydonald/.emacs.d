@@ -22,4 +22,9 @@
           (substring-no-properties (car tag))) 
           (org-global-tags-completion-table)))
 
+(defun db/refresh-org-files-list ()
+  (interactive)
+  (setq org-agenda-files (directory-files-recursively org-directory "org$")))
+
+
 
