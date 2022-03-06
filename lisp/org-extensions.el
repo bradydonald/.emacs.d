@@ -25,7 +25,7 @@
 (defun db/refresh-org-files-list ()
   "Update the list of org-agenda-file"
   (interactive)
-  (setq org-agenda-files (directory-files-recursively org-directory "org$")))
+  (setq org-agenda-files (db/org-agenda-files)))
 
 
 
