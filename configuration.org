@@ -378,7 +378,8 @@
 
    My setup now includes two org-directories under an umberlla OrgDocuments
    directory. They are personal and dcllp (work). The default opening setup is
-   to default to personal. 
+   to default to personal. Some files may also be gpg encrypted and need to be
+   added as well.
 
    #+BEGIN_SRC emacs-lisp
      (setq org-directory-personal "~/OrgDocuments/personal")
@@ -386,7 +387,15 @@
      (setq org-directory org-directory-personal)
      (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
      (setq org-attach-dir-relative t)
-     (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+
+     (defun db/org-agenda-files ()
+       ;; org files for agenda
+       (setq ofiles (directory-files-recursively "~/OrgDocuments" "org$"))
+       ;; some may be encrypted though
+       (setq gfiles (directory-files-recursively "~/OrgDocuments" "gpg$"))
+       (append ofiles gfiles))
+
+     (setq org-agenda-files (db/org-agenda-files))
      (setq org-default-notes-file (concat org-directory "/index.org"))
   #+END_SRC
 
@@ -833,7 +842,7 @@
        (db/org-switch-context))
 
      (defun db/org-switch-context ()
-       (setq org-agenda-files (directory-files-recursively org-directory "org$"))
+       (setq org-agenda-files (db/org-agenda-files))
        (setq org-default-notes-file (concat org-directory "/index.org"))
        (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
        (setq org-roam-directory (expand-file-name "roam" org-directory))
