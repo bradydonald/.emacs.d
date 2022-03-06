@@ -381,7 +381,7 @@
        ;; org files for agenda
        (setq ofiles (directory-files-recursively "~/OrgDocuments" "org$"))
        ;; some may be encrypted though
-       (setq gfiles (directory-files-recursively "~/OrgDocuments" "gpg$"))
+       (setq gfiles (directory-files-recursively "~/OrgDocuments" "org.gpg$"))
        (append ofiles gfiles))
 
      (setq org-agenda-files (db/org-agenda-files))
