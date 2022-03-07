@@ -312,26 +312,17 @@
     (use-package yasnippet-snippets)
   #+END_SRC
 
-* TODO Projectile
-  :LOGBOOK:
-  - Note taken on [2022-01-30 Sun 07:51] \\
-    Needs fixing. The switch project command is not working.
-  :END:
-  #+BEGIN_SRC emacs-lisp
-    (use-package projectile :ensure t
-      :config
-      (setq projectile-switch-project-action #'projectile-switch-project)
-      :bind
-      (
-      :map projectile-command-map
-      ("s-p" . projectile-command-map)
-      ("C-c p" . projectile-command-map)))
-    (require 'projectile)
-    (projectile-mode)
-  #+END_SRC
+* Projectile
 
-  #+RESULTS:
-  : #s(hash-table size 65 test eql rehash-size 1.5 rehash-threshold 0.8125 data (:use-package (25124 55426 888246 516000) :init (25124 55426 888168 341000) :init-secs (0 0 14731 133000) :use-package-secs (0 0 14936 709000) :config (25124 55426 888155 740000) :config-secs (0 0 14691 982000)))
+  [[https://projectile.mx/][Projectile]] is useful for navigating dev projects
+  
+  #+BEGIN_SRC emacs-lisp
+    (use-package projectile :ensure t)
+    (require 'projectile)
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  #+END_SRC
 
 * Org Mode
 
