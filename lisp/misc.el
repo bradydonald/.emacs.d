@@ -1,5 +1,14 @@
-(defun print-elements-of-list (list)
+(defun db/print-elements-of-list (list)
   "Print each element of LIST on a line of its own."
   (while list
     (print (car list))
     (setq list (cdr list))))
+
+(defun db/toggle-transparency ()
+  "Toggles transparency of the frame for note taking on zoom etc"
+   (interactive)
+   (if (/=
+        (cadr (frame-parameter nil 'alpha))
+        100)
+       (set-frame-parameter nil 'alpha '(100 100))
+     (set-frame-parameter nil 'alpha '(85 50))))
