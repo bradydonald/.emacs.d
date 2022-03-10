@@ -811,6 +811,18 @@
 
    #+END_SRC        
 
+** Org Download
+
+   Drag and drop support for images
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-download)
+     (require 'org-download)
+     (setq org-download-method 'attach)
+     ;; Drag-and-drop to `dired`
+     (add-hook 'dired-mode-hook 'org-download-enable)
+   #+END_SRC
+   
 ** Personal and Work Toggle
 
    #+BEGIN_SRC emacs-lisp
