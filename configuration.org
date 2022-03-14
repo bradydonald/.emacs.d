@@ -822,7 +822,7 @@
      ;; Drag-and-drop to `dired`
      (add-hook 'dired-mode-hook 'org-download-enable)
    #+END_SRC
-   
+
 ** Personal and Work Toggle
 
    #+BEGIN_SRC emacs-lisp
