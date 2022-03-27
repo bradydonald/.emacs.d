@@ -450,6 +450,7 @@
      (setq org-todo-keywords '((sequence
                                 "TODO(t)"
                                 "STARTED(s)"
+                                "DELEGATED(e)"
                                 "WAITING(w)" "|"
                                 "DONE(d)"
                                 "SUSPENDED(u)"
