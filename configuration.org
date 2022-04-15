@@ -642,7 +642,7 @@
      (require 'calfw)
      (require 'calfw-org)
 
-     (defun db:my-open-calendar ()
+     (defun db/my-open-calendar ()
        (interactive)
        (cfw:open-calendar-buffer
         :contents-sources
