@@ -3,18 +3,18 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
- (filename . "~/OrgDocuments/personal/vespa.org")
- (front-context-string . "** TODO Get glov")
- (rear-context-string . "9front / 33back\n")
- (position . 1657))
+ (filename . "~/OrgDocuments/personal/ocean/ocean.org")
+ (front-context-string . "** TODO Email Oc")
+ (rear-context-string . "gust:  8/8-8/18\n")
+ (position . 630))
 ("org-refile-last-stored"
- (filename . "~/OrgDocuments/personal/vespa.org")
- (front-context-string . "** TODO Get glov")
- (rear-context-string . "9front / 33back\n")
- (position . 1657))
+ (filename . "~/OrgDocuments/personal/ocean/ocean.org")
+ (front-context-string . "** TODO Email Oc")
+ (rear-context-string . "gust:  8/8-8/18\n")
+ (position . 630))
 ("org-capture-last-stored"
- (filename . "~/OrgDocuments/personal/roam/2022-02-06--21-04-16Z--ark_invest_report.org")
- (front-context-string . "\n* ARK Invest Re")
- (rear-context-string . "s: :ark:report:\n")
- (position . 120))
+ (filename . "~/OrgDocuments/personal/index.org")
+ (front-context-string . "** TODO Email Oc")
+ (rear-context-string . "se Ambitions]]\n\n")
+ (position . 454))
 )
