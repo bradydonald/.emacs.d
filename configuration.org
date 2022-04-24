@@ -1033,6 +1033,7 @@
 
     ;; Lenovo Function Key Bindings
     (global-set-key (kbd "<XF86Favorites>") 'bury-buffer) ;; The Star on F12
+    (global-set-key (kbd "<269025072>") 'bury-buffer) ;; The Star on F12
     (global-set-key (kbd "<f12>") 'bury-buffer) ;; F12 on logi keybpard
 
     ;; M-0 to toggle hiding
