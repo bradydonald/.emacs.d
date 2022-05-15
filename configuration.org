@@ -72,7 +72,6 @@
       :ensure t)
   #+END_SRC
 
-  
 * Basic Configurations
 
   Place for a grab bag of basic settings
@@ -174,9 +173,9 @@
     (use-package s) ;; some nice easy string manipulation functions
     (use-package magit)
     (use-package deadgrep) ;; requires ripgrep binary
+    (use-package hyperbole)
   #+END_SRC
 
-
 * Load any lisp files
 
   Load any .el files in =.emacs.d/lisp= directory. This is not recursive so any
