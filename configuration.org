@@ -24,6 +24,8 @@
   #+BEGIN_SRC emacs-lisp
     (require 'package)
     (setq package-enable-at-startup nil)
+    (setq package-check-signature nil)
+
     (setq package-archives
           '(("gnu"          . "https://elpa.gnu.org/packages/")
             ("melpa"        . "https://melpa.org/packages/")
@@ -35,6 +37,9 @@
   Now that Emacs knows where get from let's initialize:
 
   #+BEGIN_SRC emacs-lisp
+    ;; too easy to get gpg errors in windows build
+    (setq package-check-signature nil)
+
     (package-initialize)
 
     (unless (package-installed-p 'use-package)
@@ -52,9 +57,9 @@
       :ensure t
       :config
       (setq auto-package-update-interval 14 ;; days
-	    auto-package-update-prompt-before-update t
-	    auto-package-update-delete-old-versions t
-	    auto-package-update-hide-results t)
+        auto-package-update-prompt-before-update t
+        auto-package-update-delete-old-versions t
+        auto-package-update-hide-results t)
       (auto-package-update-maybe))
   #+END_SRC
 
@@ -95,6 +100,7 @@
     (global-display-line-numbers-mode 0) ; line number in margin
     (global-hl-line-mode 0) ; highlight current line
     (global-auto-revert-mode 1)
+    (setq-default buffer-file-coding-system 'utf-8-unix)    
     ;; scroll to the bottom of repls on output
     (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
 
@@ -186,15 +192,6 @@
     (load-directory "~/.emacs.d/lisp")
   #+END_SRC
   
-* Page Break Lines
-
-  Displays horizontal line for ctrl-L characters
-
-  #+BEGIN_SRC emacs-lisp
-    (require 'page-break-lines)
-    (global-page-break-lines-mode)
-  #+END_SRC
-
 * Paren Matching
 
   Configuration for a bunch of built in packages.
@@ -206,6 +203,30 @@
       (show-paren-mode +1))
 
   #+END_SRC
+
+* Windows Specific Setup
+  
+** Spelling
+
+   Setup for msys2
+  
+   #+BEGIN_EXAMPLE
+     pacman -S mingw-w64-x86_64-aspell
+     pacman -S mingw-w64-x86_64-aspell-en
+   #+END_SRC
+  
+   #+BEGIN_SRC emacs-lisp
+     (if (eq system-type "windows-nt")
+         (setq ispell-program-name "aspell.exe"))
+   #+END_SRC
+
+** SQL Timeout
+
+   sqlite performance on windows seems really bad. Have to increase timeout.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq emacsql-global-timeout 60)
+   #+END_SRC
 
 * Avy
   Avy has one really useful function =avy-goto-line= which supports multiple
@@ -390,8 +411,6 @@
      (setq org-roam-v2-ack t)
      (use-package org-roam)
      (setq org-roam-directory (expand-file-name "roam" org-directory))
-     (org-roam-db-autosync-mode)
-     (org-roam-db-sync)
 
      ;; required for org-roam bookmarklet 
      (require 'org-roam-protocol)
@@ -858,114 +877,114 @@
 
 ** Other Customizations
 
-* Reading Email with mu4e
+* TODO Reading Email with mu4e
 
-   Load mu4e
+#    Load mu4e
    
-   So, mu4e isn't in melpa (wtf) and has to be installed by installin mu.
+#    So, mu4e isn't in melpa (wtf) and has to be installed by installing mu.
 
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-     (require 'mu4e)
-   #+END_SRC
+#    #+BEGIN_SRC emacs-lisp
+#      (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+#      (require 'mu4e)
+#    #+END_SRC
 
-** Contexts
+# ** Contexts
 
-   #+BEGIN_SRC emacs-lisp
-     (setq mu4e-contexts
-           `( ,(make-mu4e-context
-                :name "gmail"
-                :enter-func (lambda () (mu4e-message "Entering gmail context"))
-                :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
-                ;; we match based on the contact-fields of the message
-                :match-func (lambda (msg)
-                              (when msg
-                                (mu4e-message-contact-field-matches msg
-                                                                    :to "donald.brady@gmail.com")))
-                :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
-                         ( user-full-name	    . "Donald Brady" )
-                         ( mu4e-compose-signature .
-                           (concat
-                            "Donald Brady\n"
-                            "e: donald.brady@gmail.com\n"))))))
+#    #+BEGIN_SRC emacs-lisp
+#      (setq mu4e-contexts
+#            `( ,(make-mu4e-context
+#                 :name "gmail"
+#                 :enter-func (lambda () (mu4e-message "Entering gmail context"))
+#                 :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
+#                 ;; we match based on the contact-fields of the message
+#                 :match-func (lambda (msg)
+#                               (when msg
+#                                 (mu4e-message-contact-field-matches msg
+#                                                                     :to "donald.brady@gmail.com")))
+#                 :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
+#                          ( user-full-name	    . "Donald Brady" )
+#                          ( mu4e-compose-signature .
+#                            (concat
+#                             "Donald Brady\n"
+#                             "e: donald.brady@gmail.com\n"))))))
 
-     (setq mu4e-context-policy 'pick-first)
+#      (setq mu4e-context-policy 'pick-first)
 
-     ;; use mu4e for e-mail in emacs
-     (setq mail-user-agent 'mu4e-user-agent)
+#      ;; use mu4e for e-mail in emacs
+#      (setq mail-user-agent 'mu4e-user-agent)
 
-     ;; these must start with a "/", and must exist
-     ;; (i.e.. /home/user/Maildir/gmail/Sent must exist) you use e.g. 'mu mkdir' and
-     ;; 'mu init' to make the Maildirs if they don't already exist.
+#      ;; these must start with a "/", and must exist
+#      ;; (i.e.. /home/user/Maildir/gmail/Sent must exist) you use e.g. 'mu mkdir' and
+#      ;; 'mu init' to make the Maildirs if they don't already exist.
 
-     (setq mu4e-sent-folder   "/gmail/Sent")
-     (setq mu4e-drafts-folder "/gmail/Drafts")
-     (setq mu4e-trash-folder  "/gmail/Trash")
-     (setq mu4e-refile-folder "/gmail/Archive")
+#      (setq mu4e-sent-folder   "/gmail/Sent")
+#      (setq mu4e-drafts-folder "/gmail/Drafts")
+#      (setq mu4e-trash-folder  "/gmail/Trash")
+#      (setq mu4e-refile-folder "/gmail/Archive")
 
-#+END_SRC
+# #+END_SRC
 
-** Fetching
+# ** Fetching
 
-** Use mbsync for fetching email.
+# ** Use mbsync for fetching email.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq mu4e-get-mail-command "mbsync -V gmail")
-   #+END_SRC
+#    #+BEGIN_SRC emacs-lisp
+#      (setq mu4e-get-mail-command "mbsync -V gmail")
+#    #+END_SRC
 
-** Composing
+# ** Composing
 
-** Reading
+# ** Reading
 
-   #+BEGIN_SRC emacs-lisp
-     (setq mu4e-attachment-dir "~/Downloads")  
+#    #+BEGIN_SRC emacs-lisp
+#      (setq mu4e-attachment-dir "~/Downloads")  
 
-     (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
+#      (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
 
-     ;; View images inline
+#      ;; View images inline
 
-     (setq mu4e-view-show-images t)
-     (when (fboundp 'imagemagick-register-types)
-       (imagemagick-register-types))
+#      (setq mu4e-view-show-images t)
+#      (when (fboundp 'imagemagick-register-types)
+#        (imagemagick-register-types))
 
-#+END_SRC
+# #+END_SRC
 
-** Sending
+# ** Sending
 
-   You will need to install =msmtp= and configure that as needed.
+#    You will need to install =msmtp= and configure that as needed.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq message-send-mail-function 'message-send-mail-with-sendmail)
-     (setq message-sendmail-extra-arguments '("--read-envelope-from"))
-     (setq message-sendmail-f-is-evil 't)
-     (setq sendmail-program "msmtp") 
-   #+END_SRC
+#    #+BEGIN_SRC emacs-lisp
+#      (setq message-send-mail-function 'message-send-mail-with-sendmail)
+#      (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+#      (setq message-sendmail-f-is-evil 't)
+#      (setq sendmail-program "msmtp") 
+#    #+END_SRC
 
-** Org Agena Integration
+# ** Org Agena Integration
 
-   #+BEGIN_SRC emacs-lisp
-     (require 'org-mu4e)
-     (setq org-mu4e-link-query-in-headers-mode nil)
-   #+END_SRC
+#    #+BEGIN_SRC emacs-lisp
+#      (require 'org-mu4e)
+#      (setq org-mu4e-link-query-in-headers-mode nil)
+#    #+END_SRC
 
-** Org Contacts
+# ** Org Contacts
 
-   #+BEGIN_SRC emacs-lisp
-     (load-file (expand-file-name "lisp/org-contacts/org-contacts.el" user-emacs-directory))
-     (require 'org-contacts)
+#    #+BEGIN_SRC emacs-lisp
+#      (load-file (expand-file-name "lisp/org-contacts/org-contacts.el" user-emacs-directory))
+#      (require 'org-contacts)
 
-     (setq org-contacts-files '("~/OrgDocuments/personal/contacts.org"))
-     (setq mu4e-org-contacts-file (car org-contacts-files))
-     (add-to-list 'mu4e-headers-actions
-                  '("org-contact-add" . mu4e-action-add-org-contact) t)
-     (add-to-list 'mu4e-view-actions
-                  '("org-contact-add" . mu4e-action-add-org-contact) t)
+#      (setq org-contacts-files '("~/OrgDocuments/personal/contacts.org"))
+#      (setq mu4e-org-contacts-file (car org-contacts-files))
+#      (add-to-list 'mu4e-headers-actions
+#                   '("org-contact-add" . mu4e-action-add-org-contact) t)
+#      (add-to-list 'mu4e-view-actions
+#                   '("org-contact-add" . mu4e-action-add-org-contact) t)
 
-   #+END_SRC             
+#    #+END_SRC             
 
-   #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "C-c m") 'mu4e)
-   #+END_SRC
+#    #+BEGIN_SRC emacs-lisp
+#      (global-set-key (kbd "C-c m") 'mu4e)
+#    #+END_SRC
 
 * Elfeed
 
@@ -1051,6 +1070,7 @@
     (setq modus-themes-variable-pitch-ui t)
     (setq modus-themes-variable-pitch-headings t)
   #+END_SRC
+
 * Start a server
 
   #+BEGIN_SRC emacs-lisp
