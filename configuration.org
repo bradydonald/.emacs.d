@@ -227,6 +227,19 @@
      (setq emacsql-global-timeout 60)
    #+END_SRC
 
+** WSL to use Windows Native Browser
+
+   #+BEGIN_SRC emacs-lisp
+     (when (and (eq system-type 'gnu/linux)
+                (string-match
+                 "Linux.*Microsoft.*Linux"
+                 (shell-command-to-string "uname -a")))
+       (setq
+        browse-url-generic-program  "/mnt/c/Windows/System32/cmd.exe"
+        browse-url-generic-args     '("/c" "start")
+        browse-url-browser-function #'browse-url-generic))
+   #+END_SRC
+   
 * Avy
   Avy has one really useful function =avy-goto-line= which supports multiple
   buffers
