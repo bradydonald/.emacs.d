@@ -292,6 +292,15 @@
       (ivy-mode 1))
   #+END_SRC
 
+* Undo Tree
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package undo-tree
+      :config
+      (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+      (global-undo-tree-mode))
+  #+END_SRC
+  
 * Swiper
   Use swiper for better searching
   #+BEGIN_SRC emacs-lisp
