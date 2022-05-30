@@ -173,7 +173,6 @@
     (use-package s) ;; some nice easy string manipulation functions
     (use-package magit)
     (use-package deadgrep) ;; requires ripgrep binary
-    (use-package hyperbole)
     (use-package epresent)
   #+END_SRC
 
@@ -1008,6 +1007,17 @@
 #      (global-set-key (kbd "C-c m") 'mu4e)
 #    #+END_SRC
 
+* Hyperbole
+
+  Change Hyperbole key to M-\ which is nicely above the enter key on this
+  laptop.
+  
+  #+BEGIN_SRC emacs-lisp
+    (use-package hyperbole
+      :config
+      (add-hook 'hyperbole-init-hook (lambda () (hkey-set-key "\M-\\" 'hkey-either))))
+  #+END_SRC
+  
 * Elfeed
 
   Read news with elfeed
