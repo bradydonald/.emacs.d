@@ -899,6 +899,10 @@
 ** Other Customizations
 
 * TODO Reading Email with mu4e
+  :LOGBOOK:
+  - Note taken on [2022-06-04 Sat 06:30] \\
+    Really struggling to get mu and isync in msys2. Maybe a dead end.
+  :END:
 
 #    Load mu4e
    
