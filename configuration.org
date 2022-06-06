@@ -173,7 +173,6 @@
     (use-package s) ;; some nice easy string manipulation functions
     (use-package magit)
     (use-package deadgrep) ;; requires ripgrep binary
-    (use-package epresent)
   #+END_SRC
 
 * Load any lisp files
@@ -1041,6 +1040,14 @@
        ("o" . elfeed-search-browse-url)))
 
    #+END_SRC
+
+* Epresent
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package epresent
+      :config 
+      (setq epresent-text-scale 186))
+  #+END_SRC
 
 * Blogging / Org2Blog
 
