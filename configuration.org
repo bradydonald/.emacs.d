@@ -1068,7 +1068,6 @@
 
   #+END_SRC
 
-
 * Globally set keys
 
   #+BEGIN_SRC emacs-lisp
