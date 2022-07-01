@@ -1043,13 +1043,6 @@
 
    #+END_SRC
 
-* Epresent
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package epresent
-      :config 
-      (setq epresent-text-scale 186))
-  #+END_SRC
 
   
 * Org Present
