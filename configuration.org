@@ -291,13 +291,15 @@
       (ivy-mode 1))
   #+END_SRC
 
-* Undo Tree
+* SUSPENDED Undo Tree
 
+  Performance on msys2 is very sub-par so turning off.
+  
   #+BEGIN_SRC emacs-lisp
-    (use-package undo-tree
-      :config
-      (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
-      (global-undo-tree-mode))
+    ;; (use-package undo-tree
+    ;;   :config
+    ;;   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+    ;;   (global-undo-tree-mode))
   #+END_SRC
   
 * Swiper
