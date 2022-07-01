@@ -1056,7 +1056,7 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package org-present)
-    (use-package cisual-fill-column
+    (use-package visual-fill-column
       :config
       (setq visual-fill-column-width 110)
       (setq visual-fill-column-center-text t))
@@ -1075,7 +1075,6 @@
     (add-hook 'org-present-mode-hook 'db/org-present-start)
     (add-hook 'org-present-mode-quit-hook 'db/org-present-end)
   #+END_SRC
-  
 
 * Blogging / Org2Blog
 
