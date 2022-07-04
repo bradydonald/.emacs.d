@@ -1177,7 +1177,7 @@
       (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
 
     ;; Make the document title a bit bigger
-    (set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.0)
+    (set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.3)
 
     ;; Make sure certain org faces use the fixed-pitch face when variable-pitch-mode is on
     (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -1198,5 +1198,3 @@
     (unless (server-running-p) (server-start))
     (put 'upcase-region 'disabled nil)
   #+END_SRC
-  
-  
