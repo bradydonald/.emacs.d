@@ -99,6 +99,7 @@
     (global-display-line-numbers-mode 0) ; line number in margin
     (global-hl-line-mode 0) ; highlight current line
     (global-auto-revert-mode 1)
+    (setq global-auto-revert-non-file-buffers t)
     (setq-default buffer-file-coding-system 'utf-8-unix)    
     ;; scroll to the bottom of repls on output
     (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
