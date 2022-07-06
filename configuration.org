@@ -1046,7 +1046,6 @@
    #+END_SRC
 
 
-  
 * Org Present
 
   #+BEGIN_SRC emacs-lisp
