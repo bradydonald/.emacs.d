@@ -35,7 +35,6 @@ themes/*
 /request/
 /session*
 /eln-cache/
-/bookmarks
 /custom.el
 /org-roam.db.bak
 /straight/build
@@ -43,8 +42,6 @@ themes/*
 /straight/build-cache.el
 /projectile.cache
 /.cache/
-bookmarks
-bookmarks
 custom.el
 /.last-package-update-day
 /server/
