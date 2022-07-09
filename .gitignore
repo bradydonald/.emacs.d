@@ -46,3 +46,4 @@ custom.el
 /.last-package-update-day
 /server/
 /bookmarks
+/org-roam.db
