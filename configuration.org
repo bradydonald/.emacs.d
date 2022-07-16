@@ -193,6 +193,7 @@
     (use-package magit)
     (use-package deadgrep) ;; requires ripgrep binary
     (use-package doom-themes)
+    (use-package yaml-mode)
   #+END_SRC
 
 * Load any lisp files
@@ -1191,6 +1192,13 @@
       ("\C-c h" . org2blog-user-interface))
 
   #+END_SRC
+
+* Developer Modes
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'yaml-mode)
+    (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+   #+END_SRC
 
 * Globally set keys
 
