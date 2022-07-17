@@ -83,6 +83,7 @@
     (setq-default buffer-file-coding-system 'utf-8-unix)    
     ;; scroll to the bottom of repls on output
     (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
+    (put 'upcase-region 'disabled nil)
 
     (defvar default-gc-cons-threshold most-positive-fixnum
       "for startup make hella big during startup.")
@@ -1274,5 +1275,4 @@
   #+BEGIN_SRC emacs-lisp
     (load "server")
     (unless (server-running-p) (server-start))
-    (put 'upcase-region 'disabled nil)
   #+END_SRC
