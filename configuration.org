@@ -1,4 +1,4 @@
- Package management
+* Package management
 
   Where we get packages from:
   
@@ -120,7 +120,7 @@
         (package-install 'doom-themes))
 
       ;; Load up doom-palenight for the System Crafters look
-      (load-theme 'doom-palenight t)
+      (load-theme 'doom-ayu-dark t)
 
       ;; Set reusable font name variables
       (defvar db/fixed-width-font "JetBrains Mono"
