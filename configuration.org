@@ -120,7 +120,7 @@
         (package-install 'doom-themes))
 
       ;; Load up doom-palenight for the System Crafters look
-      (load-theme 'doom-ayu-dark t)
+      (load-theme 'doom-Iosvkem t)
 
       ;; Set reusable font name variables
       (defvar db/fixed-width-font "JetBrains Mono"
@@ -1233,7 +1233,7 @@
 * Theme and Faces
 
   #+BEGIN_SRC emacs-lisp
-    (load-theme 'doom-palenight t)
+    (load-theme 'doom-acario-dark t)
     (set-face-attribute 'default nil :font "JetBrains Mono" :weight 'light :height 100)
     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :weight 'light :height 100)
     (set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :weight 'light :height 1.0)
