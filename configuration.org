@@ -1238,7 +1238,7 @@
     (load-theme 'doom-acario-dark t)
     (set-face-attribute 'default nil :font "JetBrains Mono" :weight 'light :height 100)
     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono" :weight 'light :height 100)
-    (set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :weight 'light :height 1.0)
+    (set-face-attribute 'variable-pitch nil :font "JetBrains Mono" :weight 'light :height 1.0)
 
     (require 'org-faces)
 
