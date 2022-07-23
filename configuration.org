@@ -976,112 +976,113 @@
     Really struggling to get mu and isync in msys2. Maybe a dead end.
   :END:
 
-#    Load mu4e
-   
-#    So, mu4e isn't in melpa (wtf) and has to be installed by installing mu.
+  mu4e isn't in melpa (wtf) and has to be installed by installing mu which
+  on fedora is =sudu dnf install maildir-utils=
 
-#    #+BEGIN_SRC emacs-lisp
-#      (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-#      (require 'mu4e)
-#    #+END_SRC
+  To initialize the database =mu init --maildir=~/Maildir --my-address=donald.brady@gmail.com=
 
-# ** Contexts
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+     (require 'mu4e)
+   #+END_SRC
 
-#    #+BEGIN_SRC emacs-lisp
-#      (setq mu4e-contexts
-#            `( ,(make-mu4e-context
-#                 :name "gmail"
-#                 :enter-func (lambda () (mu4e-message "Entering gmail context"))
-#                 :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
-#                 ;; we match based on the contact-fields of the message
-#                 :match-func (lambda (msg)
-#                               (when msg
-#                                 (mu4e-message-contact-field-matches msg
-#                                                                     :to "donald.brady@gmail.com")))
-#                 :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
-#                          ( user-full-name	    . "Donald Brady" )
-#                          ( mu4e-compose-signature .
-#                            (concat
-#                             "Donald Brady\n"
-#                             "e: donald.brady@gmail.com\n"))))))
+** Contexts
 
-#      (setq mu4e-context-policy 'pick-first)
+   #+BEGIN_SRC emacs-lisp
+     (setq mu4e-contexts
+           `( ,(make-mu4e-context
+                :name "gmail"
+                :enter-func (lambda () (mu4e-message "Entering gmail context"))
+                :leave-func (lambda () (mu4e-message "Leaving gmail Context"))
+                ;; we match based on the contact-fields of the message
+                :match-func (lambda (msg)
+                              (when msg
+                                (mu4e-message-contact-field-matches msg
+                                                                    :to "donald.brady@gmail.com")))
+                :vars '( ( user-mail-address	    . "donald.brady@gmail.com"  )
+                         ( user-full-name	    . "Donald Brady" )
+                         ( mu4e-compose-signature .
+                           (concat
+                            "Donald Brady\n"
+                            "e: donald.brady@gmail.com\n"))))))
 
-#      ;; use mu4e for e-mail in emacs
-#      (setq mail-user-agent 'mu4e-user-agent)
+     (setq mu4e-context-policy 'pick-first)
 
-#      ;; these must start with a "/", and must exist
-#      ;; (i.e.. /home/user/Maildir/gmail/Sent must exist) you use e.g. 'mu mkdir' and
-#      ;; 'mu init' to make the Maildirs if they don't already exist.
+     ;; use mu4e for e-mail in emacs
+     (setq mail-user-agent 'mu4e-user-agent)
 
-#      (setq mu4e-sent-folder   "/gmail/Sent")
-#      (setq mu4e-drafts-folder "/gmail/Drafts")
-#      (setq mu4e-trash-folder  "/gmail/Trash")
-#      (setq mu4e-refile-folder "/gmail/Archive")
+     ;; these must start with a "/", and must exist
+     ;; (i.e.. /home/user/Maildir/gmail/Sent must exist) you use e.g. 'mu mkdir' and
+     ;; 'mu init' to make the Maildirs if they don't already exist.
 
-# #+END_SRC
+     (setq mu4e-sent-folder   "/gmail/Sent")
+     (setq mu4e-drafts-folder "/gmail/Drafts")
+     (setq mu4e-trash-folder  "/gmail/Trash")
+     (setq mu4e-refile-folder "/gmail/Archive")
 
-# ** Fetching
+#+END_SRC
 
-# ** Use mbsync for fetching email.
+** Fetching
 
-#    #+BEGIN_SRC emacs-lisp
-#      (setq mu4e-get-mail-command "mbsync -V gmail")
-#    #+END_SRC
+** Use mbsync for fetching email.
 
-# ** Composing
+   #+BEGIN_SRC emacs-lisp
+     (setq mu4e-get-mail-command "mbsync -V gmail")
+   #+END_SRC
 
-# ** Reading
+** Composing
 
-#    #+BEGIN_SRC emacs-lisp
-#      (setq mu4e-attachment-dir "~/Downloads")  
+** Reading
 
-#      (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
+   #+BEGIN_SRC emacs-lisp
+     (setq mu4e-attachment-dir "~/Downloads")  
 
-#      ;; View images inline
+     (define-key mu4e-view-mode-map (kbd "C-c C-o") 'mu4e~view-browse-url-from-binding)  
 
-#      (setq mu4e-view-show-images t)
-#      (when (fboundp 'imagemagick-register-types)
-#        (imagemagick-register-types))
+     ;; View images inline
 
-# #+END_SRC
+     (setq mu4e-view-show-images t)
+     (when (fboundp 'imagemagick-register-types)
+       (imagemagick-register-types))
 
-# ** Sending
+#+END_SRC
 
-#    You will need to install =msmtp= and configure that as needed.
+** Sending
 
-#    #+BEGIN_SRC emacs-lisp
-#      (setq message-send-mail-function 'message-send-mail-with-sendmail)
-#      (setq message-sendmail-extra-arguments '("--read-envelope-from"))
-#      (setq message-sendmail-f-is-evil 't)
-#      (setq sendmail-program "msmtp") 
-#    #+END_SRC
+   You will need to install =msmtp= and configure that as needed.
 
-# ** Org Agena Integration
+   #+BEGIN_SRC emacs-lisp
+     (setq message-send-mail-function 'message-send-mail-with-sendmail)
+     (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+     (setq message-sendmail-f-is-evil 't)
+     (setq sendmail-program "msmtp") 
+   #+END_SRC
 
-#    #+BEGIN_SRC emacs-lisp
-#      (require 'org-mu4e)
-#      (setq org-mu4e-link-query-in-headers-mode nil)
-#    #+END_SRC
+** Org Agena Integration
 
-# ** Org Contacts
+   #+BEGIN_SRC emacs-lisp
+     (require 'org-mu4e)
+     (setq org-mu4e-link-query-in-headers-mode nil)
+   #+END_SRC
 
-#    #+BEGIN_SRC emacs-lisp
-#      (load-file (expand-file-name "lisp/org-contacts/org-contacts.el" user-emacs-directory))
-#      (require 'org-contacts)
+** Org Contacts
 
-#      (setq org-contacts-files '("~/OrgDocuments/personal/contacts.org"))
-#      (setq mu4e-org-contacts-file (car org-contacts-files))
-#      (add-to-list 'mu4e-headers-actions
-#                   '("org-contact-add" . mu4e-action-add-org-contact) t)
-#      (add-to-list 'mu4e-view-actions
-#                   '("org-contact-add" . mu4e-action-add-org-contact) t)
+   #+BEGIN_SRC emacs-lisp
+     (load-file (expand-file-name "lisp/org-contacts/org-contacts.el" user-emacs-directory))
+     (require 'org-contacts)
 
-#    #+END_SRC             
+     (setq org-contacts-files '("~/OrgDocuments/personal/contacts.org"))
+     (setq mu4e-org-contacts-file (car org-contacts-files))
+     (add-to-list 'mu4e-headers-actions
+                  '("org-contact-add" . mu4e-action-add-org-contact) t)
+     (add-to-list 'mu4e-view-actions
+                  '("org-contact-add" . mu4e-action-add-org-contact) t)
 
-#    #+BEGIN_SRC emacs-lisp
-#      (global-set-key (kbd "C-c m") 'mu4e)
-#    #+END_SRC
+   #+END_SRC             
+
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key (kbd "C-c m") 'mu4e)
+   #+END_SRC
 
 * Hyperbole
 
