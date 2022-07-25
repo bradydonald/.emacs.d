@@ -504,7 +504,7 @@
      (setq org-roam-directory (expand-file-name "roam" org-directory))
      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
      (setq org-roam-db-autosync-mode t)
-     
+
      ;; required for org-roam bookmarklet 
      (require 'org-roam-protocol)
 
@@ -525,6 +525,11 @@
               :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
                                 "#+title: ${title}\n#+filetags:\n{ref}\n")
               :unnarrowed t)))
+
+     (add-hook 'org-capture-after-finalize-hook
+               (lambda ()
+                 (if (org-roam-file-p)
+                     (org-roam-db-sync))))
 
    #+END_SRC
 
