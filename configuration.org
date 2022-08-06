@@ -1196,22 +1196,6 @@
 
   #+END_SRC
 
-* Transient Print Menu
-
-  #+BEGIN_SRC emacs-lisp
-    (require 'lp-transient)
-
-    (with-eval-after-load 'dired
-      (define-key
-        dired-mode-map
-        (kbd "C-c C-p") #'lp-transient-menu))
-
-    (with-eval-after-load 'pdf-tools
-      (define-key
-        pdf-misc-minor-mode-map
-        (kbd "C-c C-p") #'lp-transient-menu))
-  #+END_SRC
-
 * Developer Modes
 
   #+BEGIN_SRC emacs-lisp
