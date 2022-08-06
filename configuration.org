@@ -34,7 +34,6 @@
     (use-package diminish) ; no longer included with use-package by default
 
     (use-package auto-package-update
-      :ensure t
       :config
       (setq auto-package-update-interval 14 ;; days
         auto-package-update-prompt-before-update t
@@ -48,8 +47,7 @@
   need the =rg= executable, or an npm package.
   
   #+BEGIN_SRC emacs-lisp
-    (use-package use-package-ensure-system-package
-      :ensure t)
+    (use-package use-package-ensure-system-package)      :ensure t)
   #+END_SRC
 
 * Basic Settings
@@ -382,7 +380,7 @@
   [[https://projectile.mx/][Projectile]] is useful for navigating dev projects
   
   #+BEGIN_SRC emacs-lisp
-    (use-package projectile :ensure t)
+    (use-package projectile)
     (require 'projectile)
     (projectile-mode +1)
     (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -395,7 +393,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org)
-     (use-package org-contrib :ensure t)
+     (use-package org-contrib)
      (use-package org-superstar)
      (use-package org-edna)
      (use-package org-ql)
