@@ -60,3 +60,38 @@ Archived entries from file /home/d/.emacs.d/configuration.org
         (org-set-tags)))
 
   #+end_src
+
+* SUSPENDED Undo Tree
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2022-08-08 Mon 09:42
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :ARCHIVE_TODO: SUSPENDED
+  :END:
+
+  Performance on msys2 is very sub-par so turning off.
+  
+  #+BEGIN_SRC emacs-lisp
+    ;; (use-package undo-tree
+    ;;   :config
+    ;;   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+    ;;   (global-undo-tree-mode))
+  #+END_SRC
+  
+
+* Hyperbole
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2022-08-08 Mon 09:43
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Change Hyperbole key to M-\ which is nicely above the enter key on this
+  laptop.
+  
+  #+BEGIN_SRC emacs-lisp
+    (use-package hyperbole
+      :config
+      (add-hook 'hyperbole-init-hook (lambda () (hkey-set-key "\M-\\" 'hkey-either))))
+  #+END_SRC
+  

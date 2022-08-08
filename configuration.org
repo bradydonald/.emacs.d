@@ -311,17 +311,6 @@
       (ivy-mode 1))
   #+END_SRC
 
-* SUSPENDED Undo Tree
-
-  Performance on msys2 is very sub-par so turning off.
-  
-  #+BEGIN_SRC emacs-lisp
-    ;; (use-package undo-tree
-    ;;   :config
-    ;;   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
-    ;;   (global-undo-tree-mode))
-  #+END_SRC
-  
 * Swiper
   Use swiper for better searching
   #+BEGIN_SRC emacs-lisp
@@ -1062,17 +1051,6 @@
      
    #+END_SRC
 
-* Hyperbole
-
-  Change Hyperbole key to M-\ which is nicely above the enter key on this
-  laptop.
-  
-  #+BEGIN_SRC emacs-lisp
-    (use-package hyperbole
-      :config
-      (add-hook 'hyperbole-init-hook (lambda () (hkey-set-key "\M-\\" 'hkey-either))))
-  #+END_SRC
-  
 * Elfeed
 
   Read news with elfeed
