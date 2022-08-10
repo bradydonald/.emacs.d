@@ -193,6 +193,7 @@
     (use-package deadgrep) ;; requires ripgrep binary
     (use-package doom-themes)
     (use-package yaml-mode)
+    (use-package company)
   #+END_SRC
 
 * Load any lisp files
