@@ -193,7 +193,6 @@
     (use-package deadgrep) ;; requires ripgrep binary
     (use-package doom-themes)
     (use-package yaml-mode)
-    (use-package company)
   #+END_SRC
 
 * Load any lisp files
@@ -1158,6 +1157,14 @@
     (require 'yaml-mode)
     (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
    #+END_SRC
+
+* Company
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package company
+      :config
+      (add-hook 'after-init-hook 'global-company-mode))
+  #+END_SRC
 
 * Globally set keys
 
