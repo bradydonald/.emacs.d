@@ -1164,6 +1164,11 @@
     (use-package company
       :config
       (add-hook 'after-init-hook 'global-company-mode))
+
+    (use-package company-emoji
+      :init
+      (add-to-list 'company-backends 'company-emoji))
+
   #+END_SRC
 
 * Globally set keys
