@@ -166,7 +166,6 @@
   #+BEGIN_SRC emacs-lisp
     (use-package eglot)
     (use-package elec-pair)
-    (use-package flycheck)
     (use-package git-timemachine)
     (use-package gnuplot)
     (use-package s) ;; some nice easy string manipulation functions
@@ -270,6 +269,20 @@
 
   #+END_SRC
 
+* Flycheck
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+      :ensure 
+        :init (global-flycheck-mode))
+
+    (use-package flycheck-inline
+      :ensure t
+      :after flycheck
+      :config
+      (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+  #+END_SRC
+  
 * Text Scaling
 
   =default-text-scale= allows you to quickly resize text. By default binds to
@@ -1070,6 +1083,17 @@
     (add-hook 'org-present-mode-hook 'db/org-present-start)
     (add-hook 'org-present-mode-quit-hook 'db/org-present-end)
     (add-hook 'org-present-after-navigate-functions 'db/org-present-prepare-slide)
+
+  #+END_SRC
+
+* Org Transculsion
+
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package org-transclusion
+      :after org
+      :init
+      )
 
   #+END_SRC
 
