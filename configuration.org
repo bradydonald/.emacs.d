@@ -282,6 +282,16 @@
       :config
       (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
   #+END_SRC
+
+  Experimental vale integration:
+  https://github.com/grettke/flycheck-org-vale
+  
+  #+BEGIN_SRC emacs-lisp
+    (if (file-directory-p "~/src/flycheck-org-vale")
+        (progn
+          (add-to-list 'load-path "~/src/flycheck-org-vale")
+          (require 'flycheck-org-vale)))
+  #+END_SRC
   
 * Text Scaling
 
