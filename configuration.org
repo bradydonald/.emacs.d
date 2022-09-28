@@ -523,6 +523,20 @@
                                 "DONE(d)"
                                 "SUSPENDED(u)"
                                 "SKIPPED(k)")))
+
+     (setq org-todo-keyword-faces
+           '(("TODO" . (:foreground "DarkOrange1" :weight bold))
+             ("STARTED" . (:foreground "sea green"))
+             ("DONE" . (:foreground "light sea green"))
+             ("WAITING" . (:foreground "yellow"))
+             ("SUSPENDED" . (:foreground "forest green"))
+             ("TASK" . (:foreground "blue"))))
+
+
+     (setq org-tags-exclude-from-inheritance '("project")
+           org-stuck-projects '("+project/-MAYBE-DONE"
+                                ("TODO" "WAITING" "DELEGATED") ()))
+
      (setq org-log-done 'time)
      (setq org-log-into-drawer t)
      (setq org-log-reschedule 'note)
@@ -537,7 +551,6 @@
                                        (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
 
    #+END_SRC
-
 
    Stealing Prot's agenda setup which is really nice and doesn't depend on org-super-agenda
 
