@@ -189,6 +189,20 @@
     (mapc load-it (directory-files dir nil "\\.el$"))))
     (load-directory "~/.emacs.d/lisp")
   #+END_SRC
+
+  Any other special loads here:
+
+** lsp-bridge (Expirmental)
+
+   [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
+   
+   #+BEGIN_SRC emacs-lisp
+     (use-package posframe) ;; dependency
+
+     ;; if it is installed
+     (if (file-directory-p "~/src/lsp-bridge")
+         (add-to-list 'load-path "~/src/lsp-bridge"))
+   #+END_SRC
   
 * Paren Matching
 
@@ -349,6 +363,15 @@
 
   #+END_SRC
 
+* Markdown Mode
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package markdown-mode
+      :ensure t
+      :mode ("README\\.md\\'" . gfm-mode)
+      :init (setq markdown-command "multimarkdown"))
+  #+END_SRC
+  
 * PDF Tools
   PDF viewer and annotator
 
@@ -1145,6 +1168,15 @@
     (require 'yaml-mode)
     (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
    #+END_SRC
+
+* LSP-Bridge (Experimental)
+
+  #+BEGIN_SRC emacs-lisp
+    (if (file-directory-p "~/src/lsp-bridge")
+        (progn
+          (require 'lsp-bridge)
+          (global-lsp-bridge-mode)))
+  #+END_SRC
 
 * Company
 
