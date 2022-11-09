@@ -505,6 +505,12 @@
                  (if (org-roam-file-p)
                      (org-roam-db-sync))))
 
+     ;; this is required to get matching on tags
+     (setq org-roam-node-display-template
+           (concat "${title:*} "
+                   (propertize "${tags:10}" 'face 'org-tag)))
+
+
    #+END_SRC
 
 ** Language Support
