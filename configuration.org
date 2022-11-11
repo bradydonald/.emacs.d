@@ -548,7 +548,8 @@
                                 "TODO(t)"
                                 "STARTED(s)"
                                 "DELEGATED(e)"
-                                "WAITING(w)" "|"
+                                "WAITING(w)"
+                                "HOLD(h)" "|"
                                 "DONE(d)"
                                 "SUSPENDED(u)"
                                 "SKIPPED(k)")))
@@ -558,6 +559,7 @@
              ("STARTED" . (:foreground "sea green"))
              ("DONE" . (:foreground "light sea green"))
              ("WAITING" . (:foreground "yellow"))
+             ("HOLD" . (:foreground "yellow"))
              ("SUSPENDED" . (:foreground "forest green"))
              ("TASK" . (:foreground "blue"))))
 
