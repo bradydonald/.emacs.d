@@ -1,4 +1,4 @@
-* Package management
+pp_* Package management
 
   Where we get packages from:
   
@@ -1180,7 +1180,11 @@
 * LSP-Bridge (Experimental)
 
   #+BEGIN_SRC emacs-lisp
-    (if (file-directory-p "~/src/lsp-bridge")
+
+    ;; don't go global on for now. 
+    (setq db/go-lsp-bridge nil)
+
+    (if (and (file-directory-p "~/src/lsp-bridge") db/go-lsp-bridge)
         (progn
           (require 'lsp-bridge)
           (global-lsp-bridge-mode)))
