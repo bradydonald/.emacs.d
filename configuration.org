@@ -1049,14 +1049,20 @@ pp_* Package management
            (setq mu4e-org-contacts-file (car org-contacts-files))
            (add-to-list 'mu4e-headers-actions
                         '("org-contact-add" . mu4e-action-add-org-contact) t)
-           (add-to-list 'mu4e-view-actions
-                        '("org-contact-add" . mu4e-action-add-org-contact) t)
 
+           (setq mu4e-view-actions
+                 '(("sMark as spam" . mu4e-view-register-msg-as-spam)
+                   ("bViewInBrowser" . mu4e-action-view-in-browser)
+                   ("capture message" . mu4e-action-capture-message)
+                   ("oOrg Contact Add" . mu4e-action-add-org-contact)
+                   ("tShow this thread" . mu4e-action-show-thread)))
+
+           (setq mu4e-headers-actions mu4e-view-actions)
 
            ;; global key
            (global-set-key (kbd "C-c m") 'mu4e)
            ))
-     
+
    #+END_SRC
 
 * Elfeed
