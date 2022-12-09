@@ -1,4 +1,4 @@
-pp_* Package management
+* Package management
 
   Where we get packages from:
   
