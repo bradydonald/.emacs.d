@@ -547,7 +547,6 @@
      (setq org-todo-keywords '((sequence
                                 "TODO(t)"
                                 "STARTED(s)"
-                                "DELEGATED(e)"
                                 "WAITING(w)"
                                 "HOLD(h)" "|"
                                 "DONE(d)"
@@ -566,7 +565,7 @@
 
      (setq org-tags-exclude-from-inheritance '("project")
            org-stuck-projects '("+project/-MAYBE-DONE"
-                                ("TODO" "WAITING" "DELEGATED") ()))
+                                ("TODO" "WAITING") ()))
 
      (setq org-log-done 'time)
      (setq org-log-into-drawer t)
@@ -873,21 +872,21 @@
       (setq org-capture-templates 
             `(
 
-              ("t" "Tasks")
+              ;; ("t" "Tasks")
 
               ;; TODO     (t) Todo template
-              ("tt" "Todo" entry (file+headline ,org-default-notes-file "Refile")
+              ("t" "Todo" entry (file+headline ,org-default-notes-file "Refile")
                "* TODO %?"
                :empty-lines 1)
 
-              ("te" "Delegated" entry (file+headline ,org-default-notes-file "Refile")
-               "* DELEGATED %?
-               :PROPERTIES:
-               :OWNER: %^{Delegated to?}
-               :END:"
-               :empty-lines 1)
+              ;; ("te" "Delegated" entry (file+headline ,org-default-notes-file "Refile")
+              ;;  "* DELEGATED %?
+              ;;  :PROPERTIES:
+              ;;  :OWNER: %^{Delegated to?}
+              ;;  :END:"
+              ;;  :empty-lines 1)
 
-              ;; Note (n) template
+              ;; ;; Note (n) template
               ("n" "Note" entry (file+headline ,org-default-notes-file "Refile")
                "* %? %(%i)"
                :empty-lines 1)
