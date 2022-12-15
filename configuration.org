@@ -547,6 +547,7 @@
      (setq org-todo-keywords '((sequence
                                 "TODO(t)"
                                 "STARTED(s)"
+                                "DELEGATED(e)"
                                 "WAITING(w)"
                                 "HOLD(h)" "|"
                                 "DONE(d)"
@@ -565,7 +566,7 @@
 
      (setq org-tags-exclude-from-inheritance '("project")
            org-stuck-projects '("+project/-MAYBE-DONE"
-                                ("TODO" "WAITING") ()))
+                                ("TODO" "WAITING" "DELEGATED") ()))
 
      (setq org-log-done 'time)
      (setq org-log-into-drawer t)
