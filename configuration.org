@@ -561,6 +561,7 @@
              ("WAITING" . (:foreground "yellow"))
              ("HOLD" . (:foreground "yellow"))
              ("SUSPENDED" . (:foreground "forest green"))
+             ("DELEGATED" . (:foreground "orange"))
              ("TASK" . (:foreground "blue"))))
 
 
