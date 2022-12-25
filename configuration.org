@@ -1245,174 +1245,191 @@
   Starting to use Hydra for better navigation options and rusty memory when
   accessing seldom used modes.
   
-  #+BEGIN_SRC emacs-lisp
-    (use-package hydra
-      :config
-      (defshortcuts my-file-shortcuts ()
-        ("i" (db/current-index-file) "Index File")
-        ("j" (db/current-monthly-journal) "Monthly Journal File")
-        )
-      :bind
-      ("C-c f" . #'my-file-shortcuts/body))
+** My File Hydra
 
-    (defhydra hydra-ibuffer-main (:color pink :hint nil)
-      "
-         ^Navigation^ | ^Mark^        | ^Actions^        | ^View^
-        -^----------^-+-^----^--------+-^-------^--------+-^----^-------
-          _k_:    ʌ   | _m_: mark     | _D_: delete      | _g_: refresh
-         _RET_: visit | _u_: unmark   | _S_: save        | _s_: sort
-          _j_:    v   | _*_: specific | _a_: all actions | _/_: filter
-        -^----------^-+-^----^--------+-^-------^--------+-^----^-------
-        "
-      ("j" ibuffer-forward-line)
-      ("RET" ibuffer-visit-buffer :color blue)
-      ("k" ibuffer-backward-line)
+   #+BEGIN_SRC emacs-lisp
+     (use-package hydra
+       :config
+       (defshortcuts my-file-shortcuts ()
+         ("i" (db/current-index-file) "Index File")
+         ("j" (db/current-monthly-journal) "Monthly Journal File")
+         )
+       :bind
+       ("C-c f" . #'my-file-shortcuts/body))
+   #+END_SRC
 
-      ("m" ibuffer-mark-forward)
-      ("u" ibuffer-unmark-forward)
-      ("*" hydra-ibuffer-mark/body :color blue)
+** iBuffer Hydra
+   
+   #+BEGIN_SRC emacs-lisp
 
-      ("D" ibuffer-do-delete)
-      ("S" ibuffer-do-save)
-      ("a" hydra-ibuffer-action/body :color blue)
+     (defhydra hydra-ibuffer-main (:color pink :hint nil)
+       "
+          ^Navigation^ | ^Mark^        | ^Actions^        | ^View^
+         -^----------^-+-^----^--------+-^-------^--------+-^----^-------
+           _k_:    ʌ   | _m_: mark     | _D_: delete      | _g_: refresh
+          _RET_: visit | _u_: unmark   | _S_: save        | _s_: sort
+           _j_:    v   | _*_: specific | _a_: all actions | _/_: filter
+         -^----------^-+-^----^--------+-^-------^--------+-^----^-------
+         "
+       ("j" ibuffer-forward-line)
+       ("RET" ibuffer-visit-buffer :color blue)
+       ("k" ibuffer-backward-line)
 
-      ("g" ibuffer-update)
-      ("s" hydra-ibuffer-sort/body :color blue)
-      ("/" hydra-ibuffer-filter/body :color blue)
+       ("m" ibuffer-mark-forward)
+       ("u" ibuffer-unmark-forward)
+       ("*" hydra-ibuffer-mark/body :color blue)
 
-      ("o" ibuffer-visit-buffer-other-window "other window" :color blue)
-      ("q" quit-window "quit ibuffer" :color blue)
-      ("." nil "toggle hydra" :color blue))
+       ("D" ibuffer-do-delete)
+       ("S" ibuffer-do-save)
+       ("a" hydra-ibuffer-action/body :color blue)
 
-    (defhydra hydra-ibuffer-mark (:color teal :columns 5
-                                         :after-exit (hydra-ibuffer-main/body))
-      "Mark"
-      ("*" ibuffer-unmark-all "unmark all")
-      ("M" ibuffer-mark-by-mode "mode")
-      ("m" ibuffer-mark-modified-buffers "modified")
-      ("u" ibuffer-mark-unsaved-buffers "unsaved")
-      ("s" ibuffer-mark-special-buffers "special")
-      ("r" ibuffer-mark-read-only-buffers "read-only")
-      ("/" ibuffer-mark-dired-buffers "dired")
-      ("e" ibuffer-mark-dissociated-buffers "dissociated")
-      ("h" ibuffer-mark-help-buffers "help")
-      ("z" ibuffer-mark-compressed-file-buffers "compressed")
-      ("b" hydra-ibuffer-main/body "back" :color blue))
+       ("g" ibuffer-update)
+       ("s" hydra-ibuffer-sort/body :color blue)
+       ("/" hydra-ibuffer-filter/body :color blue)
 
-    (defhydra hydra-ibuffer-action (:color teal :columns 4
-                                           :after-exit
-                                           (if (eq major-mode 'ibuffer-mode)
-                                               (hydra-ibuffer-main/body)))
-      "Action"
-      ("A" ibuffer-do-view "view")
-      ("E" ibuffer-do-eval "eval")
-      ("F" ibuffer-do-shell-command-file "shell-command-file")
-      ("I" ibuffer-do-query-replace-regexp "query-replace-regexp")
-      ("H" ibuffer-do-view-other-frame "view-other-frame")
-      ("N" ibuffer-do-shell-command-pipe-replace "shell-cmd-pipe-replace")
-      ("M" ibuffer-do-toggle-modified "toggle-modified")
-      ("O" ibuffer-do-occur "occur")
-      ("P" ibuffer-do-print "print")
-      ("Q" ibuffer-do-query-replace "query-replace")
-      ("R" ibuffer-do-rename-uniquely "rename-uniquely")
-      ("T" ibuffer-do-toggle-read-only "toggle-read-only")
-      ("U" ibuffer-do-replace-regexp "replace-regexp")
-      ("V" ibuffer-do-revert "revert")
-      ("W" ibuffer-do-view-and-eval "view-and-eval")
-      ("X" ibuffer-do-shell-command-pipe "shell-command-pipe")
-      ("b" nil "back"))
+       ("o" ibuffer-visit-buffer-other-window "other window" :color blue)
+       ("q" quit-window "quit ibuffer" :color blue)
+       ("." nil "toggle hydra" :color blue))
 
-    (defhydra hydra-ibuffer-sort (:color amaranth :columns 3)
-      "Sort"
-      ("i" ibuffer-invert-sorting "invert")
-      ("a" ibuffer-do-sort-by-alphabetic "alphabetic")
-      ("v" ibuffer-do-sort-by-recency "recently used")
-      ("s" ibuffer-do-sort-by-size "size")
-      ("f" ibuffer-do-sort-by-filename/process "filename")
-      ("m" ibuffer-do-sort-by-major-mode "mode")
-      ("b" hydra-ibuffer-main/body "back" :color blue))
+     (defhydra hydra-ibuffer-mark (:color teal :columns 5
+                                          :after-exit (hydra-ibuffer-main/body))
+       "Mark"
+       ("*" ibuffer-unmark-all "unmark all")
+       ("M" ibuffer-mark-by-mode "mode")
+       ("m" ibuffer-mark-modified-buffers "modified")
+       ("u" ibuffer-mark-unsaved-buffers "unsaved")
+       ("s" ibuffer-mark-special-buffers "special")
+       ("r" ibuffer-mark-read-only-buffers "read-only")
+       ("/" ibuffer-mark-dired-buffers "dired")
+       ("e" ibuffer-mark-dissociated-buffers "dissociated")
+       ("h" ibuffer-mark-help-buffers "help")
+       ("z" ibuffer-mark-compressed-file-buffers "compressed")
+       ("b" hydra-ibuffer-main/body "back" :color blue))
 
-    (defhydra hydra-ibuffer-filter (:color amaranth :columns 4)
-      "Filter"
-      ("m" ibuffer-filter-by-used-mode "mode")
-      ("M" ibuffer-filter-by-derived-mode "derived mode")
-      ("n" ibuffer-filter-by-name "name")
-      ("c" ibuffer-filter-by-content "content")
-      ("e" ibuffer-filter-by-predicate "predicate")
-      ("f" ibuffer-filter-by-filename "filename")
-      (">" ibuffer-filter-by-size-gt "size")
-      ("<" ibuffer-filter-by-size-lt "size")
-      ("/" ibuffer-filter-disable "disable")
-      ("b" hydra-ibuffer-main/body "back" :color blue))
+     (defhydra hydra-ibuffer-action (:color teal :columns 4
+                                            :after-exit
+                                            (if (eq major-mode 'ibuffer-mode)
+                                                (hydra-ibuffer-main/body)))
+       "Action"
+       ("A" ibuffer-do-view "view")
+       ("E" ibuffer-do-eval "eval")
+       ("F" ibuffer-do-shell-command-file "shell-command-file")
+       ("I" ibuffer-do-query-replace-regexp "query-replace-regexp")
+       ("H" ibuffer-do-view-other-frame "view-other-frame")
+       ("N" ibuffer-do-shell-command-pipe-replace "shell-cmd-pipe-replace")
+       ("M" ibuffer-do-toggle-modified "toggle-modified")
+       ("O" ibuffer-do-occur "occur")
+       ("P" ibuffer-do-print "print")
+       ("Q" ibuffer-do-query-replace "query-replace")
+       ("R" ibuffer-do-rename-uniquely "rename-uniquely")
+       ("T" ibuffer-do-toggle-read-only "toggle-read-only")
+       ("U" ibuffer-do-replace-regexp "replace-regexp")
+       ("V" ibuffer-do-revert "revert")
+       ("W" ibuffer-do-view-and-eval "view-and-eval")
+       ("X" ibuffer-do-shell-command-pipe "shell-command-pipe")
+       ("b" nil "back"))
 
-    (define-key ibuffer-mode-map "." 'hydra-ibuffer-main/body)
-    (add-hook 'ibuffer-hook #'hydra-ibuffer-main/body)
+     (defhydra hydra-ibuffer-sort (:color amaranth :columns 3)
+       "Sort"
+       ("i" ibuffer-invert-sorting "invert")
+       ("a" ibuffer-do-sort-by-alphabetic "alphabetic")
+       ("v" ibuffer-do-sort-by-recency "recently used")
+       ("s" ibuffer-do-sort-by-size "size")
+       ("f" ibuffer-do-sort-by-filename/process "filename")
+       ("m" ibuffer-do-sort-by-major-mode "mode")
+       ("b" hydra-ibuffer-main/body "back" :color blue))
 
+     (defhydra hydra-ibuffer-filter (:color amaranth :columns 4)
+       "Filter"
+       ("m" ibuffer-filter-by-used-mode "mode")
+       ("M" ibuffer-filter-by-derived-mode "derived mode")
+       ("n" ibuffer-filter-by-name "name")
+       ("c" ibuffer-filter-by-content "content")
+       ("e" ibuffer-filter-by-predicate "predicate")
+       ("f" ibuffer-filter-by-filename "filename")
+       (">" ibuffer-filter-by-size-gt "size")
+       ("<" ibuffer-filter-by-size-lt "size")
+       ("/" ibuffer-filter-disable "disable")
+       ("b" hydra-ibuffer-main/body "back" :color blue))
 
-    (defhydra mastodon-help (:color blue :hint nil)
-      "
-    Timelines^^   Toots^^^^           Own Toots^^   Profiles^^      Users/Follows^^  Misc^^
-    ^^-----------------^^^^--------------------^^----------^^-------------------^^------^^-----
-    _H_ome        _n_ext _p_rev       _r_eply       _A_uthors       follo_W_         _X_ lists
-    _L_ocal       _T_hread of toot^^  wri_t_e       user _P_rofile  _N_otifications  f_I_lter
-    _F_ederated   (un) _b_oost^^      _e_dit        ^^              _R_equests       _C_opy URL
-    fa_V_orites   (un) _f_avorite^^   _d_elete      _O_wn           su_G_estions     _S_earch
-    _#_ tagged    (un) p_i_n^^        ^^            _U_pdate own    _M_ute user      _h_elp
-    _@_ mentions  (un) boo_k_mark^^   show _E_dits  ^^              _B_lock user
-    boo_K_marks   _v_ote^^
-    trendin_g_
-    _u_pdate
-    "
-      ("H" mastodon-tl--get-home-timeline)
-      ("L" mastodon-tl--get-local-timeline)
-      ("F" mastodon-tl--get-federated-timeline)
-      ("V" mastodon-profile--view-favourites)
-      ("#" mastodon-tl--get-tag-timeline)
-      ("@" mastodon-notifications--get-mentions)
-      ("K" mastodon-profile--view-bookmarks)
-      ("g" mastodon-search--trending-tags)
-      ("u" mastodon-tl--update :exit nil)
+     (define-key ibuffer-mode-map "." 'hydra-ibuffer-main/body)
+     (add-hook 'ibuffer-hook #'hydra-ibuffer-main/body)
 
-      ("n" mastodon-tl--goto-next-toot)
-      ("p" mastodon-tl--goto-prev-toot)
-      ("T" mastodon-tl--thread)
-      ("b" mastodon-toot--toggle-boost :exit nil)
-      ("f" mastodon-toot--toggle-favourite :exit nil)
-      ("i" mastodon-toot--pin-toot-toggle :exit nil)
-      ("k" mastodon-toot--bookmark-toot-toggle :exit nil)
-      ("c" mastodon-tl--toggle-spoiler-text-in-toot)
-      ("v" mastodon-tl--poll-vote)
+     #+END_SRC
 
-      ("A" mastodon-profile--get-toot-author)
-      ("P" mastodon-profile--show-user)
-      ("O" mastodon-profile--my-profile)
-      ("U" mastodon-profile--update-user-profile-note)
+** Mastodon Hydra
 
-      ("W" mastodon-tl--follow-user)
-      ("N" mastodon-notifications-get)
-      ("R" mastodon-profile--view-follow-requests)
-      ("G" mastodon-tl--get-follow-suggestions)
-      ("M" mastodon-tl--mute-user)
-      ("B" mastodon-tl--block-user)
+   #+BEGIN_SRC emacs-lisp
 
-      ("r" mastodon-toot--reply)
-      ("t" mastodon-toot)
-      ("e" mastodon-toot--edit-toot-at-point)
-      ("d" mastodon-toot--delete-toot)
-      ("E" mastodon-toot--view-toot-edits)
+     (defhydra mastodon-help (:color blue :hint nil)
+       "
+     Timelines^^   Toots^^^^           Own Toots^^   Profiles^^      Users/Follows^^  Misc^^
+     ^^-----------------^^^^--------------------^^----------^^-------------------^^------^^-----
+     _H_ome        _n_ext _p_rev       _r_eply       _A_uthors       follo_W_         _X_ lists
+     _L_ocal       _T_hread of toot^^  wri_t_e       user _P_rofile  _N_otifications  f_I_lter
+     _F_ederated   (un) _b_oost^^      _e_dit        ^^              _R_equests       _C_opy URL
+     fa_V_orites   (un) _f_avorite^^   _d_elete      _O_wn           su_G_estions     _S_earch
+     _#_ tagged    (un) p_i_n^^        ^^            _U_pdate own    _M_ute user      _h_elp
+     _@_ mentions  (un) boo_k_mark^^   show _E_dits  ^^              _B_lock user
+     boo_K_marks   _v_ote^^
+     trendin_g_
+     _u_pdate
+     "
+       ("H" mastodon-tl--get-home-timeline)
+       ("L" mastodon-tl--get-local-timeline)
+       ("F" mastodon-tl--get-federated-timeline)
+       ("V" mastodon-profile--view-favourites)
+       ("#" mastodon-tl--get-tag-timeline)
+       ("@" mastodon-notifications--get-mentions)
+       ("K" mastodon-profile--view-bookmarks)
+       ("g" mastodon-search--trending-tags)
+       ("u" mastodon-tl--update :exit nil)
 
-      ("I" mastodon-tl--view-filters)
-      ("X" mastodon-tl--view-lists)
-      ("C" mastodon-toot--copy-toot-url)
-      ("S" mastodon-search--search-query)
-      ("h" describe-mode)
-      )
+       ("n" mastodon-tl--goto-next-toot)
+       ("p" mastodon-tl--goto-prev-toot)
+       ("T" mastodon-tl--thread)
+       ("b" mastodon-toot--toggle-boost :exit nil)
+       ("f" mastodon-toot--toggle-favourite :exit nil)
+       ("i" mastodon-toot--pin-toot-toggle :exit nil)
+       ("k" mastodon-toot--bookmark-toot-toggle :exit nil)
+       ("c" mastodon-tl--toggle-spoiler-text-in-toot)
+       ("v" mastodon-tl--poll-vote)
 
-    (define-key mastodon-mode-map "?" 'mastodon-help/body)
+       ("A" mastodon-profile--get-toot-author)
+       ("P" mastodon-profile--show-user)
+       ("O" mastodon-profile--my-profile)
+       ("U" mastodon-profile--update-user-profile-note)
 
+       ("W" mastodon-tl--follow-user)
+       ("N" mastodon-notifications-get)
+       ("R" mastodon-profile--view-follow-requests)
+       ("G" mastodon-tl--get-follow-suggestions)
+       ("M" mastodon-tl--mute-user)
+       ("B" mastodon-tl--block-user)
 
-  #+END_SRC
+       ("r" mastodon-toot--reply)
+       ("t" mastodon-toot)
+       ("e" mastodon-toot--edit-toot-at-point)
+       ("d" mastodon-toot--delete-toot)
+       ("E" mastodon-toot--view-toot-edits)
 
+       ("I" mastodon-tl--view-filters)
+       ("X" mastodon-tl--view-lists)
+       ("C" mastodon-toot--copy-toot-url)
+       ("S" mastodon-search--search-query)
+       ("h" describe-mode)
+       )
+
+     (define-key mastodon-mode-map "?" 'mastodon-help/body)
+
+   #+END_SRC
+
+** Org Mode Hydra
+
+   #+BEGIN_SRC emacs-lisp
+
+   #+END_SRC
+   
 * Globally set keys
 
   #+BEGIN_SRC emacs-lisp
