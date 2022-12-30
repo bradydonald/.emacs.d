@@ -8,11 +8,10 @@
 #+CATEGORY: ${2:category}
 #+FILETAGS: ${3:file tags}
 #+STARTUP: overview
-#+COLUMNS: %58ITEM(Details) %8Effort(Time){:} %6CLOCKSUM(Clock)
 #+EXCLUDETAGS: noexport
 #+BIND: org-latex-image-default-width "0.98\\linewidth"
 #+LATEX_HEADER: \usepackage{placeins}
-#+OPTIONS: toc:nil
+#+OPTIONS: toc:nil tags:nil num:nil
 #+ARCHIVE: ::* Archive
 
 * PROJECT: $1                                                           :project:
