@@ -1256,63 +1256,64 @@
    This is taken from [[https://sachachua.com/dotemacs/index.html][sachachua]] but seems over complex.
    
    #+BEGIN_SRC emacs-lisp
-          (defvar my-refile-map (make-sparse-keymap))
+     (defvar my-refile-map (make-sparse-keymap))
 
-          (defmacro my-defshortcut (key file)
-            `(progn
-               (set-register ,key (cons 'file ,file))
-               (bookmark-store ,file (list (cons 'filename ,file)
-                                           (cons 'position 1)
-                                           (cons 'front-context-string "")) nil)
-               (define-key my-refile-map
-                           (char-to-string ,key)
-                           (lambda (prefix)
-                             (interactive "p")
-                             (let ((org-refile-targets '(((,file) :maxlevel . 6)))
-                                   (current-prefix-arg (or current-prefix-arg '(4))))
-                               (call-interactively 'org-refile))))))
+     (defmacro my-defshortcut (key file)
+       `(progn
+          (set-register ,key (cons 'file ,file))
+          (bookmark-store ,file (list (cons 'filename ,file)
+                                      (cons 'position 1)
+                                      (cons 'front-context-string "")) nil)
+          (define-key my-refile-map
+                      (char-to-string ,key)
+                      (lambda (prefix)
+                        (interactive "p")
+                        (let ((org-refile-targets '(((,file) :maxlevel . 6)))
+                              (current-prefix-arg (or current-prefix-arg '(4))))
+                          (call-interactively 'org-refile))))))
 
-          (defmacro defshortcuts (name body &optional docstring &rest heads)
-            (declare (indent defun) (doc-string 3))
-            (cond ((stringp docstring))
-                  (t
-                   (setq heads (cons docstring heads))
-                   (setq docstring "")))
-            (list
-             'progn
-             (append `(defhydra ,name (:exit t))
-                     (mapcar (lambda (h)
-                               (list (elt h 0) (list 'find-file (elt h 1)) (elt h 2)))
-                             heads))
-             (cons 'progn
-                   (mapcar (lambda (h) (list 'my-defshortcut (string-to-char (elt h 0)) (elt h 1)))
-                           heads))))
+     (defmacro defshortcuts (name body &optional docstring &rest heads)
+       (declare (indent defun) (doc-string 3))
+       (cond ((stringp docstring))
+             (t
+              (setq heads (cons docstring heads))
+              (setq docstring "")))
+       (list
+        'progn
+        (append `(defhydra ,name (:exit t))
+                (mapcar (lambda (h)
+                          (list (elt h 0) (list 'find-file (elt h 1)) (elt h 2)))
+                        heads))
+        (cons 'progn
+              (mapcar (lambda (h) (list 'my-defshortcut (string-to-char (elt h 0)) (elt h 1)))
+                      heads))))
 
-          (defmacro defshortcuts+ (name body &optional docstring &rest heads)
-            (declare (indent defun) (doc-string 3))
-            (cond ((stringp docstring))
-                  (t
-                   (setq heads (cons docstring heads))
-                   (setq docstring "")))
-            (list
-             'progn
-             (append `(defhydra+ ,name (:exit t))
-                     (mapcar (lambda (h)
-                               (list (elt h 0) (list 'find-file (elt h 1)) (elt h 2)))
-                             heads))
-             (cons 'progn
-                   (mapcar (lambda (h) (list 'my-defshortcut (string-to-char (elt h 0)) (elt h 1)))
-                           heads))))
+     (defmacro defshortcuts+ (name body &optional docstring &rest heads)
+       (declare (indent defun) (doc-string 3))
+       (cond ((stringp docstring))
+             (t
+              (setq heads (cons docstring heads))
+              (setq docstring "")))
+       (list
+        'progn
+        (append `(defhydra+ ,name (:exit t))
+                (mapcar (lambda (h)
+                          (list (elt h 0) (list 'find-file (elt h 1)) (elt h 2)))
+                        heads))
+        (cons 'progn
+              (mapcar (lambda (h) (list 'my-defshortcut (string-to-char (elt h 0)) (elt h 1)))
+                      heads))))
 
 
-          (use-package hydra
-            :config
-            (defshortcuts my-file-shortcuts ()
-              ("i" (db/current-index-file) "Index File")
-              ("j" (db/current-monthly-journal) "Monthly Journal File")
-              ("b" "~/OrgDocuments/personal/Books/first-90-days/the-first-90-days.org" "Current Book"))
-            :bind
-            ("C-c f" . #'my-file-shortcuts/body))
+     (use-package hydra
+       :config
+       (defshortcuts my-file-shortcuts ()
+         ("i" (db/current-index-file) "Index File")
+         ("j" (db/current-monthly-journal) "Monthly Journal File")
+         ("b" "~/OrgDocuments/personal/Books/first-90-days/the-first-90-days.org" "Current Book")
+         ("s" "~/OrgDocuments/personal/shopping.org" "Shopping List"))
+       :bind
+       ("C-c f" . #'my-file-shortcuts/body))
 
    #+END_SRC
 
