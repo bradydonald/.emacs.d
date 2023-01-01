@@ -464,8 +464,8 @@
 
      (defun db/current-monthly-journal ()
        "Returns the current months journal"
-       (setq current-year (number-to-string (string-to-number (format-time-string "%Y"))))
-       (setq current-month (number-to-string (string-to-number (format-time-string "%m"))))
+       (setq current-year (format-time-string "%Y"))
+       (setq current-month (format-time-string "%m"))
        (concat "~/OrgDocuments/personal/journals/" current-year "/" current-year "-" current-month ".org"))
 
      (defun db/org-agenda-files ()
