@@ -524,6 +524,12 @@
 
    #+END_SRC
 
+   Install org-roam-ui for a vizual of my roam database.
+
+   #+BEGIN_SRC emacs-lisp
+     (package-install 'org-roam-ui)
+   #+END_SRC
+
 ** Language Support
 
    #+BEGIN_SRC emacs-lisp
