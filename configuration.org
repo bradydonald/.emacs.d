@@ -566,7 +566,6 @@
                                 "STARTED(s)"
                                 "DELEGATED(e)"
                                 "WAITING(w)"
-                                "SKIPPED(k)"                                
                                 "HOLD(h)" "|"
                                 "DONE(d)"
                                 "SUSPENDED(u)")))
