@@ -6,7 +6,7 @@
 #+AUTHOR: Donald Brady
 #+CATEGORY: ${2:category}
 #+FILETAGS: ${3:file tags}
-#+STARTUP: overview
+#+STARTUP: content
 #+COLUMNS: %58ITEM(Details) %8Effort(Time){:} %6CLOCKSUM(Clock)
 #+PROPERTY: Effort_ALL 0:15 0:30 1:00 2:00 4:00
 #+ARCHIVE: ::* Archived Tasks
