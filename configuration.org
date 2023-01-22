@@ -1212,6 +1212,7 @@
                :username "donald.brady@gmail.com")))
       (setq org2blog/wp-image-upload t)
       (setq org2blog/wp-image-thumbnails t)
+      (setq org2blog/wp-show-post-in-browser 'ask)
       :bind
       ("\C-c h" . org2blog-user-interface))
 
