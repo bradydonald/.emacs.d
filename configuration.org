@@ -657,8 +657,17 @@
               ;; After the last group, the agenda will display items that didn't
               ;; match any of these groups, with the default order position of 99
               ))
-
+     (org-super-agenda-mode t)
+     
    #+END_SRC         
+
+   #+RESULTS:
+   | :name       | Today                                        | :time-grid |       t | :todo | TODAY |
+   | :name       | Projects                                     | :tag       | project |       |       |
+   | :name       | Important                                    | :priority  |       A |       |       |
+   | :todo       | WAITING                                      | :order     |       8 |       |       |
+   | :todo       | (EVENT INFO TO-READ CHECK TO-WATCH WATCHING) | :order     |       9 |       |       |
+   | :priority<= | B                                            | :order     |       1 |       |       |
 
 ** Diary Settings
 
