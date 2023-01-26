@@ -642,7 +642,7 @@
               ;;                                       :not (:regexp "moon" :tag "planet")))))
               ;; Groups supply their own section names when none are given
               (:todo "WAITING" :order 8)  ; Set order of this section
-              (:todo ("INFO" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
+              (:todo ("EVENT" "INFO" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
                      ;; Show this group at the end of the agenda (since it has the
                      ;; highest number). If you specified this group last, items
                      ;; with these todo keywords that e.g. have priority A would be
@@ -656,7 +656,7 @@
                            :order 1)
               ;; After the last group, the agenda will display items that didn't
               ;; match any of these groups, with the default order position of 99
-              )))
+              ))
 
    #+END_SRC         
 
