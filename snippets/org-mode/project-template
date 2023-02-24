@@ -12,6 +12,7 @@
 #+BIND: org-latex-image-default-width "0.98\\linewidth"
 #+LATEX_HEADER: \usepackage{placeins}
 #+OPTIONS: toc:nil tags:nil num:nil
+#+COLUMNS: %25ITEM(Todo Item) %PRIORITY %SCHEDULED %DEADLINE
 #+ARCHIVE: ::* Archive
 
 * PROJECT: $1                                                           :project:
