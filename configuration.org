@@ -1177,6 +1177,28 @@
           (global-lsp-bridge-mode)))
   #+END_SRC
 
+  
+* Chat GPT Integration (Experimental)
+
+  Using https://github.com/rksm/org-ai
+  
+  #+BEGIN_SRC emacs-lisp
+
+    (setq db/org-ai t)
+
+    (if (and (file-directory-p "~/.emacs.d/lisp/org-ai") db/org-ai)
+        (use-package org-ai
+          :load-path (lambda () "lisp/org-ai")
+          :commands (org-ai-mode)
+          :custom
+          (org-ai-openai-api-token (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg"))
+          :init
+          (add-hook 'org-mode-hook #'org-ai-mode)
+          :config
+          (advice-add 'keyboard-quit :before #'org-ai-keyboard-quit)))
+
+  #+END_SRC
+  
 * Company
 
   #+BEGIN_SRC emacs-lisp
