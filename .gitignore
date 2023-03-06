@@ -53,3 +53,4 @@ custom.el
 /mastodon.plstore
 /persist/
 /lisp/org-habit-stats/
+/.org-generic-id-locations

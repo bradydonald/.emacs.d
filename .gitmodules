@@ -1,6 +1,6 @@
-[submodule "lisp/page-break-lines"]
-	path = lisp/page-break-lines
-	url = https://github.com/purcell/page-break-lines.git
 [submodule "lisp/org-ai"]
 	path = lisp/org-ai
 	url = git@github.com:rksm/org-ai.git
+[submodule "lisp/copilot.el"]
+	path = lisp/copilot.el
+	url = https://github.com/zerolfx/copilot.el.git
