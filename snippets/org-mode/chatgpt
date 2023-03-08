@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: chatgpt
+# key: chatgpt
+# --
+#+BEGIN_AI
+    ${1:question}$0
+#+END_AI
