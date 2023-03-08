@@ -1,0 +1,3 @@
+[submodule "lisp/org-ai"]
+	path = lisp/org-ai
+	url = git@github.com:rksm/org-ai.git
