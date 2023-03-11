@@ -1,56 +1,21 @@
-auto-save-list
-elpa
-savefile
-savefile/*
-url
-transient
-projectile-bookmarks.eld
-*.elc
-configuration.el
-*.html
-*~
-%backup%*
-*.html
-*.sqlite
-games
+# negative gitignore configuration
 
-/eww-bookmarks
-server/server
-/elpy/
-eshell/history
+# ignore everything
+/*
 
-#lsp files should not be tracked
-.lsp*
-#node version
-v[0-9]*
+# but not:
 
+!.gitignore
+!.gitmodules
 
-/eshell/
-/.dir-locals.el
-/ido.last
-/image-dired/
-/.org-id-locations
-themes/*
-/network-security.data
-/request/
-/session*
-/eln-cache/
-/custom.el
-/org-roam.db.bak
-/straight/build
-/straight/repos
-/straight/build-cache.el
-/projectile.cache
-/.cache/
-custom.el
-/.last-package-update-day
-/server/
-/bookmarks
-/org-roam.db
-/dirvish/
-/multisession/
-/tramp
-/mastodon.plstore
-/persist/
-/lisp/org-habit-stats/
-/.org-generic-id-locations
+# don't ignore emacs files that matter
+!.init.el
+!configuration.org
+!/snippets
+!/lisp
+!/elpa
+
+# but ignore the elc files in elpa and lisp
+/elpa/**/*.elc
+/lisp/**/*.elc
+

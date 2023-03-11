@@ -1,3 +1,6 @@
 [submodule "lisp/org-ai"]
 	path = lisp/org-ai
 	url = git@github.com:rksm/org-ai.git
+[submodule "lisp/org-habit-stats"]
+	path = lisp/org-habit-stats
+	url = git@github.com:ml729/org-habit-stats.git
