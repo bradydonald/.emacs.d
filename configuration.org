@@ -949,7 +949,7 @@
                                ( mu4e-compose-signature .
                                  (concat
                                   "Donald Brady\n"
-                                  "e: donald.brady@gmail.com\n"))))))
+                                  "e: donald.brady@gmail.com\n" "t: 260 632 7239\n"))))))
 
            (setq mu4e-context-policy 'pick-first)
 
@@ -1177,7 +1177,6 @@
           (global-lsp-bridge-mode)))
   #+END_SRC
 
-  
 * Chat GPT Integration (Experimental)
 
   Using https://github.com/rksm/org-ai
