@@ -1113,8 +1113,9 @@
   #+BEGIN_SRC emacs-lisp
     ;; if it is installed
     (if (file-directory-p "~/.emacs.d/lisp/org-habit-stats")
-         (add-to-list 'load-path "~/.emacs.d/lisp/org-habit-stats"))
-    (load "org-habit-stats")
+        (progn
+          (add-to-list 'load-path "~/.emacs.d/lisp/org-habit-stats")
+          (load "org-habit-stats")))
   #+END_SRC
 
 * Blogging / Org2Blog
