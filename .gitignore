@@ -18,4 +18,4 @@
 # but ignore the elc files in elpa and lisp
 /elpa/**/*.elc
 /lisp/**/*.elc
-
+/elpa/pdf-tools-*/epdfinfo
