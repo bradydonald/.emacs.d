@@ -1184,7 +1184,7 @@
   
   #+BEGIN_SRC emacs-lisp
 
-    (setq db/org-ai t)
+    (setq db/org-ai nil)
 
     (if (and (file-directory-p "~/.emacs.d/lisp/org-ai") db/org-ai)
         (use-package org-ai
@@ -1410,3 +1410,6 @@
     (unless (server-running-p) (server-start))
   #+END_SRC
 
+#+BEGIN_AI
+  what is the meaning of life?
+#+END_AI
