@@ -1178,27 +1178,33 @@
           (global-lsp-bridge-mode)))
   #+END_SRC
 
-* Chat GPT Integration (Experimental)
+* Chat GPT Integration
 
   Using https://github.com/rksm/org-ai
   
   #+BEGIN_SRC emacs-lisp
 
-    (setq db/org-ai nil)
+    (setq db/org-ai t)
 
+    (defun db/openai-api-key ()
+      (substring (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg") 0 -1))
+    
     (if (and (file-directory-p "~/.emacs.d/lisp/org-ai") db/org-ai)
         (use-package org-ai
           :load-path (lambda () "lisp/org-ai")
           :commands (org-ai-mode)
           :custom
-          (org-ai-openai-api-token (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg"))
+          (org-ai-openai-api-token (db/openai-api-key))
           :init
           (add-hook 'org-mode-hook #'org-ai-mode)
           :config
           (advice-add 'keyboard-quit :before #'org-ai-keyboard-quit)))
 
   #+END_SRC
-  
+
+  #+RESULTS:
+  : #s(hash-table size 65 test eql rehash-size 1.5 rehash-threshold 0.8125 data (:use-package (25625 3471 204582 145000) :init (25625 3471 204575 563000) :init-secs (0 0 280 354000) :use-package-secs (0 4 145780 257000) :config (25625 3471 204543 263000) :config-secs (0 0 229 259000)))
+
 * Company
 
   #+BEGIN_SRC emacs-lisp
@@ -1409,7 +1415,3 @@
     (load "server")
     (unless (server-running-p) (server-start))
   #+END_SRC
-
-#+BEGIN_AI
-  what is the meaning of life?
-#+END_AI
