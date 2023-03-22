@@ -4,3 +4,6 @@
 [submodule "lisp/org-habit-stats"]
 	path = lisp/org-habit-stats
 	url = git@github.com:ml729/org-habit-stats.git
+[submodule "lisp/chatgpt-shell"]
+	path = lisp/chatgpt-shell
+	url = git@github.com:xenodium/chatgpt-shell.git

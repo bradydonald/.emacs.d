@@ -508,7 +508,7 @@
 
      ;; Starter pack. If there is only one, it uses automatically without asking.
 
-     (setq org-roam-capture-templates
+     (setq org-roam-capture-ref-templates
            '(("d" "default" plain "%?"
               :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
                                 "#+title: ${title}\n#+filetags: %^G:\n\n* ${title}\n\n")
@@ -1178,7 +1178,7 @@
           (global-lsp-bridge-mode)))
   #+END_SRC
 
-* Chat GPT Integration
+* Chat GPT Integration in Org Mode
 
   Using https://github.com/rksm/org-ai
   
@@ -1202,8 +1202,21 @@
 
   #+END_SRC
 
-  #+RESULTS:
-  : #s(hash-table size 65 test eql rehash-size 1.5 rehash-threshold 0.8125 data (:use-package (25625 3471 204582 145000) :init (25625 3471 204575 563000) :init-secs (0 0 280 354000) :use-package-secs (0 4 145780 257000) :config (25625 3471 204543 263000) :config-secs (0 0 229 259000)))
+* Chat GPT Integration as a Shell
+
+  Using https://github.com/xenodium/chatgpt-shell
+
+  #+BEGIN_SRC emacs-lisp
+
+    (setq db/chatgpt-shell t)
+
+    (if (and (file-directory-p "~/.emacs.d/lisp/chatgpt-shell") db/chatgpt-shell)
+        (require 'chatgpt-shell))
+
+    (setq chatgpt-openai-key (db/openai-api-key))
+    (setq chatgpt-shell-openai-key (db/openai-api-key))
+
+  #+END_SRC
 
 * Company
 
