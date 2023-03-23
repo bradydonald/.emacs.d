@@ -317,7 +317,7 @@ PARAMS is an alist of any extra parameters to send with the request."
      (when status ;; only when we actually get sth?
        (apply callback (mastodon-http--process-json) cbargs)))))
 
-(defun mastodon-http--post-async (url params headers &optional callback &rest cbargs)
+(defun mastodon-http--post-async (url params _headers &optional callback &rest cbargs)
   "POST asynchronously to URL with PARAMS and HEADERS.
 Then run function CALLBACK with arguements CBARGS.
 Authorization header is included by default unless UNAUTHENTICED-P is non-nil."

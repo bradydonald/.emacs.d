@@ -41,6 +41,7 @@ Usage
 * Alternative timeline layout::
 * Live-updating timelines mastodon-async-mode::
 * Translating toots::
+* bookmarks and ‘mastodon.el’: bookmarks and mastodonel.
 
 Contributing
 
@@ -163,6 +164,7 @@ File: mastodon.info,  Node: Usage,  Next: Dependencies,  Prev: Installation,  Up
 * Alternative timeline layout::
 * Live-updating timelines mastodon-async-mode::
 * Translating toots::
+* bookmarks and ‘mastodon.el’: bookmarks and mastodonel.
 
 
 File: mastodon.info,  Node: Logging in to your instance,  Next: Timelines,  Up: Usage
@@ -213,8 +215,8 @@ your ‘mastodon-token-file’ does not contain ‘:client_id’ and
                               *Help*
      ‘?’                      Show discover menu of all bindings, if ‘discover’ is available
                               *Timeline actions*
-     ‘n’                      Go to next item (toot, notification)
-     ‘p’                      Go to previous item (toot, notification)
+     ‘n’                      Go to next item (toot, notification, user)
+     ‘p’                      Go to previous item (toot, notification, user)
      ‘M-n=/=<tab>’            Go to the next interesting thing that has an action
      ‘M-p=/=<S-tab>’          Go to the previous interesting thing that has an action
      ‘F’                      Open federated timeline
@@ -230,17 +232,19 @@ your ‘mastodon-token-file’ does not contain ‘:client_id’ and
      ‘O’                      View own profile
      ‘U’                      update your profile bio note
      ‘;’                      view instance description for toot at point
+     ‘:’                      view followed tags and load a tag timeline
      ‘,’                      view favouriters of toot at point
      ‘.’                      view boosters of toot at point
+     ‘/’                      switch between mastodon buffers
                               *Other views*
-     ‘S’                      search (posts, users, tags) (NB: only posts you have interacted with)
+     ‘s’                      search (posts, users, tags) (NB: only posts you have interacted with)
      ‘I’, ‘c’, ‘d’            view, create, and delete filters
      ‘R’, ‘a’, ‘j’            view/accept/reject follow requests
      ‘G’                      view follow suggestions
      ‘V’                      view your favourited toots
      ‘K’                      view bookmarked toots
      ‘X’                      view/edit/create/delete lists
-     ‘s’                      view your scheduled toots
+     ‘S’                      view your scheduled toots
                               *Toot actions*
      ‘t’                      Compose a new toot
      ‘c’                      Toggle content warning content
@@ -258,7 +262,7 @@ your ‘mastodon-token-file’ does not contain ‘:client_id’ and
      ‘D’                      delete and redraft toot at point, preserving reply/CW/visibility
      (‘S-C-’) ‘W’, ‘M’, ‘B’   (un)follow, (un)mute, (un)block author of toot at point
                               *Profile view*
-     ‘C-c C-c’                cycle between statuses, followers, following, and statuses without boosts
+     ‘C-c C-c’                cycle between statuses, statuses without boosts, followers, and following
                               ‘mastodon-profile--account-account-to-list’ (see lists view)
                               *Notifications view*
      ‘a’, ‘j’                 accept/reject follow request
@@ -420,6 +424,7 @@ See ‘M-x customize-group RET mastodon’ to view all customize options.
         • Avatar image height
         • Enable image caching
         • Hide replies in timelines
+        • Show toot stats in byline
 
    • Compose options:
         • Completion style for mentions and tags
@@ -457,7 +462,7 @@ Then you can view a timeline with one of the commands that begin with
 ‘mastodon-async--stream-’.
 
 
-File: mastodon.info,  Node: Translating toots,  Prev: Live-updating timelines mastodon-async-mode,  Up: Usage
+File: mastodon.info,  Node: Translating toots,  Next: bookmarks and mastodonel,  Prev: Live-updating timelines mastodon-async-mode,  Up: Usage
 
 1.2.8 Translating toots
 -----------------------
@@ -482,6 +487,18 @@ looks like:
            (if toot
                (lingva-translate nil (mastodon-tl--content toot))
              (message "No toot to translate?"))))
+
+
+File: mastodon.info,  Node: bookmarks and mastodonel,  Prev: Translating toots,  Up: Usage
+
+1.2.9 bookmarks and ‘mastodon.el’
+---------------------------------
+
+‘mastodon.el’ doesn’t currently implement its own bookmark record and
+handler, which means that emacs bookmarks will not work as is.  Until we
+implement them, you can get bookmarks going immediately by using
+bookmark+.el
+(https://github.com/emacsmirror/emacswiki.org/blob/master/bookmark%2b.el).
 
 
 File: mastodon.info,  Node: Dependencies,  Next: Network compatibility,  Prev: Usage,  Up: README
@@ -582,7 +599,7 @@ File: mastodon.info,  Node: Supporting mastodonel,  Next: Contributors,  Prev: C
 ============================
 
 If you’d like to support continued development of ‘mastodon.el’, I
-accept donations via paypal: paypal.me/martianh
+accept donations via paypal: https://paypal.me/martianh
 (https://paypal.me/martianh).  If you would prefer a different payment
 method, write to me at that address and I can provide IBAN or other
 details.
@@ -610,32 +627,33 @@ File: mastodon.info,  Node: Contributors,  Prev: Supporting mastodonel,  Up: REA
 
 Tag Table:
 Node: Top210
-Node: README850
-Node: Installation1249
-Node: MELPA1785
-Node: Emoji2153
-Node: Discover2485
-Node: Usage3037
-Node: Logging in to your instance3386
-Node: Timelines4383
-Ref: Keybindings4858
-Ref: Toot byline legend8976
-Node: Composing toots9248
-Ref: Keybindings (1)10825
-Ref: Draft toots11343
-Node: Other commands and account settings11814
-Node: Customization14637
-Node: Alternative timeline layout15385
-Node: Live-updating timelines mastodon-async-mode15762
-Node: Translating toots16598
-Node: Dependencies17737
-Node: Network compatibility18329
-Node: Contributing18815
-Node: Bug reports19104
-Node: Fixes and features20010
-Node: Coding style20493
-Node: Supporting mastodonel21117
-Node: Contributors21639
+Node: README911
+Node: Installation1310
+Node: MELPA1846
+Node: Emoji2214
+Node: Discover2546
+Node: Usage3098
+Node: Logging in to your instance3508
+Node: Timelines4505
+Ref: Keybindings4980
+Ref: Toot byline legend9253
+Node: Composing toots9525
+Ref: Keybindings (1)11102
+Ref: Draft toots11620
+Node: Other commands and account settings12091
+Node: Customization14914
+Node: Alternative timeline layout15700
+Node: Live-updating timelines mastodon-async-mode16077
+Node: Translating toots16913
+Node: bookmarks and mastodonel18085
+Node: Dependencies18555
+Node: Network compatibility19147
+Node: Contributing19633
+Node: Bug reports19922
+Node: Fixes and features20828
+Node: Coding style21311
+Node: Supporting mastodonel21935
+Node: Contributors22465
 
 End Tag Table
 

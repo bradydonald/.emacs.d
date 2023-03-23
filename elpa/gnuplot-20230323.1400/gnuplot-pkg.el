@@ -1,6 +1,6 @@
-(define-package "gnuplot" "20230224.926" "Major-mode and interactive frontend for gnuplot"
+(define-package "gnuplot" "20230323.1400" "Major-mode and interactive frontend for gnuplot"
   '((emacs "25.1"))
-  :commit "9a31a12903cd3d9eb413948ef206023917c0d469" :authors
+  :commit "f99effa21f85a4c0963fec6a38e9112a8157d27e" :authors
   '(("Jon Oddie, Bruce Ravel, Phil Type"))
   :maintainer
   '("Maxime Tréca <maxime@gmail.com>, Daniel Mendler" . "mail@daniel-mendler.de")

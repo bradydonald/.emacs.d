@@ -121,7 +121,7 @@ QUERY is the string to search."
                             tags))
          ;; (status-list (mapcar #'mastodon-search--get-status-info
          ;; statuses))
-         (status-ids-list (mapcar 'mastodon-search--get-id-from-status
+         (status-ids-list (mapcar #'mastodon-search--get-id-from-status
                                   statuses))
          (toots-list-json (mapcar #'mastodon-search--fetch-full-status-from-id
                                   status-ids-list)))
@@ -153,7 +153,7 @@ QUERY is the string to search."
                          " STATUSES\n"
                          " ------------\n")
                  'success))
-        (mapc 'mastodon-tl--toot toots-list-json)
+        (mapc #'mastodon-tl--toot toots-list-json)
         (goto-char (point-min))))))
 
 (defun mastodon-search--insert-users-propertized (json &optional note)

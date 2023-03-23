@@ -69,7 +69,7 @@
 
 ;;; KEYMAPS
 
-;; copy `mastodon-mode-map' if possible, as then all timeline functions are
+;; we copy `mastodon-mode-map', as then all timeline functions are
 ;; available. this is helpful because if a minor view is the only buffer left
 ;; open, calling `mastodon' will switch to it, but then we will be unable to
 ;; switch to timlines without closing the minor view.
@@ -81,65 +81,65 @@
 ;; `mastodon-mode', it gets overridden in some but not all cases.
 
 (defvar mastodon-views-map
-  (let ((map
-         (copy-keymap mastodon-mode-map)))
-    (define-key map (kbd "n") 'mastodon-tl--goto-next-item)
-    (define-key map (kbd "p") 'mastodon-tl--goto-prev-item)
-    (keymap-canonicalize map))
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map mastodon-mode-map)
+    (define-key map (kbd "n") #'mastodon-tl--goto-next-item)
+    (define-key map (kbd "p") #'mastodon-tl--goto-prev-item)
+    map)
   "Base keymap for minor mastodon views.")
 
 (defvar mastodon-views--view-filters-keymap
-  (let ((map
-         (copy-keymap mastodon-views-map)))
-    (define-key map (kbd "d") 'mastodon-views--delete-filter)
-    (define-key map (kbd "c") 'mastodon-views--create-filter)
-    (define-key map (kbd "TAB") 'mastodon-tl--goto-next-item)
-    (define-key map (kbd "g") 'mastodon-views--view-filters)
-    (keymap-canonicalize map))
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map mastodon-views-map)
+    (define-key map (kbd "d") #'mastodon-views--delete-filter)
+    (define-key map (kbd "c") #'mastodon-views--create-filter)
+    (define-key map (kbd "TAB") #'mastodon-tl--goto-next-item)
+    (define-key map (kbd "g") #'mastodon-views--view-filters)
+    map)
   "Keymap for viewing filters.")
 
 (defvar mastodon-views--follow-suggestions-map
-  (let ((map
-         (copy-keymap mastodon-views-map)))
-    (define-key map (kbd "g") 'mastodon-views--view-follow-suggestions)
-    (keymap-canonicalize map))
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map mastodon-views-map)
+    (define-key map (kbd "g") #'mastodon-views--view-follow-suggestions)
+    map)
   "Keymap for viewing follow suggestions.")
 
 (defvar mastodon-views--view-lists-keymap
-  (let ((map
-         (copy-keymap mastodon-views-map)))
-    (define-key map (kbd "D") 'mastodon-views--delete-list)
-    (define-key map (kbd "C") 'mastodon-views--create-list)
-    (define-key map (kbd "A") 'mastodon-views--add-account-to-list)
-    (define-key map (kbd "R") 'mastodon-views--remove-account-from-list)
-    (define-key map (kbd "E") 'mastodon-views--edit-list)
-    (define-key map (kbd "g") 'mastodon-views--view-lists)
-    (keymap-canonicalize map))
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map mastodon-views-map)
+    (define-key map (kbd "D") #'mastodon-views--delete-list)
+    (define-key map (kbd "C") #'mastodon-views--create-list)
+    (define-key map (kbd "A") #'mastodon-views--add-account-to-list)
+    (define-key map (kbd "R") #'mastodon-views--remove-account-from-list)
+    (define-key map (kbd "E") #'mastodon-views--edit-list)
+    (define-key map (kbd "g") #'mastodon-views--view-lists)
+    map)
   "Keymap for viewing lists.")
 
 (defvar mastodon-views--list-name-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "<return>") 'mastodon-views--view-timeline-list-at-point)
-    (define-key map (kbd "d") 'mastodon-views--delete-list-at-point)
-    (define-key map (kbd "a") 'mastodon-views--add-account-to-list-at-point)
-    (define-key map (kbd "r") 'mastodon-views--remove-account-from-list-at-point)
-    (define-key map (kbd "e") 'mastodon-views--edit-list-at-point)
-    (keymap-canonicalize map))
+    (define-key map (kbd "RET") #'mastodon-views--view-timeline-list-at-point)
+    (define-key map (kbd "d") #'mastodon-views--delete-list-at-point)
+    (define-key map (kbd "a") #'mastodon-views--add-account-to-list-at-point)
+    (define-key map (kbd "r") #'mastodon-views--remove-account-from-list-at-point)
+    (define-key map (kbd "e") #'mastodon-views--edit-list-at-point)
+    map)
   "Keymap for when point is on list name.")
 
 (defvar mastodon-views--scheduled-map
-  (let ((map ;(make-sparse-keymap)))
-         (copy-keymap mastodon-views-map)))
-    (define-key map (kbd "r") 'mastodon-views--reschedule-toot)
-    (define-key map (kbd "c") 'mastodon-views--cancel-scheduled-toot)
-    (define-key map (kbd "e") 'mastodon-views--edit-scheduled-as-new)
-    (define-key map (kbd "<return>") 'mastodon-views--edit-scheduled-as-new)
-    (keymap-canonicalize map))
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map mastodon-views-map)
+    (define-key map (kbd "r") #'mastodon-views--reschedule-toot)
+    (define-key map (kbd "c") #'mastodon-views--cancel-scheduled-toot)
+    (define-key map (kbd "e") #'mastodon-views--edit-scheduled-as-new)
+    (define-key map (kbd "RET") #'mastodon-views--edit-scheduled-as-new)
+    map)
   "Keymap for when point is on a scheduled toot.")
 
 (defvar mastodon-views--view-follow-requests-keymap
-  (let ((map ;(make-sparse-keymap)))
-         (copy-keymap mastodon-views-map)))
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map mastodon-views-map)
     ;; make reject binding match the binding in notifs view
     ;; 'r' is then reserved for replying, even tho it is not avail
     ;; in foll-reqs view
@@ -280,7 +280,7 @@ a: add account to this list, r: remove account from this list"
 (defun mastodon-views--edit-list-at-point ()
   "Edit list at point."
   (interactive)
-  (let ((id (get-text-property (point) 'list-id)))
+  (let ((id (mastodon-tl--property 'list-id :no-move)))
     (mastodon-views--edit-list id)))
 
 (defun mastodon-views--edit-list (&optional id)
@@ -289,7 +289,7 @@ If ID is provided, use that list."
   (interactive)
   (let* ((list-names (unless id (mastodon-views--get-lists-names)))
          (name-old (if id
-                       (get-text-property (point) 'list-name)
+                       (mastodon-tl--property 'list-name :no-move)
                      (completing-read "Edit list: "
                                       list-names)))
          (id (or id (mastodon-views--get-list-id name-old)))
@@ -313,7 +313,7 @@ If ID is provided, use that list."
 (defun mastodon-views--view-timeline-list-at-point ()
   "View timeline of list at point."
   (interactive)
-  (let ((list-id (get-text-property (point) 'list-id)))
+  (let ((list-id (mastodon-tl--property 'list-id :no-move)))
     (mastodon-views--view-list-timeline list-id)))
 
 (defun mastodon-views--view-list-timeline (&optional id)
@@ -346,7 +346,7 @@ Prompt for name and replies policy."
 (defun mastodon-views--delete-list-at-point ()
   "Delete list at point."
   (interactive)
-  (let ((id (get-text-property (point) 'list-id)))
+  (let ((id (mastodon-tl--property 'list-id :no-move)))
     (mastodon-views--delete-list id)))
 
 (defun mastodon-views--delete-list (&optional id)
@@ -374,7 +374,7 @@ If ID is provided, delete that list."
 (defun mastodon-views--add-account-to-list-at-point ()
   "Prompt for account and add to list at point."
   (interactive)
-  (let ((id (get-text-property (point) 'list-id)))
+  (let ((id (mastodon-tl--property 'list-id :no-move)))
     (mastodon-views--add-account-to-list id)))
 
 (defun mastodon-views--add-account-to-list (&optional id account-id handle)
@@ -386,7 +386,7 @@ If ACCOUNT-ID and HANDLE are provided use them rather than prompting."
                           (format "Add %s to list: " handle)
                         "Add account to list: "))
          (list-name (if id
-                        (get-text-property (point) 'list-name)
+                        (mastodon-tl--property 'list-name :no-move)
                       (completing-read list-prompt
                                        (mastodon-views--get-lists-names) nil t)))
          (list-id (or id (mastodon-views--get-list-id list-name)))
@@ -414,7 +414,7 @@ If ACCOUNT-ID and HANDLE are provided use them rather than prompting."
 (defun mastodon-views--remove-account-from-list-at-point ()
   "Prompt for account and remove from list at point."
   (interactive)
-  (let ((id (get-text-property (point) 'list-id)))
+  (let ((id (mastodon-tl--property 'list-id :no-move)))
     (mastodon-views--remove-account-from-list id)))
 
 (defun mastodon-views--remove-account-from-list (&optional id)
@@ -422,7 +422,7 @@ If ACCOUNT-ID and HANDLE are provided use them rather than prompting."
 If ID is provided, use that list."
   (interactive)
   (let* ((list-name (if id
-                        (get-text-property (point) 'list-name)
+                        (mastodon-tl--property 'list-name :no-move)
                       (completing-read "Remove account from list: "
                                        (mastodon-views--get-lists-names) nil t)))
          (list-id (or id (mastodon-views--get-list-id list-name)))
@@ -527,7 +527,7 @@ If ID, just return that toot."
 (defun mastodon-views--reschedule-toot ()
   "Reschedule the scheduled toot at point."
   (interactive)
-  (let ((id (get-text-property (point) 'id)))
+  (let ((id (mastodon-tl--property 'id :no-move)))
     (if (null id)
         (message "no scheduled toot at point?")
       (mastodon-toot--schedule-toot :reschedule))))
@@ -535,7 +535,7 @@ If ID, just return that toot."
 (defun mastodon-views--copy-scheduled-toot-text ()
   "Copy the text of the scheduled toot at point."
   (interactive)
-  (let* ((toot (get-text-property (point) 'toot))
+  (let* ((toot (mastodon-tl--property 'toot :no-move))
          (params (alist-get 'params toot))
          (text (alist-get 'text params)))
     (kill-new text)))
@@ -545,7 +545,7 @@ If ID, just return that toot."
 ID is that of the scheduled toot to cancel.
 NO-CONFIRM means there is no ask or message, there is only do."
   (interactive)
-  (let ((id (or id (get-text-property (point) 'id))))
+  (let ((id (or id (mastodon-tl--property 'id :no-move))))
     (if (null id)
         (message "no scheduled toot at point?")
       (when (or no-confirm
@@ -561,10 +561,10 @@ NO-CONFIRM means there is no ask or message, there is only do."
 (defun mastodon-views--edit-scheduled-as-new ()
   "Edit scheduled status as new toot."
   (interactive)
-  (let ((id (get-text-property (point) 'id)))
+  (let ((id (mastodon-tl--property 'id :no-move)))
     (if (null id)
         (message "no scheduled toot at point?")
-      (let* ((toot (get-text-property (point) 'scheduled-json))
+      (let* ((toot (mastodon-tl--property 'scheduled-json :no-move))
              (scheduled (alist-get 'scheduled_at toot))
              (params (alist-get 'params toot))
              (text (alist-get 'text params))
@@ -661,8 +661,8 @@ Prompt for a context, must be a list containting at least one of \"home\",
 (defun mastodon-views--delete-filter ()
   "Delete filter at point."
   (interactive)
-  (let* ((filter-id (get-text-property (point) 'toot-id))
-         (phrase (get-text-property (point) 'phrase))
+  (let* ((filter-id (mastodon-tl--property 'toot-id :no-move))
+         (phrase (mastodon-tl--property 'phrase :no-move))
          (url (mastodon-http--api
                (format "filters/%s" filter-id))))
     (if (null phrase)
@@ -733,15 +733,24 @@ INSTANCE is an instance domain name."
         (mastodon-views--instance-response-fun response brief instance))
     (mastodon-tl--do-if-toot
      (let* ((toot (if (mastodon-tl--profile-buffer-p)
-                      (mastodon-tl--property 'profile-json) ; profile may have 0 toots
+                      ;; we may be on profile itself:
+                      (or (mastodon-tl--property 'profile-json)
+                          ;; or on profile account listings, which use toot-json:
+                          ;; or just toots:
+                          (mastodon-tl--property 'toot-json))
+                    ;; normal timeline:
                     (mastodon-tl--property 'toot-json)))
             (reblog (alist-get 'reblog toot))
             (account (or (alist-get 'account reblog)
                          (alist-get 'account toot)))
-            (url (if (mastodon-tl--profile-buffer-p)
+            ;; we can't use --profile-buffer-p as our test here because we may
+            ;; be looking at toots/boosts/users in a profile buffer
+            ;; profile-json works as a defacto test for if point is on the
+            ;; profile details at the top of a profile buffer.
+            (url (if (mastodon-tl--property 'profile-json)
                      (alist-get 'url toot) ; profile
                    (alist-get 'url account)))
-            (username (if (mastodon-tl--profile-buffer-p)
+            (username (if (mastodon-tl--property 'profile-json)
                           (alist-get 'username toot) ;; profile
                         (alist-get 'username account)))
             (instance (if instance

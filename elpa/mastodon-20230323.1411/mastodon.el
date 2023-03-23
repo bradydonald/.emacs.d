@@ -116,7 +116,6 @@ be \"example_user\".
 
 After setting these variables you should restart Emacs for these
 changes to take effect."
-  :group 'mastodon
   :type 'string)
 
 (defcustom mastodon-active-user nil
@@ -131,7 +130,6 @@ should be \"https://social.instance.org\".
 
 After setting these variables you should restart Emacs for these
 changes to take effect."
-  :group 'mastodon
   :type 'string)
 
 (defcustom mastodon-toot-timestamp-format "%F %T"
@@ -139,7 +137,6 @@ changes to take effect."
 For valid formatting options see `format-time-string`.
 The default value \"%F %T\" prints ISO8601-style YYYY-mm-dd HH:MM:SS.
 Use. e.g. \"%c\" for your locale's date and time format."
-  :group 'mastodon
   :type 'string)
 
 (defvar mastodon-mode-map
@@ -165,6 +162,7 @@ Use. e.g. \"%c\" for your locale's date and time format."
     (define-key map (kbd "@") #'mastodon-notifications--get-mentions)
     (define-key map (kbd "P") #'mastodon-profile--show-user)
     (define-key map (kbd "s") #'mastodon-search--search-query)
+    (define-key map (kbd "/") #'mastodon-switch-to-buffer)
     ;; quitting mastodon
     (define-key map (kbd "q") #'kill-current-buffer)
     (define-key map (kbd "Q") #'kill-buffer-and-window)
@@ -309,7 +307,7 @@ not, just browse the URL in the normal fashion."
   (interactive)
   (let* ((query (or query-url
                     (thing-at-point-url-at-point)
-                    (get-text-property (point) 'shr-url)
+                    (mastodon-tl--property 'shr-url :no-move)
                     (read-string "Lookup URL: "))))
     (if (not (mastodon--masto-url-p query))
         ;; this doesn't work as shr-browse-url doesn't take a url arg

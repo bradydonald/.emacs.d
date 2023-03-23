@@ -1,4 +1,4 @@
-;;; mastodon-async.el --- async streaming functions for mastodon.el -*- lexical-binding: t -*-
+;;; mastodon-async.el --- Async streaming functions for mastodon.el -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2017 Alex J. Griffith
 ;; Author: Alex J. Griffith <griffitaj@gmail.com>
@@ -30,6 +30,7 @@
 
 ;;; Code:
 
+(require 'mastodon-tl)
 (require 'json)
 (require 'url-http)
 
@@ -227,9 +228,9 @@ ENDPOINT is the endpoint for the stream and timeline."
       (mastodon-mode)
       (mastodon-tl--set-buffer-spec buffer-name
                                     endpoint
-                                    ,(if (equal name "notifications")
-                                         'mastodon-notifications--timeline
-                                       'mastodon-tl--timeline))
+                                    (if (equal name "notifications")
+                                        'mastodon-notifications--timeline
+                                      'mastodon-tl--timeline))
       (setq-local mastodon-tl--enable-relative-timestamps nil)
       (setq-local mastodon-tl--display-media-p t)
       (current-buffer))))

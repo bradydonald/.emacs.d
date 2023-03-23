@@ -50,17 +50,14 @@
 
 (defcustom mastodon-media--avatar-height 20
   "Height of the user avatar images (if shown)."
-  :group 'mastodon-media
   :type 'integer)
 
 (defcustom mastodon-media--preview-max-height 250
   "Max height of any media attachment preview to be shown in timelines."
-  :group 'mastodon-media
   :type 'integer)
 
 (defcustom mastodon-media--enable-image-caching nil
   "Whether images should be cached."
-  :group 'mastodon-media
   :type 'boolean)
 
 (defvar mastodon-media--generic-avatar-data
@@ -139,7 +136,7 @@ CAQgEIBAAAIBFiNOFMaY6V1tnFhkDQIQCEAgAIEABAKAQAACAQgEIBCAQAACAQgEIBCAQABIXO4e
 c1y+zhoEIBCAQAAQCEAgAIEABAIQCEAgAIEABAIQCEAgAAgEIBCAQAACAQgEIBCAQAACAQgEAIEA
 BAIQCEAgAIEABAIsJVH58WqHw8FIgjUIQCAACAQgEIBAAAIBCAQgEIBAAAIBCAQgEAAEAhAIQCBA
 fKRJkmVZjAQwh78A6vCRWJE8K+8AAAAASUVORK5CYII=")
-  "The PNG data for a generic 200x200 'broken image' view.")
+  "The PNG data for a generic 200x200 \"broken image\" view.")
 
 (defun mastodon-media--process-image-response
     (status-plist marker image-options region-length url)
@@ -185,7 +182,7 @@ with the image."
 
 (defun mastodon-media--load-image-from-url (url media-type start region-length)
   "Take a URL and MEDIA-TYPE and load the image asynchronously.
-MEDIA-TYPE is a symbol and either 'avatar or 'media-link.
+MEDIA-TYPE is a symbol and either `avatar' or `media-link.'
 START is the position where we start loading the image.
 REGION-LENGTH is the range from start to propertize."
   (let ((image-options (when (or (image-type-available-p 'imagemagick)

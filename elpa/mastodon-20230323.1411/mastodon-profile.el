@@ -38,7 +38,6 @@
 (require 'seq)
 (require 'cl-lib)
 (require 'persist)
-(require 'ts)
 (require 'parse-time)
 
 (autoload 'mastodon-auth--get-account-id "mastodon-auth")
@@ -133,11 +132,6 @@ contains")
 (defun mastodon-profile--toot-json ()
   "Get the next toot-json."
   (interactive)
-  ;; NB: we cannot add
-  ;; (or (mastodon-tl--property 'profile-json)
-  ;; here because it searches forward endlessly
-  ;; TODO: it would be nice to be able to do so tho
-  ;; or handle --property failing
   (mastodon-tl--property 'toot-json))
 
 (defun mastodon-profile--make-author-buffer (account &optional no-reblogs)
@@ -148,15 +142,15 @@ NO-REBLOGS means do not display boosts in statuses."
 
 ;; TODO: we shd just load all views' data then switch coz this is slow af:
 (defun mastodon-profile--account-view-cycle ()
-  "Cycle through profile view: toots, followers, and following."
+  "Cycle through profile view: toots, toot sans boosts, followers, and following."
   (interactive)
   (cond ((mastodon-tl--buffer-type-eq 'profile-statuses)
+         (mastodon-profile--open-statuses-no-reblogs))
+        ((mastodon-tl--buffer-type-eq 'profile-statuses-no-boosts)
          (mastodon-profile--open-followers))
         ((mastodon-tl--buffer-type-eq 'profile-followers)
          (mastodon-profile--open-following))
         ((mastodon-tl--buffer-type-eq 'profile-following)
-         (mastodon-profile--open-statuses-no-reblogs))
-        (t
          (mastodon-profile--make-author-buffer mastodon-profile--account))))
 
 (defun mastodon-profile--open-statuses-no-reblogs ()
@@ -263,7 +257,7 @@ NO-REBLOGS means do not display boosts in statuses."
                                             'display nil)
                                 "/500 characters")
                         'read-only t
-                        'face 'font-lock-comment-face
+                        'face font-lock-comment-face
                         'note-header t)
             "\n")
     (make-local-variable 'after-change-functions)
@@ -322,7 +316,7 @@ Ask for confirmation if length > 500 characters."
 (defun mastodon-profile--update-preference (pref val &optional source)
   "Update account PREF erence to setting VAL.
 Both args are strings.
-SOURCE means that the preference is in the 'source' part of the account JSON."
+SOURCE means that the preference is in the `source' part of the account JSON."
   (let* ((url (mastodon-http--api "accounts/update_credentials"))
          (pref-formatted (if source (concat "source[" pref "]") pref))
          (response (mastodon-http--patch url `((,pref-formatted . ,val)))))
@@ -576,7 +570,11 @@ HEADERS means also fetch link headers for pagination."
          (endpoint (format "accounts/%s/%s" id endpoint-type))
          (url (mastodon-http--api endpoint))
          (acct (mastodon-profile--account-field account 'acct))
-         (buffer (concat "*mastodon-" acct "-" endpoint-type  "*"))
+         (buffer (concat "*mastodon-" acct "-"
+                         (if no-reblogs
+                             (concat endpoint-type "-no-boosts")
+                           endpoint-type)
+                         "*"))
          (response (if headers
                        (mastodon-http--get-response url args)
                      (mastodon-http--get-json url args)))
@@ -623,7 +621,9 @@ HEADERS means also fetch link headers for pagination."
                (is-followers (string= endpoint-type "followers"))
                (is-following (string= endpoint-type "following"))
                (endpoint-name (cond
-                               (is-statuses "     TOOTS   ")
+                               (is-statuses (if no-reblogs
+                                                "  TOOTS (no boosts)"
+                                              "    TOOTS    "))
                                (is-followers "  FOLLOWERS  ")
                                (is-following "  FOLLOWING  "))))
           (insert
@@ -696,7 +696,9 @@ HEADERS means also fetch link headers for pagination."
       (goto-char (point-min)))))
 
 (defun mastodon-profile--format-joined-date-string (joined)
-  "Format a human-readable Joined string from timestamp JOINED."
+  "Format a human-readable Joined string from timestamp JOINED.
+JOINED is the `created_at' field in profile account JSON, and of
+the format \"2000-01-31T00:00:00.000Z\"."
   (format-time-string "Joined: %d %B %Y"
                       (parse-iso8601-time-string joined)))
 
@@ -719,7 +721,7 @@ IMG-TYPE is the JSON key from the account data."
   (interactive
    (list
     (if (and (not (mastodon-tl--profile-buffer-p))
-             (not (get-text-property (point) 'toot-json)))
+             (not (mastodon-tl--property 'toot-json :no-move)))
         (message "Looks like there's no toot or user at point?")
       (let ((user-handles (mastodon-profile--extract-users-handles
                            (mastodon-profile--toot-json))))
@@ -730,7 +732,7 @@ IMG-TYPE is the JSON key from the account data."
   (if (not (or
             ;; own profile has no need for toot-json test:
             (equal user-handle (mastodon-auth--get-account-name))
-            (get-text-property (point) 'toot-json)))
+            (mastodon-tl--property 'toot-json :no-move)))
       (message "Looks like there's no toot or user at point?")
     (let ((account (mastodon-profile--lookup-account-in-status
                     user-handle (mastodon-profile--toot-json))))
@@ -749,7 +751,7 @@ IMG-TYPE is the JSON key from the account data."
 
 (defun mastodon-profile--account-field (account field)
   "Return FIELD from the ACCOUNT.
-FIELD is used to identify regions under 'account"
+FIELD is used to identify regions under `account'."
   (cdr (assoc field account)))
 
 (defun mastodon-profile--add-author-bylines (tootv)
@@ -811,7 +813,7 @@ These include the author, author of reblogged entries and any user mentioned."
 	  (reblog (or (alist-get 'reblog (alist-get 'status status))
                       (alist-get 'reblog status))))
       (seq-filter
-       'stringp
+       #'stringp
        (seq-uniq
         (seq-concatenate
          'list
@@ -844,7 +846,7 @@ These include the author, author of reblogged entries and any user mentioned."
   "Remove a user from your followers.
 Optionally provide the ID of the account to remove."
   (interactive)
-  (let* ((account (unless id (get-text-property (point) 'toot-json)))
+  (let* ((account (unless id (mastodon-tl--property 'toot-json :no-move)))
          (id (or id (alist-get 'id account)))
          (handle (if account
                      (alist-get 'acct account)
@@ -922,19 +924,19 @@ NOTE-OLD is the text of any existing note."
     (let ((inhibit-read-only t))
       (princ note))))
 
-(defun mastodon-profile--grab-profile-json ()
+(defun mastodon-profile--profile-json ()
   "Return the profile-json property if we are in a profile buffer."
   (when (mastodon-tl--profile-buffer-p)
     (save-excursion
       (goto-char (point-min))
-      (or (mastodon-tl--property 'profile-json)
+      (or (mastodon-tl--property 'profile-json :no-move)
           (error "No profile data found")))))
 
 (defun mastodon-profile--add-or-view-private-note (action-fun &optional message view)
   "Add or view a private note for an account.
 ACTION-FUN does the adding or viewing, MESSAGE is a prompt for
 `mastodon-tl--interactive-user-handles-get', VIEW is a flag."
-  (let* ((profile-json (mastodon-profile--grab-profile-json))
+  (let* ((profile-json (mastodon-profile--profile-json))
          (handle (if (mastodon-tl--profile-buffer-p)
                      (alist-get 'acct profile-json)
                    (mastodon-tl--interactive-user-handles-get message)))
@@ -955,7 +957,7 @@ ACTION-FUN does the adding or viewing, MESSAGE is a prompt for
 Familiar followers are accounts that you follow, and that follow
 the given account."
   (interactive)
-  (let* ((profile-json (mastodon-profile--grab-profile-json))
+  (let* ((profile-json (mastodon-profile--profile-json))
          (handle
           (if (mastodon-tl--profile-buffer-p)
               (alist-get 'acct profile-json)
