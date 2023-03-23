@@ -204,11 +204,18 @@
 
   #+BEGIN_SRC emacs-lisp
 
-    (defun db/add-to-load-path (path feature_toggle)
-      "adds a path to the load-path if the it exists and the feature_toggle is on"
+    (defun db/add-to-load-path (path feature_toggle &optional dependency_list)
+      "Adds a path to the load-path if it exists and the feature_toggle
+    is on. An optional list of packages that are depencies can be
+    provided and they will be required"
       (if feature_toggle
           (if (file-directory-p path)
-              (add-to-list 'load-path path)))
+              (progn
+                (add-to-list 'load-path path)
+                (when dependency_list
+                  (dolist (package dependency_list)
+                    (require package))))))
+
       (and feature_toggle (file-directory-p path)))
 
   #+END_SRC
@@ -221,7 +228,7 @@
      (use-package posframe) ;; dependency
      (db/add-to-load-path "~/src/lsp-bridge" t)
    #+END_SRC
-  
+   
 * Paren Matching
 
   Configuration for a bunch of built in packages.
