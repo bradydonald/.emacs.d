@@ -206,8 +206,8 @@
 
     (defun db/add-to-load-path (path feature_toggle &optional dependency_list)
       "Adds a path to the load-path if it exists and the feature_toggle
-    is on. An optional list of packages that are depencies can be
-    provided and they will be required"
+      is on. An optional list of packages that are depencies can be
+      provided and they will be required if the load-path is updated"
       (if feature_toggle
           (if (file-directory-p path)
               (progn
@@ -225,8 +225,7 @@
    [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
    
    #+BEGIN_SRC emacs-lisp
-     (use-package posframe) ;; dependency
-     (db/add-to-load-path "~/src/lsp-bridge" t)
+     (db/add-to-load-path "~/src/lsp-bridge" t '(posframe))
    #+END_SRC
    
 * Paren Matching
@@ -322,14 +321,11 @@
       (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
   #+END_SRC
 
-  Experimental vale integration:
+  Vale integration:
   https://github.com/grettke/flycheck-org-vale
   
   #+BEGIN_SRC emacs-lisp
-
-    (if (db/add-to-load-path "~/src/flycheck-org-vale" t)
-          (require 'flycheck-org-vale))
-    
+    (db/add-to-load-path "~/src/flycheck-org-vale" t '(flycheck-org-vale))
   #+END_SRC
   
 * Text Scaling
@@ -1224,10 +1220,7 @@
 
     (setq db/chatgpt-shell t)
 
-    (if (db/add-to-load-path "~/.emacs.d/lisp/chatgpt-shell" db/chatgpt-shell)
-        (progn 
-          (add-to-list 'load-path "~/.emacs.d/lisp/chatgpt-shell")
-          (require 'chatgpt-shell)))
+    (db/add-to-load-path "~/.emacs.d/lisp/chatgpt-shell" db/chatgpt-shell '(chatgpt-shell))
 
     (setq chatgpt-openai-key (db/openai-api-key))
     (setq chatgpt-shell-openai-key (db/openai-api-key))
