@@ -201,7 +201,17 @@
     (load-directory "~/.emacs.d/lisp")
   #+END_SRC
 
-  Any other special loads here:
+
+  #+BEGIN_SRC emacs-lisp
+
+    (defun db/add-to-load-path (path feature_toggle)
+      "adds a path to the load-path if the it exists and the feature_toggle is on"
+      (if feature_toggle
+          (if (file-directory-p path)
+              (add-to-list 'load-path path)))
+      (and feature_toggle (file-directory-p path)))
+
+  #+END_SRC
 
 ** lsp-bridge (Expirmental)
 
@@ -209,10 +219,7 @@
    
    #+BEGIN_SRC emacs-lisp
      (use-package posframe) ;; dependency
-
-     ;; if it is installed
-     (if (file-directory-p "~/src/lsp-bridge")
-         (add-to-list 'load-path "~/src/lsp-bridge"))
+     (db/add-to-load-path "~/src/lsp-bridge" t)
    #+END_SRC
   
 * Paren Matching
@@ -312,10 +319,10 @@
   https://github.com/grettke/flycheck-org-vale
   
   #+BEGIN_SRC emacs-lisp
-    (if (file-directory-p "~/src/flycheck-org-vale")
-        (progn
-          (add-to-list 'load-path "~/src/flycheck-org-vale")
-          (require 'flycheck-org-vale)))
+
+    (if (db/add-to-load-path "~/src/flycheck-org-vale" t)
+          (require 'flycheck-org-vale))
+    
   #+END_SRC
   
 * Text Scaling
@@ -930,7 +937,7 @@
      (if (file-directory-p "/usr/share/emacs/site-lisp/mu4e")
          (progn
            ;; if the directory exists then load up otherwise not
-           (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+           (db/add-to-load-path "/usr/share/emacs/site-lisp/mu4e" t)
            (require 'mu4e)
 
            ;; contexts
@@ -1111,11 +1118,11 @@
   Comprehensive [[https://github.com/ml729/org-habit-stats][stats on your habits]].
    
   #+BEGIN_SRC emacs-lisp
+
     ;; if it is installed
-    (if (file-directory-p "~/.emacs.d/lisp/org-habit-stats")
-        (progn
-          (add-to-list 'load-path "~/.emacs.d/lisp/org-habit-stats")
-          (load "org-habit-stats")))
+    (if (db/add-to-load-path "~/.emacs.d/lisp/org-habit-stats" t)
+        (load "org-habit-stats"))
+
   #+END_SRC
 
 * Blogging / Org2Blog
@@ -1189,7 +1196,7 @@
     (defun db/openai-api-key ()
       (substring (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg") 0 -1))
     
-    (if (and (file-directory-p "~/.emacs.d/lisp/org-ai") db/org-ai)
+    (if (db/add-to-load-path "~/.emacs.d/lisp/org-ai" db/org-ai)
         (use-package org-ai
           :load-path (lambda () "lisp/org-ai")
           :commands (org-ai-mode)
@@ -1210,8 +1217,10 @@
 
     (setq db/chatgpt-shell t)
 
-    (if (and (file-directory-p "~/.emacs.d/lisp/chatgpt-shell") db/chatgpt-shell)
-        (require 'chatgpt-shell))
+    (if (db/add-to-load-path "~/.emacs.d/lisp/chatgpt-shell" db/chatgpt-shell)
+        (progn 
+          (add-to-list 'load-path "~/.emacs.d/lisp/chatgpt-shell")
+          (require 'chatgpt-shell)))
 
     (setq chatgpt-openai-key (db/openai-api-key))
     (setq chatgpt-shell-openai-key (db/openai-api-key))
