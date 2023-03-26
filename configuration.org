@@ -1194,7 +1194,7 @@
   
   #+BEGIN_SRC emacs-lisp
 
-    (setq db/org-ai t)
+    (setq db/org-ai nil)
 
     (defun db/openai-api-key ()
       (substring (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg") 0 -1))
