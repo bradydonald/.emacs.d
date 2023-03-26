@@ -642,7 +642,7 @@ HEADERS means also fetch link headers for pagination."
              (if (equal locked t)
                  (concat " " (mastodon-tl--symbol 'locked))
                "")
-             "\n ------------\n"
+             "\n " mastodon-tl--horiz-bar "\n"
              ;; profile note:
              ;; account here to enable tab-stops in profile note
              (mastodon-tl--render-text note account)
@@ -662,11 +662,11 @@ HEADERS means also fetch link headers for pagination."
             'profile-json account)
            ;; insert counts
            (mastodon-tl--set-face
-            (concat " ------------\n"
+            (concat " " mastodon-tl--horiz-bar "\n"
                     " TOOTS: " toots-count " | "
                     "FOLLOWERS: " followers-count " | "
                     "FOLLOWING: " following-count "\n"
-                    " ------------\n\n")
+                    " " mastodon-tl--horiz-bar "\n\n")
             'success)
            ;; insert relationship (follows)
            (if followsp
@@ -682,9 +682,9 @@ HEADERS means also fetch link headers for pagination."
              "") ; if no followsp we still need str-or-char-p for insert
            ;; insert endpoint
            (mastodon-tl--set-face
-            (concat " ------------\n"
+            (concat " " mastodon-tl--horiz-bar "\n"
                     endpoint-name "\n"
-                    " ------------\n")
+                    " " mastodon-tl--horiz-bar "\n")
             'success))
           (setq mastodon-tl--update-point (point))
           (mastodon-media--inline-images (point-min) (point))

@@ -3092,7 +3092,7 @@ the status buffer.
      not affected because their local values have already been
      initialized.
 
-‘L t’ (‘magit-toggle-margin’)
+‘L L’ (‘magit-toggle-margin’)
      Show or hide the margin.
 
 
@@ -9877,13 +9877,13 @@ Appendix C Keystroke Index
 * l H:                                   Reflog.              (line  18)
 * l l:                                   Logging.             (line  35)
 * l L:                                   Logging.             (line  55)
-* L L:                                   Log Margin.          (line  60)
+* L L:                                   Refreshing Logs.     (line  34)
+* L L <1>:                               Log Margin.          (line  60)
 * L l:                                   Log Margin.          (line  63)
 * l o:                                   Logging.             (line  49)
 * l O:                                   Reflog.              (line  15)
 * l r:                                   Reflog.              (line  12)
 * L s:                                   Refreshing Logs.     (line  21)
-* L t:                                   Refreshing Logs.     (line  34)
 * l u:                                   Logging.             (line  43)
 * L w:                                   Refreshing Logs.     (line  27)
 * m:                                     Repository List.     (line  99)

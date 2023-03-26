@@ -189,6 +189,10 @@ If nil `(point-min)' is used instead.")
 (defvar-local mastodon-tl--timestamp-update-timer nil
   "The timer that, when set will scan the buffer to update the timestamps.")
 
+(defvar mastodon-tl--horiz-bar
+  (if (char-displayable-p ?―)
+      (make-string 12 ?―)
+    (make-string 12 ?-)))
 
 ;;; KEYMAPS
 
@@ -625,7 +629,8 @@ this just means displaying toot client."
                           (mastodon-tl--relative-time-description edited-parsed)
                         edited-parsed)))
          "")
-       (propertize "\n  ------------" 'face 'default)
+       (propertize (concat "\n  " mastodon-tl--horiz-bar)
+                   'face 'default)
        (if mastodon-tl--show-stats
            (mastodon-tl--toot-stats toot)
          "")
@@ -962,13 +967,13 @@ message is a link which unhides/hides the main body."
                   (mastodon-tl--clean-tabs-and-nl
                    (mastodon-tl--render-text spoiler toot))
                   'default))
-         (message (concat ;"\n"
-                   " ---------------\n"
-                   " " (mastodon-tl--make-link
-                        (concat "CW: " string)
-                        'content-warning)
-                   "\n"
-                   " ---------------\n"))
+         (message (concat
+                   " " mastodon-tl--horiz-bar "\n "
+                   (mastodon-tl--make-link
+                    (concat "CW: " string)
+                    'content-warning)
+                   "\n "
+                   mastodon-tl--horiz-bar "\n"))
          (cw (mastodon-tl--set-face message 'mastodon-cw-face)))
     (concat
      cw

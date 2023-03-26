@@ -97,9 +97,9 @@ QUERY is the string to search."
                                       nil)
         ;; hashtag results:
         (insert (mastodon-tl--set-face
-                 (concat "\n ------------\n"
+                 (concat "\n " mastodon-tl--horiz-bar "\n"
                          " TRENDING HASHTAGS\n"
-                         " ------------\n\n")
+                         " " mastodon-tl--horiz-bar "\n\n")
                  'success))
         (mastodon-search--print-tags-list tags)))))
 
@@ -135,23 +135,23 @@ QUERY is the string to search."
                                       nil)
         ;; user results:
         (insert (mastodon-tl--set-face
-                 (concat "\n ------------\n"
+                 (concat "\n " mastodon-tl--horiz-bar "\n"
                          " USERS\n"
-                         " ------------\n\n")
+                         " " mastodon-tl--horiz-bar "\n\n")
                  'success))
         (mastodon-search--insert-users-propertized accts :note)
         ;; hashtag results:
         (insert (mastodon-tl--set-face
-                 (concat "\n ------------\n"
+                 (concat "\n " mastodon-tl--horiz-bar "\n"
                          " HASHTAGS\n"
-                         " ------------\n\n")
+                         " " mastodon-tl--horiz-bar "\n\n")
                  'success))
         (mastodon-search--print-tags-list tags-list)
         ;; status results:
         (insert (mastodon-tl--set-face
-                 (concat "\n ------------\n"
+                 (concat "\n " mastodon-tl--horiz-bar "\n"
                          " STATUSES\n"
-                         " ------------\n")
+                         " " mastodon-tl--horiz-bar "\n")
                  'success))
         (mapc #'mastodon-tl--toot toots-list-json)
         (goto-char (point-min))))))

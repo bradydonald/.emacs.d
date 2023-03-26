@@ -591,7 +591,8 @@ NO-REDRAFT means delete toot only."
 
 (defun mastodon-toot--set-cw (&optional cw)
   "Set content warning to CW if it is non-nil."
-  (unless (string-empty-p cw)
+  (unless (or (null cw) ; cw is nil for `mastodon-tl--dm-user'
+              (string-empty-p cw))
     (setq mastodon-toot--content-warning t)
     (setq mastodon-toot--content-warning-from-reply-or-redraft cw)))
 
@@ -1637,6 +1638,10 @@ EDIT means we are editing an existing toot, not composing a new one."
       (mastodon-toot--display-docs-and-status-fields
        (when mastodon-toot-display-orig-in-reply-buffer
          reply-text))
+      ;; `reply-to-user' (alone) is also used by `mastodon-tl--dm-user', so
+      ;; perhaps we should not always call --setup-as-reply, or make its
+      ;; workings conditional on reply-to-id. currently it only checks for
+      ;; reply-to-user.
       (mastodon-toot--setup-as-reply reply-to-user reply-to-id reply-json))
     (unless mastodon-toot--max-toot-chars
       ;; no need to fetch from `mastodon-profile-account-settings' as
