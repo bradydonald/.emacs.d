@@ -76,7 +76,7 @@
     ("Posted a poll" . "that has now ended")
     ("Requested to follow" . "you")
     ("Posted" . "a post")
-    ("Edited" . "a post"))
+    ("Edited" . "a post from"))
   "Alist of subjects for notification types.")
 
 (defvar mastodon-notifications--map
