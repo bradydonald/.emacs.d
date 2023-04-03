@@ -325,7 +325,10 @@ If ID is provided, use that list."
          (endpoint (format "timelines/list/%s" id))
          (name (mastodon-views--get-list-name id))
          (buffer-name (format "list-%s" name)))
-    (mastodon-tl--init buffer-name endpoint 'mastodon-tl--timeline)))
+    (mastodon-tl--init buffer-name endpoint
+                       'mastodon-tl--timeline
+                       nil
+                       `(("limit" . ,mastodon-tl--timeline-posts-count)))))
 
 (defun mastodon-views--create-list ()
   "Create a new list.

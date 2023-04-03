@@ -348,50 +348,79 @@ Used on initializing a timeline or thread."
 
 ;;; TIMELINES
 
-(defun mastodon-tl--get-federated-timeline ()
-  "Opens federated timeline."
-  (interactive)
-  (message "Loading federated timeline...")
-  (mastodon-tl--init
-   "federated" "timelines/public" 'mastodon-tl--timeline nil
-   `(("limit" . ,mastodon-tl--timeline-posts-count))
-   (when current-prefix-arg t)))
+(defun mastodon-tl--get-federated-timeline (&optional prefix local)
+  "Open federated timeline.
+If LOCAL, get only local timeline.
+With a single PREFIX arg, hide-replies.
+With a double PREFIX arg, only show posts with media."
+  (interactive "p")
+  (let ((params
+         `(("limit" . ,mastodon-tl--timeline-posts-count))))
+    ;; avoid adding 'nil' to our params alist:
+    (when (eq prefix 16)
+      (push '("only_media" . "true") params))
+    (when local
+      (push '("local" . "true") params))
+    (message "Loading federated timeline...")
+    (mastodon-tl--init
+     (if local "local" "federated")
+     "timelines/public" 'mastodon-tl--timeline nil
+     params
+     (when (eq prefix 4) t))))
 
-(defun mastodon-tl--get-home-timeline ()
-  "Opens home timeline."
-  (interactive)
+(defun mastodon-tl--get-home-timeline (&optional arg)
+  "Open home timeline.
+With a single prefix ARG, hide replies."
+  (interactive "p")
   (message "Loading home timeline...")
   (mastodon-tl--init
    "home" "timelines/home" 'mastodon-tl--timeline nil
    `(("limit" . ,mastodon-tl--timeline-posts-count))
-   (when current-prefix-arg t)))
+   (when (eq arg 4) t)))
 
-(defun mastodon-tl--get-local-timeline ()
-  "Opens local timeline."
-  (interactive)
+(defun mastodon-tl--get-local-timeline (&optional prefix)
+  "Open local timeline.
+With a single PREFIX arg, hide-replies.
+With a double PREFIX arg, only show posts with media."
+  (interactive "p")
   (message "Loading local timeline...")
-  (mastodon-tl--init
-   "local" "timelines/public" 'mastodon-tl--timeline
-   nil `(("local" . "true")
-         ("limit" . ,mastodon-tl--timeline-posts-count))
-   (when current-prefix-arg t)))
+  (mastodon-tl--get-federated-timeline prefix :local))
 
-(defun mastodon-tl--get-tag-timeline (&optional tag)
+(defun mastodon-tl--get-tag-timeline (&optional prefix tag)
   "Prompt for tag and opens its timeline.
-Optionally load TAG timeline directly."
-  (interactive)
+Optionally load TAG timeline directly.
+With a single PREFIX arg, only show posts with media.
+With a double PREFIX arg, limit results to your own instance."
+  (interactive "p")
   (let* ((word (or (word-at-point) ""))
          (input (or tag (read-string (format "Load timeline for tag (%s): " word))))
          (tag (or tag (if (string-empty-p input) word input))))
     (message "Loading timeline for #%s..." tag)
-    (mastodon-tl--show-tag-timeline tag)))
+    (mastodon-tl--show-tag-timeline prefix tag)))
 
-(defun mastodon-tl--show-tag-timeline (tag)
-  "Opens a new buffer showing the timeline of posts with hastag TAG."
-  (mastodon-tl--init
-   (concat "tag-" tag) (concat "timelines/tag/" tag)
-   'mastodon-tl--timeline nil
-   `(("limit" . ,mastodon-tl--timeline-posts-count))))
+(defun mastodon-tl--show-tag-timeline (&optional prefix tag)
+  "Opens a new buffer showing the timeline of posts with hastag TAG.
+If TAG is a list, show a timeline for all tags.
+With a single PREFIX arg, only show posts with media.
+With a double PREFIX arg, limit results to your own instance."
+  (let ((params
+         `(("limit" . ,mastodon-tl--timeline-posts-count))))
+    ;; avoid adding 'nil' to our params alist:
+    (when (eq prefix 4)
+      (push '("only_media" . "true") params))
+    (when (eq prefix 16)
+      (push '("local" . "true") params))
+    (when (listp tag)
+      (let ((list (mastodon-http--build-array-params-alist "any[]" (cdr tag))))
+        (while list
+          (push (pop list) params))))
+    (mastodon-tl--init (concat "tag-" (if (listp tag) "followed-tags" tag))
+                       (concat "timelines/tag/" (if (listp tag)
+                                                    ;; endpoint needs to be /tag/:sometag
+                                                    (car tag) tag))
+                       'mastodon-tl--timeline
+                       nil
+                       params)))
 
 
 ;;; BYLINES, etc.
@@ -876,7 +905,7 @@ Used for hitting RET on a given link."
     (cond ((eq link-type 'content-warning)
            (mastodon-tl--toggle-spoiler-text position))
           ((eq link-type 'hashtag)
-           (mastodon-tl--show-tag-timeline (get-text-property position 'mastodon-tag)))
+           (mastodon-tl--show-tag-timeline nil (get-text-property position 'mastodon-tag)))
           ;; 'account / 'account-id is not set for mentions, only bylines
           ((eq link-type 'user-handle)
            (let ((account-json (get-text-property position 'account))
@@ -1490,8 +1519,13 @@ call this function after it is set or use something else."
           ;; search
           ((string-suffix-p "search" endpoint-fun)
            'search)
-          ((string-suffix-p "trends" endpoint-fun)
+          ;; trends
+          ((equal "api/v1/trends/statuses" endpoint-fun)
+           'trending-statuses)
+          ((equal "api/v1/trends/tags" endpoint-fun)
            'trending-tags)
+          ((equal "api/v1/trends/links" endpoint-fun)
+           'trending-links)
           ;; User's views:
           ((string= "filters" endpoint-fun)
            'filters)
@@ -1921,13 +1955,16 @@ LANGS is the accumulated array param alist if we re-run recursively."
                 (t
                  (mastodon-profile--extract-users-handles
                   (mastodon-profile--toot-json))))))
-     (completing-read (if (or (equal action "disable")
-                              (equal action "enable"))
-                          (format "%s notifications when user posts: " action)
-                        (format "Handle of user to %s: " action))
-                      user-handles
-                      nil ; predicate
-                      'confirm))))
+     ;; return immediately if only 1 handle:
+     (if (eq 1 (length user-handles))
+         (car user-handles)
+       (completing-read (if (or (equal action "disable")
+                                (equal action "enable"))
+                            (format "%s notifications when user posts: " action)
+                          (format "Handle of user to %s: " action))
+                        user-handles
+                        nil ; predicate
+                        'confirm)))))
 
 (defun mastodon-tl--interactive-blocks-or-mutes-list-get (action)
   "Fetch the list of accounts for ACTION from the server.
@@ -2037,15 +2074,25 @@ If TAG is provided, unfollow it."
                            (lambda ()
                              (message "tag #%s unfollowed!" tag)))))
 
-(defun mastodon-tl--list-followed-tags ()
-  "List followed tags. View timeline of tag user choses."
-  (interactive)
+(defun mastodon-tl--list-followed-tags (&optional prefix)
+  "List followed tags. View timeline of tag user choses.
+Prefix is sent to `mastodon-tl--get-tag-timeline', which see."
+  (interactive "p")
   (let* ((followed-tags-json (mastodon-tl--followed-tags))
          (tags (mastodon-tl--map-alist 'name followed-tags-json))
          (tag (completing-read "Tag: " tags nil)))
     (if (null tag)
         (message "You have to follow some tags first.")
-      (mastodon-tl--get-tag-timeline tag))))
+      (mastodon-tl--get-tag-timeline prefix tag))))
+
+(defun mastodon-tl--followed-tags-timeline (&optional prefix)
+  "Open a timeline of all your followed tags.
+Prefix is sent to `mastodon-tl--show-tag-timeline', which see."
+  (interactive "p")
+  (let* ((followed-tags-json (mastodon-tl--followed-tags))
+         (tags (mastodon-tl--map-alist 'name followed-tags-json)))
+    (mastodon-tl--show-tag-timeline prefix tags)))
+
 
 
 ;;; UPDATING, etc.

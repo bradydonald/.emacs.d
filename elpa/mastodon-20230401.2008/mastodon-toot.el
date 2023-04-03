@@ -1609,7 +1609,8 @@ Added to `after-change-functions'."
 
 (defun mastodon-toot--compose-buffer-p ()
   "Return t if compose buffer is current."
-  (mastodon-tl--buffer-type-eq 'new-toot))
+  (or (mastodon-tl--buffer-type-eq 'edit-toot)
+      (mastodon-tl--buffer-type-eq 'new-toot)))
 
 ;; NB: now that we have toot drafts, to ensure offline composing remains
 ;; possible, avoid any direct requests here:

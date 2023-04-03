@@ -1,9 +1,9 @@
-(define-package "mastodon" "20230328.1252" "Client for Mastodon, a federated social network"
+(define-package "mastodon" "20230401.2008" "Client for Mastodon, a federated social network"
   '((emacs "27.1")
     (request "0.3.0")
     (persist "0.4")
     (ts "0.3"))
-  :commit "14dbf79135f6751fc93eb5e85e0b2eae3bde6568" :authors
+  :commit "e4ccc526baf011ad60ef978aef83de2ee2e9f506" :authors
   '(("Johnson Denen" . "johnson.denen@gmail.com")
     ("Marty Hiatt" . "martianhiatus@riseup.net"))
   :maintainer

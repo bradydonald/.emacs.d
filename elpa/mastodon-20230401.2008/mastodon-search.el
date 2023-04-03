@@ -40,10 +40,13 @@
 (autoload 'mastodon-tl--render-text "mastodon-tl")
 (autoload 'mastodon-tl--set-buffer-spec "mastodon-tl")
 (autoload 'mastodon-tl--set-face "mastodon-tl")
+(autoload 'mastodon-tl--timeline "mastodon-tl")
+(autoload 'mastodon-tl--toot "mastodon-tl")
 
 (defvar mastodon-toot--completion-style-for-mentions)
 (defvar mastodon-instance-url)
 (defvar mastodon-tl--link-keymap)
+(defvar mastodon-tl--horiz-bar)
 
 ;; functions for completion of mentions in mastodon-toot
 
@@ -56,7 +59,6 @@
 (defun mastodon-search--search-accounts-query (query)
   "Prompt for a search QUERY and return accounts synchronously.
 Returns a nested list containing user handle, display name, and URL."
-  (interactive "sSearch mastodon for: ")
   (let* ((url (mastodon-http--api "accounts/search"))
          (response (if (equal mastodon-toot--completion-style-for-mentions "following")
                        (mastodon-http--get-json url `(("q" . ,query) ("following" . "true")) :silent)
@@ -68,7 +70,6 @@ Returns a nested list containing user handle, display name, and URL."
 (defun mastodon-search--search-tags-query (query)
   "Return an alist containing tag strings plus their URLs.
 QUERY is the string to search."
-  (interactive "sSearch for hashtag: ")
   (let* ((url (format "%s/api/v2/search" mastodon-instance-url))
          (params `(("q" . ,query)
                    ("type" . "hashtags")))
@@ -81,26 +82,58 @@ QUERY is the string to search."
 (defun mastodon-search--trending-tags ()
   "Display a list of tags trending on your instance."
   (interactive)
-  (let* ((url (mastodon-http--api "trends"))
-         (response (mastodon-http--get-json url))
-         (tags (mapcar #'mastodon-search--get-hashtag-info
-                       response))
-         (buffer (get-buffer-create "*mastodon-trending*")))
+  (mastodon-search--view-trending "tags"
+                                  #'mastodon-search--print-tags-list))
+
+(defun mastodon-search--trending-statuses ()
+  "Display a list of statuses trending on your instance."
+  (interactive)
+  (mastodon-search--view-trending "statuses"
+                                  #'mastodon-tl--timeline))
+
+(defun mastodon-search--get-full-statuses-data (response)
+  "For statuses list in RESPONSE, fetch and return full status JSON."
+  (let ((status-ids-list
+         (mapcar #'mastodon-search--get-id-from-status response)))
+    (mapcar #'mastodon-search--fetch-full-status-from-id
+            status-ids-list)))
+
+(defun mastodon-search--view-trending (type print-fun)
+  "Display a list of tags trending on your instance.
+TYPE is a string, either tags, statuses, or links.
+PRINT-FUN is the function used to print the data from the response."
+  (let* ((url (mastodon-http--api
+               (format "trends/%s" type)))
+         ;; max for statuses = 40, for others = 20
+         (params (if (equal type "statuses")
+                     `(("limit" . "40"))
+                   `(("limit" . "20")) ))
+         (response (mastodon-http--get-json url params))
+         (data (cond ((equal type "tags")
+                      (mapcar #'mastodon-search--get-hashtag-info
+                              response))
+                     ((equal type "statuses")
+                      (mastodon-search--get-full-statuses-data response))
+                     ((equal type "links")
+                      (message "todo"))))
+         (buffer (get-buffer-create
+                  (format "*mastodon-trending-%s*" type))))
     (with-current-buffer buffer
       (switch-to-buffer (current-buffer))
       (mastodon-mode)
       (let ((inhibit-read-only t))
         (erase-buffer)
         (mastodon-tl--set-buffer-spec (buffer-name buffer)
-                                      "api/v1/trends"
+                                      (format "api/v1/trends/%s" type)
                                       nil)
-        ;; hashtag results:
         (insert (mastodon-tl--set-face
                  (concat "\n " mastodon-tl--horiz-bar "\n"
-                         " TRENDING HASHTAGS\n"
+                         (upcase (format " TRENDING %s\n" type))
                          " " mastodon-tl--horiz-bar "\n\n")
                  'success))
-        (mastodon-search--print-tags-list tags)))))
+        (funcall print-fun data)
+        (unless (equal type "statuses")
+          (goto-char (point-min)))))))
 
 ;; functions for mastodon search
 
@@ -118,12 +151,8 @@ QUERY is the string to search."
          ;; accts)) ; returns a list of three-item lists
          (tags-list (mapcar #'mastodon-search--get-hashtag-info
                             tags))
-         ;; (status-list (mapcar #'mastodon-search--get-status-info
-         ;; statuses))
-         (status-ids-list (mapcar #'mastodon-search--get-id-from-status
-                                  statuses))
-         (toots-list-json (mapcar #'mastodon-search--fetch-full-status-from-id
-                                  status-ids-list)))
+         (toots-list-json
+          (mastodon-search--get-full-statuses-data statuses)))
     (with-current-buffer (get-buffer-create buffer)
       (switch-to-buffer buffer)
       (mastodon-mode)
