@@ -1,4 +1,4 @@
-;;; mastodon.el --- Client for Mastodon, a federated social network  -*- lexical-binding: t -*-
+;;; mastodon.el --- Client for Mastodon and compatible fediverse services  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2017-2019 Johnson Denen
 ;; Copyright (C) 2020-2022 Marty Hiatt
