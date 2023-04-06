@@ -1175,22 +1175,25 @@ which is used to attach it to a toot when posting."
                 mastodon-toot--media-attachments))
       (list "None")))
 
-(defun mastodon-toot--fetch-max-poll-options ()
-  "Return the maximum number of poll options."
-  (mastodon-toot--fetch-poll-field 'max_options))
+(defun mastodon-toot--fetch-max-poll-options (instance)
+  "Return the maximum number of poll options from INSTANCE, which is json."
+  (mastodon-toot--fetch-poll-field 'max_options instance))
 
-(defun mastodon-toot--fetch-max-poll-option-chars ()
-  "Return the maximum number of characters a poll option may have."
-  (or (mastodon-toot--fetch-poll-field 'max_characters_per_option)
-      50)) ; masto default
+(defun mastodon-toot--fetch-max-poll-option-chars (instance)
+  "Return the maximum number of characters a poll option may have.
+INSTANCE is JSON."
+  (if (alist-get 'pleroma instance)
+      (mastodon-toot--fetch-poll-field 'max_option_chars instance)
+    (or (mastodon-toot--fetch-poll-field 'max_characters_per_option instance)
+        50))) ; masto default
 
-(defun mastodon-toot--fetch-poll-field (field)
-  "Return FIELD from the poll settings from the user's instance."
-  (let* ((instance (mastodon-http--get-json (mastodon-http--api "instance"))))
-    (alist-get field
-               (alist-get 'polls
-                          (alist-get 'configuration instance)
-                          instance))))
+(defun mastodon-toot--fetch-poll-field (field instance)
+  "Return FIELD from the poll settings from INSTANCE, which is json."
+  (let* ((polls (if (alist-get 'pleroma instance)
+                    (alist-get 'poll_limits instance)
+                  (alist-get 'polls
+                             (alist-get 'configuration instance)))))
+    (alist-get field polls)))
 
 (defun mastodon-toot--read-poll-options-count (max)
   "Read the user's choice of the number of options the poll should have.
@@ -1205,15 +1208,17 @@ MAX is the maximum number set by their instance."
   "Prompt for new poll options and return as a list."
   (interactive)
   ;; re length, API docs show a poll 9 options.
-  (let* ((max-options (mastodon-toot--fetch-max-poll-options))
+  (let* ((instance (mastodon-http--get-json (mastodon-http--api "instance")))
+         (max-options (mastodon-toot--fetch-max-poll-options instance))
          (count (mastodon-toot--read-poll-options-count max-options))
-         (length (mastodon-toot--fetch-max-poll-option-chars))
+         (length (mastodon-toot--fetch-max-poll-option-chars instance))
          (multiple-p (y-or-n-p "Multiple choice? "))
          (options (mastodon-toot--read-poll-options count length))
          (hide-totals (y-or-n-p "Hide votes until poll ends? "))
-         (expiry (mastodon-toot--get-poll-expiry)))
+         (expiry (mastodon-toot--read-poll-expiry)))
     (setq mastodon-toot-poll
-          `(:options ,options :length ,length :multi ,multiple-p :hide ,hide-totals :expiry ,expiry))
+          `(:options ,options :length ,length :multi ,multiple-p
+                     :hide ,hide-totals :expiry ,expiry))
     (message "poll created!")))
 
 (defun mastodon-toot--read-poll-options (count length)
@@ -1222,7 +1227,7 @@ LENGTH is the maximum character length allowed for a poll option."
   (cl-loop for x from 1 to count
            collect (read-string (format "Poll option [%s/%s] [max %s chars]: " x count length))))
 
-(defun mastodon-toot--get-poll-expiry ()
+(defun mastodon-toot--read-poll-expiry ()
   "Prompt for a poll expiry time."
   ;; API requires this in seconds
   (let* ((options (mastodon-toot--poll-expiry-options-alist))

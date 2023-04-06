@@ -593,15 +593,14 @@
 
 
      (setq org-todo-keyword-faces
-           '(("TODO" . (:foreground "DarkOrange1" :weight bold))
-             ("STARTED" . (:foreground "sea green"))
-             ("DONE" . (:foreground "light sea green"))
-             ("WAITING" . (:foreground "yellow"))
-             ("HOLD" . (:foreground "yellow"))
+           '(("TODO" . (:foreground "blue" :weight bold))
+             ("STARTED" . (:foreground "green"))
+             ("DONE" . (:foreground "pink"))
+             ("WAITING" . (:foreground "orange"))
+             ("HOLD" . (:foreground "orange"))
              ("SUSPENDED" . (:foreground "forest green"))
-             ("DELEGATED" . (:foreground "orange"))
+             ("DELEGATED" . (:foreground "light blue"))
              ("TASK" . (:foreground "blue"))))
-
 
      (setq org-tags-exclude-from-inheritance '("project")
            org-stuck-projects '("+project/-MAYBE-DONE"
@@ -1427,7 +1426,7 @@
 
   #+BEGIN_SRC emacs-lisp
 
-    (load-theme 'modus-vivendi)
+    (load-theme 'modus-operandi-deuteranopia)
     
   #+END_SRC
 

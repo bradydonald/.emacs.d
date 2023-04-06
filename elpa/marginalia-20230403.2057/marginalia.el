@@ -6,8 +6,8 @@
 ;; Maintainer: Omar Antolín Camarena <omar@matem.unam.mx>, Daniel Mendler <mail@daniel-mendler.de>
 ;; Created: 2020
 ;; Version: 1.1
-;; Package-Version: 20230317.926
-;; Package-Commit: 2633b2dee22261531f960e49106771e679102a98
+;; Package-Version: 20230403.2057
+;; Package-Commit: c1ae5807731fea4837d20489436232731ae8fb9f
 ;; Package-Requires: ((emacs "27.1") (compat "29.1.4.0"))
 ;; Homepage: https://github.com/minad/marginalia
 
@@ -150,7 +150,8 @@ hold sensitive data, e.g., passwords."
   '((imenu . imenu)
     (recentf-open . file)
     (where-is . command))
-  "Associate commands with a completion category."
+  "Associate commands with a completion category.
+The value of `this-command' is used as key for the lookup."
   :type '(alist :key-type symbol :value-type symbol))
 
 (defgroup marginalia-faces nil
