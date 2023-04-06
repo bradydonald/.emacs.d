@@ -29,7 +29,7 @@ from the server and load anew.
 
 (fn &optional TYPE BUFFER-NAME FORCE)" t)
 (autoload 'mastodon-url-lookup "mastodon" "\
-If QUERY-URL resembles a mastodon link, try to load in `mastodon.el'.
+If a URL resembles a mastodon link, try to load in `mastodon.el'.
 Does a WebFinger lookup.
 URL can be arg QUERY-URL, or URL at point, or provided by the user.
 If a status or account is found, load it in `mastodon.el', if
