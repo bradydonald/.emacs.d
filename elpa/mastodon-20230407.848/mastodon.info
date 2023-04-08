@@ -211,7 +211,7 @@ your ‘mastodon-token-file’ does not contain ‘:client_id’ and
   1. Keybindings
 
      Key                      Action
-     -----------------------------------------------------------------------------------------------------
+     -----------------------------------------------------------------------------------------------------------
                               *Help*
      ‘?’                      Show discover menu of all bindings, if ‘discover’ is available
                               *Timeline actions*
@@ -219,9 +219,9 @@ your ‘mastodon-token-file’ does not contain ‘:client_id’ and
      ‘p’                      Go to previous item (toot, notification, user)
      ‘M-n=/=<tab>’            Go to the next interesting thing that has an action
      ‘M-p=/=<S-tab>’          Go to the previous interesting thing that has an action
-     ‘F’                      Open federated timeline
-     ‘H’                      Open home timeline
-     ‘L’                      Open local timeline
+     ‘F’                      Open federated timeline (1 prefix arg: hide-replies, 2 prefix args: media only)
+     ‘H’                      Open home timeline (1 prefix arg: hide-replies)
+     ‘L’                      Open local timeline (1 prefix arg: hide-replies, 2 prefix args: media only)
      ‘N’                      Open notifications timeline
      ‘@’                      Open mentions-only notifications timeline
      ‘u’                      Update current timeline
@@ -233,6 +233,7 @@ your ‘mastodon-token-file’ does not contain ‘:client_id’ and
      ‘U’                      update your profile bio note
      ‘;’                      view instance description for toot at point
      ‘:’                      view followed tags and load a tag timeline
+     ‘C-:’                    view timeline of all followed tags
      ‘,’                      view favouriters of toot at point
      ‘.’                      view boosters of toot at point
      ‘/’                      switch between mastodon buffers
@@ -365,6 +366,8 @@ and should work without first loading ‘mastodon.el’:
      instance.
    • ‘mastodon-search--trending-tags’: View a list of trending hashtags
      on your instance.
+   • ‘mastodon-search--trending-statuses’: View a list of trending
+     statuses on your instance.
 
    • ‘mastodon-tl--add-toot-account-at-point-to-list’: Add the account
      of the toot at point to a list.
@@ -636,24 +639,24 @@ Node: Usage3098
 Node: Logging in to your instance3508
 Node: Timelines4505
 Ref: Keybindings4980
-Ref: Toot byline legend9253
-Node: Composing toots9525
-Ref: Keybindings (1)11102
-Ref: Draft toots11620
-Node: Other commands and account settings12091
-Node: Customization14914
-Node: Alternative timeline layout15700
-Node: Live-updating timelines mastodon-async-mode16077
-Node: Translating toots16913
-Node: bookmarks and mastodonel18085
-Node: Dependencies18555
-Node: Network compatibility19147
-Node: Contributing19633
-Node: Bug reports19922
-Node: Fixes and features20828
-Node: Coding style21311
-Node: Supporting mastodonel21935
-Node: Contributors22465
+Ref: Toot byline legend9469
+Node: Composing toots9741
+Ref: Keybindings (1)11318
+Ref: Draft toots11836
+Node: Other commands and account settings12307
+Node: Customization15235
+Node: Alternative timeline layout16021
+Node: Live-updating timelines mastodon-async-mode16398
+Node: Translating toots17234
+Node: bookmarks and mastodonel18406
+Node: Dependencies18876
+Node: Network compatibility19468
+Node: Contributing19954
+Node: Bug reports20243
+Node: Fixes and features21149
+Node: Coding style21632
+Node: Supporting mastodonel22256
+Node: Contributors22786
 
 End Tag Table
 
