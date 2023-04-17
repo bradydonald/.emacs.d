@@ -66,15 +66,14 @@ or call the function `global-company-mode'.")
 (custom-autoload 'global-company-mode "company" nil)
 (autoload 'global-company-mode "company" "\
 Toggle Company mode in all buffers.
-With prefix ARG, enable Global Company mode if ARG is positive;
-otherwise, disable it.
+With prefix ARG, enable Global Company mode if ARG is positive; otherwise,
+disable it.
 
 If called from Lisp, toggle the mode if ARG is `toggle'.
 Enable the mode if ARG is nil, omitted, or is a positive number.
 Disable the mode if ARG is a negative number.
 
-Company mode is enabled in all buffers where `company-mode-on' would
-do it.
+Company mode is enabled in all buffers where `company-mode-on' would do it.
 
 See `company-mode' for more information on Company mode.
 

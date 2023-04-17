@@ -1,6 +1,6 @@
-(define-package "company" "20230404.140" "Modular text completion framework"
+(define-package "company" "20230416.2034" "Modular text completion framework"
   '((emacs "25.1"))
-  :commit "246837b12cbedaac0c9e2b654d97426639e0c778" :authors
+  :commit "8a78f320019574bc35b5727f95b052b27918da20" :authors
   '(("Nikolaj Schumacher"))
   :maintainer
   '("Dmitry Gutov" . "dgutov@yandex.ru")
