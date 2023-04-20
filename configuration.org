@@ -751,6 +751,12 @@
 
    #+END_SRC
 
+** Orgql
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-ql)
+   #+END_SRC
+   
 ** Filter Refile Targets
 
    I have monthly log files used to take notes / journal that are sources of refile
@@ -797,6 +803,7 @@
    #+END_SRC
 
 *** Setting up org-protocol handler. This page has best description:
+
     [[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
 
     #+BEGIN_SRC emacs-lisp
