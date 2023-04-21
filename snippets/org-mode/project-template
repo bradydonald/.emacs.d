@@ -19,6 +19,13 @@
 
 $0
 
+* $1 Tasks
+
+* Task Summary
+
+  #+BEGIN: org-ql :query "todo:" :columns (todo (priority "P") ((property "agenda-group") "Group") deadline heading) :sort (deadline priority) :take 7 :ts-format "%Y-%m-%d %H:%M"
+  #+END:
+
 * Archive
 
   
