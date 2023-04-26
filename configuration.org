@@ -225,7 +225,7 @@
    [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
    
    #+BEGIN_SRC emacs-lisp
-     (db/add-to-load-path "~/src/lsp-bridge" t '(posframe))
+     (db/add-to-load-path "~/src/lsp-bridge" nil '(posframe))
    #+END_SRC
    
 * Paren Matching
