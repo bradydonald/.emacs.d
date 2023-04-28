@@ -187,8 +187,6 @@
     (use-package nyan-mode)
   #+END_SRC
 
-  #+RESULTS:
-  : #s(hash-table size 65 test eql rehash-size 1.5 rehash-threshold 0.8125 data (:use-package (25675 59002 278541 692000) :init (25675 59002 278537 194000) :config (25675 59002 278527 325000) :config-secs (0 0 4 187000) :init-secs (0 0 6853 774000) :use-package-secs (0 1 187288 806000)))
 
 * Load any lisp files
 
@@ -224,7 +222,7 @@
 
   #+END_SRC
 
-** lsp-bridge (Expirmental)
+** lsp-bridge (Experimental)
 
    [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
    
