@@ -1433,8 +1433,8 @@
 
   #+BEGIN_SRC emacs-lisp
 
-    (load-theme 'modus-operandi-deuteranopia)
-    
+    (load-theme 'ef-cyprus)
+
   #+END_SRC
 
 * Start a server
