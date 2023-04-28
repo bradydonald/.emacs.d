@@ -1090,117 +1090,6 @@ HELP-ECHO, DISPLAY, and FACE are the text properties to add."
                            (concat help-echo "\nC-RET: play " type " with mpv"))))
 
 
-;;; INSERT TOOTS
-
-(defun mastodon-tl--content (toot)
-  "Retrieve text content from TOOT.
-Runs `mastodon-tl--render-text' and fetches poll or media."
-  (let* ((content (mastodon-tl--field 'content toot))
-         (reblog (alist-get 'reblog toot))
-         (poll-p (if reblog
-                     (alist-get 'poll reblog)
-                   (alist-get 'poll toot))))
-    (concat
-     (mastodon-tl--render-text content toot)
-     (when poll-p
-       (mastodon-tl--get-poll toot))
-     (mastodon-tl--media toot))))
-
-(defun mastodon-tl--insert-status (toot body author-byline action-byline
-                                        &optional id base-toot detailed-p)
-  "Display the content and byline of timeline element TOOT.
-BODY will form the section of the toot above the byline.
-AUTHOR-BYLINE is an optional function for adding the author
-portion of the byline that takes one variable. By default it is
-`mastodon-tl--byline-author'.
-ACTION-BYLINE is also an optional function for adding an action,
-such as boosting favouriting and following to the byline. It also
-takes a single function. By default it is
-`mastodon-tl--byline-boosted'.
-ID is that of the status if it is a notification, which is
-attached as a `toot-id' property if provided. If the
-status is a favourite or boost notification, BASE-TOOT is the
-JSON of the toot responded to.
-DETAILED-P means display more detailed info. For now
-this just means displaying toot client."
-  (let ((start-pos (point)))
-    (insert
-     (propertize
-      (concat "\n"
-              body
-              " \n"
-              (mastodon-tl--byline toot author-byline action-byline detailed-p))
-      'toot-id      (or id ; notification's own id
-                        (alist-get 'id toot)) ; toot id
-      'base-toot-id (mastodon-tl--toot-id
-                     ;; if status is a notif, get id from base-toot
-                     ;; (-tl--toot-id toot) will not work here:
-                     (or base-toot
-                         ;; else normal toot with reblog check:
-                         toot))
-      'toot-json    toot
-      'base-toot    base-toot)
-     "\n")
-    (when mastodon-tl--display-media-p
-      (mastodon-media--inline-images start-pos (point)))))
-
-;; from mastodon-alt.el:
-(defun mastodon-tl--toot-for-stats (&optional toot)
-  "Return the TOOT on which we want to extract stats.
-If no TOOT is given, the one at point is considered."
-  (let* ((original-toot (or toot (get-text-property (point) 'toot-json)))
-         (toot (or (alist-get 'status original-toot)
-                   (when (alist-get 'type original-toot)
-                     original-toot)
-                   (alist-get 'reblog original-toot)
-                   original-toot))
-         (type (alist-get 'type (or toot))))
-    (unless (member type '("follow" "follow_request"))
-      toot)))
-
-(defun mastodon-tl--toot-stats (toot)
-  "Return a right aligned string (using display align-to).
-String is filled with TOOT statistics (boosts, favs, replies).
-When the TOOT is a reblog (boost), statistics from reblogged
-toots are returned.
-To disable showing the stats, customize
-`mastodon-tl--show-stats'."
-  (when-let ((toot (mastodon-tl--toot-for-stats toot)))
-    (let* ((favourites-count (alist-get 'favourites_count toot))
-           (favourited (equal 't (alist-get 'favourited toot)))
-           (faves-prop (propertize (format "%s" favourites-count)
-                                   'favourites-count favourites-count))
-           (boosts-count (alist-get 'reblogs_count toot))
-           (boosted (equal 't (alist-get 'reblogged toot)))
-           (boosts-prop (propertize (format "%s" boosts-count)
-                                    'boosts-count boosts-count))
-           (replies-count (alist-get 'replies_count toot))
-           (favourites (format "%s %s" faves-prop ;favourites-count
-                               (mastodon-tl--symbol 'favourite)))
-           (boosts (format "%s %s" boosts-prop ;boosts-count
-                           (mastodon-tl--symbol 'boost)))
-           (replies (format "%s %s" replies-count (mastodon-tl--symbol 'reply)))
-           (status (concat
-                    (propertize favourites
-                                'favourited-p favourited
-                                'favourites-field t
-                                'face font-lock-comment-face)
-                    (propertize " | " 'face font-lock-comment-face)
-                    (propertize boosts
-                                'boosted-p boosted
-                                'boosts-field t
-                                'face font-lock-comment-face)
-                    (propertize " | " 'face font-lock-comment-face)
-                    (propertize replies
-                                'replies-field t
-                                'replies-count replies-count
-                                'face font-lock-comment-face)))
-           (status (concat
-                    (propertize " " 'display `(space :align-to (- right ,(+ (length status) 7))))
-                    status)))
-      status)))
-
-
 ;; POLLS
 
 (defun mastodon-tl--get-poll (toot)
@@ -1359,7 +1248,115 @@ in which case play first video or gif from current toot."
       (message "no moving image here?"))))
 
 
-;; INSERT TOOTS
+;;; INSERT TOOTS
+
+(defun mastodon-tl--content (toot)
+  "Retrieve text content from TOOT.
+Runs `mastodon-tl--render-text' and fetches poll or media."
+  (let* ((content (mastodon-tl--field 'content toot))
+         (reblog (alist-get 'reblog toot))
+         (poll-p (if reblog
+                     (alist-get 'poll reblog)
+                   (alist-get 'poll toot))))
+    (concat
+     (mastodon-tl--render-text content toot)
+     (when poll-p
+       (mastodon-tl--get-poll toot))
+     (mastodon-tl--media toot))))
+
+(defun mastodon-tl--insert-status (toot body author-byline action-byline
+                                        &optional id base-toot detailed-p)
+  "Display the content and byline of timeline element TOOT.
+BODY will form the section of the toot above the byline.
+AUTHOR-BYLINE is an optional function for adding the author
+portion of the byline that takes one variable. By default it is
+`mastodon-tl--byline-author'.
+ACTION-BYLINE is also an optional function for adding an action,
+such as boosting favouriting and following to the byline. It also
+takes a single function. By default it is
+`mastodon-tl--byline-boosted'.
+ID is that of the status if it is a notification, which is
+attached as a `toot-id' property if provided. If the
+status is a favourite or boost notification, BASE-TOOT is the
+JSON of the toot responded to.
+DETAILED-P means display more detailed info. For now
+this just means displaying toot client."
+  (let ((start-pos (point)))
+    (insert
+     (propertize
+      (concat "\n"
+              body
+              " \n"
+              (mastodon-tl--byline toot author-byline action-byline detailed-p))
+      'toot-id      (or id ; notification's own id
+                        (alist-get 'id toot)) ; toot id
+      'base-toot-id (mastodon-tl--toot-id
+                     ;; if status is a notif, get id from base-toot
+                     ;; (-tl--toot-id toot) will not work here:
+                     (or base-toot
+                         ;; else normal toot with reblog check:
+                         toot))
+      'toot-json    toot
+      'base-toot    base-toot)
+     "\n")
+    (when mastodon-tl--display-media-p
+      (mastodon-media--inline-images start-pos (point)))))
+
+;; from mastodon-alt.el:
+(defun mastodon-tl--toot-for-stats (&optional toot)
+  "Return the TOOT on which we want to extract stats.
+If no TOOT is given, the one at point is considered."
+  (let* ((original-toot (or toot (get-text-property (point) 'toot-json)))
+         (toot (or (alist-get 'status original-toot)
+                   (when (alist-get 'type original-toot)
+                     original-toot)
+                   (alist-get 'reblog original-toot)
+                   original-toot))
+         (type (alist-get 'type (or toot))))
+    (unless (member type '("follow" "follow_request"))
+      toot)))
+
+(defun mastodon-tl--toot-stats (toot)
+  "Return a right aligned string (using display align-to).
+String is filled with TOOT statistics (boosts, favs, replies).
+When the TOOT is a reblog (boost), statistics from reblogged
+toots are returned.
+To disable showing the stats, customize
+`mastodon-tl--show-stats'."
+  (when-let ((toot (mastodon-tl--toot-for-stats toot)))
+    (let* ((favourites-count (alist-get 'favourites_count toot))
+           (favourited (equal 't (alist-get 'favourited toot)))
+           (faves-prop (propertize (format "%s" favourites-count)
+                                   'favourites-count favourites-count))
+           (boosts-count (alist-get 'reblogs_count toot))
+           (boosted (equal 't (alist-get 'reblogged toot)))
+           (boosts-prop (propertize (format "%s" boosts-count)
+                                    'boosts-count boosts-count))
+           (replies-count (alist-get 'replies_count toot))
+           (favourites (format "%s %s" faves-prop ;favourites-count
+                               (mastodon-tl--symbol 'favourite)))
+           (boosts (format "%s %s" boosts-prop ;boosts-count
+                           (mastodon-tl--symbol 'boost)))
+           (replies (format "%s %s" replies-count (mastodon-tl--symbol 'reply)))
+           (status (concat
+                    (propertize favourites
+                                'favourited-p favourited
+                                'favourites-field t
+                                'face font-lock-comment-face)
+                    (propertize " | " 'face font-lock-comment-face)
+                    (propertize boosts
+                                'boosted-p boosted
+                                'boosts-field t
+                                'face font-lock-comment-face)
+                    (propertize " | " 'face font-lock-comment-face)
+                    (propertize replies
+                                'replies-field t
+                                'replies-count replies-count
+                                'face font-lock-comment-face)))
+           (status (concat
+                    (propertize " " 'display `(space :align-to (- right ,(+ (length status) 7))))
+                    status)))
+      status)))
 
 (defun mastodon-tl--is-reply (toot)
   "Check if the TOOT is a reply to another one (and not boosted)."
@@ -1723,8 +1720,7 @@ view all branches of a thread."
                (mastodon-http--api (concat "statuses/" id))
                nil
                :silent))
-             (context (mastodon-http--get-json url nil :silent))
-             (marker (make-marker)))
+             (context (mastodon-http--get-json url nil :silent)))
         (if (equal (caar toot) 'error)
             (message "Error: %s" (cdar toot))
           (when (member (alist-get 'type toot) '("reblog" "favourite"))
@@ -1735,7 +1731,8 @@ view all branches of a thread."
               ;; if we have a thread:
               (progn
                 (with-current-buffer (get-buffer-create buffer)
-                  (let ((inhibit-read-only t))
+                  (let ((inhibit-read-only t)
+                        (marker (make-marker)))
                     (switch-to-buffer buffer)
                     (erase-buffer)
                     (mastodon-mode)
@@ -1747,10 +1744,10 @@ view all branches of a thread."
                     (move-marker marker (point))
                     ;; print re-fetched toot:
                     (mastodon-tl--toot toot :detailed-p)
-                    (mastodon-tl--timeline (alist-get 'descendants context))))
-                ;; put point at the toot:
-                (goto-char (marker-position marker))
-                (mastodon-tl--goto-next-toot))
+                    (mastodon-tl--timeline (alist-get 'descendants context))
+                    ;; put point at the toot: 
+                    (goto-char (marker-position marker))
+                    (mastodon-tl--goto-next-toot))))
             ;; else just print the lone toot:
             (mastodon-tl--single-toot id)))))))
 
