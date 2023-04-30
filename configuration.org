@@ -1232,6 +1232,9 @@
 
     (setq chatgpt-openai-key (db/openai-api-key))
     (setq chatgpt-shell-openai-key (db/openai-api-key))
+    ;; org-babel integration for chatgpt-shell blocks
+    (require 'ob-chatgpt-shell)
+    (ob-chatgpt-shell-setup)
 
   #+END_SRC
 
