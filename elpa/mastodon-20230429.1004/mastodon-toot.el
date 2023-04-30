@@ -1456,12 +1456,14 @@ REPLY-TEXT is the text of the toot being replied to."
       'read-only "Edit your message below."
       'toot-post-header t)
      (if reply-text
-         (propertize (truncate-string-to-width
-                      (mastodon-tl--render-text reply-text)
-                      mastodon-toot-orig-in-reply-length)
-                     'read-only "Edit your message below."
-                     'toot-post-header t
-                     'face '(variable-pitch :foreground "#7c6f64"))
+         (concat
+          (propertize (truncate-string-to-width
+                       (mastodon-tl--render-text reply-text)
+                       mastodon-toot-orig-in-reply-length)
+                      'read-only "Edit your message below."
+                      'toot-post-header t
+                      'face '(variable-pitch :foreground "#7c6f64"))
+          "\n")
        "")
      (propertize
       (concat divider "\n")

@@ -2176,9 +2176,10 @@ report the account for spam."
 (defvar crm-separator)
 
 (defun mastodon-tl--map-rules-alist (rules)
+  "Return an alist of the text and id fields of RULES."
   (mapcar (lambda (x)
             (let-alist x
-              `(,.text . ,.id)))
+              (cons .text .id)))
           rules))
 
 (defun mastodon-tl--read-rules-ids ()
