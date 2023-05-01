@@ -5228,8 +5228,7 @@ The following functions are suitable for this hook:
      paragraphs.
 
  -- Function: git-commit-turn-on-auto-fill
-     Turn on ‘auto-fill-mode’ and set ‘fill-column’ to the value of
-     ‘git-commit-fill-column’.
+     Turn on ‘auto-fill-mode’.
 
  -- Function: git-commit-turn-on-flyspell
      Turn on Flyspell mode.  Also prevent comments from being checked
@@ -5282,10 +5281,6 @@ who has to waste some time telling you to fix your commits.
      The intended maximal length of the summary line of commit messages.
      Characters beyond this column are colorized to indicate that this
      preference has been violated.
-
- -- User Option: git-commit-fill-column
-     Column beyond which automatic line-wrapping should happen in commit
-     message buffers.
 
  -- User Option: git-commit-finish-query-functions
      List of functions called to query before performing commit.
@@ -10102,7 +10097,7 @@ Appendix D Function and Command Index
 * Menu:
 
 * bug-reference-mode:                    Commit Mode and Hooks.
-                                                              (line  49)
+                                                              (line  48)
 * forward-line:                          Editing Rebase Sequences.
                                                               (line  34)
 * git-commit-ack:                        Commit Pseudo Headers.
@@ -10110,7 +10105,7 @@ Appendix D Function and Command Index
 * git-commit-cc:                         Commit Pseudo Headers.
                                                               (line  28)
 * git-commit-check-style-conventions:    Commit Message Conventions.
-                                                              (line  37)
+                                                              (line  33)
 * git-commit-insert-pseudo-header:       Commit Pseudo Headers.
                                                               (line  13)
 * git-commit-next-message:               Editing Commit Messages.
@@ -10118,7 +10113,7 @@ Appendix D Function and Command Index
 * git-commit-prev-message:               Editing Commit Messages.
                                                               (line  36)
 * git-commit-propertize-diff:            Commit Mode and Hooks.
-                                                              (line  41)
+                                                              (line  40)
 * git-commit-reported:                   Commit Pseudo Headers.
                                                               (line  31)
 * git-commit-review:                     Commit Pseudo Headers.
@@ -10138,7 +10133,7 @@ Appendix D Function and Command Index
 * git-commit-turn-on-auto-fill:          Commit Mode and Hooks.
                                                               (line  33)
 * git-commit-turn-on-flyspell:           Commit Mode and Hooks.
-                                                              (line  37)
+                                                              (line  36)
 * git-rebase-backward-line:              Editing Rebase Sequences.
                                                               (line  31)
 * git-rebase-break:                      Editing Rebase Sequences.
@@ -10819,7 +10814,7 @@ Appendix D Function and Command Index
 * with-editor-finish <1>:                Editing Rebase Sequences.
                                                               (line   7)
 * with-editor-usage-message:             Commit Mode and Hooks.
-                                                              (line  52)
+                                                              (line  51)
 
 
 File: magit.info,  Node: Variable Index,  Prev: Function and Command Index,  Up: Top
@@ -10857,20 +10852,18 @@ Appendix E Variable Index
 * branch.NAME.remote:                    Branch Git Variables.
                                                               (line  15)
 * core.notesRef:                         Notes.               (line  53)
-* git-commit-fill-column:                Commit Message Conventions.
-                                                              (line  18)
 * git-commit-finish-query-functions:     Commit Message Conventions.
-                                                              (line  22)
+                                                              (line  18)
 * git-commit-known-pseudo-headers:       Commit Pseudo Headers.
                                                               (line   9)
 * git-commit-major-mode:                 Commit Mode and Hooks.
                                                               (line  12)
 * git-commit-post-finish-hook:           Commit Mode and Hooks.
-                                                              (line  55)
+                                                              (line  54)
 * git-commit-setup-hook:                 Commit Mode and Hooks.
                                                               (line  21)
 * git-commit-style-convention-checks:    Commit Message Conventions.
-                                                              (line  42)
+                                                              (line  38)
 * git-commit-summary-max-length:         Commit Message Conventions.
                                                               (line  13)
 * git-rebase-auto-advance:               Editing Rebase Sequences.
@@ -11138,97 +11131,97 @@ Node: Editing Commit Messages210630
 Node: Using the Revision Stack213403
 Node: Commit Pseudo Headers216448
 Node: Commit Mode and Hooks217743
-Node: Commit Message Conventions220677
-Node: Branching222800
-Node: The Two Remotes223026
-Node: Branch Commands225679
-Node: Branch Git Variables238529
-Node: Auxiliary Branch Commands243902
-Node: Merging245018
-Node: Resolving Conflicts248976
-Node: Rebasing254350
-Node: Editing Rebase Sequences259139
-Node: Information About In-Progress Rebase263355
-Ref: Information About In-Progress Rebase-Footnote-1272468
-Node: Cherry Picking273064
-Node: Reverting277398
-Node: Resetting278817
-Node: Stashing280643
-Node: Transferring285254
-Node: Remotes285476
-Node: Remote Commands285628
-Node: Remote Git Variables289667
-Node: Fetching290938
-Node: Pulling293384
-Node: Pushing294410
-Node: Plain Patches298701
-Node: Maildir Patches300172
-Node: Miscellaneous301651
-Node: Tagging301997
-Node: Notes303890
-Node: Submodules306225
-Node: Listing Submodules306443
-Node: Submodule Transient308589
-Node: Subtree311076
-Node: Worktree313007
-Node: Sparse checkouts314083
-Node: Bundle316859
-Node: Common Commands317234
-Node: Wip Modes319862
-Node: Wip Graph324753
-Node: Legacy Wip Modes327066
-Node: Commands for Buffers Visiting Files329953
-Node: Minor Mode for Buffers Visiting Blobs335511
-Node: Customizing336309
-Node: Per-Repository Configuration337905
-Node: Essential Settings340159
-Node: Safety340504
-Node: Performance342265
-Ref: Log Performance345294
-Ref: Diff Performance346599
-Ref: Refs Buffer Performance347940
-Ref: Committing Performance348515
-Node: Microsoft Windows Performance349497
-Node: MacOS Performance350688
-Ref: MacOS Performance-Footnote-1351711
-Node: Default Bindings351793
-Node: Plumbing354034
-Node: Calling Git354863
-Node: Getting a Value from Git356388
-Node: Calling Git for Effect360116
-Node: Section Plumbing366010
-Node: Creating Sections366238
-Node: Section Selection370134
-Node: Matching Sections371930
-Node: Refreshing Buffers377851
-Node: Conventions380995
-Node: Theming Faces381187
-Node: FAQ389292
-Node: FAQ - How to ...?389730
-Node: How to pronounce Magit?390087
-Node: How to show git's output?390890
-Node: How to install the gitman info manual?391676
-Node: How to show diffs for gpg-encrypted files?392646
-Node: How does branching and pushing work?393242
-Node: Should I disable VC?393575
-Node: FAQ - Issues and Errors394178
-Node: Magit is slow395123
-Node: I changed several thousand files at once and now Magit is unusable395416
-Node: I am having problems committing396142
-Node: I am using MS Windows and cannot push with Magit396623
-Node: I am using macOS and SOMETHING works in shell but not in Magit397241
-Node: Expanding a file to show the diff causes it to disappear398075
-Node: Point is wrong in the COMMIT_EDITMSG buffer398657
-Node: The mode-line information isn't always up-to-date399703
-Node: A branch and tag sharing the same name breaks SOMETHING400766
-Node: My Git hooks work on the command-line but not inside Magit401652
-Node: git-commit-mode isn't used when committing from the command-line402498
-Node: Point ends up inside invisible text when jumping to a file-visiting buffer404769
-Node: I am no longer able to save popup defaults405618
-Node: Debugging Tools406599
-Node: Keystroke Index409773
-Node: Function and Command Index444101
-Node: Variable Index496131
+Node: Commit Message Conventions220601
+Node: Branching222588
+Node: The Two Remotes222814
+Node: Branch Commands225467
+Node: Branch Git Variables238317
+Node: Auxiliary Branch Commands243690
+Node: Merging244806
+Node: Resolving Conflicts248764
+Node: Rebasing254138
+Node: Editing Rebase Sequences258927
+Node: Information About In-Progress Rebase263143
+Ref: Information About In-Progress Rebase-Footnote-1272256
+Node: Cherry Picking272852
+Node: Reverting277186
+Node: Resetting278605
+Node: Stashing280431
+Node: Transferring285042
+Node: Remotes285264
+Node: Remote Commands285416
+Node: Remote Git Variables289455
+Node: Fetching290726
+Node: Pulling293172
+Node: Pushing294198
+Node: Plain Patches298489
+Node: Maildir Patches299960
+Node: Miscellaneous301439
+Node: Tagging301785
+Node: Notes303678
+Node: Submodules306013
+Node: Listing Submodules306231
+Node: Submodule Transient308377
+Node: Subtree310864
+Node: Worktree312795
+Node: Sparse checkouts313871
+Node: Bundle316647
+Node: Common Commands317022
+Node: Wip Modes319650
+Node: Wip Graph324541
+Node: Legacy Wip Modes326854
+Node: Commands for Buffers Visiting Files329741
+Node: Minor Mode for Buffers Visiting Blobs335299
+Node: Customizing336097
+Node: Per-Repository Configuration337693
+Node: Essential Settings339947
+Node: Safety340292
+Node: Performance342053
+Ref: Log Performance345082
+Ref: Diff Performance346387
+Ref: Refs Buffer Performance347728
+Ref: Committing Performance348303
+Node: Microsoft Windows Performance349285
+Node: MacOS Performance350476
+Ref: MacOS Performance-Footnote-1351499
+Node: Default Bindings351581
+Node: Plumbing353822
+Node: Calling Git354651
+Node: Getting a Value from Git356176
+Node: Calling Git for Effect359904
+Node: Section Plumbing365798
+Node: Creating Sections366026
+Node: Section Selection369922
+Node: Matching Sections371718
+Node: Refreshing Buffers377639
+Node: Conventions380783
+Node: Theming Faces380975
+Node: FAQ389080
+Node: FAQ - How to ...?389518
+Node: How to pronounce Magit?389875
+Node: How to show git's output?390678
+Node: How to install the gitman info manual?391464
+Node: How to show diffs for gpg-encrypted files?392434
+Node: How does branching and pushing work?393030
+Node: Should I disable VC?393363
+Node: FAQ - Issues and Errors393966
+Node: Magit is slow394911
+Node: I changed several thousand files at once and now Magit is unusable395204
+Node: I am having problems committing395930
+Node: I am using MS Windows and cannot push with Magit396411
+Node: I am using macOS and SOMETHING works in shell but not in Magit397029
+Node: Expanding a file to show the diff causes it to disappear397863
+Node: Point is wrong in the COMMIT_EDITMSG buffer398445
+Node: The mode-line information isn't always up-to-date399491
+Node: A branch and tag sharing the same name breaks SOMETHING400554
+Node: My Git hooks work on the command-line but not inside Magit401440
+Node: git-commit-mode isn't used when committing from the command-line402286
+Node: Point ends up inside invisible text when jumping to a file-visiting buffer404557
+Node: I am no longer able to save popup defaults405406
+Node: Debugging Tools406387
+Node: Keystroke Index409561
+Node: Function and Command Index443889
+Node: Variable Index495919
 
 End Tag Table
 

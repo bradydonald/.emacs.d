@@ -1,10 +1,10 @@
-(define-package "org2blog" "20230113.309" "Blog from Org mode to WordPress"
+(define-package "org2blog" "20230501.257" "Blog from Org mode to WordPress"
   '((htmlize "1.56")
     (hydra "0.15.0")
     (xml-rpc "1.6.15")
     (writegood-mode "2.2.0")
     (metaweblog "1.1.16"))
-  :commit "1b2c10d1332390750e76a140b8c55f884ae1b3c4" :authors
+  :commit "81c75688d47fa9514b8c7a92160c01de6e5b128f" :authors
   '(("Puneeth Chaganti" . "punchagan+org2blog@gmail.com"))
   :maintainer
   '("Grant Rettke" . "grant@wisdomandwonder.com")

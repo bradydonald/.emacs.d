@@ -2,6 +2,8 @@
   '((emacs "24"))
   :commit "b6eef1a24dfbe57ba72d5eb1613fc05ff92e8e92" :authors
   '(("Magnar Sveen" . "magnars@gmail.com"))
+  :maintainers
+  '(("Magnar Sveen" . "magnars@gmail.com"))
   :maintainer
   '("Magnar Sveen" . "magnars@gmail.com")
   :keywords

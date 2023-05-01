@@ -140,7 +140,9 @@ nil."
     (locked    . ("🔒" . "[locked]"))
     (private   . ("🔒" . "[followers]"))
     (direct    . ("✉" . "[direct]"))
-    (edited    . ("✍" . "[edited]")))
+    (edited    . ("✍" . "[edited]"))
+    (replied   . ("⬇" . "↓"))
+    (reply-bar . ("┃" . "|")))
   "A set of symbols (and fallback strings) to be used in timeline.
 If a symbol does not look right (tofu), it means your
 font settings do not support it."
@@ -749,7 +751,7 @@ links in the text. If TOOT is nil no parsing occurs."
       (insert string)
       (let ((shr-use-fonts mastodon-tl--enable-proportional-fonts)
             (shr-width (when mastodon-tl--enable-proportional-fonts
-                         (- (window-width) 1))))
+                         (- (window-width) 3))))
         (shr-render-region (point-min) (point-max)))
       ;; Make all links a tab stop recognized by our own logic, make things point
       ;; to our own logic (e.g. hashtags), and update keymaps where needed:
@@ -1036,8 +1038,7 @@ message is a link which unhides/hides the main body."
 
 (defun mastodon-tl--media-attachment (media-attachment)
   "Return a propertized string for MEDIA-ATTACHMENT."
-  (let* ((preview-url
-          (alist-get 'preview_url media-attachment))
+  (let* ((preview-url (alist-get 'preview_url media-attachment))
          (remote-url
           (or (alist-get 'remote_url media-attachment)
               ;; fallback b/c notifications don't have remote_url
@@ -1054,19 +1055,19 @@ message is a link which unhides/hides the main body."
         (mastodon-media--get-media-link-rendering
          preview-url remote-url type caption) ; 2nd arg for shr-browse-url
       ;; return URL/caption:
-      (concat
-       (mastodon-tl--propertize-img-str-or-url
-        (concat "Media:: " preview-url) ;; string
-        preview-url remote-url type caption
-        display-str ;; display
-        ;; FIXME: shr-link underlining is awful for captions with
-        ;; newlines, as the underlining runs to the edge of the
-        ;; frame even if the text doesn'
-        'shr-link)
-       "\n"))))
+      (concat (mastodon-tl--propertize-img-str-or-url
+               (concat "Media:: " preview-url) ;; string
+               preview-url remote-url type caption
+               display-str ;; display
+               ;; FIXME: shr-link underlining is awful for captions with
+               ;; newlines, as the underlining runs to the edge of the
+               ;; frame even if the text doesn'
+               'shr-link)
+              "\n"))))
 
-(defun mastodon-tl--propertize-img-str-or-url (str media-url full-remote-url type
-                                                   help-echo &optional display face)
+(defun mastodon-tl--propertize-img-str-or-url (str media-url full-remote-url
+                                                   type help-echo
+                                                   &optional display face)
   "Propertize an media placeholder string \"[img]\" or media URL.
 STR is the string to propertize, MEDIA-URL is the preview link,
 FULL-REMOTE-URL is the link to the full resolution image on the
@@ -1264,8 +1265,21 @@ Runs `mastodon-tl--render-text' and fetches poll or media."
        (mastodon-tl--get-poll toot))
      (mastodon-tl--media toot))))
 
+(defun mastodon-tl--prev-toot-id ()
+  "Return the id of the last toot inserted into the buffer."
+  (let ((prev-pos (1- (save-excursion
+                        (previous-single-property-change
+                         (point)
+                         'base-toot-id)))))
+    (get-text-property prev-pos 'base-toot-id)))
+
+(defun mastodon-tl--after-reply-status (reply-to-id)
+  "T if REPLY-TO-ID is equal to that of the last toot inserted in the bufer."
+  (let ((prev-id (mastodon-tl--prev-toot-id)))
+    (string= reply-to-id prev-id)))
+
 (defun mastodon-tl--insert-status (toot body author-byline action-byline
-                                        &optional id base-toot detailed-p)
+                                        &optional id base-toot detailed-p thread)
   "Display the content and byline of timeline element TOOT.
 BODY will form the section of the toot above the byline.
 AUTHOR-BYLINE is an optional function for adding the author
@@ -1280,14 +1294,30 @@ attached as a `toot-id' property if provided. If the
 status is a favourite or boost notification, BASE-TOOT is the
 JSON of the toot responded to.
 DETAILED-P means display more detailed info. For now
-this just means displaying toot client."
-  (let ((start-pos (point)))
+this just means displaying toot client.
+THREAD means the status will be displayed in a thread view."
+  (let* ((start-pos (point))
+         (reply-to-id (alist-get 'in_reply_to_id toot))
+         (after-reply-status-p
+          (when (and thread reply-to-id)
+            (mastodon-tl--after-reply-status reply-to-id))))
     (insert
      (propertize
-      (concat "\n"
-              body
-              " \n"
-              (mastodon-tl--byline toot author-byline action-byline detailed-p))
+      (concat
+       "\n"
+       (if (and after-reply-status-p thread)
+           (concat (mastodon-tl--symbol 'replied)
+                   "\n")
+         "")
+       (if (and after-reply-status-p thread)
+           (let ((bar (mastodon-tl--symbol 'reply-bar)))
+             (propertize body
+                         'line-prefix bar
+                         'wrap-prefix bar))
+         body)
+       ;; body
+       " \n"
+       (mastodon-tl--byline toot author-byline action-byline detailed-p))
       'toot-id      (or id ; notification's own id
                         (alist-get 'id toot)) ; toot id
       'base-toot-id (mastodon-tl--toot-id
@@ -1363,10 +1393,11 @@ To disable showing the stats, customize
   (and (null (mastodon-tl--field 'in_reply_to_id toot))
        (not (mastodon-tl--field 'rebloged toot))))
 
-(defun mastodon-tl--toot (toot &optional detailed-p)
+(defun mastodon-tl--toot (toot &optional detailed-p thread)
   "Format TOOT and insert it into the buffer.
 DETAILED-P means display more detailed info. For now
-this just means displaying toot client."
+this just means displaying toot client.
+THREAD means the status will be displayed in a thread view."
   (mastodon-tl--insert-status
    toot
    (mastodon-tl--clean-tabs-and-nl
@@ -1377,12 +1408,15 @@ this just means displaying toot client."
    'mastodon-tl--byline-boosted
    nil
    nil
-   detailed-p))
+   detailed-p
+   thread))
 
-(defun mastodon-tl--timeline (toots)
+(defun mastodon-tl--timeline (toots &optional thread)
   "Display each toot in TOOTS.
-This function removes replies if user required."
-  (mapc #'mastodon-tl--toot
+This function removes replies if user required.
+THREAD means the status will be displayed in a thread view."
+  (mapc (lambda (toot)
+          (mastodon-tl--toot toot nil thread))
         ;; hack to *not* filter replies on profiles:
         (if (eq (mastodon-tl--get-buffer-type) 'profile-statuses)
             toots
@@ -1739,13 +1773,15 @@ view all branches of a thread."
                     (mastodon-tl--set-buffer-spec buffer
                                                   endpoint
                                                   #'mastodon-tl--thread)
-                    (mastodon-tl--timeline (alist-get 'ancestors context))
+                    (mastodon-tl--timeline (alist-get 'ancestors context)
+                                           :thread)
                     (goto-char (point-max))
                     (move-marker marker (point))
                     ;; print re-fetched toot:
-                    (mastodon-tl--toot toot :detailed-p)
-                    (mastodon-tl--timeline (alist-get 'descendants context))
-                    ;; put point at the toot: 
+                    (mastodon-tl--toot toot :detailed-p :thread)
+                    (mastodon-tl--timeline (alist-get 'descendants context)
+                                           :thread)
+                    ;; put point at the toot:
                     (goto-char (marker-position marker))
                     (mastodon-tl--goto-next-toot))))
             ;; else just print the lone toot:
@@ -2098,7 +2134,8 @@ PREFIX is sent to `mastodon-tl--show-tag-timeline', which see."
 
 (defun mastodon-tl--some-followed-tags-timeline (&optional prefix)
   "Prompt for some tags, and open a timeline for them.
-The suggestions are from followed tags, but any other tags are also allowed."
+The suggestions are from followed tags, but any other tags are also allowed.
+PREFIX us sent to `mastodon-tl--show-tag-timeline', which see."
   (interactive "p")
   (let* ((followed-tags-json (mastodon-tl--followed-tags))
          (tags (mastodon-tl--map-alist 'name followed-tags-json))
@@ -2279,7 +2316,6 @@ when showing followers or accounts followed."
 
 (defun mastodon-tl--more ()
   "Append older toots to timeline, asynchronously."
-  (interactive)
   (message "Loading older toots...")
   (if (mastodon-tl--use-link-header-p)
       ;; link-header: can't build a URL with --more-json-async, endpoint/id:

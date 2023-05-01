@@ -147,6 +147,12 @@ If the original toot visibility is different we use the more restricted one."
   "Whether to enable your instance's custom emoji by default."
   :type 'boolean)
 
+(defcustom mastodon-toot--enable-proportional-fonts-compose-buffer nil
+  "Nonnil to enable using proportional fonts in the compose buffer.
+By default fixed width fonts are used."
+  :type '(boolean :tag "Enable using proportional rather than fixed \
+width fonts"))
+
 (defvar-local mastodon-toot--content-warning nil
   "A flag whether the toot should be marked with a content warning.")
 
@@ -219,14 +225,14 @@ send.")
    "\\([(\n\t ]\\|^\\)"
    "\\(?2:@[0-9a-zA-Z._-]+" ; a handle
    "\\(@[^ \n\t]*\\)?\\)" ; with poss domain, * = allow only @
-   "\\b"))
+   "\\(\\b\\|'\\)")) ; boundary or ' char
 
 (defvar mastodon-toot-tag-regex
   (concat
    ;; preceding bracket, space or bol [boundary doesn't work with #]
    "\\([(\n\t ]\\|^\\)"
    "\\(?2:#[0-9a-zA-Z_]+\\)" ; tag
-   "\\b")) ; boundary
+   "\\(\\b\\|'\\)")) ; boundary or ' char
 
 (defvar mastodon-toot-url-regex
   ;; adapted from ffap-url-regexp
@@ -329,7 +335,6 @@ boosting, or bookmarking toots."
 (defun mastodon-toot--toggle-boost-or-favourite (type)
   "Toggle boost or favourite of toot at `point'.
 TYPE is a symbol, either `favourite' or `boost.'"
-  (interactive)
   (mastodon-tl--do-if-toot-strict
    (let* ((boost-p (equal type 'boost))
           (has-id (mastodon-tl--property 'base-toot-id))
@@ -839,7 +844,6 @@ instance to edit a toot."
              (mastodon-http--triage
               response
               (lambda ()
-                (setq masto-poll-toot-response response)
                 (mastodon-toot--kill)
                 (if scheduled
                     (message "Toot scheduled!")
@@ -956,7 +960,6 @@ eg. \"feduser@fed.social\" -> \"@feduser@fed.social\"."
 The mentioned users look like this:
 Local user (including the logged in): `username`.
 Federated user: `username@host.co`."
-  (interactive)
   (let* ((boosted (mastodon-tl--field 'reblog status))
          (mentions
           (if boosted
@@ -1452,7 +1455,7 @@ REPLY-TEXT is the text of the toot being replied to."
        (propertize "None                  "
                    'toot-attachments t)
        "\n")
-      'face font-lock-comment-face
+      'face 'mastodon-toot-docs-face
       'read-only "Edit your message below."
       'toot-post-header t)
      (if reply-text
@@ -1462,13 +1465,13 @@ REPLY-TEXT is the text of the toot being replied to."
                        mastodon-toot-orig-in-reply-length)
                       'read-only "Edit your message below."
                       'toot-post-header t
-                      'face '(variable-pitch :foreground "#7c6f64"))
+                      'face 'mastodon-toot-docs-reply-text-face)
           "\n")
        "")
      (propertize
       (concat divider "\n")
       'rear-nonsticky t
-      'face font-lock-comment-face
+      'face 'mastodon-toot-docs-face
       'read-only "Edit your message below."
       'toot-post-header t))))
 
@@ -1556,7 +1559,8 @@ REPLY-JSON is the full JSON of the toot being replied to."
 (defun mastodon-toot--count-toot-chars (toot-string &optional cw)
   "Count the characters in TOOT-STRING.
 URLs always = 23, and domain names of handles are not counted.
-This is how mastodon does it."
+This is how mastodon does it.
+CW is the content warning, which contributes to the character count."
   (with-temp-buffer
     (switch-to-buffer (current-buffer))
     (insert toot-string)
@@ -1682,6 +1686,8 @@ EDIT means we are editing an existing toot, not composing a new one."
                                        (point-marker))))
     (switch-to-buffer-other-window buffer)
     (text-mode)
+    (when mastodon-toot--enable-proportional-fonts-compose-buffer
+      (variable-pitch-mode))
     (mastodon-toot-mode t)
     (setq mastodon-toot--visibility
           (or (plist-get mastodon-profile-account-settings 'privacy)
@@ -1739,6 +1745,14 @@ EDIT means we are editing an existing toot, not composing a new one."
 (add-hook 'mastodon-toot-mode-hook
           (lambda ()
             (auto-fill-mode -1)))
+
+;; scale fixed-pitch docs relative to any possible variable pitch scaling set:
+(add-hook 'mastodon-toot-mode-hook
+          (lambda ()
+            (when mastodon-toot--enable-proportional-fonts-compose-buffer
+              (let ((height (/ 1 (face-attribute 'variable-pitch :height))))
+                (set-face-attribute 'mastodon-toot-docs-face nil
+                                    :height height)))))
 
 (define-minor-mode mastodon-toot-mode
   "Minor mode to capture Mastodon toots."

@@ -38,6 +38,8 @@
 (require 'mastodon-http)
 
 (defvar mastodon-mode-map)
+(defvar mastodon-tl--horiz-bar)
+(defvar mastodon-tl--timeline-posts-count)
 
 (autoload 'mastodon-mode "mastodon")
 (autoload 'mastodon-tl--init "mastodon-tl")
@@ -902,8 +904,8 @@ IND is the optional indentation level to print at."
     (indent-to 4)
     (insert
      (format "%-5s: "
-             (propertize key)
-             'face '(:underline t))
+             (propertize key
+                         'face '(:underline t)))
      (mastodon-views--newline-if-long value)
      (format "%s" (mastodon-tl--render-text
                    value))

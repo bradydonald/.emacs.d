@@ -57,8 +57,8 @@ File: mastodon.info,  Node: README,  Prev: Top,  Up: Top
 ********
 
 ‘mastodon.el’ is an Emacs client for the AcitivityPub social networks
-that implement the Mastodon API.  For info see
-<https://joinmastodon.org/>.
+that implement the Mastodon API.  For info see joinmastodon.org
+(https://joinmastodon.org/).
 
 * Menu:
 
@@ -237,6 +237,7 @@ your ‘mastodon-token-file’ does not contain ‘:client_id’ and
      ‘,’                      view favouriters of toot at point
      ‘.’                      view boosters of toot at point
      ‘/’                      switch between mastodon buffers
+     ‘Z’                      report user/toot at point to instances moderators
                               *Other views*
      ‘s’                      search (posts, users, tags) (NB: only posts you have interacted with)
      ‘I’, ‘c’, ‘d’            view, create, and delete filters
@@ -278,8 +279,10 @@ your ‘mastodon-token-file’ does not contain ‘:client_id’ and
 
      Marker             Meaning
      --------------------------------------------
-     ‘(B)’              I boosted this toot
-     ‘(F)’              I favourited this toot
+     ‘(🔁)’ (or          I boosted this toot
+     ‘(B)’)
+     ‘(⭐)’ (or          I favourited this toot
+     ‘(F)’)
      ‘(🔖)’ (or          I bookmarked this toot
      (‘K’))
 
@@ -389,6 +392,10 @@ and should work without first loading ‘mastodon.el’:
    • ‘mastodon-tl--unfollow-tag’: Unfollow a tag
    • ‘mastodon-tl--list-followed-tags’: View a list of tags you’re
      following.
+   • ‘mastodon-tl--followed-tags-timeline’: View a timeline of all your
+     followed tags.
+   • ‘mastodon-tl--some-followed-tags-timleine’: View a timeline of
+     multiple tags, from your followed tags or any other.
 
    • ‘mastodon-switch-to-buffer’: switch between mastodon buffers.
 
@@ -444,7 +451,8 @@ File: mastodon.info,  Node: Alternative timeline layout,  Next: Live-updating ti
 The incomparable Nicholas Rougier has written an alternative timeline
 layout for ‘mastodon.el’.
 
-   The repo is at <https://github.com/rougier/mastodon-alt>.
+   The repo is at mastodon-alt
+(https://github.com/rougier/mastodon-alt).
 
 
 File: mastodon.info,  Node: Live-updating timelines mastodon-async-mode,  Next: Translating toots,  Prev: Alternative timeline layout,  Up: Usage
@@ -452,7 +460,8 @@ File: mastodon.info,  Node: Live-updating timelines mastodon-async-mode,  Next: 
 1.2.7 Live-updating timelines: ‘mastodon-async-mode’
 ----------------------------------------------------
 
-(code taken from <https://github.com/alexjgriffith/mastodon-future.el>.)
+(code taken from mastodon-future
+(https://github.com/alexjgriffith/mastodon-future.el).)
 
    Works for federated, local, and home timelines and for notifications.
 It’s a little touchy, one thing to avoid is trying to load a timeline
@@ -473,7 +482,7 @@ File: mastodon.info,  Node: Translating toots,  Next: bookmarks and mastodonel, 
 You can translate toots with ‘mastodon-toot--translate-toot-text’ (‘a’
 in a timeline).  At the moment this requires lingva.el
 (https://codeberg.org/martianh/lingva.el), a little interface I wrote to
-<https://lingva.ml>, to be installed to work.
+lingva.ml (https://lingva.ml), to be installed to work.
 
    You could easily modify the simple function to use your Emacs
 translator of choice (‘libretrans.el’ , ‘google-translate’, ‘babel’,
@@ -510,8 +519,8 @@ File: mastodon.info,  Node: Dependencies,  Next: Network compatibility,  Prev: U
 ================
 
 Hard dependencies (should all install with ‘mastodon.el’):
-   • ‘request’ (for uploading attachments),
-     <https://github.com/tkf/emacs-request>
+   • ‘request’ (for uploading attachments), emacs-request
+     (https://github.com/tkf/emacs-request)
    • ‘persist’ for storing some settings across sessions
    • ‘ts’ for poll relative expiry times
 
@@ -602,7 +611,7 @@ File: mastodon.info,  Node: Supporting mastodonel,  Next: Contributors,  Prev: C
 ============================
 
 If you’d like to support continued development of ‘mastodon.el’, I
-accept donations via paypal: https://paypal.me/martianh
+accept donations via paypal: paypal.me/martianh
 (https://paypal.me/martianh).  If you would prefer a different payment
 method, write to me at that address and I can provide IBAN or other
 details.
@@ -631,32 +640,32 @@ File: mastodon.info,  Node: Contributors,  Prev: Supporting mastodonel,  Up: REA
 Tag Table:
 Node: Top210
 Node: README911
-Node: Installation1310
-Node: MELPA1846
-Node: Emoji2214
-Node: Discover2546
-Node: Usage3098
-Node: Logging in to your instance3508
-Node: Timelines4505
-Ref: Keybindings4980
-Ref: Toot byline legend9469
-Node: Composing toots9741
-Ref: Keybindings (1)11318
-Ref: Draft toots11836
-Node: Other commands and account settings12307
-Node: Customization15235
-Node: Alternative timeline layout16021
-Node: Live-updating timelines mastodon-async-mode16398
-Node: Translating toots17234
-Node: bookmarks and mastodonel18406
-Node: Dependencies18876
-Node: Network compatibility19468
-Node: Contributing19954
-Node: Bug reports20243
-Node: Fixes and features21149
-Node: Coding style21632
-Node: Supporting mastodonel22256
-Node: Contributors22786
+Node: Installation1327
+Node: MELPA1863
+Node: Emoji2231
+Node: Discover2563
+Node: Usage3115
+Node: Logging in to your instance3525
+Node: Timelines4522
+Ref: Keybindings4997
+Ref: Toot byline legend9570
+Node: Composing toots9879
+Ref: Keybindings (1)11456
+Ref: Draft toots11974
+Node: Other commands and account settings12445
+Node: Customization15603
+Node: Alternative timeline layout16389
+Node: Live-updating timelines mastodon-async-mode16779
+Node: Translating toots17631
+Node: bookmarks and mastodonel18813
+Node: Dependencies19283
+Node: Network compatibility19889
+Node: Contributing20375
+Node: Bug reports20664
+Node: Fixes and features21570
+Node: Coding style22053
+Node: Supporting mastodonel22677
+Node: Contributors23199
 
 End Tag Table
 

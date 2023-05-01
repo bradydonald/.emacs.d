@@ -1,4 +1,4 @@
-;;; mastodon.el --- Client for fediverse services that implement the Mastodon API  -*- lexical-binding: t -*-
+;;; mastodon.el --- Client for fediverse services using Mastodon API  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2017-2019 Johnson Denen
 ;; Copyright (C) 2020-2022 Marty Hiatt
@@ -240,6 +240,20 @@ Use. e.g. \"%c\" for your locale's date and time format."
 (defface mastodon-cw-face
   '((t :inherit success))
   "Face used for content warning.")
+
+(defface mastodon-toot-docs-face
+  `((t :inherit font-lock-comment-face
+       :height 1.0
+       :family ,(face-attribute 'default :family)))
+  "Face used for documentation in toot compose buffer.
+If `mastodon-tl--enable-proportional-fonts' is changed,
+mastodon.el needs to be re-loaded for this to be correctly set.")
+
+(defface mastodon-toot-docs-reply-text-face
+  `((t :inherit font-lock-comment-face
+       :family ,(face-attribute 'variable-pitch :family)))
+  "Face used for reply text in toot compose buffer.
+See `mastodon-toot-display-orig-in-reply-buffer'.")
 
 ;;;###autoload
 (defun mastodon ()

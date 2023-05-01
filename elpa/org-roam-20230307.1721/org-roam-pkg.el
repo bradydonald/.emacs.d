@@ -6,6 +6,8 @@
     (magit-section "3.0.0"))
   :commit "5c06471c3a11348342719fd9011486455adeb701" :authors
   '(("Jethro Kuan" . "jethrokuan95@gmail.com"))
+  :maintainers
+  '(("Jethro Kuan" . "jethrokuan95@gmail.com"))
   :maintainer
   '("Jethro Kuan" . "jethrokuan95@gmail.com")
   :keywords

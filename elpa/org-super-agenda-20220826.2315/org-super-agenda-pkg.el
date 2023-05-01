@@ -7,6 +7,8 @@
     (ts "0.2"))
   :commit "f4f528985397c833c870967884b013cf91a1da4a" :authors
   '(("Adam Porter" . "adam@alphapapa.net"))
+  :maintainers
+  '(("Adam Porter" . "adam@alphapapa.net"))
   :maintainer
   '("Adam Porter" . "adam@alphapapa.net")
   :keywords

@@ -398,6 +398,10 @@ The blog specific property is: :id
 
 Example: An integer defined by a string.")
 
+(defconst org2blog-metaweblog-app-key
+  "E8620BB2-C481-4A10-9B55-18D03202EFE5"
+  "MetaWeblog API Requirement: Created randomly. Never change it.")
+
 (defconst org2blog-deprecation "2.0.0"
   "Release in which obsolete objects will be removed.")
 
@@ -1940,6 +1944,7 @@ Legend:
           (progn
             (when is-post
               (metaweblog-delete-post org2blog-xmlrpc
+                                      org2blog-metaweblog-app-key
                                       org2blog-username
                                       org2blog-password
                                       entry-id))
@@ -3042,6 +3047,14 @@ Legend:
          (cons "excerpt" (org2blog--eprop "DESCRIPTION"))
          (cons "permalink" (org2blog--eprop "PERMALINK")))))
     parsed-entry))
+
+(defun org2blog-get-users-blogs ()
+  "Retrieve list of blogs to which USER-NAME can post."
+  (interactive)
+  (metaweblog-get-users-blogs org2blog-xmlrpc
+                              org2blog-metaweblog-app-key
+                              org2blog-username
+                              org2blog-password))
 
 (defun org2blog--startup-library-check (library-name current-version min-version)
   "Warn when LIBRARY-NAME CURRENT-VERSION is less than the MIN-VERSION version."

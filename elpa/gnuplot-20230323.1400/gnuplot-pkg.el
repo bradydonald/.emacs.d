@@ -2,6 +2,8 @@
   '((emacs "25.1"))
   :commit "f99effa21f85a4c0963fec6a38e9112a8157d27e" :authors
   '(("Jon Oddie, Bruce Ravel, Phil Type"))
+  :maintainers
+  '(("Maxime Tréca <maxime@gmail.com>, Daniel Mendler" . "mail@daniel-mendler.de"))
   :maintainer
   '("Maxime Tréca <maxime@gmail.com>, Daniel Mendler" . "mail@daniel-mendler.de")
   :keywords
