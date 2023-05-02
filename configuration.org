@@ -125,8 +125,8 @@
             (set-frame-parameter (selected-frame) 'alpha '(97 . 100))
           (set-frame-parameter (selected-frame) 'alpha '(100 . 100))))
 
-      (scroll-bar-mode nil)
-      (menu-bar-mode nil)
+      (scroll-bar-mode 0)
+      (menu-bar-mode 0)
 
   #+END_SRC
 
@@ -1441,9 +1441,10 @@
 
   #+BEGIN_SRC emacs-lisp
 
+    (setq custom-safe-themes t)
     (load-theme 'ef-cyprus)
     (nyan-mode)
-    
+
   #+END_SRC
 
 
