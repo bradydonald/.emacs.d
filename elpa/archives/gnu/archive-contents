@@ -1224,7 +1224,7 @@
 		    ("Matthew L. Fidler" . "matthew.fidler@gmail.com"))
 		   (:keywords "convenience"))])
  (excorporate .
-	      [(1 0 0)
+	      [(1 1 0)
 	       ((emacs
 		 (24 1))
 		(cl-lib
@@ -1236,13 +1236,16 @@
 		(url-http-ntlm
 		 (2 0 4))
 		(nadvice
-		 (0 3)))
+		 (0 3))
+		(url-http-oauth
+		 (0 8 3)))
 	       "Exchange Web Services (EWS) integration" tar
 	       ((:url . "https://www.fitzsim.org/blog/")
+		(:keywords "calendar")
 		(:maintainer "Thomas Fitzsimmons" . "fitzsim@fitzsim.org")
 		(:authors
 		 ("Thomas Fitzsimmons" . "fitzsim@fitzsim.org"))
-		(:keywords "calendar"))])
+		(:commit . "7df1891759e26541711ccbff739a39be6bca09ac"))])
  (expand-region .
 		[(0 11 0)
 		 nil "Increase selected region by semantic units." tar
@@ -1679,7 +1682,7 @@
 	   ("Durand" . "mmemmew@gmail.com"))
 	  (:url . "https://elpa.gnu.org/packages/ilist.html"))])
  (inspector .
-	    [(0 28)
+	    [(0 30)
 	     ((emacs
 	       (27 1)))
 	     "Tool for inspection of Emacs Lisp objects" tar
@@ -1688,7 +1691,7 @@
 	      (:maintainer "Mariano Montone" . "marianomontone@gmail.com")
 	      (:authors
 	       ("Mariano Montone" . "marianomontone@gmail.com"))
-	      (:commit . "0b2cf2f00a827f06bda717da8250eafec4108fb3"))])
+	      (:commit . "f06e3490cb3fba9335dfca9022d3cc8babaa8654"))])
  (ioccur .
 	 [(2 6)
 	  ((emacs
@@ -2546,7 +2549,7 @@
 	(:keywords "comm" "processes" "multimedia")
 	(:url . "https://elpa.gnu.org/packages/osc.html"))])
  (osm .
-      [(0 11)
+      [(0 12)
        ((emacs
 	 (27 1))
 	(compat
@@ -2557,7 +2560,7 @@
 	(:maintainer "Daniel Mendler" . "mail@daniel-mendler.de")
 	(:authors
 	 ("Daniel Mendler" . "mail@daniel-mendler.de"))
-	(:commit . "ce8512d793cbe99f2406551bc84ad534a7a37893"))])
+	(:commit . "f08f03860021fa334708829d705370614e383880"))])
  (other-frame-window .
 		     [(1 0 6)
 		      ((emacs
@@ -3619,15 +3622,18 @@
 		("David Gonzalez Gandara" . "dggandara@member.fsf.org"))
 	       (:maintainer "David Gonzalez Gandara" . "dggandara@member.fsf.org"))])
  (transient .
-	    [(0 3 7)
+	    [(0 4 0)
 	     ((emacs
-	       (25 1)))
+	       (25 1))
+	      (compat
+	       (29 1 4 1)))
 	     "Transient commands" tar
 	     ((:url . "https://github.com/magit/transient")
-	      (:keywords "bindings")
+	      (:keywords "extensions")
 	      (:maintainer "Jonas Bernoulli" . "jonas@bernoul.li")
 	      (:authors
-	       ("Jonas Bernoulli" . "jonas@bernoul.li")))])
+	       ("Jonas Bernoulli" . "jonas@bernoul.li"))
+	      (:commit . "b4127842f200848817103e8d4c45c36bc8fdf3b8"))])
  (transient-cycles .
 		   [(1 0)
 		    ((emacs
@@ -3639,6 +3645,19 @@
 		     (:authors
 		      ("Sean Whitton" . "spwhitton@spwhitton.name"))
 		     (:commit . "a5b86dd04e84e7ff1cf8c4062843fccb92991145"))])
+ (tree-inspector .
+		 [(0 3)
+		  ((emacs
+		    (27 1))
+		   (treeview
+		    (1 1 0)))
+		  "Inspector tool for Emacs Lisp object that uses a treeview" tar
+		  ((:url . "https://github.com/mmontone/emacs-inspector")
+		   (:keywords "debugging" "tool" "lisp" "development")
+		   (:maintainer "Mariano Montone" . "marianomontone@gmail.com")
+		   (:authors
+		    ("Mariano Montone" . "marianomontone@gmail.com"))
+		   (:commit . "e76898353a16d0d7a53c76e3d9c44f989f439fc8"))])
  (trie .
        [(0 5)
 	((tNFA
@@ -3717,6 +3736,15 @@
 		   ("Tom Schutzer-Weissmann" . "tom.weissmann@gmail.com"))
 		  (:maintainer "Thomas Fitzsimmons" . "fitzsim@fitzsim.org")
 		  (:url . "https://code.google.com/p/url-http-ntlm/"))])
+ (url-http-oauth .
+		 [(0 8 3)
+		  nil "OAuth 2.0 for URL library" tar
+		  ((:keywords "comm" "data" "processes" "hypermedia")
+		   (:maintainer "Thomas Fitzsimmons" . "fitzsim@fitzsim.org")
+		   (:authors
+		    ("Thomas Fitzsimmons" . "fitzsim@fitzsim.org"))
+		   (:url . "https://elpa.gnu.org/packages/url-http-oauth.html")
+		   (:commit . "c2d06036f22ce61f5a1e3084c8b265d897b7fcab"))])
  (url-scgi .
 	   [(0 9)
 	    ((emacs
@@ -3899,7 +3927,7 @@
 	(:maintainer "Andrey Kotlarski" . "m00naticus@gmail.com")
 	(:keywords "large files" "utilities"))])
  (vundo .
-	[(2 0 0)
+	[(2 1 0)
 	 ((emacs
 	   (28 1)))
 	 "Visual undo tree" tar
@@ -3908,7 +3936,7 @@
 	  (:maintainer "Yuan Fu" . "casouri@gmail.com")
 	  (:authors
 	   ("Yuan Fu" . "casouri@gmail.com"))
-	  (:commit . "10d5debe317b2244d19085151040f955dda4a9ab"))])
+	  (:commit . "ce986105a7819b288f57b381168605791aa4fcec"))])
  (wcheck-mode .
 	      [(2021)
 	       nil "General interface for text checkers" tar

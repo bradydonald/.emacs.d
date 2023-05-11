@@ -2,6 +2,6 @@
 # name: chatgpt
 # key: chatgpt
 # --
-#+BEGIN_AI
-    ${1:question}$0
-#+END_AI
+#+begin_src chatgpt-shell
+  ${1:question}$0
+#+end_src
