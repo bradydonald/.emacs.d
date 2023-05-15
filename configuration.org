@@ -190,7 +190,6 @@
     (use-package nyan-mode)
   #+END_SRC
 
-
 * Load any lisp files
 
   Load any .el files in =.emacs.d/lisp= directory. This is not recursive so any
