@@ -95,3 +95,31 @@ Archived entries from file /home/d/.emacs.d/configuration.org
       (add-hook 'hyperbole-init-hook (lambda () (hkey-set-key "\M-\\" 'hkey-either))))
   #+END_SRC
   
+
+* Chat GPT Integration in Org Mode
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-05-15 Mon 14:59
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Using https://github.com/rksm/org-ai
+  
+  #+BEGIN_SRC emacs-lisp
+
+    (setq db/org-ai nil)
+
+    
+    (if (db/add-to-load-path "~/.emacs.d/lisp/org-ai" db/org-ai)
+        (use-package org-ai
+          :load-path (lambda () "lisp/org-ai")
+          :commands (org-ai-mode)
+          :custom
+          (org-ai-openai-api-token (db/openai-api-key))
+          :init
+          (add-hook 'org-mode-hook #'org-ai-mode)
+          :config
+          (advice-add 'keyboard-quit :before #'org-ai-keyboard-quit)))
+
+  #+END_SRC
+

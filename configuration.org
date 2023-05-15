@@ -1198,30 +1198,6 @@
           (global-lsp-bridge-mode)))
   #+END_SRC
 
-* Chat GPT Integration in Org Mode
-
-  Using https://github.com/rksm/org-ai
-  
-  #+BEGIN_SRC emacs-lisp
-
-    (setq db/org-ai nil)
-
-    (defun db/openai-api-key ()
-      (substring (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg") 0 -1))
-    
-    (if (db/add-to-load-path "~/.emacs.d/lisp/org-ai" db/org-ai)
-        (use-package org-ai
-          :load-path (lambda () "lisp/org-ai")
-          :commands (org-ai-mode)
-          :custom
-          (org-ai-openai-api-token (db/openai-api-key))
-          :init
-          (add-hook 'org-mode-hook #'org-ai-mode)
-          :config
-          (advice-add 'keyboard-quit :before #'org-ai-keyboard-quit)))
-
-  #+END_SRC
-
 * Chat GPT Integration as a Shell
 
   Using https://github.com/xenodium/chatgpt-shell
@@ -1230,6 +1206,9 @@
 
     (setq db/chatgpt-shell t)
 
+    (defun db/openai-api-key ()
+      (substring (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg") 0 -1))
+    
     (db/add-to-load-path "~/.emacs.d/lisp/chatgpt-shell" db/chatgpt-shell '(chatgpt-shell))
 
     (setq chatgpt-openai-key (db/openai-api-key))
@@ -1445,7 +1424,6 @@
     (nyan-mode)
 
   #+END_SRC
-
 
 * Start a server
 
