@@ -53,7 +53,7 @@ would appear first.  In contrast, `(date reverse priority)' would
 also present items with the highest priority first, but within
 each priority the newest items would appear first.
 
-(fn BUFFERS-OR-FILES QUERY &key ACTION NARROW SORT)" nil nil)
+(fn BUFFERS-OR-FILES QUERY &key ACTION NARROW SORT)")
 (function-put 'org-ql-select 'lisp-indent-function 'defun)
 (autoload 'org-ql-query "org-ql" "\
 Like `org-ql-select', but arguments are named more like a SQL query.
@@ -85,8 +85,8 @@ see.
 
 NARROW corresponds to the `org-ql-select' argument NARROW.
 
-(fn &key (SELECT \\='element-with-markers) FROM WHERE NARROW ORDER-BY)" nil nil)
-(function-put 'org-ql-query 'lisp-indent-function '0)
+(fn &key (SELECT \\='element-with-markers) FROM WHERE NARROW ORDER-BY)")
+(function-put 'org-ql-query 'lisp-indent-function 0)
 (register-definition-prefixes "org-ql" '("org-ql-"))
 
 
@@ -107,7 +107,7 @@ with commas to turn multiple tokens, which would normally be
 treated as multiple predicates, into multiple arguments to a
 single predicate).
 
-(fn BUFFERS-FILES &key QUERY-PREFIX QUERY-FILTER (PROMPT \"Find entry: \"))" nil nil)
+(fn BUFFERS-FILES &key QUERY-PREFIX QUERY-FILTER (PROMPT \"Find entry: \"))")
 (function-put 'org-ql-completing-read 'lisp-indent-function 'defun)
 (register-definition-prefixes "org-ql-completing-read" '("org-ql-completing-read-"))
 
@@ -129,17 +129,17 @@ with commas to turn multiple tokens, which would normally be
 treated as multiple predicates, into multiple arguments to a
 single predicate).
 
-(fn BUFFERS-FILES &key QUERY-PREFIX QUERY-FILTER (PROMPT \"Find entry: \"))" t nil)
+(fn BUFFERS-FILES &key QUERY-PREFIX QUERY-FILTER (PROMPT \"Find entry: \"))" t)
 (autoload 'org-ql-refile "org-ql-find" "\
 Refile current entry to MARKER (interactively, one selected with `org-ql').
 Interactive completion uses files listed in `org-refile-targets',
 which see (but only the files are used).
 
-(fn MARKER)" t nil)
+(fn MARKER)" t)
 (autoload 'org-ql-find-in-agenda "org-ql-find" "\
-Call `org-ql-find' on `org-agenda-files'." t nil)
+Call `org-ql-find' on `org-agenda-files'." t)
 (autoload 'org-ql-find-in-org-directory "org-ql-find" "\
-Call `org-ql-find' on files in `org-directory'." t nil)
+Call `org-ql-find' on files in `org-directory'." t)
 (register-definition-prefixes "org-ql-find" '("org-ql-find-"))
 
 
@@ -159,7 +159,7 @@ matches, which allows stacking calls to this command.
 
 Runs `org-occur-hook' after making the sparse tree.
 
-(fn QUERY &key KEEP-PREVIOUS (BUFFER (current-buffer)))" t nil)
+(fn QUERY &key KEEP-PREVIOUS (BUFFER (current-buffer)))" t)
 (autoload 'org-ql-search "org-ql-search" "\
 Search for QUERY with `org-ql'.
 Interactively, prompt for these variables:
@@ -193,7 +193,7 @@ display the results.  By default, the value of
 `org-ql-view-buffer' is used, and a new buffer is created if
 necessary.
 
-(fn BUFFERS-FILES QUERY &key NARROW SUPER-GROUPS SORT TITLE (BUFFER org-ql-view-buffer))" t nil)
+(fn BUFFERS-FILES QUERY &key NARROW SUPER-GROUPS SORT TITLE (BUFFER org-ql-view-buffer))" t)
 (function-put 'org-ql-search 'lisp-indent-function 'defun)
 (autoload 'org-ql-search-block "org-ql-search" "\
 Insert items for QUERY into current buffer.
@@ -208,7 +208,7 @@ If `org-ql-block-header' is non-nil, it is used as the header
 string for the block, otherwise a the header is formed
 automatically from the query.
 
-(fn QUERY)" nil nil)
+(fn QUERY)")
 (defalias 'org-ql-block 'org-ql-search-block)
 (register-definition-prefixes "org-ql-search" '("org-ql-"))
 
@@ -219,23 +219,24 @@ automatically from the query.
 Choose and display the `org-ql-views' view NAME.
 Interactively, prompt for NAME.
 
-(fn &optional NAME)" t nil)
+(fn &optional NAME)" t)
 (autoload 'org-ql-view-recent-items "org-ql-view" "\
 Show items in FILES from last NUM-DAYS days with timestamps of TYPE.
 TYPE may be `ts', `ts-active', `ts-inactive', `clocked', or
 `closed'.
 
-(fn &key NUM-DAYS (TYPE \\='ts) (FILES (org-agenda-files)) (GROUPS \\='((:auto-parent t) (:auto-todo t))))" t nil)
+(fn &key NUM-DAYS (TYPE \\='ts) (FILES (org-agenda-files)) (GROUPS \\='((:auto-parent t) (:auto-todo t))))" t)
 (autoload 'org-ql-view-sidebar "org-ql-view" "\
 Show `org-ql-view' view list sidebar.
 SLOT is passed to `display-buffer-in-side-window', which see.
 
-(fn &key (SLOT org-ql-view-list-slot))" t nil)
+(fn &key (SLOT org-ql-view-list-slot))" t)
 (autoload 'org-ql-view-bookmark-handler "org-ql-view" "\
 Show Org QL View BOOKMARK in current buffer.
 
-(fn BOOKMARK)" nil nil)
+(fn BOOKMARK)")
 (register-definition-prefixes "org-ql-view" '("org-ql-view"))
+
 
 ;;; End of scraped data
 

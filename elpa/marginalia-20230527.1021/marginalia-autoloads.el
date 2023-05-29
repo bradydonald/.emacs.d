@@ -37,10 +37,11 @@ evaluate `(default-value \\='marginalia-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'marginalia-cycle "marginalia" "\
-Cycle between annotators in `marginalia-annotator-registry'." t nil)
+Cycle between annotators in `marginalia-annotator-registry'." t)
 (register-definition-prefixes "marginalia" '("marginalia-"))
+
 
 ;;; End of scraped data
 
