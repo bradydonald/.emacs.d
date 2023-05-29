@@ -185,7 +185,7 @@
     (use-package s) ;; some nice easy string manipulation functions
     (use-package magit)
     (use-package deadgrep) ;; requires ripgrep binary
-    (use-package doom-themes)
+    (use-package ef-themes)
     (use-package yaml-mode)
     (use-package nyan-mode)
   #+END_SRC
@@ -1420,7 +1420,7 @@
   #+BEGIN_SRC emacs-lisp
 
     (setq custom-safe-themes t)
-    (load-theme 'ef-cyprus)
+    (load-theme 'ef-deuteranopia-dark)
     (nyan-mode)
 
   #+END_SRC
