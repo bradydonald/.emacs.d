@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -26,7 +27,7 @@ interactively.
 In `flycheck-inline-mode', show Flycheck error messages inline,
 directly below the error reported location.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (put 'global-flycheck-inline-mode 'globalized-minor-mode t)
 (defvar global-flycheck-inline-mode nil "\
 Non-nil if Global Flycheck-Inline mode is enabled.
@@ -50,7 +51,7 @@ would do it.
 
 See `flycheck-inline-mode' for more information on Flycheck-Inline mode.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (register-definition-prefixes "flycheck-inline" '("flycheck-inline-" "turn-on-flycheck-inline"))
 
 ;;; End of scraped data
@@ -61,7 +62,6 @@ See `flycheck-inline-mode' for more information on Flycheck-Inline mode.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

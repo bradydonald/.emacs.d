@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -62,7 +63,7 @@ a list:
                             ------O------
 
  Key bindings:
- \\{gnuplot-mode-map}" t)
+ \\{gnuplot-mode-map}" t nil)
 (autoload 'gnuplot-make-buffer "gnuplot" "\
 Open a new buffer in `gnuplot-mode'.
 When invoked, it switches to a new, empty buffer visiting no file
@@ -73,9 +74,9 @@ example, to make the F10 key open a gnuplot script buffer, put the
 following in your .emacs file:
      (autoload 'gnuplot-make-buffer \"gnuplot\"
                \"open a buffer in gnuplot mode\" t)
-     (global-set-key [(f10)] 'gnuplot-make-buffer)" t)
+     (global-set-key [(f10)] 'gnuplot-make-buffer)" t nil)
 (autoload 'run-gnuplot "gnuplot" "\
-Run an inferior Gnuplot process." t)
+Run an inferior Gnuplot process." t nil)
 (register-definition-prefixes "gnuplot" '("gnuplot-"))
 
 
@@ -132,26 +133,26 @@ evaluate `gnuplot-context-sensitive-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (register-definition-prefixes "gnuplot-context" '("gnuplot-"))
 
 
 ;;; Generated autoloads from gnuplot-gui.el
 
-(autoload 'gnuplot-gui-swap-simple-complete "gnuplot-gui" nil t)
+(autoload 'gnuplot-gui-swap-simple-complete "gnuplot-gui" nil t nil)
 (autoload 'gnuplot-gui-mouse-set "gnuplot-gui" "\
 Use the mouse to begin setting options using a GUI interface.
 EVENT is a mouse event.  Bound to \\[gnuplot-gui-mouse-set]
 Note that \"plot\", \"splot\", \"fit\", and \"cntrparam\" are not
 currently supported.
 
-(fn EVENT)" t)
+(fn EVENT)" t nil)
 (autoload 'gnuplot-gui-set-options-and-insert "gnuplot-gui" "\
 Insert arguments using a GUI interface.
 Determine contents of current line and set up the appropriate GUI
 frame.  Bound to \\[gnuplot-gui-set-options-and-insert]
-Note that \"cntrparam\" is not currently supported." t)
-(autoload 'gnuplot-gui-toggle-popup "gnuplot-gui" nil t)
+Note that \"cntrparam\" is not currently supported." t nil)
+(autoload 'gnuplot-gui-toggle-popup "gnuplot-gui" nil t nil)
 (register-definition-prefixes "gnuplot-gui" '("gnuplot-"))
 
 ;;; End of scraped data
@@ -162,7 +163,6 @@ Note that \"cntrparam\" is not currently supported." t)
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -21,11 +22,11 @@ commands to use the current Emacs instance as \"the editor\".
 This works in `shell-mode', `term-mode', `eshell-mode' and
 `vterm'.
 
-(fn &optional (ENVVAR \"EDITOR\"))" t)
+(fn &optional (ENVVAR \"EDITOR\"))" t nil)
 (autoload 'with-editor-export-git-editor "with-editor" "\
-Like `with-editor-export-editor' but always set `$GIT_EDITOR'." t)
+Like `with-editor-export-editor' but always set `$GIT_EDITOR'." t nil)
 (autoload 'with-editor-export-hg-editor "with-editor" "\
-Like `with-editor-export-editor' but always set `$HG_EDITOR'." t)
+Like `with-editor-export-editor' but always set `$HG_EDITOR'." t nil)
 (defvar shell-command-with-editor-mode nil "\
 Non-nil if Shell-Command-With-Editor mode is enabled.
 See the `shell-command-with-editor-mode' command
@@ -63,7 +64,7 @@ evaluate `(default-value \\='shell-command-with-editor-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (autoload 'with-editor-async-shell-command "with-editor" "\
 Like `async-shell-command' but with `$EDITOR' set.
 
@@ -81,15 +82,14 @@ with arguments, or a script which also works over Tramp.
 
 Also see `async-shell-command' and `shell-command'.
 
-(fn COMMAND &optional OUTPUT-BUFFER ERROR-BUFFER ENVVAR)" t)
+(fn COMMAND &optional OUTPUT-BUFFER ERROR-BUFFER ENVVAR)" t nil)
 (autoload 'with-editor-shell-command "with-editor" "\
 Like `shell-command' or `with-editor-async-shell-command'.
 If COMMAND ends with \"&\" behave like the latter,
 else like the former.
 
-(fn COMMAND &optional OUTPUT-BUFFER ERROR-BUFFER ENVVAR)" t)
+(fn COMMAND &optional OUTPUT-BUFFER ERROR-BUFFER ENVVAR)" t nil)
 (register-definition-prefixes "with-editor" '("server-" "shell-command--shell-command-with-editor-mode" "start-file-process--with-editor-process-filter" "with-editor"))
-
 
 ;;; End of scraped data
 
@@ -99,7 +99,6 @@ else like the former.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

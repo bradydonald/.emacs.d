@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -76,7 +77,7 @@
 
 ;;; Generated autoloads from doom-ephemeral-theme.el
 
-(register-definition-prefixes "doom-ephemeral-theme" '(":group" "doom-ephemeral"))
+(register-definition-prefixes "doom-ephemeral-theme" '("doom-ephemeral"))
 
 
 ;;; Generated autoloads from doom-fairy-floss-theme.el
@@ -211,17 +212,17 @@
 
 ;;; Generated autoloads from doom-nord-aurora-theme.el
 
-(register-definition-prefixes "doom-nord-aurora-theme" '(":group" "doom-nord-aurora"))
+(register-definition-prefixes "doom-nord-aurora-theme" '("doom-nord-aurora"))
 
 
 ;;; Generated autoloads from doom-nord-light-theme.el
 
-(register-definition-prefixes "doom-nord-light-theme" '(":group" "doom-nord-light"))
+(register-definition-prefixes "doom-nord-light-theme" '("doom-nord-light"))
 
 
 ;;; Generated autoloads from doom-nord-theme.el
 
-(register-definition-prefixes "doom-nord-theme" '(":group" "doom-nord"))
+(register-definition-prefixes "doom-nord-theme" '("doom-nord"))
 
 
 ;;; Generated autoloads from doom-nova-theme.el
@@ -251,12 +252,12 @@
 
 ;;; Generated autoloads from doom-opera-light-theme.el
 
-(register-definition-prefixes "doom-opera-light-theme" '(":group" "doom-opera-light"))
+(register-definition-prefixes "doom-opera-light-theme" '("doom-opera-light"))
 
 
 ;;; Generated autoloads from doom-opera-theme.el
 
-(register-definition-prefixes "doom-opera-theme" '(":group" "doom-opera"))
+(register-definition-prefixes "doom-opera-theme" '("doom-opera"))
 
 
 ;;; Generated autoloads from doom-outrun-electric-theme.el
@@ -335,30 +336,30 @@
 Retrieves the hexidecimal string repesented the named COLOR (e.g. \"red\")
 for FRAME (defaults to the current frame).
 
-(fn COLOR)")
+(fn COLOR)" nil nil)
 (autoload 'doom-blend "doom-themes" "\
 Blend two colors (hexidecimal strings) together by a coefficient ALPHA (a
 float between 0 and 1)
 
-(fn COLOR1 COLOR2 ALPHA)")
+(fn COLOR1 COLOR2 ALPHA)" nil nil)
 (autoload 'doom-darken "doom-themes" "\
 Darken a COLOR (a hexidecimal string) by a coefficient ALPHA (a float between
 0 and 1).
 
-(fn COLOR ALPHA)")
+(fn COLOR ALPHA)" nil nil)
 (autoload 'doom-lighten "doom-themes" "\
 Brighten a COLOR (a hexidecimal string) by a coefficient ALPHA (a float
 between 0 and 1).
 
-(fn COLOR ALPHA)")
+(fn COLOR ALPHA)" nil nil)
 (autoload 'doom-color "doom-themes" "\
 Retrieve a specific color named NAME (a symbol) from the current theme.
 
-(fn NAME &optional TYPE)")
+(fn NAME &optional TYPE)" nil nil)
 (autoload 'doom-ref "doom-themes" "\
 TODO
 
-(fn FACE PROP &optional CLASS)")
+(fn FACE PROP &optional CLASS)" nil nil)
 (autoload 'doom-themes-set-faces "doom-themes" "\
 Customize THEME (a symbol) with FACES.
 
@@ -372,7 +373,7 @@ theme face specs. These is a simplified spec. For example:
     '(doom-modeline-buffer-path :inherit 'mode-line-emphasis :weight 'bold)
     '(doom-modeline-buffer-project-root :foreground green :weight 'bold))
 
-(fn THEME &rest FACES)")
+(fn THEME &rest FACES)" nil nil)
 (function-put 'doom-themes-set-faces 'lisp-indent-function 'defun)
 (when (and (boundp 'custom-theme-load-path) load-file-name) (let* ((base (file-name-directory load-file-name)) (dir (expand-file-name "themes/" base))) (add-to-list 'custom-theme-load-path (or (and (file-directory-p dir) dir) base))))
 (register-definition-prefixes "doom-themes" '("def-doom-theme" "doom-"))
@@ -388,14 +389,14 @@ theme face specs. These is a simplified spec. For example:
 (autoload 'doom-themes-neotree-config "doom-themes-ext-neotree" "\
 Install doom-themes' neotree configuration.
 
-Includes an Atom-esque icon theme and highlighting based on filetype.")
+Includes an Atom-esque icon theme and highlighting based on filetype." nil nil)
 (register-definition-prefixes "doom-themes-ext-neotree" '("doom-"))
 
 
 ;;; Generated autoloads from doom-themes-ext-org.el
 
 (autoload 'doom-themes-org-config "doom-themes-ext-org" "\
-Load `doom-themes-ext-org'.")
+Load `doom-themes-ext-org'." nil nil)
 (register-definition-prefixes "doom-themes-ext-org" '("doom-themes-"))
 
 
@@ -404,16 +405,16 @@ Load `doom-themes-ext-org'.")
 (autoload 'doom-themes-treemacs-config "doom-themes-ext-treemacs" "\
 Install doom-themes' treemacs configuration.
 
-Includes an Atom-esque icon theme and highlighting based on filetype.")
+Includes an Atom-esque icon theme and highlighting based on filetype." nil nil)
 (register-definition-prefixes "doom-themes-ext-treemacs" '("doom-themes-"))
 
 
 ;;; Generated autoloads from doom-themes-ext-visual-bell.el
 
 (autoload 'doom-themes-visual-bell-fn "doom-themes-ext-visual-bell" "\
-Blink the mode-line red briefly. Set `ring-bell-function' to this to use it.")
+Blink the mode-line red briefly. Set `ring-bell-function' to this to use it." nil nil)
 (autoload 'doom-themes-visual-bell-config "doom-themes-ext-visual-bell" "\
-Enable flashing the mode-line on error.")
+Enable flashing the mode-line on error." nil nil)
 
 
 ;;; Generated autoloads from doom-tokyo-night-theme.el
@@ -458,7 +459,6 @@ Enable flashing the mode-line on error.")
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

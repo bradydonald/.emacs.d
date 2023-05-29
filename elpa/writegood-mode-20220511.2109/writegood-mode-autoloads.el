@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -16,11 +17,11 @@ Flesch-Kincaid reading ease test in the region bounded by START and END.
 
 Scores roughly between 0 and 100.
 
-(fn &optional START END)" t)
+(fn &optional START END)" t nil)
 (autoload 'writegood-grade-level "writegood-mode" "\
 Flesch-Kincaid grade level test. Converts reading ease score to a grade level (Score ~ years of school needed to read passage).
 
-(fn &optional START END)" t)
+(fn &optional START END)" t nil)
 (autoload 'writegood-mode "writegood-mode" "\
 Colorize issues with the writing in the buffer.
 
@@ -38,7 +39,7 @@ evaluate `writegood-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (register-definition-prefixes "writegood-mode" '("writegood-"))
 
 ;;; End of scraped data
@@ -49,7 +50,6 @@ it is disabled.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

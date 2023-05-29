@@ -5,22 +5,23 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
 ;;; Generated autoloads from default-text-scale.el
 
 (autoload 'default-text-scale-increase "default-text-scale" "\
-Increase the height of the default face by `default-text-scale-amount'." t)
+Increase the height of the default face by `default-text-scale-amount'." t nil)
 (autoload 'default-text-scale-decrease "default-text-scale" "\
-Decrease the height of the default face by `default-text-scale-amount'." t)
+Decrease the height of the default face by `default-text-scale-amount'." t nil)
 (autoload 'default-text-scale-reset "default-text-scale" "\
 Reset the height of the default face.
 With prefix argument SET-CURRENT, set the current size as the
 default to which subsequent sizes would be reset.
 
-(fn &optional SET-CURRENT)" t)
+(fn &optional SET-CURRENT)" t nil)
 (defvar default-text-scale-mode nil "\
 Non-nil if Default-Text-Scale mode is enabled.
 See the `default-text-scale-mode' command
@@ -47,7 +48,7 @@ evaluate `(default-value \\='default-text-scale-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (register-definition-prefixes "default-text-scale" '("default-text-scale-"))
 
 ;;; End of scraped data
@@ -58,7 +59,6 @@ it is disabled.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

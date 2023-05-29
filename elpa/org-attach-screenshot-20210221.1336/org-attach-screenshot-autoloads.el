@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -33,7 +34,7 @@ which would mean that entries for the Attachments would be
 written to the PROPERTIES section of a headline in addition to
 the links being already placed inside the text.
 
-(fn PRFX FILENAME)" t)
+(fn PRFX FILENAME)" t nil)
 (register-definition-prefixes "org-attach-screenshot" '("org-attach-screenshot-"))
 
 ;;; End of scraped data
@@ -44,7 +45,6 @@ the links being already placed inside the text.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

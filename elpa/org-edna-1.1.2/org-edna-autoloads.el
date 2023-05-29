@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -14,12 +15,12 @@
 (autoload 'org-edna--load "org-edna" "\
 Setup the hooks necessary for Org Edna to run.
 
-This means adding to `org-trigger-hook' and `org-blocker-hook'.")
+This means adding to `org-trigger-hook' and `org-blocker-hook'." nil nil)
 (autoload 'org-edna--unload "org-edna" "\
 Unload Org Edna.
 
 Remove Edna's workers from `org-trigger-hook' and
-`org-blocker-hook'.")
+`org-blocker-hook'." nil nil)
 (defvar org-edna-mode nil "\
 Non-nil if Org-edna mode is enabled.
 See the `org-edna-mode' command
@@ -45,7 +46,7 @@ evaluate `(default-value \\='org-edna-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (register-definition-prefixes "org-edna" '("org-e"))
 
 ;;; End of scraped data
@@ -56,7 +57,6 @@ it is disabled.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

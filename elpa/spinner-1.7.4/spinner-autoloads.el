@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -33,7 +34,7 @@ the spinner before actually displaying it. It is safe to cancel
 the spinner before this time, in which case it won't display at
 all.
 
-(fn &optional TYPE BUFFER-LOCAL FPS DELAY)")
+(fn &optional TYPE BUFFER-LOCAL FPS DELAY)" nil nil)
 (autoload 'spinner-start "spinner" "\
 Start a mode-line spinner of given TYPE-OR-OBJECT.
 If TYPE-OR-OBJECT is an object created with `make-spinner',
@@ -59,7 +60,7 @@ DELAY, if given, is the number of seconds to wait until actually
 displaying the spinner. It is safe to cancel the spinner before
 this time, in which case it won't display at all.
 
-(fn &optional TYPE-OR-OBJECT FPS DELAY)")
+(fn &optional TYPE-OR-OBJECT FPS DELAY)" nil nil)
 (register-definition-prefixes "spinner" '("spinner-"))
 
 ;;; End of scraped data
@@ -70,7 +71,6 @@ this time, in which case it won't display at all.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

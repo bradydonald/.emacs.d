@@ -5,14 +5,15 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
 ;;; Generated autoloads from org2blog.el
 
 (autoload 'org2blog-user-interface "org2blog" "\
-Invoke the graphical user interface." t)
+Invoke the graphical user interface." t nil)
 (autoload 'org2blog-on-new-entry-kill "org2blog" "\
 Handler for a new KIND of entry buffer closing.
 
@@ -25,13 +26,13 @@ Handler for a new KIND of entry buffer closing.
             nil 'local)
   .
 
-(fn KIND)")
+(fn KIND)" nil nil)
 (autoload 'org2blog-maybe-start "org2blog" "\
 Enable function `org2blog/wp-mode' when `#+ORG2BLOG:' is present.
 
   Use it like this:
 
-  (add-hook 'org-mode-hook #'org2blog-maybe-start)")
+  (add-hook 'org-mode-hook #'org2blog-maybe-start)" nil nil)
 (autoload 'org2blog-user-report "org2blog" "\
 Report library actions if ON is non-nil.
 
@@ -118,17 +119,17 @@ Report library actions if ON is non-nil.
   enjoy working through your debugging session, it is one step
   closer to doing more blogging!
 
-(fn ON)" t)
+(fn ON)" t nil)
 (autoload 'org2blog-user-report-on "org2blog" "\
-Enable ‘org2blog-user-report’ ’ing." t)
+Enable ‘org2blog-user-report’ ’ing." t nil)
 (autoload 'org2blog-user-report-off "org2blog" "\
-Disable ‘org2blog-user-report’ ’ing." t)
+Disable ‘org2blog-user-report’ ’ing." t nil)
 (autoload 'org2blog-version-info "org2blog" "\
 Display critical library information or return as a VALUE if non-nil.
 
   Hydra doesn't provide a version number.
 
-(fn &optional VALUE)" t)
+(fn &optional VALUE)" t nil)
 (autoload 'org2blog-user-set-password "org2blog" "\
 Set password “in memory”.
 
@@ -138,7 +139,7 @@ Set password “in memory”.
 
   It does change your password in memory during this session.
 
-  See messages below for details." t)
+  See messages below for details." t nil)
 (autoload 'org2blog-user-login "org2blog" "\
 Log in to BLOG-NAME if non-nil, otherwise choose from a list.
 
@@ -176,116 +177,116 @@ Log in to BLOG-NAME if non-nil, otherwise choose from a list.
   of failing here.
   
 
-(fn &optional BLOG-NAME)" t)
+(fn &optional BLOG-NAME)" t nil)
 (autoload 'org2blog-user-logout "org2blog" "\
-Log out of blog." t)
+Log out of blog." t nil)
 (autoload 'org2blog-buffer-new "org2blog" "\
-Create new post entry." t)
+Create new post entry." t nil)
 (autoload 'org2blog-subtree-new "org2blog" "\
-Create new subtree entry." t)
+Create new subtree entry." t nil)
 (autoload 'org2blog-buffer-post-save "org2blog" "\
 Save new or existing post. Publish if PUBLISH is non-nil.
 
-(fn &optional PUBLISH)" t)
+(fn &optional PUBLISH)" t nil)
 (autoload 'org2blog-buffer-post-publish "org2blog" "\
-Publish post." t)
+Publish post." t nil)
 (autoload 'org2blog-buffer-page-save "org2blog" "\
 Save new page to the blog or edits an existing page. Publish if PUBLISH is non-nil. Do as subtree if SUBTREE-P is non-nil.
 
-(fn &optional PUBLISH)" t)
+(fn &optional PUBLISH)" t nil)
 (autoload 'org2blog-buffer-page-publish "org2blog" "\
-Publish page." t)
+Publish page." t nil)
 (autoload 'org2blog-subtree-post-save "org2blog" "\
 Save the current subtree entry as a draft. Publish if PUBLISH is non-nil.
 
-(fn &optional PUBLISH)" t)
+(fn &optional PUBLISH)" t nil)
 (autoload 'org2blog-subtree-post-publish "org2blog" "\
-Publish subtree post." t)
+Publish subtree post." t nil)
 (autoload 'org2blog-subtree-page-save "org2blog" "\
 Save new subtree page to the blog or edits an existing page. If PUBLISH is non-nil then save and publish it.
 
-(fn &optional PUBLISH)" t)
+(fn &optional PUBLISH)" t nil)
 (autoload 'org2blog-subtree-page-publish "org2blog" "\
-Publish page." t)
+Publish page." t nil)
 (autoload 'org2blog-entry-save "org2blog" "\
 Save new or existing entry of TYPE from SOURCE. In non-nil PUBLISH, do. If non-nil SUBTREE-P, do.
 
-(fn SOURCE TYPE &optional PUBLISH)" t)
+(fn SOURCE TYPE &optional PUBLISH)" t nil)
 (autoload 'org2blog-entry-trash-prompt "org2blog" "\
 Prompt for an entry ID then trash it.
 
-(fn ID)" t)
+(fn ID)" t nil)
 (autoload 'org2blog-buffer-post-trash "org2blog" "\
 Trash buffer post. If POST-ID is non-nil trash that.
 
-(fn &optional POST-ID)" t)
+(fn &optional POST-ID)" t nil)
 (autoload 'org2blog-subtree-post-trash "org2blog" "\
 Trash subtree post. If POST-ID is non-nil trash that.
 
-(fn &optional POST-ID)" t)
+(fn &optional POST-ID)" t nil)
 (autoload 'org2blog-buffer-page-trash "org2blog" "\
 Trash page. If PAGE-ID is non-nil trash that.
 
-(fn &optional PAGE-ID)" t)
+(fn &optional PAGE-ID)" t nil)
 (autoload 'org2blog-subtree-page-trash "org2blog" "\
 Trash page. If PAGE-ID is non-nil trash that.
 
-(fn &optional PAGE-ID)" t)
+(fn &optional PAGE-ID)" t nil)
 (autoload 'org2blog-entry-trash "org2blog" "\
 Trash entry of TYPE. If ENTRY-ID is non-nil trash that one.
 
-(fn TYPE &optional ENTRY-ID)" t)
+(fn TYPE &optional ENTRY-ID)" t nil)
 (autoload 'org2blog-complete "org2blog" "\
-Complete categories, tags, or pages." t)
+Complete categories, tags, or pages." t nil)
 (autoload 'org2blog-insert-more "org2blog" "\
 Insert WordPress “More” tag.
 
-  “More” tags only work in posts, not Pages." t)
+  “More” tags only work in posts, not Pages." t nil)
 (autoload 'org2blog-structure-template-add "org2blog" "\
 Enable `BEGIN_EXPORT wp' blocks.
 
   Add them to `snippet-key org-structure-template-alist' unless
-  already present." t)
+  already present." t nil)
 (autoload 'org2blog-insert-mathjax "org2blog" "\
-Insert the WordPress ‘MathJax’ shortcode." t)
+Insert the WordPress ‘MathJax’ shortcode." t nil)
 (autoload 'org2blog-insert-latex "org2blog" "\
-Insert WordPress ‘LaTeX’ string." t)
+Insert WordPress ‘LaTeX’ string." t nil)
 (autoload 'org2blog-buffer-track "org2blog" "\
-Track buffer." t)
+Track buffer." t nil)
 (autoload 'org2blog-subtree-track "org2blog" "\
-Track subtree." t)
+Track subtree." t nil)
 (autoload 'org2blog-entry-track "org2blog" "\
 Track entry from SOURCE. Was it already PUBLISHED?
 
-(fn SOURCE &optional PUBLISHED?)" t)
+(fn SOURCE &optional PUBLISHED?)" t nil)
 (autoload 'org2blog-buffer-post-or-page-view "org2blog" "\
 Use either `org2blog-buffer-post-view' or `org2blog-buffer-page-view'.
 
   WordPress 6 differentiates between viewing a Page and a Post.
   Therefore this function must be retired. It is not a bug:
   WordPress just doesn't work that way with the API now.
-  " t)
+  " t nil)
 (autoload 'org2blog-buffer-post-view "org2blog" "\
-View buffer post." t)
+View buffer post." t nil)
 (autoload 'org2blog-buffer-page-view "org2blog" "\
-View buffer page." t)
+View buffer page." t nil)
 (autoload 'org2blog-subtree-post-or-page-view "org2blog" "\
 Use either `org2blog-subtree-post-view' or `org2blog-subtree-page-view'.
 
   WordPress 6 differentiates between viewing a Page and a Post.
   Therefore this function must be retired. It is not a bug:
   WordPress just doesn't work that way with the API now.
-  " t)
+  " t nil)
 (autoload 'org2blog-subtree-post-view "org2blog" "\
-View subtree post." t)
+View subtree post." t nil)
 (autoload 'org2blog-subtree-page-view "org2blog" "\
-View subtree page." t)
+View subtree page." t nil)
 (autoload 'org2blog-subtree-view "org2blog" "\
 View subtree post or page.
 
   DEST is either ’post or ’page.
 
-(fn DEST)" t)
+(fn DEST)" t nil)
 (autoload 'org2blog-entry-view "org2blog" "\
 View SOURCE's entry published to DEST.
 
@@ -294,32 +295,32 @@ View SOURCE's entry published to DEST.
   DEST is either ’post or ’page.
   
 
-(fn SOURCE DEST)" t)
+(fn SOURCE DEST)" t nil)
 (autoload 'org2blog-insert-link-to-post "org2blog" "\
-Insert link to post." t)
+Insert link to post." t nil)
 (autoload 'org2blog-insert-link-to-page "org2blog" "\
-Insert link to page." t)
+Insert link to page." t nil)
 (autoload 'org2blog-insert-link "org2blog" "\
 Choose and insert link to entry using IS-PAGE if non-nil.
 
   When IS-PAGE is nil then chose from page IDs
   instead of posts.
 
-(fn IS-PAGE)" t)
+(fn IS-PAGE)" t nil)
 (autoload 'org2blog-reload-entry-mode-map "org2blog" "\
 Re-initialize `org2blog-mode-map'.
 
   Use the prefix key sequence defined by
   `org2blog/wp-keymap-prefix' and update `minor-mode-map-alist'
-  accordingly." t)
+  accordingly." t nil)
 (autoload 'org2blog-about "org2blog" "\
-Display brief about page." t)
+Display brief about page." t nil)
 (autoload 'org2blog-org2blog-keyword-check "org2blog" "\
 Insert the ORG2BLOG keyword unless it exists.
 
   Inserts ‘#+ORG2BLOG’ on the first empty lines that it finds.
 
-  If it doesn’t find one then it doesn’t insert it." t)
+  If it doesn’t find one then it doesn’t insert it." t nil)
 (autoload 'org2blog/wp-mode "org2blog" "\
 Toggle org2blog/wp minor mode.
 
@@ -348,7 +349,7 @@ evaluate `org2blog/wp-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (register-definition-prefixes "org2blog" '("org2blog"))
 
 
@@ -380,7 +381,7 @@ first.
 When `org-export-show-temporary-export-buffer' is non-nil
 display a buffer with the export value.
 
-(fn &optional ASYNC SUBTREEP EXT-PLIST)" t)
+(fn &optional ASYNC SUBTREEP EXT-PLIST)" t nil)
 (register-definition-prefixes "ox-wp" '("org-html-underline" "ox-wp-"))
 
 ;;; End of scraped data
@@ -391,7 +392,6 @@ display a buffer with the export value.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

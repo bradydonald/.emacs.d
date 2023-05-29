@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -14,7 +15,7 @@
 (autoload 'org-roam-list-files "org-roam" "\
 Return a list of all Org-roam files under `org-roam-directory'.
 See `org-roam-file-p' for how each file is determined to be as
-part of Org-Roam.")
+part of Org-Roam." nil nil)
 (register-definition-prefixes "org-roam" '("org-roam-"))
 
 
@@ -28,7 +29,7 @@ NODE is an `org-roam-node' construct containing information about the node.
 PROPS is a plist containing additional Org-roam properties for each template.
 TEMPLATES is a list of org-roam templates.
 
-(fn &key GOTO KEYS NODE INFO PROPS TEMPLATES)")
+(fn &key GOTO KEYS NODE INFO PROPS TEMPLATES)" nil nil)
 (autoload 'org-roam-capture "org-roam-capture" "\
 Launches an `org-capture' process for a new or existing node.
 This uses the templates defined at `org-roam-capture-templates'.
@@ -39,7 +40,7 @@ The TEMPLATES, if provided, override the list of capture templates (see
 `org-roam-capture-'.)
 The INFO, if provided, is passed along to the underlying `org-roam-capture-'.
 
-(fn &optional GOTO KEYS &key FILTER-FN TEMPLATES INFO)" t)
+(fn &optional GOTO KEYS &key FILTER-FN TEMPLATES INFO)" t nil)
 (register-definition-prefixes "org-roam-capture" '("org-roam-capture-"))
 
 
@@ -57,14 +58,14 @@ When GOTO is non-nil, go the note without creating an entry.
 ELisp programs can set KEYS to a string associated with a template.
 In this case, interactive selection will be bypassed.
 
-(fn &optional GOTO KEYS)" t)
+(fn &optional GOTO KEYS)" t nil)
 (autoload 'org-roam-dailies-goto-today "org-roam-dailies" "\
 Find the daily-note for today, creating it if necessary.
 
 ELisp programs can set KEYS to a string associated with a template.
 In this case, interactive selection will be bypassed.
 
-(fn &optional KEYS)" t)
+(fn &optional KEYS)" t nil)
 (autoload 'org-roam-dailies-capture-tomorrow "org-roam-dailies" "\
 Create an entry in the daily-note for tomorrow.
 
@@ -76,7 +77,7 @@ creating an entry.
 ELisp programs can set KEYS to a string associated with a template.
 In this case, interactive selection will be bypassed.
 
-(fn N &optional GOTO KEYS)" t)
+(fn N &optional GOTO KEYS)" t nil)
 (autoload 'org-roam-dailies-goto-tomorrow "org-roam-dailies" "\
 Find the daily-note for tomorrow, creating it if necessary.
 
@@ -86,7 +87,7 @@ future.
 ELisp programs can set KEYS to a string associated with a template.
 In this case, interactive selection will be bypassed.
 
-(fn N &optional KEYS)" t)
+(fn N &optional KEYS)" t nil)
 (autoload 'org-roam-dailies-capture-yesterday "org-roam-dailies" "\
 Create an entry in the daily-note for yesteday.
 
@@ -97,7 +98,7 @@ When GOTO is non-nil, go the note without creating an entry.
 ELisp programs can set KEYS to a string associated with a template.
 In this case, interactive selection will be bypassed.
 
-(fn N &optional GOTO KEYS)" t)
+(fn N &optional GOTO KEYS)" t nil)
 (autoload 'org-roam-dailies-goto-yesterday "org-roam-dailies" "\
 Find the daily-note for yesterday, creating it if necessary.
 
@@ -107,7 +108,7 @@ future.
 ELisp programs can set KEYS to a string associated with a template.
 In this case, interactive selection will be bypassed.
 
-(fn N &optional KEYS)" t)
+(fn N &optional KEYS)" t nil)
 (autoload 'org-roam-dailies-capture-date "org-roam-dailies" "\
 Create an entry in the daily-note for a date using the calendar.
 Prefer past dates, unless PREFER-FUTURE is non-nil.
@@ -117,7 +118,7 @@ creating an entry.
 ELisp programs can set KEYS to a string associated with a template.
 In this case, interactive selection will be bypassed.
 
-(fn &optional GOTO PREFER-FUTURE KEYS)" t)
+(fn &optional GOTO PREFER-FUTURE KEYS)" t nil)
 (autoload 'org-roam-dailies-goto-date "org-roam-dailies" "\
 Find the daily-note for a date using the calendar, creating it if necessary.
 Prefer past dates, unless PREFER-FUTURE is non-nil.
@@ -125,9 +126,9 @@ Prefer past dates, unless PREFER-FUTURE is non-nil.
 ELisp programs can set KEYS to a string associated with a template.
 In this case, interactive selection will be bypassed.
 
-(fn &optional PREFER-FUTURE KEYS)" t)
+(fn &optional PREFER-FUTURE KEYS)" t nil)
 (autoload 'org-roam-dailies-find-directory "org-roam-dailies" "\
-Find and open `org-roam-dailies-directory'." t)
+Find and open `org-roam-dailies-directory'." t nil)
 (register-definition-prefixes "org-roam-dailies" '("org-roam-dailies-"))
 
 
@@ -137,7 +138,7 @@ Find and open `org-roam-dailies-directory'." t)
 Synchronize the cache state with the current Org files on-disk.
 If FORCE, force a rebuild of the cache from scratch.
 
-(fn &optional FORCE)" t)
+(fn &optional FORCE)" t nil)
 (defvar org-roam-db-autosync-mode nil "\
 Non-nil if Org-Roam-Db-Autosync mode is enabled.
 See the `org-roam-db-autosync-mode' command
@@ -172,9 +173,9 @@ evaluate `(default-value \\='org-roam-db-autosync-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t)
+(fn &optional ARG)" t nil)
 (autoload 'org-roam-db-autosync-enable "org-roam-db" "\
-Activate `org-roam-db-autosync-mode'.")
+Activate `org-roam-db-autosync-mode'." nil nil)
 (register-definition-prefixes "org-roam-db" '("emacsql-constraint" "org-roam-d"))
 
 
@@ -192,7 +193,7 @@ ARG may be any of the following values:
   - `\\[universal-argument]'     show the graph for NODE.
   - `\\[universal-argument]' N   show the graph for NODE limiting nodes to N steps.
 
-(fn &optional ARG NODE)" t)
+(fn &optional ARG NODE)" t nil)
 (register-definition-prefixes "org-roam-graph" '("org-roam-"))
 
 
@@ -214,7 +215,7 @@ links to headings/files within the current `org-roam-directory'
 that are excluded from identification in Org-roam as
 `org-roam-node's, e.g. with \"ROAM_EXCLUDE\" property.
 
-(fn &rest DIRECTORIES)" t)
+(fn &rest DIRECTORIES)" t nil)
 (register-definition-prefixes "org-roam-id" '("org-roam-id-"))
 
 
@@ -229,7 +230,7 @@ that are excluded from identification in Org-roam as
 Migrate all notes from to be compatible with Org-roam v2.
 1. Convert all notes from v1 format to v2.
 2. Rebuild the cache.
-3. Replace all file links with ID links." t)
+3. Replace all file links with ID links." t nil)
 (register-definition-prefixes "org-roam-migrate" '("org-roam-migrate-"))
 
 
@@ -244,7 +245,7 @@ In interactive calls prompt to select NODE, unless called with
 `universal-argument', in which case NODE will be set to
 `org-roam-node-at-point'.
 
-(fn NODE)" t)
+(fn NODE)" t nil)
 (register-definition-prefixes "org-roam-mode" '("org-roam-"))
 
 
@@ -259,7 +260,7 @@ If OTHER-WINDOW, visit the NODE in another window.
 The TEMPLATES, if provided, override the list of capture templates (see
 `org-roam-capture-'.)
 
-(fn &optional OTHER-WINDOW INITIAL-INPUT FILTER-FN PRED &key TEMPLATES)" t)
+(fn &optional OTHER-WINDOW INITIAL-INPUT FILTER-FN PRED &key TEMPLATES)" t nil)
 (autoload 'org-roam-node-random "org-roam-node" "\
 Find and open a random Org-roam node.
 With prefix argument OTHER-WINDOW, visit the node in another
@@ -267,7 +268,7 @@ window instead.
 FILTER-FN is a function to filter out nodes: it takes an `org-roam-node',
 and when nil is returned the node will be filtered out.
 
-(fn &optional OTHER-WINDOW FILTER-FN)" t)
+(fn &optional OTHER-WINDOW FILTER-FN)" t nil)
 (autoload 'org-roam-node-insert "org-roam-node" "\
 Find an Org-roam node and insert (where the point is) an \"id:\" link to it.
 FILTER-FN is a function to filter out nodes: it takes an `org-roam-node',
@@ -276,19 +277,19 @@ The TEMPLATES, if provided, override the list of capture templates (see
 `org-roam-capture-'.)
 The INFO, if provided, is passed to the underlying `org-roam-capture-'.
 
-(fn &optional FILTER-FN &key TEMPLATES INFO)" t)
+(fn &optional FILTER-FN &key TEMPLATES INFO)" t nil)
 (autoload 'org-roam-refile "org-roam-node" "\
 Refile node at point to an Org-roam node.
-If region is active, then use it instead of the node at point." t)
+If region is active, then use it instead of the node at point." t nil)
 (autoload 'org-roam-extract-subtree "org-roam-node" "\
-Convert current subtree at point to a node, and extract it into a new file." t)
+Convert current subtree at point to a node, and extract it into a new file." t nil)
 (autoload 'org-roam-ref-find "org-roam-node" "\
 Find and open an Org-roam node that's dedicated to a specific ref.
 INITIAL-INPUT is the initial input to the prompt.
 FILTER-FN is a function to filter out nodes: it takes an `org-roam-node',
 and when nil is returned the node will be filtered out.
 
-(fn &optional INITIAL-INPUT FILTER-FN)" t)
+(fn &optional INITIAL-INPUT FILTER-FN)" t nil)
 (register-definition-prefixes "org-roam-node" '("org-roam-"))
 
 
@@ -308,9 +309,9 @@ and when nil is returned the node will be filtered out.
 Return `org-roam' version.
 Interactively, or when MESSAGE is non-nil, show in the echo area.
 
-(fn &optional MESSAGE)" t)
+(fn &optional MESSAGE)" t nil)
 (autoload 'org-roam-diagnostics "org-roam-utils" "\
-Collect and print info for `org-roam' issues." t)
+Collect and print info for `org-roam' issues." t nil)
 (register-definition-prefixes "org-roam-utils" '("org-roam-"))
 
 ;;; End of scraped data
@@ -321,7 +322,6 @@ Collect and print info for `org-roam' issues." t)
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

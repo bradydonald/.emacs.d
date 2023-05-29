@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -24,7 +25,7 @@ Examples::
   (request-response-header response
                            \"unknown-field\") ; => nil
 
-(fn RESPONSE FIELD-NAME)")
+(fn RESPONSE FIELD-NAME)" nil nil)
 (autoload 'request-response-headers "request" "\
 Return RESPONSE headers as an alist.
 I would have chosen a function name that wasn't so suggestive that
@@ -32,7 +33,7 @@ I would have chosen a function name that wasn't so suggestive that
 as there's already precedent with `request-response-header', I
 hew to consistency.
 
-(fn RESPONSE)")
+(fn RESPONSE)" nil nil)
 (autoload 'request "request" "\
 Main entry requesting URL with property list SETTINGS as follow.
 
@@ -183,19 +184,19 @@ and requests.request_ (Python).
 .. _jQuery.ajax: https://api.jquery.com/jQuery.ajax/
 .. _requests.request: https://docs.python-requests.org
 
-(fn URL &rest SETTINGS &key (PARAMS nil) (DATA nil) (HEADERS nil) (ENCODING \\='utf-8) (ERROR nil) (SYNC nil) (RESPONSE (make-request-response)) &allow-other-keys)")
+(fn URL &rest SETTINGS &key (PARAMS nil) (DATA nil) (HEADERS nil) (ENCODING \\='utf-8) (ERROR nil) (SYNC nil) (RESPONSE (make-request-response)) &allow-other-keys)" nil nil)
 (function-put 'request 'lisp-indent-function 'defun)
 (autoload 'request-untrampify-filename "request" "\
 Return FILE as the local file name.
 
-(fn FILE)")
+(fn FILE)" nil nil)
 (autoload 'request-abort "request" "\
 Abort request for RESPONSE (the object returned by `request').
 Note that this function invoke ERROR and COMPLETE callbacks.
 Callbacks may not be called immediately but called later when
 associated process is exited.
 
-(fn RESPONSE)")
+(fn RESPONSE)" nil nil)
 (register-definition-prefixes "request" '("request-"))
 
 ;;; End of scraped data
@@ -206,7 +207,6 @@ associated process is exited.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

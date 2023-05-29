@@ -5,40 +5,41 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
 ;;; Generated autoloads from swiper.el
 
 (autoload 'swiper-avy "swiper" "\
-Jump to one of the current swiper candidates with `avy'." t)
+Jump to one of the current swiper candidates with `avy'." t nil)
 (autoload 'swiper-backward "swiper" "\
 `isearch-backward' with an overview.
 When non-nil, INITIAL-INPUT is the initial search pattern.
 
-(fn &optional INITIAL-INPUT)" t)
+(fn &optional INITIAL-INPUT)" t nil)
 (autoload 'swiper-thing-at-point "swiper" "\
-`swiper' with `ivy-thing-at-point'." t)
+`swiper' with `ivy-thing-at-point'." t nil)
 (autoload 'swiper-all-thing-at-point "swiper" "\
-`swiper-all' with `ivy-thing-at-point'." t)
+`swiper-all' with `ivy-thing-at-point'." t nil)
 (autoload 'swiper "swiper" "\
 `isearch-forward' with an overview.
 When non-nil, INITIAL-INPUT is the initial search pattern.
 
-(fn &optional INITIAL-INPUT)" t)
+(fn &optional INITIAL-INPUT)" t nil)
 (autoload 'swiper-all "swiper" "\
 Run `swiper' for all open buffers.
 
-(fn &optional INITIAL-INPUT)" t)
+(fn &optional INITIAL-INPUT)" t nil)
 (autoload 'swiper-isearch "swiper" "\
 A `swiper' that's not line-based.
 
-(fn &optional INITIAL-INPUT)" t)
+(fn &optional INITIAL-INPUT)" t nil)
 (autoload 'swiper-isearch-backward "swiper" "\
 Like `swiper-isearch' but the first result is before the point.
 
-(fn &optional INITIAL-INPUT)" t)
+(fn &optional INITIAL-INPUT)" t nil)
 (register-definition-prefixes "swiper" '("swiper-"))
 
 ;;; End of scraped data
@@ -49,7 +50,6 @@ Like `swiper-isearch' but the first result is before the point.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

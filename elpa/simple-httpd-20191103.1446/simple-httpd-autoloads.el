@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -14,15 +15,15 @@
 (autoload 'httpd-start "simple-httpd" "\
 Start the web server process. If the server is already
 running, this will restart the server. There is only one server
-instance per Emacs instance." t)
+instance per Emacs instance." t nil)
 (autoload 'httpd-stop "simple-httpd" "\
-Stop the web server if it is currently running, otherwise do nothing." t)
+Stop the web server if it is currently running, otherwise do nothing." t nil)
 (autoload 'httpd-running-p "simple-httpd" "\
-Return non-nil if the simple-httpd server is running.")
+Return non-nil if the simple-httpd server is running." nil nil)
 (autoload 'httpd-serve-directory "simple-httpd" "\
 Start the web server with given `directory' as `httpd-root'.
 
-(fn DIRECTORY)" t)
+(fn DIRECTORY)" t nil)
 (register-definition-prefixes "simple-httpd" '("defservlet" "httpd" "with-httpd-buffer"))
 
 ;;; End of scraped data
@@ -33,7 +34,6 @@ Start the web server with given `directory' as `httpd-root'.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

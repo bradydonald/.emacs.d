@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -15,7 +16,7 @@
 Display the compiled SQL of the s-expression SQL expression before point.
 A prefix argument causes the SQL to be printed into the current buffer.
 
-(fn &optional PREFIX)" t)
+(fn &optional PREFIX)" t nil)
 (register-definition-prefixes "emacsql" '("emacsql-"))
 
 
@@ -66,7 +67,6 @@ A prefix argument causes the SQL to be printed into the current buffer.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

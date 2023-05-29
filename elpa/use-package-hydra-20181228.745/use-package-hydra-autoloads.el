@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
 
 
 
@@ -17,7 +18,7 @@ Normalize for the definition of one or more hydras.")
 Generate defhydra with NAME for `:hydra' KEYWORD.
 ARGS, REST, and STATE are prepared by `use-package-normalize/:hydra'.
 
-(fn NAME KEYWORD ARGS REST STATE)")
+(fn NAME KEYWORD ARGS REST STATE)" nil nil)
 (register-definition-prefixes "use-package-hydra" '("use-package-hydra--n"))
 
 ;;; End of scraped data
@@ -28,7 +29,6 @@ ARGS, REST, and STATE are prepared by `use-package-normalize/:hydra'.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 
