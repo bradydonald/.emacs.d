@@ -1208,7 +1208,7 @@
 
     (defun db/openai-api-key ()
       (substring (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg") 0 -1))
-    
+
     (db/add-to-load-path "~/.emacs.d/lisp/chatgpt-shell" db/chatgpt-shell '(chatgpt-shell))
 
     (setq chatgpt-openai-key (db/openai-api-key))
@@ -1216,6 +1216,7 @@
     ;; org-babel integration for chatgpt-shell blocks
     (require 'ob-chatgpt-shell)
     (ob-chatgpt-shell-setup)
+    (define-key global-map (kbd "C-c g r") 'chatgpt-shell-send-region)
 
   #+END_SRC
 
