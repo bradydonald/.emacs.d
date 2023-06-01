@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
 
 
 
@@ -24,7 +23,7 @@ Remove a conflicting binding unless optional KEEP-OTHER is
   non-nil.
 See info node `(transient)Modifying Existing Transients'.
 
-(fn PREFIX LOC SUFFIX &optional KEEP-OTHER)" nil nil)
+(fn PREFIX LOC SUFFIX &optional KEEP-OTHER)")
 (function-put 'transient-insert-suffix 'lisp-indent-function 'defun)
 (autoload 'transient-append-suffix "transient" "\
 Insert a SUFFIX into PREFIX after LOC.
@@ -38,7 +37,7 @@ Remove a conflicting binding unless optional KEEP-OTHER is
   non-nil.
 See info node `(transient)Modifying Existing Transients'.
 
-(fn PREFIX LOC SUFFIX &optional KEEP-OTHER)" nil nil)
+(fn PREFIX LOC SUFFIX &optional KEEP-OTHER)")
 (function-put 'transient-append-suffix 'lisp-indent-function 'defun)
 (autoload 'transient-replace-suffix "transient" "\
 Replace the suffix at LOC in PREFIX with SUFFIX.
@@ -50,7 +49,7 @@ LOC is a command, a key vector, a key description (a string
   (whose last element may also be a command or key).
 See info node `(transient)Modifying Existing Transients'.
 
-(fn PREFIX LOC SUFFIX)" nil nil)
+(fn PREFIX LOC SUFFIX)")
 (function-put 'transient-replace-suffix 'lisp-indent-function 'defun)
 (autoload 'transient-remove-suffix "transient" "\
 Remove the suffix or group at LOC in PREFIX.
@@ -60,9 +59,10 @@ LOC is a command, a key vector, a key description (a string
   (whose last element may also be a command or key).
 See info node `(transient)Modifying Existing Transients'.
 
-(fn PREFIX LOC)" nil nil)
+(fn PREFIX LOC)")
 (function-put 'transient-remove-suffix 'lisp-indent-function 'defun)
 (register-definition-prefixes "transient" '("transient"))
+
 
 ;;; End of scraped data
 
@@ -72,6 +72,7 @@ See info node `(transient)Modifying Existing Transients'.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

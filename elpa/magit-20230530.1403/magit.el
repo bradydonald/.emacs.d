@@ -551,7 +551,8 @@ is run in the top-level directory of the current working tree."
                                   "magit-bind-match-strings"
                                   "magit-with-temp-index"
                                   "magit-with-blob"
-                                  "magit-with-toplevel") t)
+                                  "magit-with-toplevel")
+                                t)
                 "\\_>")
        . 1))))
 
@@ -564,13 +565,16 @@ is run in the top-level directory of the current working tree."
 Use the function by the same name instead of this variable.")
 
 ;;;###autoload
-(defun magit-version (&optional print-dest)
+(defun magit-version (&optional print-dest interactive)
   "Return the version of Magit currently in use.
-If optional argument PRINT-DEST is non-nil, output
-stream (interactively, the echo area, or the current buffer with
-a prefix argument), also print the used versions of Magit, Git,
-and Emacs to it."
-  (interactive (list (if current-prefix-arg (current-buffer) t)))
+
+If optional argument PRINT-DEST is non-nil, also print the used
+versions of Magit, Transient, Git and Emacs to the output stream
+selected by that argument.  Interactively use the echo area, or
+with a prefix argument use the current buffer.  Additionally put
+the output in the kill ring.
+\n(fn &optional PRINT-DEST)"
+  (interactive (list (if current-prefix-arg (current-buffer) t) t))
   (let ((magit-git-global-arguments nil)
         (toplib (or load-file-name buffer-file-name))
         debug)
@@ -638,24 +642,35 @@ and Emacs to it."
                         (magit-git-string "rev-parse" "HEAD"))))))))
     (if (stringp magit-version)
         (when print-dest
-          (princ (format "Magit %s%s, Git %s, Emacs %s, %s"
-                         (or magit-version "(unknown)")
-                         (or (and (ignore-errors
-                                    (magit--version>= magit-version "2008"))
-                                  (ignore-errors
-                                    (require 'lisp-mnt)
-                                    (and (fboundp 'lm-header)
-                                         (format
-                                          " [>= %s]"
-                                          (with-temp-buffer
-                                            (insert-file-contents
-                                             (locate-library "magit.el" t))
-                                            (lm-header "Package-Version"))))))
-                             "")
-                         (magit--safe-git-version)
-                         emacs-version
-                         system-type)
-                 print-dest))
+          (let ((str (format
+                      "Magit %s%s, Transient %s, Git %s, Emacs %s, %s"
+                      (or magit-version "(unknown)")
+                      (or (and (ignore-errors
+                                 (magit--version>= magit-version "2008"))
+                               (ignore-errors
+                                 (require 'lisp-mnt)
+                                 (and (fboundp 'lm-header)
+                                      (format
+                                       " [>= %s]"
+                                       (with-temp-buffer
+                                         (insert-file-contents
+                                          (locate-library "magit.el" t))
+                                         (lm-header "Package-Version"))))))
+                          "")
+                      (or (ignore-errors
+                            (require 'lisp-mnt)
+                            (and (fboundp 'lm-header)
+                                 (with-temp-buffer
+                                   (insert-file-contents
+                                    (locate-library "transient.el" t))
+                                   (lm-header "Package-Version"))))
+                          "(unknown)")
+                      (magit--safe-git-version)
+                      emacs-version
+                      system-type)))
+            (when interactive
+              (kill-new str))
+            (princ str print-dest)))
       (setq debug (reverse debug))
       (setq magit-version 'error)
       (when magit-version
