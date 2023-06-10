@@ -702,7 +702,7 @@
 	     (:url . "https://elpa.gnu.org/packages/csv-mode.html")
 	     (:commit . "db8a3e3aef31d35ce5bd1fd09127a3bbfdd0c340"))])
  (cursory .
-	  [(0 3 0)
+	  [(1 0 0)
 	   ((emacs
 	     (27 1)))
 	   "Manage cursor styles using presets" tar
@@ -711,7 +711,7 @@
 	    (:maintainer "Cursory Development" . "~protesilaos/cursory@lists.sr.ht")
 	    (:authors
 	     ("Protesilaos Stavrou" . "info@protesilaos.com"))
-	    (:commit . "568310b13dfeda471fa23c6aa9b88c2a410aed01"))])
+	    (:commit . "12cd2b22913ddacf3cab54b0d6dd97d633f72e43"))])
  (cycle-quotes .
 	       [(0 1)
 		nil "Cycle between quote styles" tar
@@ -1025,7 +1025,7 @@
 	 ("Eduardo Ochs" . "eduardoochs@gmail.com"))
 	(:commit . "16613c18c5ec17755f083f4839bca7e4e05dd4c7"))])
  (ef-themes .
-	    [(1 0 2)
+	    [(1 1 1)
 	     ((emacs
 	       (27 1)))
 	     "Colorful and legible themes" tar
@@ -1034,7 +1034,7 @@
 	      (:maintainer "Ef-Themes Development" . "~protesilaos/ef-themes@lists.sr.ht")
 	      (:authors
 	       ("Protesilaos Stavrou" . "info@protesilaos.com"))
-	      (:commit . "6eef76fd65d1dc44cc8e3ee77ed9ac743f1ac36e"))])
+	      (:commit . "ca3645c4985e1f57829699bac755c860f2c863ed"))])
  (eglot .
 	[(1 15)
 	 ((emacs
@@ -1312,6 +1312,16 @@
 	      (:authors
 	       ("Kyle E. Jones" . "kyle_jones@wonderworks.com"))
 	      (:maintainer nil . "emacs-devel@gnu.org"))])
+ (firefox-javascript-repl .
+			  [(0 9 5)
+			   ((emacs
+			     (26 1)))
+			   "Jack into Firefox" tar
+			   ((:maintainer "Thomas Fitzsimmons" . "fitzsim@fitzsim.org")
+			    (:authors
+			     ("Thomas Fitzsimmons" . "fitzsim@fitzsim.org"))
+			    (:url . "https://elpa.gnu.org/packages/firefox-javascript-repl.html")
+			    (:commit . "fee99c20f1f4684ed845eeac9eda46fcde6bf1e9"))])
  (flylisp .
 	  [(0 2)
 	   ((emacs
@@ -2289,14 +2299,14 @@
 		(:maintainer "Nicolas P. Rougier" . "Nicolas.Rougier@inria.fr")
 		(:commit . "6c38e95b8e846aceb88398c682fd283052924556"))])
  (nano-modeline .
-		[(0 7 2)
+		[(1 0 0)
 		 ((emacs
 		   (27 1)))
 		 "N Λ N O modeline" tar
 		 ((:url . "https://github.com/rougier/nano-modeline")
 		  (:keywords "convenience" "mode-line" "header-line")
 		  (:maintainer "Nicolas P. Rougier" . "Nicolas.Rougier@inria.fr")
-		  (:commit . "61f62aa4716eae4fa89961955323d146e9791fca"))])
+		  (:commit . "cba074e55c847f289085ec35c21fb2ad8df1b483"))])
  (nano-theme .
 	     [(0 3 4)
 	      ((emacs
@@ -3299,6 +3309,17 @@
 	     ("Artur Malabarba" . "emacs@endlessparentheses.com"))
 	    (:maintainer "Artur Malabarba" . "emacs@endlessparentheses.com")
 	    (:url . "https://github.com/Malabarba/speed-of-thought-lisp"))])
+ (spacious-padding .
+		   [(0 1 0)
+		    ((emacs
+		      (28 1)))
+		    "Increase the padding/spacing of frames and windows" tar
+		    ((:url . "https://git.sr.ht/~protesilaos/spacious-padding")
+		     (:keywords "convenience" "focus" "writing" "presentation")
+		     (:maintainer "Protesilaos Stavrou General Issues" . "~protesilaos/general-issues@lists.sr.ht")
+		     (:authors
+		      ("Protesilaos Stavrou" . "info@protesilaos.com"))
+		     (:commit . "8e4877c807b164d602a9482595b138aeebd94967"))])
  (spinner .
 	  [(1 7 4)
 	   ((emacs
@@ -3649,7 +3670,7 @@
 		("David Gonzalez Gandara" . "dggandara@member.fsf.org"))
 	       (:maintainer "David Gonzalez Gandara" . "dggandara@member.fsf.org"))])
  (transient .
-	    [(0 4 0)
+	    [(0 4 1)
 	     ((emacs
 	       (25 1))
 	      (compat
@@ -3660,7 +3681,7 @@
 	      (:maintainer "Jonas Bernoulli" . "jonas@bernoul.li")
 	      (:authors
 	       ("Jonas Bernoulli" . "jonas@bernoul.li"))
-	      (:commit . "b4127842f200848817103e8d4c45c36bc8fdf3b8"))])
+	      (:commit . "a1575e58331b1ff85ac97667df0130ae822ccf5f"))])
  (transient-cycles .
 		   [(1 0)
 		    ((emacs
@@ -3721,6 +3742,16 @@
 	 (:authors
 	  ("Philip Kaludercic" . "philipk@posteo.net"))
 	 (:commit . "281c9049c1d08cf11c8a1957ea99e5c58795ed3c"))])
+ (ulisp-repl .
+	     [(1 0 3)
+	      ((emacs
+		(26 1)))
+	      "uLisp REPL" tar
+	      ((:maintainer "Thomas Fitzsimmons" . "fitzsim@fitzsim.org")
+	       (:authors
+		("Thomas Fitzsimmons" . "fitzsim@fitzsim.org"))
+	       (:url . "https://elpa.gnu.org/packages/ulisp-repl.html")
+	       (:commit . "63e38a9080b2d15146680022e20700db6eb20657"))])
  (undo-tree .
 	    [(0 8 2)
 	     ((queue
@@ -3752,7 +3783,7 @@
 		   (:url . "https://elpa.gnu.org/packages/uniquify-files.html")
 		   (:commit . "1d76b4f0e283afaff2be053d85f8726ffc3abd6e"))])
  (urgrep .
-	 [(0 1 0)
+	 [(0 1 1)
 	  ((emacs
 	    (27 1))
 	   (compat
@@ -3765,7 +3796,7 @@
 	   (:maintainer "Jim Porter")
 	   (:authors
 	    ("Jim Porter"))
-	   (:commit . "d1cc269eeca739aceb31d983a562264d94ea2dfb"))])
+	   (:commit . "1924e175a52a9aecc2dd1e1339d0a063fbb398f1"))])
  (url-http-ntlm .
 		[(2 0 4)
 		 ((cl-lib
@@ -3897,7 +3928,7 @@
 	   ("Justin Burkett" . "justin@burkett.cc"))
 	  (:keywords "diff"))])
  (verilog-mode .
-	       [(2022 12 18 181110314)
+	       [(2023 6 6 141322628)
 		nil "major mode for editing verilog source in Emacs" tar
 		((:url . "https://www.veripool.org")
 		 (:keywords "languages")
@@ -3905,7 +3936,7 @@
 		 (:authors
 		  ("Michael McNamara" . "mac@verilog.com")
 		  ("Wilson Snyder" . "wsnyder@wsnyder.org"))
-		 (:commit . "2c2ecb46b0ad3e841ac9551e3a80d02893cdf6ec"))])
+		 (:commit . "f68d962ede0cc3d7758d3304e7411a10694acce8"))])
  (vertico .
 	  [(1 3)
 	   ((emacs
