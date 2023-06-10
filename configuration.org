@@ -529,8 +529,13 @@
               :unnarrowed t)
              ("y" "yank" plain "%?"
               :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
-                                "#+title: ${title}\n#+filetags: %^G\n%c\n")
+                                "#+title: ${title}\n#+filetags: %^G\n\n%c\n\n")
               :unnarrowed t)
+             ("r" "region" plain "%?"
+              :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
+                                "#+title: ${title}\n#+filetags: %^G\n\n%i\n\n")
+              :unnarrowed t)
+
              ("o" "org-roam-it" plain "%?"
               :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
                                 "#+title: ${title}\n#+filetags:\n{ref}\n")
@@ -548,6 +553,9 @@
 
 
    #+END_SRC
+
+   #+RESULTS:
+   : ${title:*} ${tags:10}
 
    Install org-roam-ui for a vizual of my roam database.
 
