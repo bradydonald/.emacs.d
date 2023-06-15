@@ -631,11 +631,6 @@
      (setq org-agenda-span 1)
      (setq org-agenda-start-on-weekday nil)
 
-     (add-hook 'org-agenda-mode-hook (lambda ()
-                                       (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)))
-     (add-hook 'org-agenda-mode-hook (lambda ()
-                                       (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
-
    #+END_SRC
 
    Use org-super-agenda
