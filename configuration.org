@@ -6,8 +6,6 @@
   #+BEGIN_SRC emacs-lisp
     (require 'package)
     (setq package-enable-at-startup nil)
-    ;; too easy to get gpg errors in windows build    
-    (setq package-check-signature nil)
 
     (setq package-archives
 	  '(("gnu"          . "https://elpa.gnu.org/packages/")
