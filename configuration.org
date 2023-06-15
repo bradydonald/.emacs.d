@@ -455,9 +455,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-     (define-key org-mode-map (kbd "C-c l") 'org-store-link)
-     (define-key org-mode-map (kbd "C-x n s") 'org-toggle-narrow-to-subtree)
-     (define-key org-mode-map (kbd "C-c C-j") 'counsel-org-goto)
 
      (setq org-image-actual-width nil)
      (setq org-modules (append '(org-protocol) org-modules))
@@ -468,6 +465,16 @@
      (setq org-return-follows-link t)
      (setq org-adapt-indentation t)
      (setq org-odt-preferred-output-format "docx")
+
+     ;; all my org related keys will be set up in this keymap
+     (global-set-key
+      (kbd "C-c o")
+      (define-keymap
+        :prefix 'db/org-key-map
+        "l" 'org-store-link
+        "c" 'org-capture
+        "a" 'org-agenda))
+     
    #+END_SRC
 
 ** Org File Locations
