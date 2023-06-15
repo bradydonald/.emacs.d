@@ -745,13 +745,13 @@
        (interactive)
        (org-set-property "BLOCKER" (s-concat "ids(" (get-register 'i) ")")))
 
-     (define-key org-mode-map (kbd "C-c C-x <up>") 'db/org-edna-blocked-by-ancestors)
-     (define-key org-mode-map (kbd "C-c C-x <down>") 'db/org-edna-blocked-by-descendants)
-     (define-key org-mode-map (kbd "C-c C-x <left>") 'db/org-edna-current-id)
-     (define-key org-mode-map (kbd "C-c C-x <right>") 'db/org-edna-blocked-by-id)
-     (define-key org-mode-map (kbd "C-c C-x i") 'org-id-get-create)
-     ;; override y (agenda year) with more useful todo yesterday for marking habits done prior day 
-     (define-key org-agenda-mode-map (kbd "y") 'org-agenda-todo-yesterday)
+     (define-keymap
+       :keymap db/org-key-map
+       "<up>"    'db/org-edna-blocked-by-ancestors
+       "<down>"  'db/org-edna-blocked-by-descendants
+       "<left>"  'db/org-edna-current-id
+       "<right>" 'db/org-edna-blocked-by-id
+       "i d"     'org-id-get-create)
 
    #+END_SRC
 
