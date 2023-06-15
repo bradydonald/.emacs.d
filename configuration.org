@@ -309,11 +309,13 @@
     (setq dired-recursive-deletes 'always)
 
     ;; add these simple keys to dired mode
-    (define-keymap
-      :prefix 'dired-mode-key-map
-      "% f" 'find-name-dired
-      "% ." 'dired-omit-mode
-      "% w" 'db/wsl-open-in-external-app)
+    (global-set-key
+     (kbd "%")
+     (define-keymap
+       :prefix 'db/dired-mode-key-map
+       "f" 'find-name-dired
+       "." 'dired-omit-mode
+       "w" 'db/wsl-open-in-external-app))
 
   #+END_SRC
 
