@@ -210,17 +210,13 @@
 
     (defun db/add-to-load-path (path feature_toggle &optional dependency_list)
       "Adds a path to the load-path if it exists and the feature_toggle
-      is on. An optional list of packages that are depencies can be
-      provided and they will be required if the load-path is updated"
-      (if feature_toggle
-          (if (file-directory-p path)
-              (progn
-                (add-to-list 'load-path path)
-                (when dependency_list
-                  (dolist (package dependency_list)
-                    (require package))))))
-
-      (and feature_toggle (file-directory-p path)))
+      is on. An optional list of packages that are dependencies can be
+      provided and they will be required if the load-path is updated."
+      (when (and feature_toggle (file-directory-p path))
+        (add-to-list 'load-path path)
+        (when dependency_list
+          (dolist (package dependency_list)
+            (require package)))))    
 
   #+END_SRC
 
