@@ -898,12 +898,12 @@
      (use-package org-attach-screenshot
        :config (setq org-attach-screenshot-dirfunction
              (lambda () 
-               (progn (cl-assert (buffer-file-name))
+               (when (cl-assert (buffer-file-name))
                   (concat (file-name-sans-extension (buffer-file-name))
                       "-att")))
              org-attach-screenshot-command-line "gnome-screenshot -a -f %f"))
    #+END_SRC
-   
+
 ** Org Download
 
    Drag and drop support for images
