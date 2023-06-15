@@ -271,14 +271,6 @@
 
 * Windows Specific Setup
   
-** SQL Timeout
-
-   sqlite performance on windows seems really bad. Have to increase timeout.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq emacsql-global-timeout 60)
-   #+END_SRC
-
 ** WSL to use Windows Native Browser
 
    #+BEGIN_SRC emacs-lisp
