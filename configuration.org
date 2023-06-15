@@ -271,20 +271,6 @@
 
 * Windows Specific Setup
   
-** Spelling
-
-   Setup for msys2
-  
-   #+BEGIN_EXAMPLE
-     pacman -S mingw-w64-x86_64-aspell
-     pacman -S mingw-w64-x86_64-aspell-en
-   #+END_SRC
-  
-   #+BEGIN_SRC emacs-lisp
-     (if (eq system-type "windows-nt")
-         (setq ispell-program-name "aspell.exe"))
-   #+END_SRC
-
 ** SQL Timeout
 
    sqlite performance on windows seems really bad. Have to increase timeout.
