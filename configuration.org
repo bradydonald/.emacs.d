@@ -228,6 +228,37 @@
      (db/add-to-load-path "~/src/lsp-bridge" nil '(posframe))
    #+END_SRC
    
+* Window Handling
+
+  This is from system crafters.
+
+  #+BEGIN_SRC emacs-lisp
+    ;; Make sure repeat-mode is turned on first!
+    (repeat-mode 1)
+
+    (defvar-keymap db/window-key-map
+      :doc "Bindings for managing windows, configured to be repeatable."
+      :repeat t
+      "c" 'delete-window
+      "s" 'split-window-horizontally
+      "v" 'split-window-vertically
+      "h" 'windmove-left
+      "j" 'windmove-down
+      "k" 'windmove-up
+      "l" 'windmove-right
+      "C-h" 'shrink-window-horizontally
+      "C-j" 'shrink-window
+      "C-k" 'enlarge-window
+      "C-l" 'enlarge-window-horizontally
+      "H" 'windmove-swap-states-left
+      "J" 'windmove-swap-states-down
+      "K" 'windmove-swap-states-up
+      "L" 'windmove-swap-states-right)
+
+    (global-set-key (kbd "C-c w") db/window-key-map)
+
+  #+END_SRC
+  
 * Paren Matching
 
   Configuration for a bunch of built in packages.
