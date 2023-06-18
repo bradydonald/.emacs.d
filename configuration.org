@@ -238,8 +238,8 @@
       :doc "Bindings for managing windows, configured to be repeatable."
       :repeat t
       "c" 'delete-window
-      "s" 'split-window-horizontally
-      "v" 'split-window-vertically
+      "|" 'split-window-horizontally
+      "-" 'split-window-vertically
       "h" 'windmove-left
       "j" 'windmove-down
       "k" 'windmove-up
@@ -256,7 +256,7 @@
     (global-set-key (kbd "C-c w") db/window-key-map)
 
   #+END_SRC
-  
+
 * Paren Matching
 
   Configuration for a bunch of built in packages.
@@ -318,6 +318,9 @@
        "w" 'db/wsl-open-in-external-app))
 
   #+END_SRC
+
+  #+RESULTS:
+  : (keymap (63 . dired-rename-file) (119 . db/wsl-open-in-external-app) (46 . dired-omit-mode) (102 . find-name-dired))
 
 * Flycheck
 
