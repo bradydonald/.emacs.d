@@ -679,6 +679,7 @@
               ;;                                       :not (:regexp "moon" :tag "planet")))))
               ;; Groups supply their own section names when none are given
               (:todo "WAITING" :order 8)  ; Set order of this section
+              (:name "Errands" :tag "errand")
               (:todo ("EVENT" "INFO" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
                      ;; Show this group at the end of the agenda (since it has the
                      ;; highest number). If you specified this group last, items
@@ -695,8 +696,11 @@
               ;; match any of these groups, with the default order position of 99
               ))
      (org-super-agenda-mode t)
-     
+
    #+END_SRC         
+
+   #+RESULTS:
+   : t
 
 ** Diary Settings
 
