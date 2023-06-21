@@ -310,17 +310,14 @@
 
     ;; add these simple keys to dired mode
     (global-set-key
-     (kbd "%")
+     (kbd "C-c d")
      (define-keymap
        :prefix 'db/dired-mode-key-map
        "f" 'find-name-dired
        "." 'dired-omit-mode
        "w" 'db/wsl-open-in-external-app))
 
-  #+END_SRC
-
-  #+RESULTS:
-  : (keymap (63 . dired-rename-file) (119 . db/wsl-open-in-external-app) (46 . dired-omit-mode) (102 . find-name-dired))
+  #+END_SRCt
 
 * Flycheck
 
@@ -680,6 +677,7 @@
               ;; Groups supply their own section names when none are given
               (:todo "WAITING" :order 8)  ; Set order of this section
               (:name "Errands" :tag "errand")
+              (:name "Calls" :tag "call")
               (:todo ("EVENT" "INFO" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
                      ;; Show this group at the end of the agenda (since it has the
                      ;; highest number). If you specified this group last, items
@@ -698,9 +696,6 @@
      (org-super-agenda-mode t)
 
    #+END_SRC         
-
-   #+RESULTS:
-   : t
 
 ** Diary Settings
 

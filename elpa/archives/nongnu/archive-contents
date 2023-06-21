@@ -1408,6 +1408,14 @@
 		   (:authors
 		    ("Campbell Barton" . "ideasman42@gmail.com"))
 		   (:commit . "3a1d67637ea4a6099a62de45842b8c5e4440ede4"))])
+ (opam-switch-mode .
+		   [(1 1)
+		    ((emacs
+		      (25 1)))
+		    "Select OCaml opam switches via a menu" tar
+		    ((:url . "https://github.com/ProofGeneral/opam-switch-mode")
+		     (:maintainer nil . "proof-general-maintainers@groupes.renater.fr")
+		     (:commit . "07a3742449b6572a842de045135e17c0e9993943"))])
  (org-auto-tangle .
 		  [(0 6 0)
 		   ((emacs
@@ -1906,7 +1914,7 @@
 		     ("John Olsson" . "john@cryon.se"))
 		    (:commit . "2d5acd143a153e16372d59000e57d76291ab81dd"))])
  (subed .
-	[(1 2 2)
+	[(1 2 3)
 	 ((emacs
 	   (25 1)))
 	 "A major mode for editing subtitles" tar
@@ -1915,9 +1923,9 @@
 	  (:maintainer "Sacha Chua" . "sacha@sachachua.com")
 	  (:authors
 	   ("Random User"))
-	  (:commit . "260620850615f694d946415f12801c78237e2205"))])
+	  (:commit . "6ce7de37f21e123467ef1191db7a37cd99881c00"))])
  (sweeprolog .
-	     [(0 19 1)
+	     [(0 20 0)
 	      ((emacs
 		(28 1)))
 	      "Embedded SWI-Prolog" tar
@@ -1926,7 +1934,7 @@
 	       (:maintainer "Eshel Yaron" . "~eshel/dev@lists.sr.ht")
 	       (:authors
 		("Eshel Yaron" . "me@eshelyaron.com"))
-	       (:commit . "60aff1c8d24001be089e75729fc24589112e4eb5"))])
+	       (:commit . "82b5e31aa3b742bfac1eba7b9995904f2b905f4e"))])
  (swift-mode .
 	     [(8 6 0)
 	      ((emacs
