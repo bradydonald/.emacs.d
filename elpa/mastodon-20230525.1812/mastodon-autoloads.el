@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -129,7 +128,6 @@ it is disabled.
 ;;; Generated autoloads from mastodon-views.el
 
 (register-definition-prefixes "mastodon-views" '("mastodon-views-"))
-
 
 ;;; End of scraped data
 
@@ -139,6 +137,7 @@ it is disabled.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

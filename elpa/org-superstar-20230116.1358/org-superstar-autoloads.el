@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -19,7 +18,7 @@ Toggle syntax checking for plain list items.
 Disabling syntax checking will cause Org Superstar to display
 lines looking like plain lists (for example in code) like plain
 lists.  However, this may cause significant speedup for org files
-containing several hundred list items." t nil)
+containing several hundred list items." t)
 (autoload 'org-superstar-mode "org-superstar" "\
 Use UTF8 bullets for headlines and plain lists.
 
@@ -37,7 +36,7 @@ evaluate `org-superstar-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (register-definition-prefixes "org-superstar" '("org-superstar-"))
 
 ;;; End of scraped data
@@ -48,6 +47,7 @@ it is disabled.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

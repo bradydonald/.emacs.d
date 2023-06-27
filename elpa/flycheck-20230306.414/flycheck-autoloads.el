@@ -5,15 +5,14 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
 ;;; Generated autoloads from flycheck.el
 
 (autoload 'flycheck-manual "flycheck" "\
-Open the Flycheck manual." t nil)
+Open the Flycheck manual." t)
 (autoload 'flycheck-mode "flycheck" "\
 Flycheck is a minor mode for on-the-fly syntax checking.
 
@@ -56,7 +55,7 @@ and disable it if ARG is zero or negative.  If called from Lisp,
 also enable the mode if ARG is omitted or nil, and toggle it if
 ARG is ‘toggle’; disable the mode otherwise.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (put 'global-flycheck-mode 'globalized-minor-mode t)
 (defvar global-flycheck-mode nil "\
 Non-nil if Global Flycheck mode is enabled.
@@ -80,7 +79,7 @@ it.
 
 See `flycheck-mode' for more information on Flycheck mode.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'flycheck-define-error-level "flycheck" "\
 Define a new error LEVEL with PROPERTIES.
 
@@ -138,8 +137,8 @@ The following PROPERTIES constitute an error level:
      A face symbol denoting the face to use for messages of this
      level in the error list.  See `flycheck-list-errors'.
 
-(fn LEVEL &rest PROPERTIES)" nil nil)
-(function-put 'flycheck-define-error-level 'lisp-indent-function '1)
+(fn LEVEL &rest PROPERTIES)")
+(function-put 'flycheck-define-error-level 'lisp-indent-function 1)
 (autoload 'flycheck-define-command-checker "flycheck" "\
 Define SYMBOL as syntax checker to run a command.
 
@@ -217,9 +216,9 @@ Note that you may not give `:start', `:interrupt', and
 `:verify' function, though, whose results will be appended to the
 default `:verify' function of command checkers.
 
-(fn SYMBOL DOCSTRING &rest PROPERTIES)" nil nil)
-(function-put 'flycheck-define-command-checker 'lisp-indent-function '1)
-(function-put 'flycheck-define-command-checker 'doc-string-elt '2)
+(fn SYMBOL DOCSTRING &rest PROPERTIES)")
+(function-put 'flycheck-define-command-checker 'lisp-indent-function 1)
+(function-put 'flycheck-define-command-checker 'doc-string-elt 2)
 (autoload 'flycheck-def-config-file-var "flycheck" "\
 Define SYMBOL as config file variable for CHECKER, with default FILE-NAME.
 
@@ -235,7 +234,7 @@ Use this together with the `config-file' form in the `:command'
 argument to `flycheck-define-checker'.
 
 (fn SYMBOL CHECKER &optional FILE-NAME &rest CUSTOM-ARGS)" nil t)
-(function-put 'flycheck-def-config-file-var 'lisp-indent-function '3)
+(function-put 'flycheck-def-config-file-var 'lisp-indent-function 3)
 (autoload 'flycheck-def-option-var "flycheck" "\
 Define SYMBOL as option variable with INIT-VALUE for CHECKER.
 
@@ -250,8 +249,8 @@ Use this together with the `option', `option-list' and
 `flycheck-define-checker'.
 
 (fn SYMBOL INIT-VALUE CHECKERS DOCSTRING &rest CUSTOM-ARGS)" nil t)
-(function-put 'flycheck-def-option-var 'lisp-indent-function '3)
-(function-put 'flycheck-def-option-var 'doc-string-elt '4)
+(function-put 'flycheck-def-option-var 'lisp-indent-function 3)
+(function-put 'flycheck-def-option-var 'doc-string-elt 4)
 (autoload 'flycheck-define-checker "flycheck" "\
 Define SYMBOL as command syntax checker with DOCSTRING and PROPERTIES.
 
@@ -260,8 +259,8 @@ be quoted.  Also, implicitly define the executable variable for
 SYMBOL with `flycheck-def-executable-var'.
 
 (fn SYMBOL DOCSTRING &rest PROPERTIES)" nil t)
-(function-put 'flycheck-define-checker 'lisp-indent-function '1)
-(function-put 'flycheck-define-checker 'doc-string-elt '2)
+(function-put 'flycheck-define-checker 'lisp-indent-function 1)
+(function-put 'flycheck-define-checker 'doc-string-elt 2)
 (register-definition-prefixes "flycheck" '("flycheck-" "help-flycheck-checker-d" "list-flycheck-errors"))
 
 
@@ -282,6 +281,7 @@ SYMBOL with `flycheck-def-executable-var'.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -22,7 +21,7 @@ Resume the last completion session, or SESSION if non-nil.
 With a prefix arg, try to restore a recorded completion session,
 if one exists.
 
-(fn &optional SESSION)" t nil)
+(fn &optional SESSION)" t)
 (autoload 'ivy-read "ivy" "\
 Read a string in the minibuffer, with completion.
 
@@ -89,7 +88,7 @@ CALLER is a symbol to uniquely identify the caller to `ivy-read'.
 It is used, along with COLLECTION, to determine which
 customizations apply to the current completion session.
 
-(fn PROMPT COLLECTION &key PREDICATE REQUIRE-MATCH INITIAL-INPUT HISTORY PRESELECT DEF KEYMAP UPDATE-FN SORT ACTION MULTI-ACTION UNWIND RE-BUILDER MATCHER DYNAMIC-COLLECTION EXTRA-PROPS CALLER)" nil nil)
+(fn PROMPT COLLECTION &key PREDICATE REQUIRE-MATCH INITIAL-INPUT HISTORY PRESELECT DEF KEYMAP UPDATE-FN SORT ACTION MULTI-ACTION UNWIND RE-BUILDER MATCHER DYNAMIC-COLLECTION EXTRA-PROPS CALLER)")
 (autoload 'ivy-completing-read "ivy" "\
 Read a string in the minibuffer, with completion.
 
@@ -105,7 +104,7 @@ HISTORY is a list of previously selected inputs.
 DEF is the default value.
 INHERIT-INPUT-METHOD is currently ignored.
 
-(fn PROMPT COLLECTION &optional PREDICATE REQUIRE-MATCH INITIAL-INPUT HISTORY DEF INHERIT-INPUT-METHOD)" nil nil)
+(fn PROMPT COLLECTION &optional PREDICATE REQUIRE-MATCH INITIAL-INPUT HISTORY DEF INHERIT-INPUT-METHOD)")
 (defvar ivy-mode nil "\
 Non-nil if ivy mode is enabled.
 See the `ivy-mode' command
@@ -126,13 +125,13 @@ Global bindings:
 Minibuffer bindings:
 \\{ivy-minibuffer-map}
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'ivy-switch-buffer "ivy" "\
-Switch to another buffer." t nil)
+Switch to another buffer." t)
 (autoload 'ivy-switch-view "ivy" "\
-Switch to one of the window views stored by `ivy-push-view'." t nil)
+Switch to one of the window views stored by `ivy-push-view'." t)
 (autoload 'ivy-switch-buffer-other-window "ivy" "\
-Switch to another buffer in another window." t nil)
+Switch to another buffer in another window." t)
 (register-definition-prefixes "ivy" '("ivy-" "with-ivy-window"))
 
 
@@ -148,6 +147,7 @@ Switch to another buffer in another window." t nil)
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

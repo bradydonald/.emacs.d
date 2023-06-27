@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -40,7 +39,7 @@ evaluate `yas-minor-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (put 'yas-global-mode 'globalized-minor-mode t)
 (defvar yas-global-mode nil "\
 Non-nil if Yas-Global mode is enabled.
@@ -63,7 +62,7 @@ Yas minor mode is enabled in all buffers where `yas-minor-mode-on' would do it.
 
 See `yas-minor-mode' for more information on Yas minor mode.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'snippet-mode "yasnippet" "A mode for editing yasnippets" t nil)
 (register-definition-prefixes "yasnippet" '("help-snippet-def" "snippet-mode-map" "yas"))
 
@@ -75,6 +74,7 @@ See `yas-minor-mode' for more information on Yas minor mode.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

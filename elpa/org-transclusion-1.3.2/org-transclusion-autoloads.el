@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -30,11 +29,11 @@ evaluate `org-transclusion-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'org-transclusion-activate "org-transclusion" "\
 Activate Org-transclusion hooks and other setups in the current buffer.
 This function does not add transclusions; it merely sets up hooks
-and variables." t nil)
+and variables." t)
 (autoload 'org-transclusion-make-from-link "org-transclusion" "\
 Make a transclusion keyword from a link at point.
 
@@ -59,7 +58,7 @@ If you pass a `universal-argument', this function automatically
 triggers transclusion by calling `org-transclusion-add' even when
 `org-transclusion-mode' is inactive in the current buffer.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'org-transclusion-add "org-transclusion" "\
 Transclude text content for the #+transclude at point.
 When minor-mode `org-transclusion-mode' is inactive in the
@@ -90,7 +89,7 @@ Edit for Occur Mode.
 TODO: that for transclusions of Org elements/buffer, live-sync
 does not support all the elements.
 
-\\{org-transclusion-map}" t nil)
+\\{org-transclusion-map}" t)
 (autoload 'org-transclusion-add-all "org-transclusion" "\
 Add all active transclusions in the current buffer.
 
@@ -104,7 +103,7 @@ For interactive use, you can pass NARROWED with using
 function to work only on the narrowed region you are in, leaving
 the rest of the buffer unchanged.
 
-(fn &optional NARROWED)" t nil)
+(fn &optional NARROWED)" t)
 (register-definition-prefixes "org-transclusion" '("org-transclusion-"))
 
 
@@ -135,6 +134,7 @@ the rest of the buffer unchanged.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

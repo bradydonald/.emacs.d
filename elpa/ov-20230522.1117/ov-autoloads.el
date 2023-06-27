@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -27,7 +26,7 @@ property and value between these points.
 
 With no arguments, clear all overlays in the buffer.
 
-(fn &optional PROP-OR-BEG (VAL-OR-END \\='any) BEG END)" t nil)
+(fn &optional PROP-OR-BEG (VAL-OR-END \\='any) BEG END)" t)
 (register-definition-prefixes "ov" 'nil)
 
 ;;; End of scraped data
@@ -38,6 +37,7 @@ With no arguments, clear all overlays in the buffer.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

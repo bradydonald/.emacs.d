@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -24,7 +23,7 @@ or call the function `org-super-agenda-mode'.")
 Global minor mode to group items in Org agenda views according to `org-super-agenda-groups'.
 With prefix argument ARG, turn on if positive, otherwise off.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (register-definition-prefixes "org-super-agenda" '("org-super-agenda-"))
 
 ;;; End of scraped data
@@ -35,6 +34,7 @@ With prefix argument ARG, turn on if positive, otherwise off.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

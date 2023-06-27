@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -95,7 +94,7 @@
 (autoload 'org-babel-execute:spice "ob-spice" "\
 Execute a block of Spice code `BODY' with org-babel and `PARAMS'.
 
-(fn BODY PARAMS)" nil nil)
+(fn BODY PARAMS)")
 (register-definition-prefixes "ob-spice" '("ob-spice-concat" "org-babel-expand-body:spice"))
 
 
@@ -154,13 +153,13 @@ Execute a block of Spice code `BODY' with org-babel and `PARAMS'.
 (autoload 'org-annotate-file "org-annotate-file" "\
 Visit `org-annotate-file-storage-file` and add a new annotation section.
 The annotation is opened at the new section which will be referencing
-the point in the current file." t nil)
+the point in the current file." t)
 (autoload 'org-annotate-file-show-section "org-annotate-file" "\
 Add or show annotation entry in STORAGE-FILE and return the buffer.
 The annotation will link to ANNOTATED-BUFFER if specified,
   otherwise the current buffer is used.
 
-(fn STORAGE-FILE &optional ANNOTATED-BUFFER)" nil nil)
+(fn STORAGE-FILE &optional ANNOTATED-BUFFER)")
 (register-definition-prefixes "org-annotate-file" '("org-annotate-file-"))
 
 
@@ -197,7 +196,7 @@ The annotation will link to ANNOTATED-BUFFER if specified,
 ;;; Generated autoloads from org-eldoc.el
 
 (autoload 'org-eldoc-load "org-eldoc" "\
-Set up org-eldoc documentation function." t nil)
+Set up org-eldoc documentation function." t)
 (add-hook 'org-mode-hook #'org-eldoc-load)
 (register-definition-prefixes "org-eldoc" '("org-eldoc-"))
 
@@ -258,10 +257,10 @@ Set up org-eldoc documentation function." t nil)
 Show Org files where there are links pointing to the current
 buffer.
 
-(fn &optional VISIT)" t nil)
+(fn &optional VISIT)" t)
 (autoload 'org-registry-visit "org-registry" "\
 If an Org file contains a link to the current location, visit
-this file." t nil)
+this file." t)
 (autoload 'org-registry-initialize "org-registry" "\
 Initialize `org-registry-alist'.
 If FROM-SCRATCH is non-nil or the registry does not exist yet,
@@ -269,12 +268,12 @@ create a new registry from scratch and eval it. If the registry
 exists, eval `org-registry-file' and make it the new value for
 `org-registry-alist'.
 
-(fn &optional FROM-SCRATCH)" t nil)
+(fn &optional FROM-SCRATCH)" t)
 (autoload 'org-registry-insinuate "org-registry" "\
 Call `org-registry-update' after saving in Org-mode.
-Use with caution.  This could slow down things a bit." t nil)
+Use with caution.  This could slow down things a bit." t)
 (autoload 'org-registry-update "org-registry" "\
-Update the registry for the current Org file." t nil)
+Update the registry for the current Org file." t)
 (register-definition-prefixes "org-registry" '("org-registry-"))
 
 
@@ -302,21 +301,21 @@ With triple `C-u' wait 3 seconds, and also rings the bell when
 screenshot is done, any more `C-u' after that increases delay by
 2 seconds
 
-(fn &optional DELAY)" t nil)
+(fn &optional DELAY)" t)
 (autoload 'org-screenshot-rotate-prev "org-screenshot" "\
 Rotate last screenshot with one of the previously taken
 screenshots from the same directory. If DIR is negative, rotate
 in the other direction
 
-(fn DIR)" t nil)
+(fn DIR)" t)
 (autoload 'org-screenshot-rotate-next "org-screenshot" "\
 Rotate last screenshot with one of the previously taken
 screenshots from the same directory. If DIR is negative, rotate
 in the other direction
 
-(fn DIR)" t nil)
+(fn DIR)" t)
 (autoload 'org-screenshot-show-unused "org-screenshot" "\
-Open A Dired buffer with unused screenshots marked" t nil)
+Open A Dired buffer with unused screenshots marked" t)
 (register-definition-prefixes "org-screenshot" '("org-screenshot-"))
 
 
@@ -340,7 +339,7 @@ Open A Dired buffer with unused screenshots marked" t nil)
 (autoload 'org-toc-show "org-toc" "\
 Show the table of contents of the current Org-mode buffer.
 
-(fn &optional DEPTH POSITION)" t nil)
+(fn &optional DEPTH POSITION)" t)
 (register-definition-prefixes "org-toc" '("org-"))
 
 
@@ -351,7 +350,7 @@ Fetch Org package depending on `org-track-fetch-package-extension'.
 If DIRECTORY is defined, unpack the package there, i.e. add the
 subdirectory org-mode/ to DIRECTORY.
 
-(fn &optional DIRECTORY)" t nil)
+(fn &optional DIRECTORY)" t)
 (autoload 'org-track-compile-org "org-track" "\
 Compile all *.el files that come with org-mode.
 Generate the autoloads file `org-loaddefs.el'.
@@ -359,7 +358,7 @@ Generate the autoloads file `org-loaddefs.el'.
 DIRECTORY is where the directory org-mode/ lives (i.e. the
           parent directory of your local repo.
 
-(fn &optional DIRECTORY)" t nil)
+(fn &optional DIRECTORY)" t)
 (register-definition-prefixes "org-track" '("org-track-"))
 
 
@@ -423,7 +422,7 @@ file-local settings.
 
 Return output file's name.
 
-(fn &optional ASYNC SUBTREEP VISIBLE-ONLY BODY-ONLY EXT-PLIST)" t nil)
+(fn &optional ASYNC SUBTREEP VISIBLE-ONLY BODY-ONLY EXT-PLIST)" t)
 (register-definition-prefixes "ox-freemind" '("org-freemind-"))
 
 
@@ -473,7 +472,7 @@ contents of hidden elements.
 
 Return output file's name.
 
-(fn &optional ASYNC SUBTREEP VISIBLE-ONLY)" t nil)
+(fn &optional ASYNC SUBTREEP VISIBLE-ONLY)" t)
 (autoload 'org-taskjuggler-export-and-process "ox-taskjuggler" "\
 Export current buffer to a TaskJuggler file and process it.
 
@@ -504,7 +503,7 @@ contents of hidden elements.
 
 Return a list of reports.
 
-(fn &optional SUBTREEP VISIBLE-ONLY)" t nil)
+(fn &optional SUBTREEP VISIBLE-ONLY)" t)
 (autoload 'org-taskjuggler-export-process-and-open "ox-taskjuggler" "\
 Export current buffer to a TaskJuggler file, process and open it.
 
@@ -516,7 +515,7 @@ If you are targeting TaskJuggler 2.4 (see
 `org-taskjuggler-target-version') the processing and display of
 the reports is done using the TaskJuggler GUI.
 
-(fn &optional SUBTREEP VISIBLE-ONLY)" t nil)
+(fn &optional SUBTREEP VISIBLE-ONLY)" t)
 (register-definition-prefixes "ox-taskjuggler" '("org-taskjuggler-"))
 
 ;;; End of scraped data
@@ -527,6 +526,7 @@ the reports is done using the TaskJuggler GUI.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

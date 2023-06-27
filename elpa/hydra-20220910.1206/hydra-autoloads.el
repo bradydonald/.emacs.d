@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -66,7 +65,7 @@ result of `defhydra'.
 
 (fn NAME BODY &optional DOCSTRING &rest HEADS)" nil t)
 (function-put 'defhydra 'lisp-indent-function 'defun)
-(function-put 'defhydra 'doc-string-elt '3)
+(function-put 'defhydra 'doc-string-elt 3)
 (register-definition-prefixes "hydra" '("defhydra" "hydra-"))
 
 
@@ -87,6 +86,7 @@ result of `defhydra'.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

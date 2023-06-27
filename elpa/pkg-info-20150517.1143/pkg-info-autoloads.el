@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -31,7 +30,7 @@ header.
 See Info node `(elisp)Library Headers' for more information
 about library headers.
 
-(fn LIBRARY &optional SHOW)" t nil)
+(fn LIBRARY &optional SHOW)" t)
 (autoload 'pkg-info-library-version "pkg-info" "\
 Get the version in the header of LIBRARY.
 
@@ -46,7 +45,7 @@ error if the LIBRARY was not found or had no proper header.
 See Info node `(elisp)Library Headers' for more information
 about library headers.
 
-(fn LIBRARY &optional SHOW)" t nil)
+(fn LIBRARY &optional SHOW)" t)
 (autoload 'pkg-info-defining-library-original-version "pkg-info" "\
 Get the original version of the library defining FUNCTION.
 
@@ -66,7 +65,7 @@ error if FUNCTION is not a valid function, if its defining
 library was not found, or if the library had no proper version
 header.
 
-(fn FUNCTION &optional SHOW)" t nil)
+(fn FUNCTION &optional SHOW)" t)
 (autoload 'pkg-info-defining-library-version "pkg-info" "\
 Get the version of the library defining FUNCTION.
 
@@ -82,7 +81,7 @@ error if FUNCTION is not a valid function, if its defining
 library was not found, or if the library had no proper version
 header.
 
-(fn FUNCTION &optional SHOW)" t nil)
+(fn FUNCTION &optional SHOW)" t)
 (autoload 'pkg-info-package-version "pkg-info" "\
 Get the version of an installed PACKAGE.
 
@@ -90,7 +89,7 @@ If SHOW is non-nil, show the version in the minibuffer.
 
 Return the version as list, or nil if PACKAGE is not installed.
 
-(fn PACKAGE &optional SHOW)" t nil)
+(fn PACKAGE &optional SHOW)" t)
 (autoload 'pkg-info-version-info "pkg-info" "\
 Obtain complete version info for LIBRARY and PACKAGE.
 
@@ -110,7 +109,7 @@ part of.  If PACKAGE is not installed, or if the PACKAGE version
 is the same as the LIBRARY version, do not include a package
 version.
 
-(fn LIBRARY &optional PACKAGE SHOW)" t nil)
+(fn LIBRARY &optional PACKAGE SHOW)" t)
 (register-definition-prefixes "pkg-info" '("pkg-info-"))
 
 ;;; End of scraped data
@@ -121,6 +120,7 @@ version.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

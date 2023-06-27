@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -55,7 +54,7 @@ evaluate `company-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (put 'global-company-mode 'globalized-minor-mode t)
 (defvar global-company-mode nil "\
 Non-nil if Global Company mode is enabled.
@@ -78,13 +77,13 @@ Company mode is enabled in all buffers where `company-mode-on' would do it.
 
 See `company-mode' for more information on Company mode.
 
-(fn &optional ARG)" t nil)
-(autoload 'company-manual-begin "company" nil t nil)
+(fn &optional ARG)" t)
+(autoload 'company-manual-begin "company" nil t)
 (autoload 'company-complete "company" "\
 Insert the common part of all candidates or the current selection.
 The first time this is called, the common part is inserted, the second
 time, or when the selection has been changed, the selected candidate is
-inserted." t nil)
+inserted." t)
 (register-definition-prefixes "company" '("company-"))
 
 
@@ -93,7 +92,7 @@ inserted." t nil)
 (autoload 'company-abbrev "company-abbrev" "\
 `company-mode' completion backend for abbrev.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-abbrev" '("company-abbrev-insert"))
 
 
@@ -102,7 +101,7 @@ inserted." t nil)
 (autoload 'company-bbdb "company-bbdb" "\
 `company-mode' completion backend for BBDB.
 
-(fn COMMAND &optional ARG &rest IGNORE)" t nil)
+(fn COMMAND &optional ARG &rest IGNORE)" t)
 (register-definition-prefixes "company-bbdb" '("company-bbdb-"))
 
 
@@ -126,7 +125,7 @@ inserted." t nil)
 (autoload 'company-css "company-css" "\
 `company-mode' completion backend for `css-mode'.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-css" '("company-css-"))
 
 
@@ -135,7 +134,7 @@ inserted." t nil)
 (autoload 'company-dabbrev "company-dabbrev" "\
 dabbrev-like `company-mode' completion backend.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-dabbrev" '("company-dabbrev-"))
 
 
@@ -146,7 +145,7 @@ dabbrev-like `company-mode' backend for code.
 The backend looks for all symbols in the current buffer that aren't in
 comments or strings.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-dabbrev-code" '("company-dabbrev-code-"))
 
 
@@ -155,7 +154,7 @@ comments or strings.
 (autoload 'company-elisp "company-elisp" "\
 `company-mode' completion backend for Emacs Lisp.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-elisp" '("company-elisp-"))
 
 
@@ -164,7 +163,7 @@ comments or strings.
 (autoload 'company-etags "company-etags" "\
 `company-mode' completion backend for etags.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-etags" '("company-etags-"))
 
 
@@ -175,7 +174,7 @@ comments or strings.
 Completions works for proper absolute and relative files paths.
 File paths with spaces are only supported inside strings.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-files" '("company-file"))
 
 
@@ -184,7 +183,7 @@ File paths with spaces are only supported inside strings.
 (autoload 'company-gtags "company-gtags" "\
 `company-mode' completion backend for GNU Global.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-gtags" '("company-gtags-"))
 
 
@@ -193,7 +192,7 @@ File paths with spaces are only supported inside strings.
 (autoload 'company-ispell "company-ispell" "\
 `company-mode' completion backend using Ispell.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-ispell" '("company-ispell-"))
 
 
@@ -202,7 +201,7 @@ File paths with spaces are only supported inside strings.
 (autoload 'company-keywords "company-keywords" "\
 `company-mode' backend for programming language keywords.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-keywords" '("company-keywords-"))
 
 
@@ -211,7 +210,7 @@ File paths with spaces are only supported inside strings.
 (autoload 'company-nxml "company-nxml" "\
 `company-mode' completion backend for `nxml-mode'.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-nxml" '("company-nxml-"))
 
 
@@ -220,7 +219,7 @@ File paths with spaces are only supported inside strings.
 (autoload 'company-oddmuse "company-oddmuse" "\
 `company-mode' completion backend for `oddmuse-mode'.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-oddmuse" '("company-oddmuse-"))
 
 
@@ -229,7 +228,7 @@ File paths with spaces are only supported inside strings.
 (autoload 'company-semantic "company-semantic" "\
 `company-mode' completion backend using CEDET Semantic.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-semantic" '("company-semantic-"))
 
 
@@ -243,7 +242,7 @@ File paths with spaces are only supported inside strings.
 (autoload 'company-tempo "company-tempo" "\
 `company-mode' completion backend for tempo.
 
-(fn COMMAND &optional ARG &rest IGNORED)" t nil)
+(fn COMMAND &optional ARG &rest IGNORED)" t)
 (register-definition-prefixes "company-tempo" '("company-tempo-"))
 
 
@@ -255,9 +254,8 @@ frontend will display the candidate in the buffer as if it's
 already there and any key outside of `company-active-map' will
 confirm the selection and finish the completion.
 
-(fn COMMAND)" nil nil)
-(define-obsolete-function-alias 'company-tng-configure-default 'company-tng-mode "\
-0.9.14" "Applies the default configuration to enable company-tng.")
+(fn COMMAND)")
+(define-obsolete-function-alias 'company-tng-configure-default 'company-tng-mode "0.9.14" "Applies the default configuration to enable company-tng.")
 (defvar company-tng-mode nil "\
 Non-nil if Company-Tng mode is enabled.
 See the `company-tng-mode' command
@@ -283,7 +281,7 @@ evaluate `(default-value \\='company-tng-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (register-definition-prefixes "company-tng" '("company-tng-"))
 
 
@@ -312,7 +310,7 @@ shadow backends that come after it.  Recommended usages:
 
   (global-set-key (kbd \"C-c y\") \\='company-yasnippet)
 
-(fn COMMAND &optional ARG &rest IGNORE)" t nil)
+(fn COMMAND &optional ARG &rest IGNORE)" t)
 (register-definition-prefixes "company-yasnippet" '("company-yasnippet-"))
 
 ;;; End of scraped data
@@ -323,6 +321,7 @@ shadow backends that come after it.  Recommended usages:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

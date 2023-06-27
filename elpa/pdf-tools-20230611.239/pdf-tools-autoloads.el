@@ -559,7 +559,6 @@ it is disabled.
 
 (fn &optional FILENAMES BUFFER-NAME DISPLAY-P)" t)
 (register-definition-prefixes "pdf-virtual" '("pdf-virtual-"))
-
 
 ;;; End of scraped data
 

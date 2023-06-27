@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -39,9 +38,9 @@ evaluate `(default-value \\='org-roam-ui-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'org-roam-ui-open "org-roam-ui" "\
-Ensure `org-roam-ui' is running, then open the `org-roam-ui' webpage." t nil)
+Ensure `org-roam-ui' is running, then open the `org-roam-ui' webpage." t)
 (autoload 'org-roam-ui-node-zoom "org-roam-ui" "\
 Move the view of the graph to current node.
 or optionally a node of your choosing.
@@ -50,22 +49,22 @@ The ID of the node you want to travel to.
 The SPEED in ms it takes to make the transition.
 The PADDING around the nodes in the viewport.
 
-(fn &optional ID SPEED PADDING)" t nil)
+(fn &optional ID SPEED PADDING)" t)
 (autoload 'org-roam-ui-node-local "org-roam-ui" "\
 Open the local graph view of the current node.
 Optionally with ID (string), SPEED (number, ms) and PADDING (number, px).
 
-(fn &optional ID SPEED PADDING)" t nil)
+(fn &optional ID SPEED PADDING)" t)
 (autoload 'org-roam-ui-add-to-local-graph "org-roam-ui" "\
 Add current node to the local graph. If not in local mode, open local-graph for this node.
 
-(fn &optional ID)" t nil)
+(fn &optional ID)" t)
 (autoload 'org-roam-ui-remove-from-local-graph "org-roam-ui" "\
 Remove current node from the local graph. If not in local mode, open local-graph for this node.
 
-(fn &optional ID)" t nil)
+(fn &optional ID)" t)
 (autoload 'org-roam-ui-sync-theme "org-roam-ui" "\
-Sync your current Emacs theme with org-roam-ui." t nil)
+Sync your current Emacs theme with org-roam-ui." t)
 (defvar org-roam-ui-follow-mode nil "\
 Non-nil if org-roam-ui-Follow mode is enabled.
 See the `org-roam-ui-follow-mode' command
@@ -92,7 +91,7 @@ evaluate `(default-value \\='org-roam-ui-follow-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (register-definition-prefixes "org-roam-ui" '("img/:file" "node/:id" "org-roam-ui-"))
 
 ;;; End of scraped data
@@ -103,6 +102,7 @@ it is disabled.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -22,9 +21,9 @@ candidates that match what has been typed so far.  Sometimes ARG
 is a single candidate, as when COMMAND is 'annotation' or
 'post-completion'.  Other arguments are IGNORED.
 
-(fn COMMAND &optional ARG &rest IGNORED)" nil nil)
+(fn COMMAND &optional ARG &rest IGNORED)")
 (autoload 'company-emoji-init "company-emoji" "\
-Add emoji to the company backends." t nil)
+Add emoji to the company backends." t)
 (register-definition-prefixes "company-emoji" '("company-emoji"))
 
 
@@ -40,6 +39,7 @@ Add emoji to the company backends." t nil)
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

@@ -5,15 +5,14 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
 ;;; Generated autoloads from org-download.el
 
 (autoload 'org-download-enable "org-download" "\
-Enable org-download." nil nil)
+Enable org-download.")
 (register-definition-prefixes "org-download" '("org-download-"))
 
 ;;; End of scraped data
@@ -24,6 +23,7 @@ Enable org-download." nil nil)
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

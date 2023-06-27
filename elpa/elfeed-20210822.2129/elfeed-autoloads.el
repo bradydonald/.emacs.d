@@ -5,27 +5,26 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
 ;;; Generated autoloads from elfeed.el
 
 (autoload 'elfeed-update "elfeed" "\
-Update all the feeds in `elfeed-feeds'." t nil)
+Update all the feeds in `elfeed-feeds'." t)
 (autoload 'elfeed "elfeed" "\
-Enter elfeed." t nil)
+Enter elfeed." t)
 (autoload 'elfeed-load-opml "elfeed" "\
 Load feeds from an OPML file into `elfeed-feeds'.
 When called interactively, the changes to `elfeed-feeds' are
 saved to your customization file.
 
-(fn FILE)" t nil)
+(fn FILE)" t)
 (autoload 'elfeed-export-opml "elfeed" "\
 Export the current feed listing to OPML-formatted FILE.
 
-(fn FILE)" t nil)
+(fn FILE)" t)
 (register-definition-prefixes "elfeed" '("elfeed-"))
 
 
@@ -57,14 +56,14 @@ Store a link to an elfeed search or entry buffer.
 When storing a link to an entry, automatically extract all the
 entry metadata.  These can be used in the capture templates as
 %:elfeed-entry-<prop>.  See `elfeed-entry--create' for the list
-of available props." nil nil)
+of available props.")
 (autoload 'elfeed-link-open "elfeed-link" "\
 Jump to an elfeed entry or search.
 
 Depending on what FILTER-OR-ID looks like, we jump to either
 search buffer or show a concrete entry.
 
-(fn FILTER-OR-ID)" nil nil)
+(fn FILTER-OR-ID)")
 (eval-after-load 'org `(funcall ',(lambda nil (if (version< (org-version) "9.0") (with-no-warnings (org-add-link-type "elfeed" #'elfeed-link-open) (add-hook 'org-store-link-functions #'elfeed-link-store-link)) (with-no-warnings (org-link-set-parameters "elfeed" :follow #'elfeed-link-open :store #'elfeed-link-store-link))))))
 
 
@@ -78,11 +77,11 @@ search buffer or show a concrete entry.
 (autoload 'elfeed-search-bookmark-handler "elfeed-search" "\
 Jump to an elfeed-search bookmarked location.
 
-(fn RECORD)" nil nil)
+(fn RECORD)")
 (autoload 'elfeed-search-desktop-restore "elfeed-search" "\
 Restore the state of an elfeed-search buffer on desktop restore.
 
-(fn FILE-NAME BUFFER-NAME SEARCH-FILTER)" nil nil)
+(fn FILE-NAME BUFFER-NAME SEARCH-FILTER)")
 (add-to-list 'desktop-buffer-mode-handlers '(elfeed-search-mode . elfeed-search-desktop-restore))
 (register-definition-prefixes "elfeed-search" '("elfeed-s"))
 
@@ -92,7 +91,7 @@ Restore the state of an elfeed-search buffer on desktop restore.
 (autoload 'elfeed-show-bookmark-handler "elfeed-show" "\
 Show the bookmarked entry saved in the `RECORD'.
 
-(fn RECORD)" nil nil)
+(fn RECORD)")
 (register-definition-prefixes "elfeed-show" '("elfeed-"))
 
 
@@ -108,6 +107,7 @@ Show the bookmarked entry saved in the `RECORD'.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

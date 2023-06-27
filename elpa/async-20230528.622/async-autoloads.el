@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -20,7 +19,7 @@ object will return the process object when the program is
 finished.  Set DEFAULT-DIRECTORY to change PROGRAM's current
 working directory.
 
-(fn NAME PROGRAM FINISH-FUNC &rest PROGRAM-ARGS)" nil nil)
+(fn NAME PROGRAM FINISH-FUNC &rest PROGRAM-ARGS)")
 (autoload 'async-start "async" "\
 Execute START-FUNC (often a lambda) in a subordinate Emacs process.
 When done, the return value is passed to FINISH-FUNC.  Example:
@@ -90,7 +89,7 @@ passed to FINISH-FUNC).  Call `async-get' on such a future always
 returns nil.  It can still be useful, however, as an argument to
 `async-ready' or `async-wait'.
 
-(fn START-FUNC &optional FINISH-FUNC)" nil nil)
+(fn START-FUNC &optional FINISH-FUNC)")
 (register-definition-prefixes "async" '("async-"))
 
 
@@ -100,7 +99,7 @@ returns nil.  It can still be useful, however, as an argument to
 Compile all *.el files in DIRECTORY asynchronously.
 All *.elc files are systematically deleted before proceeding.
 
-(fn DIRECTORY &optional QUIET)" nil nil)
+(fn DIRECTORY &optional QUIET)")
 (defvar async-bytecomp-package-mode nil "\
 Non-nil if Async-Bytecomp-Package mode is enabled.
 See the `async-bytecomp-package-mode' command
@@ -130,13 +129,13 @@ evaluate `(default-value \\='async-bytecomp-package-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'async-byte-compile-file "async-bytecomp" "\
 Byte compile Lisp code FILE asynchronously.
 
 Same as `byte-compile-file' but asynchronous.
 
-(fn FILE)" t nil)
+(fn FILE)" t)
 (register-definition-prefixes "async-bytecomp" '("async-"))
 
 
@@ -167,23 +166,23 @@ evaluate `(default-value \\='dired-async-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'dired-async-do-copy "dired-async" "\
 Run ‘dired-do-copy’ asynchronously.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'dired-async-do-symlink "dired-async" "\
 Run ‘dired-do-symlink’ asynchronously.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'dired-async-do-hardlink "dired-async" "\
 Run ‘dired-do-hardlink’ asynchronously.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (autoload 'dired-async-do-rename "dired-async" "\
 Run ‘dired-do-rename’ asynchronously.
 
-(fn &optional ARG)" t nil)
+(fn &optional ARG)" t)
 (register-definition-prefixes "dired-async" '("dired-async-"))
 
 
@@ -199,6 +198,7 @@ Run ‘dired-do-rename’ asynchronously.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 

@@ -9,8 +9,6 @@
 ;; Maintainer: Mark A. Hershberger <mah@everybody.org>
 ;; Original Author: Daniel Lundin <daniel@codefactory.se>
 ;; Version: 1.6.16
-;; Package-Version: 20221228.2346
-;; Package-Commit: 8272789df8a4deab4de7d50e63b73b7d0543bc7f
 ;; Created: May 13 2001
 ;; Keywords: xml rpc network comm
 ;; Package-Requires: ((emacs "24.1"))

@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (directory-file-name (file-name-directory load-file-name))) (car load-path)))
 
 
 
@@ -41,7 +40,6 @@ it is disabled.
 (autoload 'marginalia-cycle "marginalia" "\
 Cycle between annotators in `marginalia-annotator-registry'." t)
 (register-definition-prefixes "marginalia" '("marginalia-"))
-
 
 ;;; End of scraped data
 
@@ -51,6 +49,7 @@ Cycle between annotators in `marginalia-annotator-registry'." t)
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; no-native-compile: t
 ;; coding: utf-8-emacs-unix
 ;; End:
 
