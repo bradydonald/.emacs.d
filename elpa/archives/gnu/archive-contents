@@ -1025,7 +1025,7 @@
 	 ("Eduardo Ochs" . "eduardoochs@gmail.com"))
 	(:commit . "16613c18c5ec17755f083f4839bca7e4e05dd4c7"))])
  (ef-themes .
-	    [(1 1 1)
+	    [(1 2 0)
 	     ((emacs
 	       (27 1)))
 	     "Colorful and legible themes" tar
@@ -1034,7 +1034,7 @@
 	      (:maintainer "Ef-Themes Development" . "~protesilaos/ef-themes@lists.sr.ht")
 	      (:authors
 	       ("Protesilaos Stavrou" . "info@protesilaos.com"))
-	      (:commit . "ca3645c4985e1f57829699bac755c860f2c863ed"))])
+	      (:commit . "9a64221f797c8cc5cefb0bd732612d08f2b321a0"))])
  (eglot .
 	[(1 15)
 	 ((emacs
@@ -3641,7 +3641,7 @@
 	      ("Trevor Edwin Pogue" . "trevor.pogue@gmail.com"))
 	     (:commit . "33c2a6f0a11d1d88cdb2065c5a897e33507f4c86"))])
  (tramp .
-	[(2 6 0 5)
+	[(2 6 1)
 	 ((emacs
 	   (26 1)))
 	 "Transparent Remote Access, Multiple Protocol" tar
@@ -3650,7 +3650,7 @@
 	  (:maintainer "Michael Albinus" . "michael.albinus@gmx.de")
 	  (:authors
 	   ("Kai Großjohann" . "kai.grossjohann@gmx.net"))
-	  (:commit . "fc8bfababd07ac9fa1e338782a16ffb1f756ae04"))])
+	  (:commit . "b04c8bfc49d4c41b8db461b837452887f4c259fe"))])
  (tramp-nspawn .
 	       [(1 0 1)
 		((emacs
@@ -4079,6 +4079,17 @@
 	      (:authors
 	       ("Justin Burkett" . "justin@burkett.cc"))
 	      (:commit . "1217db8c6356659e67b35dedd9f5f260c06f6e99"))])
+ (window-commander .
+		   [(3 0 1)
+		    ((emacs
+		      (27 1)))
+		    "Simply execute commands on windows" tar
+		    ((:url . "https://dsemy.com/projects/window-commander")
+		     (:keywords "convenience")
+		     (:maintainer "Daniel Semyonov" . "daniel@dsemy.com")
+		     (:authors
+		      ("Daniel Semyonov" . "daniel@dsemy.com"))
+		     (:commit . "c3240a61dc40b70153403553e994f31dfbef3da2"))])
  (windower .
 	   [(0 0 1)
 	    ((emacs

@@ -1,4 +1,4 @@
-;;; ef-winter-theme.el --- Legible dark theme with magenta, purple, fawn, teal colors -*- lexical-binding:t -*-
+;;; ef-autumn-theme.el --- Legible dark theme with warm, varied colors (red, yellow, green, teal) -*- lexical-binding:t -*-
 
 ;; Copyright (C) 2022-2023  Free Software Foundation, Inc.
 
@@ -37,71 +37,71 @@
 (eval-and-compile
   (require 'ef-themes)
 
-  (deftheme ef-winter
-    "Legible dark theme with magenta, purple, fawn, teal colors.")
+  (deftheme ef-autumn
+    "Legible dark theme with warm, varied colors (red, yellow, green, teal).")
 
-  (defconst ef-winter-palette
+  (defconst ef-autumn-palette
     '(
 ;;; Basic values
 
-      (bg-main      "#0f0b15")
-      (fg-main      "#b8c6d5")
-      (bg-dim       "#1d202f")
-      (fg-dim       "#807c9f")
-      (bg-alt       "#2a2f42")
-      (fg-alt       "#bf8f8f")
+      (bg-main     "#0f0e06")
+      (fg-main     "#cfbcba")
+      (bg-dim      "#26211d")
+      (fg-dim      "#887c8a")
+      (bg-alt      "#36322f")
+      (fg-alt      "#70a89f")
 
-      (bg-active    "#4a4f62")
-      (bg-inactive  "#19181f")
+      (bg-active   "#56524f")
+      (bg-inactive "#15140d")
 
 ;;; Basic hues for foreground values
 
-      (red             "#f47359")
-      (red-warmer      "#ef6560")
-      (red-cooler      "#ff6a7a")
-      (red-faint       "#d56f72")
-      (green           "#29a444")
-      (green-warmer    "#6aad0f")
-      (green-cooler    "#00a392")
-      (green-faint     "#61a06c")
-      (yellow          "#b58a52")
-      (yellow-warmer   "#d1803f")
-      (yellow-cooler   "#df9080")
-      (yellow-faint    "#c0a38a")
-      (blue            "#3f95f6")
-      (blue-warmer     "#6a9fff")
+      (red             "#ef656a")
+      (red-warmer      "#f06a3f")
+      (red-cooler      "#ff7a7f")
+      (red-faint       "#df7f7f")
+      (green           "#2fa526")
+      (green-warmer    "#64aa0f")
+      (green-cooler    "#00b066")
+      (green-faint     "#5f9f6f")
+      (yellow          "#c48702")
+      (yellow-warmer   "#d0730f")
+      (yellow-cooler   "#df8f6f")
+      (yellow-faint    "#cf9f7f")
+      (blue            "#379cf6")
+      (blue-warmer     "#6a88ff")
       (blue-cooler     "#029fff")
-      (blue-faint      "#7a94df")
-      (magenta         "#d369af")
-      (magenta-warmer  "#e580e0")
-      (magenta-cooler  "#af85ea")
-      (magenta-faint   "#c57faf")
-      (cyan            "#4fbaef")
-      (cyan-warmer     "#6fafdf")
-      (cyan-cooler     "#35afbf")
-      (cyan-faint      "#8aa0df")
+      (blue-faint      "#6a84af")
+      (magenta         "#d570af")
+      (magenta-warmer  "#e580ea")
+      (magenta-cooler  "#af8aff")
+      (magenta-faint   "#c590af")
+      (cyan            "#4fb0cf")
+      (cyan-warmer     "#6fafff")
+      (cyan-cooler     "#3dbbb0")
+      (cyan-faint      "#82a0af")
 
 ;;; Basic hues for background values
 
-      (bg-red-intense     "#bd1f30")
+      (bg-red-intense     "#cd2f30")
       (bg-green-intense   "#20a020")
-      (bg-yellow-intense  "#845020")
-      (bg-blue-intense    "#3633b0")
+      (bg-yellow-intense  "#9a4f20")
+      (bg-blue-intense    "#3f43af")
       (bg-magenta-intense "#b04fcf")
-      (bg-cyan-intense    "#2270be")
+      (bg-cyan-intense    "#027080")
 
-      (bg-red-subtle      "#6a002a")
+      (bg-red-subtle      "#77002a")
       (bg-green-subtle    "#00422a")
-      (bg-yellow-subtle   "#5a3000")
+      (bg-yellow-subtle   "#693200")
       (bg-blue-subtle     "#242679")
-      (bg-magenta-subtle  "#50105a")
+      (bg-magenta-subtle  "#611062")
       (bg-cyan-subtle     "#004065")
 
 ;;; Diffs
 
-      (bg-added          "#00371f")
-      (bg-added-faint    "#002918")
-      (bg-added-refine   "#004c2f")
+      (bg-added          "#17360f")
+      (bg-added-faint    "#0a2900")
+      (bg-added-refine   "#204810")
       (fg-added          "#a0e0a0")
 
       (bg-changed        "#363300")
@@ -109,9 +109,9 @@
       (bg-changed-refine "#4a4a00")
       (fg-changed        "#efef80")
 
-      (bg-removed        "#450f1f")
-      (bg-removed-faint  "#2f060f")
-      (bg-removed-refine "#641426")
+      (bg-removed        "#4b120a")
+      (bg-removed-faint  "#3a0a00")
+      (bg-removed-refine "#6f1a16")
       (fg-removed        "#ffbfbf")
 
 ;;; Graphs
@@ -131,33 +131,37 @@
 
 ;;; Special hues
 
-      (bg-mode-line       "#5f1f5f")
-      (fg-mode-line       "#dedeff")
-      (bg-completion      "#2f2a7a")
-      (bg-hover           "#00474f")
-      (bg-hover-secondary "#44196f")
-      (bg-hl-line         "#003045")
-      (bg-region          "#342464")
-      (bg-paren           "#2f608e")
-      (bg-err             "#330d06") ; check with err
-      (bg-warning         "#332610") ; check with warning
-      (bg-info            "#0f2e10") ; check with info
+      (bg-mode-line       "#692a12")
+      (fg-mode-line       "#feeeca")
+      (bg-completion      "#36213a")
+      (bg-hover           "#265f4a")
+      (bg-hover-secondary "#55345a")
+      (bg-hl-line         "#302a3a")
+      (bg-region          "#3f1020")
+      (bg-paren           "#2f6c4a")
+      (bg-err             "#391400") ; check with err
+      (bg-warning         "#332800") ; check with warning
+      (bg-info            "#152a00") ; check with info
 
-      (border        "#4a4955")
-      (cursor        "#ff6ff0")
+      (border        "#58514f")
+      (cursor        "#ffaa33")
       (fg-intense    "#ffffff")
 
       (modeline-err     "#ff9fbf")
-      (modeline-warning "#ddb300")
-      (modeline-info    "#40e0af")
+      (modeline-warning "#dfcf33")
+      (modeline-info    "#4fdf5f")
 
       (underline-err     "#df2f2f")
       (underline-warning "#c0b000")
       (underline-info    "#22b022")
 
+      (bg-char-0 "#0050af")
+      (bg-char-1 "#7f1f7f")
+      (bg-char-2 "#625a00")
+
 ;;; Conditional hues
 
-      (bg-region-intense "#4f2f5d")
+      (bg-region-intense "#4f4400")
 
 ;;; Mappings
 
@@ -165,43 +169,43 @@
 
       (err red-warmer)
       (warning yellow)
-      (info green)
+      (info green-cooler)
 
-      (link magenta)
-      (link-alt cyan-warmer)
-      (name magenta)
-      (keybind cyan-cooler)
+      (link yellow)
+      (link-alt cyan-cooler)
+      (name green-warmer)
+      (keybind red-warmer)
       (identifier magenta-faint)
-      (prompt magenta-warmer)
+      (prompt cyan-cooler)
 
 ;;;; Code mappings
 
-      (builtin magenta-warmer)
+      (builtin red-cooler)
       (comment yellow-faint)
-      (constant magenta)
+      (constant green-warmer)
       (fnname cyan-cooler)
-      (keyword magenta-cooler)
-      (preprocessor red-cooler)
-      (docstring cyan-faint)
-      (string yellow-cooler)
-      (type cyan)
-      (variable blue-warmer)
-      (rx-escape green) ; compare with `string'
-      (rx-construct blue)
+      (keyword yellow)
+      (preprocessor magenta)
+      (docstring green-faint)
+      (string red-warmer)
+      (type green)
+      (variable cyan-warmer)
+      (rx-escape green-cooler) ; compare with `string'
+      (rx-construct magenta-cooler)
 
 ;;;; Accent mappings
 
-      (accent-0 magenta-cooler)
-      (accent-1 yellow)
-      (accent-2 green-cooler)
-      (accent-3 magenta-warmer)
+      (accent-0 green-cooler)
+      (accent-1 yellow-warmer)
+      (accent-2 cyan-cooler)
+      (accent-3 magenta-cooler)
 
 ;;;; Date mappings
 
-      (date-common cyan-cooler)
+      (date-common yellow-cooler)
       (date-deadline red-warmer)
       (date-event fg-alt)
-      (date-holiday magenta)
+      (date-holiday cyan-cooler)
       (date-now fg-main)
       (date-range fg-alt)
       (date-scheduled yellow)
@@ -210,26 +214,26 @@
 
 ;;;; Prose mappings
 
-      (prose-code yellow)
-      (prose-done green)
-      (prose-macro green-cooler)
+      (prose-code yellow-warmer)
+      (prose-done green-cooler)
+      (prose-macro cyan-cooler)
       (prose-metadata fg-dim)
       (prose-metadata-value fg-alt)
       (prose-table fg-alt)
-      (prose-tag cyan-faint)
+      (prose-tag fg-alt)
       (prose-todo red-warmer)
-      (prose-verbatim magenta-cooler)
+      (prose-verbatim green-cooler)
 
 ;;;; Mail mappings
 
-      (mail-cite-0 magenta-cooler)
-      (mail-cite-1 yellow-cooler)
-      (mail-cite-2 cyan-cooler)
-      (mail-cite-3 magenta)
-      (mail-part magenta-faint)
-      (mail-recipient magenta)
-      (mail-subject blue-warmer)
-      (mail-other magenta-cooler)
+      (mail-cite-0 yellow-warmer)
+      (mail-cite-1 green-warmer)
+      (mail-cite-2 red)
+      (mail-cite-3 yellow-cooler)
+      (mail-part green-faint)
+      (mail-recipient green-warmer)
+      (mail-subject green-cooler)
+      (mail-other yellow)
 
 ;;;; Space mappings
 
@@ -245,16 +249,16 @@
 
 ;;;; Rainbow mappings
 
-      (rainbow-0 magenta)
-      (rainbow-1 cyan-cooler)
-      (rainbow-2 magenta-cooler)
-      (rainbow-3 yellow)
-      (rainbow-4 blue-warmer)
-      (rainbow-5 magenta-warmer)
-      (rainbow-6 green-cooler)
-      (rainbow-7 yellow-cooler)
-      (rainbow-8 cyan-warmer))
-    "The `ef-winter' palette.
+      (rainbow-0 yellow-warmer)
+      (rainbow-1 green-warmer)
+      (rainbow-2 red)
+      (rainbow-3 cyan-cooler)
+      (rainbow-4 yellow-cooler)
+      (rainbow-5 blue)
+      (rainbow-6 red-cooler)
+      (rainbow-7 green)
+      (rainbow-8 yellow))
+    "The `ef-autumn' palette.
 Color values have the form (COLOR-NAME HEX-VALUE) with the former
 as a symbol and the latter as a string.
 
@@ -262,8 +266,8 @@ Semantic color mappings have the form (MAPPING-NAME COLOR-NAME)
 with both as symbols.  The latter is a color that already exists
 in the palette and is associated with a HEX-VALUE.")
 
-  (defcustom ef-winter-palette-overrides nil
-    "Overrides for `ef-winter-palette'.
+  (defcustom ef-autumn-palette-overrides nil
+    "Overrides for `ef-autumn-palette'.
 
 Mirror the elements of the aforementioned palette, overriding
 their value.
@@ -279,11 +283,11 @@ further details)."
   :type '(repeat (list symbol (choice symbol string)))
   :link '(info-link "(ef-themes) Palette overrides"))
 
-  (ef-themes-theme ef-winter ef-winter-palette ef-winter-palette-overrides)
+  (ef-themes-theme ef-autumn ef-autumn-palette ef-autumn-palette-overrides)
 
-  (provide-theme 'ef-winter))
+  (provide-theme 'ef-autumn))
 
 ;;;###theme-autoload
-(put 'ef-winter 'theme-properties '(:background-mode dark :kind color-scheme :family ef))
+(put 'ef-autumn 'theme-properties '(:background-mode dark :kind color-scheme :family ef))
 
-;;; ef-winter-theme.el ends here
+;;; ef-autumn-theme.el ends here

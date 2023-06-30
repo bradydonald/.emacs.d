@@ -59,6 +59,16 @@
 (put 'ef-duo-light 'theme-properties '(:background-mode light :kind color-scheme :family ef))
 
 
+;;; Generated autoloads from ef-elea-dark-theme.el
+
+(put 'ef-elea-dark 'theme-properties '(:background-mode dark :kind color-scheme :family ef))
+
+
+;;; Generated autoloads from ef-elea-light-theme.el
+
+(put 'ef-elea-light 'theme-properties '(:background-mode light :kind color-scheme :family ef))
+
+
 ;;; Generated autoloads from ef-frost-theme.el
 
 (put 'ef-frost 'theme-properties '(:background-mode light :kind color-scheme :family ef))
