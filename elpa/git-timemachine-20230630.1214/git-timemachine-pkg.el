@@ -1,7 +1,7 @@
-(define-package "git-timemachine" "20230621.921" "Walk through git revisions of a file"
+(define-package "git-timemachine" "20230630.1214" "Walk through git revisions of a file"
   '((emacs "24.3")
     (transient "0.1.0"))
-  :commit "bc8c7d7c22aeeced2510023b2e6c5d8ce8c574aa" :authors
+  :commit "ac933e5cd29583c131401f3bd991d98129c316df" :authors
   '(("Peter Stiernström" . "peter@stiernstrom.se"))
   :maintainers
   '(("Peter Stiernström" . "peter@stiernstrom.se"))

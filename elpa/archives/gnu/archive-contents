@@ -2365,7 +2365,7 @@
 		(nil . "<johnh@isi.edu>."))
 	       (:url . "http://elpa.gnu.org/packages/notes-mode.html"))])
  (notmuch-indicator .
-		    [(0 2 2)
+		    [(1 0 0)
 		     ((emacs
 		       (27 1)))
 		     "Display mode line indicator with notmuch-count(1) output" tar
@@ -2374,7 +2374,7 @@
 		      (:maintainer "notmuch-indicator Development" . "~protesilaos/notmuch-indicator@lists.sr.ht")
 		      (:authors
 		       ("Protesilaos Stavrou" . "info@protesilaos.com"))
-		      (:commit . "9a0bf7d85cc80e6c4c05bfd4d794a86926b3a8a9"))])
+		      (:commit . "3a1f47081e712667a2de0ebd124435309cfdb6db"))])
  (ntlm .
        [(2 1 0)
 	nil "NTLM (NT LanManager) authentication support" single
@@ -3384,7 +3384,7 @@
 	  ("Aleksandr Vityazev" . "avityazev@posteo.org"))
 	 (:commit . "5605a75111a9b1a1e67bd012bbf78fc6cb54f96b"))])
  (ssh-deploy .
-	     [(3 1 14)
+	     [(3 1 15)
 	      ((emacs
 		(25)))
 	      "Deployment via Tramp, global or per directory." tar
@@ -3393,7 +3393,7 @@
 	       (:maintainer "Christian Johansson" . "christian@cvj.se")
 	       (:authors
 		("Christian Johansson" . "christian@cvj.se"))
-	       (:commit . "94b56c0428fa0c788578161edc9e7992b13cd400"))])
+	       (:commit . "5496715b52810b81e8e08612ba5a2b5f71d43b30"))])
  (standard-themes .
 		  [(1 2 0)
 		   ((emacs
@@ -3416,7 +3416,7 @@
 	   (:keywords "stream" "laziness" "sequences")
 	   (:url . "http://elpa.gnu.org/packages/stream.html"))])
  (substitute .
-	     [(0 1 8)
+	     [(0 2 0)
 	      ((emacs
 		(27 1)))
 	      "Efficiently replace targets in the buffer or context" tar
@@ -3424,7 +3424,7 @@
 	       (:maintainer "Protesilaos Stavrou General Issues" . "~protesilaos/general-issues@lists.sr.ht")
 	       (:authors
 		("Protesilaos Stavrou" . "info@protesilaos.com"))
-	       (:commit . "b81bb7789847f3d1645a60422fa080c48b93dd47"))])
+	       (:commit . "2e971d244c03a4b29925fc33a991355ceaa9318a"))])
  (svg .
       [(1 1)
        ((emacs
@@ -4080,7 +4080,7 @@
 	       ("Justin Burkett" . "justin@burkett.cc"))
 	      (:commit . "1217db8c6356659e67b35dedd9f5f260c06f6e99"))])
  (window-commander .
-		   [(3 0 1)
+		   [(3 0 2)
 		    ((emacs
 		      (27 1)))
 		    "Simply execute commands on windows" tar
@@ -4089,7 +4089,7 @@
 		     (:maintainer "Daniel Semyonov" . "daniel@dsemy.com")
 		     (:authors
 		      ("Daniel Semyonov" . "daniel@dsemy.com"))
-		     (:commit . "c3240a61dc40b70153403553e994f31dfbef3da2"))])
+		     (:commit . "ad92c184ccc06f46b2caf001bc8201d983eca626"))])
  (windower .
 	   [(0 0 1)
 	    ((emacs
