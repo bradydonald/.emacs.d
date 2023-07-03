@@ -176,7 +176,6 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package diminish) ;; diminsh minor mode-line entries
-    (use-package eglot)
     (use-package elec-pair)
     (use-package git-timemachine)
     (use-package gnuplot)
