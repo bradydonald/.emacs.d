@@ -216,13 +216,13 @@
 
   #+END_SRC
 
-** lsp-bridge (Experimental)
+* lsp-bridge (Experimental)
 
-   [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
+  [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
    
-   #+BEGIN_SRC emacs-lisp
-     (db/add-to-load-path "~/src/lsp-bridge" nil '(posframe))
-   #+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (db/add-to-load-path "~/src/lsp-bridge" nil '(posframe))
+  #+END_SRC
    
 * Window Handling
 
