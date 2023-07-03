@@ -991,7 +991,6 @@
 
    #+END_SRC
 
-   
 * Elfeed-Tube
 
   Use elfeed for youtube channels
@@ -1021,7 +1020,6 @@
                   ("C-c C-w" . elfeed-tube-mpv-where)))
   #+END_SRC
 
- 
 * Org Present
 
   #+BEGIN_SRC emacs-lisp
