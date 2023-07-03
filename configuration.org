@@ -30,7 +30,6 @@
 
     (setq use-package-always-ensure t)
     (setq use-package-compute-statistics t)
-    (use-package diminish) ; no longer included with use-package by default
 
     (use-package auto-package-update
       :config
@@ -162,7 +161,7 @@
   #+END_SRC
 
   #+BEGIN_SRC emacs-lisp
-    (use-package recentf
+    (use-package frecentf
       :config
       (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
       (setq recentf-max-saved-items 50)
@@ -176,6 +175,7 @@
   The packages are loaded as is
 
   #+BEGIN_SRC emacs-lisp
+    (use-package diminish) ;; diminsh minor mode-line entries
     (use-package eglot)
     (use-package elec-pair)
     (use-package git-timemachine)
