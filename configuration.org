@@ -175,9 +175,8 @@
   The packages are loaded as is
 
   #+BEGIN_SRC emacs-lisp
-    (use-package diminish) ;; diminsh minor mode-line entries
-    (use-package elec-pair)
-    (use-package git-timemachine)
+    (use-package diminish)        ;; diminsh minor mode-line entries
+    (use-package git-timemachine) ;; use n and p to move between git revisions
     (use-package gnuplot)
     (use-package s) ;; some nice easy string manipulation functions
     (use-package magit)
@@ -256,7 +255,7 @@
 
   #+END_SRC
 
-* Paren Matching
+* Paren Handling and  Matching
 
   Configuration for a bunch of built in packages.
 
@@ -265,6 +264,10 @@
     (use-package paren
       :config
       (show-paren-mode +1))
+
+    (use-package elec-pair
+      :config
+      (electric-pair-mode 1))
 
   #+END_SRC
 
