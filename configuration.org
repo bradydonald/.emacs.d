@@ -177,13 +177,13 @@
   #+BEGIN_SRC emacs-lisp
     (use-package diminish)        ;; diminsh minor mode-line entries
     (use-package git-timemachine) ;; use n and p to move between git revisions
-    (use-package gnuplot)
-    (use-package s) ;; some nice easy string manipulation functions
-    (use-package magit)
-    (use-package deadgrep) ;; requires ripgrep binary
-    (use-package ef-themes)
+    (use-package gnuplot)         ;; for the plotting of graphs
+    (use-package s)               ;; some nice easy string manipulation functions
+    (use-package magit)           ;; git chrome
+    (use-package deadgrep)        ;; requires ripgrep binary
+    (use-package ef-themes)       ;; Prot themes
     (use-package yaml-mode)
-    (use-package nyan-mode)
+    (use-package nyan-mode)       ;; nyan cat as % of buffer
   #+END_SRC
 
 * Load any lisp files
