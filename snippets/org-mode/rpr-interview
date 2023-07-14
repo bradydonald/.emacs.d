@@ -1,0 +1,53 @@
+# -*- mode: snippet -*-
+# name: project-template
+# key: rpri
+# --
+#+TITLE: Interview with ${1:who}
+#+AUTHOR: Donald Brady
+#+CATEGORY: SRV
+#+FILETAGS: :rpr:interview:call:
+#+STARTUP: show2levels
+#+EXCLUDETAGS: noexport
+#+BIND: org-latex-image-default-width "0.98\\linewidth"
+#+LATEX_HEADER: \usepackage{placeins}
+#+OPTIONS: toc:nil tags:nil num:nil
+#+COLUMNS: %25ITEM(Todo Item) %PRIORITY %SCHEDULED %DEADLINE
+
+* $1
+  :PROPERTIES:
+  :Effort:   0:30
+  :END:
+
+** Get to Know
+*** Can you briefly introduce yourself and share your role within RPR? 
+**** How long have you been at RPR?
+**** Are you FT / PT?
+***** If part time, how are you compensated?
+
+*** What initially attracted you to RPR and why did you decide to join?
+    
+** Company 
+*** What does RPR do really well? What are our unique value props?
+
+*** What doesn't RPR do well? How would you improve things?
+**** What do they want to do more of? What do they want to do less of?
+
+*** Can you imagine RPR as a larger organization? Does what we have scale?
+
+    
+** Good and the Bad
+   
+*** What are current challenges and frustrations with process, org structure, client services, etc.?
+
+
+
+*** What initiatives or opportunities would you like to see implemented to:
+**** Improve company success?
+**** Improve employee satisfaction?
+
+*** How do you view the company's communication and collaboration efforts?
+****  Are there any areas that you think could be improved?
+
+* Role Specific Questions
+
+  
