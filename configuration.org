@@ -1139,19 +1139,6 @@
     (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
    #+END_SRC
 
-* LSP-Bridge (Experimental)
-
-  #+BEGIN_SRC emacs-lisp
-
-    ;; don't go global on for now. 
-    (setq db/go-lsp-bridge nil)
-
-    (if (and (file-directory-p "~/src/lsp-bridge") db/go-lsp-bridge)
-        (progn
-          (require 'lsp-bridge)
-          (global-lsp-bridge-mode)))
-  #+END_SRC
-
 * Chat GPT Integration as a Shell
 
   Using https://github.com/xenodium/chatgpt-shell

@@ -1385,3 +1385,22 @@ Archived entries from file /home/d/.emacs.d/configuration.org
     (db/add-to-load-path "~/src/flycheck-org-vale" t '(flycheck-org-vale))
   #+END_SRC
   
+
+* LSP-Bridge (Experimental)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:24
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+
+    ;; don't go global on for now. 
+    (setq db/go-lsp-bridge nil)
+
+    (if (and (file-directory-p "~/src/lsp-bridge") db/go-lsp-bridge)
+        (progn
+          (require 'lsp-bridge)
+          (global-lsp-bridge-mode)))
+  #+END_SRC
+
