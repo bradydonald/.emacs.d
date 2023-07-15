@@ -1173,12 +1173,10 @@
 
   #+BEGIN_SRC emacs-lisp
 
+    (setq chatgpt-shell-openai-key
+      (auth-source-pick-first-password :host "api.openai.com"))
+
     (db/add-to-load-path "~/.emacs.d/lisp/chatgpt-shell" t '(chatgpt-shell))
-
-    (defun db/openai-api-key ()
-      (substring (shell-command-to-string "gpg -q -d ~/.openai-api.key.gpg") 0 -1))
-
-    (setq chatgpt-shell-openai-key (db/openai-api-key))
 
     ;; org-babel integration for chatgpt-shell blocks
     (require 'ob-chatgpt-shell)
