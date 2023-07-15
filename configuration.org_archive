@@ -224,3 +224,1164 @@ Archived entries from file /home/d/.emacs.d/configuration.org
 
    #+END_SRC
 
+
+* LSP-Bridge (Experimental)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:01
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+
+    ;; don't go global on for now. 
+    (setq db/go-lsp-bridge nil)
+
+    (if (and (file-directory-p "~/src/lsp-bridge") db/go-lsp-bridge)
+        (progn
+          (require 'lsp-bridge)
+          (global-lsp-bridge-mode)))
+  #+END_SRC
+
+
+* Chat GPT Integration as a Shell
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:01
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Using https://github.com/xenodium/chatgpt-shell
+
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package chatgpt-shell
+      :ensure t
+      :custom
+      ((chatgpt-shell-openai-key
+        (lambda ()
+          (auth-source-pass-get 'secret "openai-key")))))
+
+    (setq chatgpt-shell-openai-key
+          (auth-source-pick-first-password :host "api.openai.com"))    
+    (define-key global-map (kbd "C-c g r") 'chatgpt-shell-send-region)
+
+  #+END_SRC
+
+
+* lsp-bridge (Experimental)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
+   
+  #+BEGIN_SRC emacs-lisp
+    (db/add-to-load-path "~/src/lsp-bridge" nil '(posframe))
+  #+END_SRC
+   
+
+* Window Handling
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  This is from system crafters.
+
+  #+BEGIN_SRC emacs-lisp
+    ;; Make sure repeat-mode is turned on first!
+    (repeat-mode 1)
+
+    (defvar-keymap db/window-key-map
+      :doc "Bindings for managing windows, configured to be repeatable."
+      :repeat t
+      "c" 'delete-window
+      "|" 'split-window-horizontally
+      "-" 'split-window-vertically
+      "h" 'windmove-left
+      "j" 'windmove-down
+      "k" 'windmove-up
+      "l" 'windmove-right
+      "C-h" 'shrink-window-horizontally
+      "C-j" 'shrink-window
+      "C-k" 'enlarge-window
+      "C-l" 'enlarge-window-horizontally
+      "H" 'windmove-swap-states-left
+      "J" 'windmove-swap-states-down
+      "K" 'windmove-swap-states-up
+      "L" 'windmove-swap-states-right)
+
+    (global-set-key (kbd "C-c w") db/window-key-map)
+
+  #+END_SRC
+
+
+* Paren Handling and  Matching
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Configuration for a bunch of built in packages.
+
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package paren
+      :config
+      (show-paren-mode +1))
+
+    (use-package elec-pair
+      :config
+      (electric-pair-mode 1))
+
+  #+END_SRC
+
+
+* Windows Specific Setup
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  
+** WSL to use Windows Native Browser
+
+   #+BEGIN_SRC emacs-lisp
+     (when (and (eq system-type 'gnu/linux)
+                (string-match
+                 "Linux.*Microsoft.*Linux"
+                 (shell-command-to-string "uname -a")))
+       (setq
+        browse-url-generic-program  "/mnt/c/Windows/System32/cmd.exe"
+        browse-url-generic-args     '("/c" "start")
+        browse-url-browser-function #'browse-url-generic))
+   #+END_SRC
+   
+
+* Avy
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  Avy has one really useful function =avy-goto-line= which supports multiple
+  buffers
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package avy
+      :bind (("M-g f" . avy-goto-line)))
+  #+END_SRC
+  
+
+* Dired Mode
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Dired mode is built in and powerful but easy to forget the commands and
+  capabilities. Make things a bit easier to remember for me
+
+  #+BEGIN_SRC emacs-lisp
+    ;; dired-x comes with emacs but isn't loaded by default.
+    (require 'dired-x)
+
+    (setq-default dired-omit-files-p t) ; Buffer-local variable
+    (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+    (setq dired-dwim-target t) ;; guess destination
+    (setq dired-recursive-copies 'always)
+    (setq dired-recursive-deletes 'always)
+
+    ;; add these simple keys to dired mode
+    (define-key dired-mode-map (kbd "% f") 'find-name-dired)
+    (define-key dired-mode-map (kbd "% .") 'dired-omit-mode)
+    (define-key dired-mode-map (kbd "% w") 'db/wsl-open-in-external-app)
+
+  #+END_SRC
+
+
+* Flycheck
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+      :ensure 
+        :init (global-flycheck-mode))
+
+    (use-package flycheck-inline
+      :ensure t
+      :after flycheck
+      :config
+      (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+  #+END_SRC
+
+  Vale integration:
+  https://github.com/grettke/flycheck-org-vale
+  
+  #+BEGIN_SRC emacs-lisp
+    (db/add-to-load-path "~/src/flycheck-org-vale" t '(flycheck-org-vale))
+  #+END_SRC
+  
+
+* Text Scaling
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  =default-text-scale= allows you to quickly resize text. By default binds to
+  C-M-= and C-M-- to increase and decrease the face size 
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package default-text-scale
+      :config
+      (default-text-scale-mode))
+  #+END_SRC
+
+
+* Ivy
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package ivy
+      :config
+      (setq ivy-use-virtual-buffers t)
+      (setq ivy-use-selectable-prompt t)
+      (setq enable-recursive-minibuffers t)
+      (ivy-mode 1))
+  #+END_SRC
+
+
+* Swiper
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  Use swiper for better searching
+  #+BEGIN_SRC emacs-lisp
+    (use-package swiper
+      :bind
+      (("\C-s" . swiper)))
+  #+END_SRC
+
+
+* Orderless
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  When searching order does not matter making it easier to find things. 
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package orderless
+      :config
+      (setq completion-styles '(orderless)))
+  #+END_SRC
+
+
+* Marginalia
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  Provides richer annotaions in minibuffer
+
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package marginalia
+      ;; Either bind `marginalia-cycle` globally or only in the minibuffer
+    :bind (("M-A" . marginalia-cycle)
+           :map minibuffer-local-map
+           ("M-A" . marginalia-cycle))
+    :init
+    ;; Must be in the :init section of use-package such that the mode gets
+    ;; enabled right away. Note that this forces loading the package.
+    (marginalia-mode))
+
+  #+END_SRC
+
+
+* Markdown Mode
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package markdown-mode
+      :ensure t
+      :mode ("README\\.md\\'" . gfm-mode)
+      :init (setq markdown-command "multimarkdown"))
+  #+END_SRC
+  
+
+* PDF Tools
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  PDF viewer and annotator
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package pdf-tools
+      :init
+      (pdf-loader-install))
+  #+END_SRC
+
+
+* Yas Snippets
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  Use yas snippets templating package
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package yasnippet
+      :config
+      (yas-global-mode 1))
+    (use-package yasnippet-snippets)
+  #+END_SRC
+
+
+* Projectile
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  [[https://projectile.mx/][Projectile]] is useful for navigating dev projects
+  
+  #+BEGIN_SRC emacs-lisp
+    (use-package projectile)
+    (require 'projectile)
+    (projectile-mode +1)
+  #+END_SRC
+
+
+* Org Mode
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+** Org Mode Packages
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org)
+     (use-package org-contrib)
+     (use-package org-superstar)
+     (use-package org-edna)
+     (use-package org-ql)
+     (use-package counsel)
+     (use-package org-super-agenda)
+     (require 'org-habit)
+  #+END_SRC
+
+** Org Appearance
+
+  #+BEGIN_SRC emacs-lisp
+
+
+  #+END_SRC
+  
+** Basic Org Config  
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+
+     (setq org-image-actual-width nil)
+     (setq org-modules (append '(org-protocol) org-modules))
+     (setq org-modules (append '(habit) org-modules))
+     (setq org-catch-invisible-edits 'smart)
+     (setq org-ctrl-k-protect-subtree t)
+     (set-face-attribute 'org-headline-done nil :strike-through t)
+     (setq org-return-follows-link t)
+     (setq org-adapt-indentation t)
+     (setq org-odt-preferred-output-format "docx")
+
+     ;; all my org related keys will be set up in this keymap
+     (global-set-key
+      (kbd "C-c o")
+      (define-keymap
+        :prefix 'db/org-key-map
+        "l" 'org-store-link
+        "c" 'org-capture
+        "a" 'org-agenda))
+
+     ;; override y (agenda year) with more useful todo yesterday for marking habits done prior day 
+     (define-key org-agenda-mode-map (kbd "y") 'org-agenda-todo-yesterday)
+
+   #+END_SRC
+
+** Org File Locations
+
+   My setup now includes two org-directories under an umberlla OrgDocuments
+   directory. They are personal and dcllp (work). The default opening setup is
+   to default to personal. Some files may also be gpg encrypted and need to be
+   added as well.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-directory-personal "~/OrgDocuments/personal")
+     (setq org-directory-work "~/OrgDocuments/dcllp")
+     (setq org-directory org-directory-personal)
+     (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
+     (setq org-attach-dir-relative t)
+
+     (defun db/current-index-file ()
+       "Returns the current index file which is dependent on current context" 
+       (expand-file-name "index.org" org-directory))
+
+     (defun db/current-monthly-journal ()
+       "Returns the current months journal"
+       (setq current-year (format-time-string "%Y"))
+       (setq current-month (format-time-string "%m"))
+       (concat "~/OrgDocuments/personal/journals/" current-year "/" current-year "-" current-month ".org"))
+
+     (defun db/org-agenda-files ()
+       ;; org files for agenda
+       (setq ofiles (directory-files-recursively org-directory "org$"))
+       ;; some may be encrypted though
+       (setq gfiles (directory-files-recursively org-directory "org.gpg$"))
+       (append ofiles gfiles))
+
+     (setq org-agenda-files (db/org-agenda-files))
+     (setq org-default-notes-file (concat org-directory "/index.org"))
+  #+END_SRC
+
+** Org Roam
+
+   Likewise org-roam defaults to personal.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-roam-v2-ack t)
+     (use-package org-roam)
+     (setq org-roam-directory (expand-file-name "roam" org-directory))
+     (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+     (setq org-roam-db-autosync-mode t)
+
+     ;; required for org-roam bookmarklet 
+     (require 'org-roam-protocol)
+
+     ;; Org-roam Capture Templates
+
+     ;; Starter pack. If there is only one, it uses automatically without asking.
+
+     (setq org-roam-capture-templates
+           '(("d" "default" plain "%?"
+              :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
+                                "#+title: ${title}\n#+filetags: %^G:\n\n* ${title}\n\n")
+              :unnarrowed t)
+             ("y" "yank" plain "%?"
+              :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
+                                "#+title: ${title}\n#+filetags: %^G\n\n%c\n\n")
+              :unnarrowed t)
+             ("r" "region" plain "%?"
+              :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
+                                "#+title: ${title}\n#+filetags: %^G\n\n%i\n\n")
+              :unnarrowed t)
+
+             ("o" "org-roam-it" plain "%?"
+              :if-new (file+head"%(format-time-string \"%Y-%m-%d--%H-%M-%SZ--${slug}.org\" (current-time) t)"
+                                "#+title: ${title}\n#+filetags:\n{ref}\n")
+              :unnarrowed t)))
+
+     (add-hook 'org-capture-after-finalize-hook
+               (lambda ()
+                 (if (org-roam-file-p)
+                     (org-roam-db-sync))))
+
+     ;; this is required to get matching on tags
+     (setq org-roam-node-display-template
+           (concat "${title:*} "
+                   (propertize "${tags:10}" 'face 'org-tag)))
+
+
+   #+END_SRC
+
+   Install org-roam-ui for a vizual of my roam database.
+
+   #+BEGIN_SRC emacs-lisp
+     (package-install 'org-roam-ui)
+   #+END_SRC
+
+** Language Support
+
+   #+BEGIN_SRC emacs-lisp
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . t)
+        (ruby . t)
+        (python . t)
+        (sql . t)
+        (shell . t)
+        (clojure . t)
+        (gnuplot . t)))
+
+     (setq org-confirm-babel-evaluate nil)
+     (setq org-export-with-smart-quotes t)
+     (setq org-src-fontify-natively t)
+     (setq org-src-tab-acts-natively t)
+     (setq org-src-window-setup 'current-window)
+
+   #+END_SRC
+
+** Task Handling and Agenda
+
+   Establishes the states and other settings related to task handling.
+
+   #+BEGIN_SRC emacs-lisp
+
+     (setq org-enforce-todo-dependencies t)
+     (setq org-enforce-todo-checkbox-dependencies t)
+     (setq org-deadline-warning-days 7)
+
+     (setq org-todo-keywords '((sequence
+                                "TODO(t)"
+                                "STARTED(s)"
+                                "DELEGATED(e)"
+                                "WAITING(w)"
+                                "HOLD(h)" "|"
+                                "DONE(d)"
+                                "SUSPENDED(u)")))
+
+
+     (setq org-todo-keyword-faces
+           '(("TODO" . (:foreground "blue" :weight bold))
+             ("STARTED" . (:foreground "green"))
+             ("DONE" . (:foreground "pink"))
+             ("WAITING" . (:foreground "orange"))
+             ("HOLD" . (:foreground "orange"))
+             ("SUSPENDED" . (:foreground "forest green"))
+             ("DELEGATED" . (:foreground "light blue"))
+             ("TASK" . (:foreground "blue"))))
+
+     (setq org-tags-exclude-from-inheritance '("project")
+           org-stuck-projects '("+project/-MAYBE-DONE"
+                                ("TODO" "WAITING" "DELEGATED") ()))
+
+     (setq org-log-done 'time)
+     (setq org-log-into-drawer t)
+     (setq org-log-reschedule 'note)
+
+     ;; agenda settings
+     (setq org-agenda-span 1)
+     (setq org-agenda-start-on-weekday nil)
+
+    (add-hook 'org-agenda-mode-hook (lambda ()
+                                      (define-key org-agenda-mode-map (kbd "S") 'org-agenda-schedule)))
+    (add-hook 'org-agenda-mode-hook (lambda ()
+                                      (define-key org-agenda-mode-map (kbd "D") 'org-agenda-deadline)))
+     
+   #+END_SRC
+
+   Use org-super-agenda
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'org-super-agenda)
+     (setq org-super-agenda-groups
+            '(;; Each group has an implicit boolean OR operator between its selectors.
+              (:name "Today"  ; Optionally specify section name
+                     :time-grid t  ; Items that appear on the time grid
+                     :todo "TODAY")  ; Items that have this TODO keyword
+              (:name "Projects"
+                     :tag "project")
+              (:name "Important"
+                     :priority "A")
+              ;; Set order of multiple groups at once
+              ;; (:order-multi (2 (:name "Shopping in town"
+              ;;                         ;; Boolean AND group matches items that match all subgroups
+              ;;                         :and (:tag "shopping" :tag "@town"))
+              ;;                  (:name "Food-related"
+              ;;                         ;; Multiple args given in list with implicit OR
+              ;;                         :tag ("food" "dinner"))
+              ;;                  (:name "Personal"
+              ;;                         :habit t
+              ;;                         :tag "personal")
+              ;;                  (:name "Space-related (non-moon-or-planet-related)"
+              ;;                         ;; Regexps match case-insensitively on the entire entry
+              ;;                         :and (:regexp ("space" "NASA")
+              ;;                                       ;; Boolean NOT also has implicit OR between selectors
+              ;;                                       :not (:regexp "moon" :tag "planet")))))
+              ;; Groups supply their own section names when none are given
+              (:todo "WAITING" :order 8)  ; Set order of this section
+              (:name "Errands" :tag "errand")
+              (:name "Calls" :tag "call")
+              (:todo ("EVENT" "INFO" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
+                     ;; Show this group at the end of the agenda (since it has the
+                     ;; highest number). If you specified this group last, items
+                     ;; with these todo keywords that e.g. have priority A would be
+                     ;; displayed in that group instead, because items are grouped
+                     ;; out in the order the groups are listed.
+                     :order 9)
+              (:priority<= "B"
+                           ;; Show this section after "Today" and "Important", because
+                           ;; their order is unspecified, defaulting to 0. Sections
+                           ;; are displayed lowest-number-first.
+                           :order 1)
+              ;; After the last group, the agenda will display items that didn't
+              ;; match any of these groups, with the default order position of 99
+              ))
+     (org-super-agenda-mode t)
+
+   #+END_SRC         
+
+** Diary Settings
+
+    I don't use the diary file but it's useful for holidays.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq calendar-bahai-all-holidays-flag nil)
+      (setq calendar-christian-all-holidays-flag t)
+      (setq calendar-hebrew-all-holidays-flag t)
+      (setq calendar-islamic-all-holidays-flag t)
+   #+END_SRC
+
+** Calfw
+
+   [[https://github.com/kiwanami/emacs-calfw][Calfw]] generates useful calendar views suitable for printing or providing a
+   more visual outlook on the day, week, two weeks, or month
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package calfw)
+     (use-package calfw-org)
+     (require 'calfw)
+     (require 'calfw-org)
+
+     (defun db/my-open-calendar ()
+       (interactive)
+       (cfw:open-calendar-buffer
+        :contents-sources
+        (list
+         (cfw:org-create-source "Green")  ; orgmode source
+         ;;    (cfw:howm-create-source "Blue")  ; howm source
+         ;;    (cfw:cal-create-source "Orange") ; diary source
+         ;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
+         ;;    (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed") ; google calendar ICS
+         )))
+    #+END_SRC
+
+** Org Edna
+
+   Provides more powerful org dependency management.
+
+   #+BEGIN_SRC emacs-lisp
+     (org-edna-mode)
+
+     (defun db/org-edna-blocked-by-descendants ()
+       "Adds PROPERTY blocking this tasks unless descendants are DONE"
+       (interactive)
+       (org-set-property "BLOCKER" "descendants"))
+
+     (defun db/org-edna-blocked-by-ancestors ()
+       "Adds PROPERTY blocking this tasks unless ancestors are DONE"
+       (interactive)
+       (org-set-property "BLOCKER" "ancestors"))
+
+     (defun db/org-edna-current-id ()
+       "Get the current ID to make it easier to set up BLOCKER ids"
+       (interactive)
+       (set-register 'i (org-entry-get (point) "ID"))
+       (message "ID stored"))
+
+     (defun db/org-edna-blocked-by-id ()
+       "Adds PROPERTY blocking task at point with specific task ID"
+       (interactive)
+       (org-set-property "BLOCKER" (s-concat "ids(" (get-register 'i) ")")))
+
+     (define-keymap
+       :keymap db/org-key-map
+       "<up>"    'db/org-edna-blocked-by-ancestors
+       "<down>"  'db/org-edna-blocked-by-descendants
+       "<left>"  'db/org-edna-current-id
+       "<right>" 'db/org-edna-blocked-by-id
+       "i d"     'org-id-get-create)
+
+   #+END_SRC
+
+** Orgql
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-ql)
+   #+END_SRC
+   
+** Filter Refile Targets
+
+   I have monthly log files used to take notes / journal that are sources of refile
+   items but not targets. They are named YYYY-MM(w).org
+
+   #+BEGIN_SRC emacs-lisp
+     (defun db-filtered-refile-targets ()
+       "Removes month journals as valid refile targets"
+       (remove nil (mapcar (lambda (x)
+                             (if (string-match-p "journals" x)
+                                 nil x)) org-agenda-files)))
+
+     (setq org-refile-targets '((db-filtered-refile-targets :maxlevel . 10)))
+
+   #+END_SRC
+
+** Org Capture Setup
+
+   Org capture templates for Chrome org-capture from [[https://github.com/sprig/org-capture-extension][site]].
+
+   Added this file: ~/.local/share/applications/org-protocol.desktop~ using the
+   following command:
+
+   #+BEGIN_EXAMPLE
+     cat > "${HOME}/.local/share/applications/org-protocol.desktop" << EOF
+     [Desktop Entry]
+     Name=org-protocol
+     Exec=emacsclient %u
+     Type=Application
+     Terminal=false
+     Categories=System;
+     MimeType=x-scheme-handler/org-protocol;
+     EOF
+   #+END_EXAMPLE
+
+   and then run
+
+   #+BEGIN_EXAMPLE
+     update-desktop-database ~/.local/share/applications
+   #+END_EXAMPLE
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'org-protocol)
+   #+END_SRC
+
+*** Setting up org-protocol handler. This page has best description:
+
+    [[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
+
+    #+BEGIN_SRC emacs-lisp
+      (defun transform-square-brackets-to-round-ones(string-to-transform)
+        "Transforms [ into ( and ] into ), other chars left unchanged."
+        (concat 
+         (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform))
+        )
+
+      (defvar db/org-contacts-template "* %(org-contacts-template-name)
+              :PROPERTIES:
+              :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+              :MOBILE: %^{MOBILE}
+              :BIRTHDAY: %^{yyyy-mm-dd}
+              :EMAIL: %(org-contacts-template-email)
+              :NOTE: %^{NOTE}
+              :END:" "Template for org-contacts.")
+
+      ;; if you set this variable you have to redefine the default t/Todo.
+      (setq org-capture-templates 
+            `(
+
+              ;; ("t" "Tasks")
+
+              ;; TODO     (t) Todo template
+              ("t" "Todo" entry (file+headline ,org-default-notes-file "Refile")
+               "* TODO %?"
+               :empty-lines 1)
+
+              ;; ("te" "Delegated" entry (file+headline ,org-default-notes-file "Refile")
+              ;;  "* DELEGATED %?
+              ;;  :PROPERTIES:
+              ;;  :OWNER: %^{Delegated to?}
+              ;;  :END:"
+              ;;  :empty-lines 1)
+
+              ;; ;; Note (n) template
+              ("n" "Note" entry (file+headline ,org-default-notes-file "Refile")
+               "* %? %(%i)"
+               :empty-lines 1)
+
+              ;; Protocol (p) template
+              ("p" "Protocol" entry (file+headline ,org-default-notes-file "Refile")
+               "* %^{Title}
+                          Source: %u, %c
+                         ,#+BEGIN_QUOTE
+                         %i
+                         ,#+END_QUOTE
+                         %?"
+               :empty-lines 1)
+
+              ;; Protocol Link (L) template
+              ("L" "Protocol Link" entry (file+headline ,org-default-notes-file "Refile")
+               "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+               :empty-lines 1)
+
+              ;; Goal (G) template
+              ("G" "Goal" entry (file+headline ,org-default-notes-file "Refile")
+               "* GOAL %^{Describe your goal}
+            Added on %U - Last reviewed on %U
+                 :SMART:
+                 :Sense: %^{What is the sense of this goal?}
+            :Measurable: %^{How do you measure it?}
+               :Actions: %^{What actions are needed?}
+             :Resources: %^{Which resources do you need?}
+               :Timebox: %^{How much time are you spending for it?}
+                   :END:"
+               :empty-lines 1)
+              ;; Contact (c) template
+              ("c" "Contact" entry (file+headline ,(concat org-directory "/contacts.org") "Contacts")
+               "* %(org-contacts-template-name)
+            :PROPERTIES:
+             :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+            :BIRTHDAY: %^{yyyy-mm-dd}
+               :EMAIL: %(org-contacts-template-email)
+                 :TEL: %^{NUMBER}
+                :NOTE: %^{NOTE}
+            :END:"
+               :empty-lines 1)
+              ))
+
+   #+END_SRC        
+
+** Org Screenshots
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-attach-screenshot
+       :config (setq org-attach-screenshot-dirfunction
+             (lambda () 
+               (when (cl-assert (buffer-file-name))
+                  (concat (file-name-sans-extension (buffer-file-name))
+                      "-att")))
+             org-attach-screenshot-command-line "gnome-screenshot -a -f %f"))
+   #+END_SRC
+
+** Org Download
+
+   Drag and drop support for images
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-download)
+     (require 'org-download)
+     (setq org-download-method 'attach)
+     ;; Drag-and-drop to `dired`
+     (add-hook 'dired-mode-hook 'org-download-enable)
+   #+END_SRC
+
+** Personal and Work Toggle
+
+   #+BEGIN_SRC emacs-lisp
+     (defun db/org-work-context ()
+       (interactive)
+       (setq org-directory org-directory-work)
+       (db/org-switch-context))
+
+     (defun db/org-personal-context ()
+       (interactive)
+       (setq org-directory org-directory-personal)
+       (db/org-switch-context))
+
+     (defun db/org-switch-context ()
+       (setq org-agenda-files (db/org-agenda-files))
+       (setq org-default-notes-file (concat org-directory "/index.org"))
+       (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
+       (setq org-roam-directory (expand-file-name "roam" org-directory))
+       (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+       (org-roam-db-sync))
+  #+END_SRC
+
+** Org Key Mappings
+
+   #+BEGIN_SRC emacs-lisp
+     (define-keymap
+       :keymap db/org-key-map
+       ;; dalies hang of C-o d
+       "d ."    'org-roam-dailies-goto-today
+       "d d"    'org-roam-dailies-capture-today
+       "d y"    'org-roam-dailies-goto-yesterday
+       "d t"    'org-roam-dailies-goto-tomorrow
+       ;; roam hang of C-o r
+       "r b"    'org-roam-buffer-toggle
+       "r f"    'org-roam-node-find
+       "r c"    'org-roam-capture              
+       "r g"    'org-roam-graph
+       "r i"    'org-roam-node-insert
+       "r r"    'counsel-rg
+       "j"      'counsel-org-goto
+       "n o"    'counsel-org-agenda-headlines
+       "r l"    'counsel-org-link
+       "s"      'org-attach-screenshot)
+
+   #+END_SRC
+
+
+* Elfeed
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Read news with elfeed
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package elfeed)
+    (use-package elfeed-org
+      :init
+      (setq elfeed-set-max-connections 32)
+      (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory-personal)))
+      (elfeed-org)
+      :bind
+      (("C-c r" . elfeed)
+       :map elfeed-show-mode-map
+       ("o" . elfeed-show-visit)
+       :map elfeed-search-mode-map
+       ("o" . elfeed-search-browse-url)))
+
+   #+END_SRC
+
+
+* Elfeed-Tube
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Use elfeed for youtube channels
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package elfeed-tube
+      :ensure t ;; or :straight t
+      :after elfeed
+      :demand t
+      :config
+      ;; (setq elfeed-tube-auto-save-p nil) ; default value
+      ;; (setq elfeed-tube-auto-fetch-p t)  ; default value
+      (elfeed-tube-setup)
+
+      :bind (:map elfeed-show-mode-map
+                  ("F" . elfeed-tube-fetch)
+                  ([remap save-buffer] . elfeed-tube-save)
+                  :map elfeed-search-mode-map
+                  ("F" . elfeed-tube-fetch)
+                  ([remap save-buffer] . elfeed-tube-save)))
+
+
+    (use-package elfeed-tube-mpv
+      :ensure t ;; or :straight t
+      :bind (:map elfeed-show-mode-map
+                  ("C-c C-f" . elfeed-tube-mpv-follow-mode)
+                  ("C-c C-w" . elfeed-tube-mpv-where)))
+  #+END_SRC
+
+
+* Org Present
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+
+    (unless (package-installed-p 'org-present)
+      (package-install 'org-present))
+
+    (defun db/org-present-prepare-slide (buffer-name heading)
+      ;; Show only top-level headlines
+      (org-overview)
+
+      ;; Unfold the current entry
+      (org-show-entry)
+
+      ;; Show only direct subheadings of the slide but don't expand them
+      (org-show-children))
+
+    (defun db/org-present-start ()
+      ;; Tweak font sizes
+      (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
+                     (header-line (:height 4.0) variable-pitch)
+                     (org-document-title (:height 1.75) org-document-title)
+                     (org-code (:height 1.55) org-code)
+                     (org-verbatim (:height 1.55) org-verbatim)
+                     (org-block (:height 1.25) org-block)
+                     (org-block-begin-line (:height 0.7) org-block)))
+
+      ;; Set a blank header line string to create blank space at the top
+      (setq header-line-format " ")
+
+      ;; Display inline images automatically
+      (org-display-inline-images)
+
+      ;; Center the presentation and wrap lines
+      (visual-fill-column-mode 1)
+      (visual-line-mode 1))
+
+    (defun db/org-present-end ()
+      ;; Reset font customizations
+      (setq-local face-remapping-alist '((default variable-pitch default)))
+
+      ;; Clear the header line string so that it isn't displayed
+      (setq header-line-format nil)
+
+      ;; Stop displaying inline images
+      (org-remove-inline-images)
+
+      ;; Stop centering the document
+      (visual-fill-column-mode 0)
+      (visual-line-mode 0))
+
+    ;; Turn on variable pitch fonts in Org Mode buffers
+    ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
+
+    ;; Register hooks with org-present
+    (add-hook 'org-present-mode-hook 'db/org-present-start)
+    (add-hook 'org-present-mode-quit-hook 'db/org-present-end)
+    (add-hook 'org-present-after-navigate-functions 'db/org-present-prepare-slide)
+
+  #+END_SRC
+
+
+* Org Transculsion
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package org-transclusion
+      :after org
+      :init
+      )
+
+  #+END_SRC
+
+
+* Org Habit Stats
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Comprehensive [[https://github.com/ml729/org-habit-stats][stats on your habits]].
+   
+  #+BEGIN_SRC emacs-lisp
+
+    ;; if it is installed
+    (if (db/add-to-load-path "~/.emacs.d/lisp/org-habit-stats" t)
+        (load "org-habit-stats"))
+
+  #+END_SRC
+
+
+* Blogging / Org2Blog
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Blogging set up for https://www.donald-brady.com
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package org2blog
+      :config
+      (setq org2blog/wp-blog-alist
+            '(
+              ("wordpress"
+               :url "https://donaldbrady.wordpress.com/xmlrpc.php"
+               :username "donald.brady@gmail.com")))
+      (setq org2blog/wp-image-upload t)
+      (setq org2blog/wp-image-thumbnails t)
+      (setq org2blog/wp-show-post-in-browser 'ask)
+      :bind
+      ("\C-c h" . org2blog-user-interface))
+
+  #+END_SRC
+
+
+* Mastodon
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  From here: https://codeberg.org/martianh/mastodon.el
+  
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package mastodon
+      :ensure t
+      :config
+      (setq mastodon-tl--show-avatars t)
+      (setq mastodon-media--avatar-height 40)
+      (mastodon-discover))
+
+    (setq mastodon-instance-url "https://mastodon.social"
+          mastodon-active-user "donald_brady")
+
+
+
+  #+END_SRC
+
+
+* Developer Modes
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'yaml-mode)
+    (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+   #+END_SRC
+
+
+* lsp-bridge (Experimental)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
+   
+  #+BEGIN_SRC emacs-lisp
+    (db/add-to-load-path "~/src/lsp-bridge" nil '(posframe))
+  #+END_SRC
+   
+
+* Vale Integration
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-07-15 Sat 14:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  
+  Vale integration:
+  https://github.com/grettke/flycheck-org-vale
+  
+  #+BEGIN_SRC emacs-lisp
+    (db/add-to-load-path "~/src/flycheck-org-vale" t '(flycheck-org-vale))
+  #+END_SRC
+  

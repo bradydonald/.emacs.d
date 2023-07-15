@@ -216,14 +216,6 @@
 
   #+END_SRC
 
-* lsp-bridge (Experimental)
-
-  [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
-   
-  #+BEGIN_SRC emacs-lisp
-    (db/add-to-load-path "~/src/lsp-bridge" nil '(posframe))
-  #+END_SRC
-   
 * Window Handling
 
   This is from system crafters.
@@ -331,13 +323,6 @@
       (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
   #+END_SRC
 
-  Vale integration:
-  https://github.com/grettke/flycheck-org-vale
-  
-  #+BEGIN_SRC emacs-lisp
-    (db/add-to-load-path "~/src/flycheck-org-vale" t '(flycheck-org-vale))
-  #+END_SRC
-  
 * Text Scaling
 
   =default-text-scale= allows you to quickly resize text. By default binds to
