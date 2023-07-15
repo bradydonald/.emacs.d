@@ -955,20 +955,23 @@
    #+BEGIN_SRC emacs-lisp
      (define-keymap
        :keymap db/org-key-map
-       "j"      'counsel-org-goto
+       ;; dalies hang of C-o d
+       "d ."    'org-roam-dailies-goto-today
+       "d d"    'org-roam-dailies-capture-today
+       "d y"    'org-roam-dailies-goto-yesterday
+       "d t"    'org-roam-dailies-goto-tomorrow
+       ;; roam hang of C-o r
        "r b"    'org-roam-buffer-toggle
        "r f"    'org-roam-node-find
        "r c"    'org-roam-capture              
        "r g"    'org-roam-graph
-       "r ."    'org-roam-dailies-goto-today
-       "r d"    'org-roam-dailies-capture-today
-       "r y"    'org-roam-dailies-goto-yesterday
-       "r t"    'org-roam-dailies-goto-tomorrow
        "r i"    'org-roam-node-insert
        "r r"    'counsel-rg
+       "j"      'counsel-org-goto
        "n o"    'counsel-org-agenda-headlines
        "r l"    'counsel-org-link
        "s"      'org-attach-screenshot)
+
    #+END_SRC
 
 * Elfeed
