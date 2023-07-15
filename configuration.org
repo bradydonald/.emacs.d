@@ -1180,8 +1180,8 @@
         (lambda ()
           (auth-source-pass-get 'secret "openai-key")))))
 
-    (require 'ob-chatgpt-shell)
-    (ob-chatgpt-shell-setup)
+    (setq chatgpt-shell-openai-key
+          (auth-source-pick-first-password :host "api.openai.com"))    
     (define-key global-map (kbd "C-c g r") 'chatgpt-shell-send-region)
 
   #+END_SRC
