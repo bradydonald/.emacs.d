@@ -313,11 +313,9 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package flycheck
-      :ensure 
         :init (global-flycheck-mode))
 
     (use-package flycheck-inline
-      :ensure t
       :after flycheck
       :config
       (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
@@ -383,7 +381,6 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package markdown-mode
-      :ensure t
       :mode ("README\\.md\\'" . gfm-mode)
       :init (setq markdown-command "multimarkdown"))
   #+END_SRC
@@ -954,7 +951,7 @@
        "r r"    'counsel-rg
        "j"      'counsel-org-goto
        "n o"    'counsel-org-agenda-headlines
-       "r l"    'counsel-org-link
+       "r l"    'counsel-org-linka
        "s"      'org-attach-screenshot)
 
    #+END_SRC
@@ -985,7 +982,6 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package elfeed-tube
-      :ensure t ;; or :straight t
       :after elfeed
       :demand t
       :config
@@ -1002,7 +998,6 @@
 
 
     (use-package elfeed-tube-mpv
-      :ensure t ;; or :straight t
       :bind (:map elfeed-show-mode-map
                   ("C-c C-f" . elfeed-tube-mpv-follow-mode)
                   ("C-c C-w" . elfeed-tube-mpv-where)))
@@ -1119,7 +1114,6 @@
   #+BEGIN_SRC emacs-lisp
 
     (use-package mastodon
-      :ensure t
       :config
       (setq mastodon-tl--show-avatars t)
       (setq mastodon-media--avatar-height 40)
