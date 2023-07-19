@@ -450,7 +450,8 @@
      (setq org-return-follows-link t)
      (setq org-adapt-indentation t)
      (setq org-odt-preferred-output-format "docx")
-
+     (setq org-agenda-skip-scheduled-if-done t)
+     (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
      ;; all my org related keys will be set up in this keymap
      (global-set-key
       (kbd "C-c o")
