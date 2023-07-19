@@ -1127,6 +1127,29 @@
 
   #+END_SRC
 
+* Which Key
+
+  Prompts with possibe keys after a short delay
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package which-key
+      :config
+      (which-key-mode t))
+  #+END_SRC
+  
+* Developer Enhancements
+
+** Git Gutter
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package git-gutter
+       :config
+       (setq git-gutter:modified-sign "|")
+       (setq git-gutter:added-sign "|")
+       (setq git-gutter:deleted-sign "|")
+       (global-git-gutter-mode t))
+   #+END_SRC
+
 * Developer Modes
 
   #+BEGIN_SRC emacs-lisp
