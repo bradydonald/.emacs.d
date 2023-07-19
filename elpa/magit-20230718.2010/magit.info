@@ -6592,7 +6592,7 @@ features the following suffix commands.
    When a cherry-pick or revert is in progress, then the transient
 instead features the following suffix commands.
 
-‘V A’ (‘magit-sequence-continue’)
+‘V V’ (‘magit-sequence-continue’)
      Resume the current cherry-pick or revert sequence.
 
 ‘V s’ (‘magit-sequence-skip’)
@@ -10240,11 +10240,11 @@ Appendix C Keystroke Index
                                                               (line  50)
 * v:                                     Applying.            (line  47)
 * V:                                     Reverting.           (line   7)
-* V A:                                   Reverting.           (line  29)
 * V a:                                   Reverting.           (line  35)
 * V s:                                   Reverting.           (line  32)
 * V V:                                   Reverting.           (line  15)
 * V v:                                   Reverting.           (line  20)
+* V V <1>:                               Reverting.           (line  29)
 * W:                                     Plain Patches.       (line   7)
 * w:                                     Maildir Patches.     (line   9)
 * w a:                                   Plain Patches.       (line  20)
