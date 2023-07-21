@@ -55,6 +55,7 @@
   #+BEGIN_SRC emacs-lisp
 
     (setq inhibit-startup-screen t)
+    (setq-default custom-file "~/.emacs.d/custom-file.el")
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (setq ring-bell-function 'ignore)
     (line-number-mode t)
