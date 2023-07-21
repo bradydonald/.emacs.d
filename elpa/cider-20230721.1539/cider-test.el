@@ -374,11 +374,14 @@ With the actual value, the outermost '(not ...)' s-expression is removed."
   (let ((face (cider-test-type-face type)))
     `(:foreground ,(face-attribute face :background))))
 
-(defun cider-test-render-summary (buffer summary)
+(defun cider-test-render-summary (buffer summary &optional elapsed-time)
   "Emit into BUFFER the report SUMMARY statistics."
   (with-current-buffer buffer
     (nrepl-dbind-response summary (ns var test pass fail error)
-      (insert (format "Tested %d namespaces\n" ns))
+      (let ((ms (nrepl-dict-get elapsed-time "ms")))
+        (insert (format "Tested %d namespaces%s\n" ns (if ms
+                                                          (format " in %s ms" ms)
+                                                        ""))))
       (insert (format "Ran %d assertions, in %d test functions\n" test var))
       (unless (zerop fail)
         (cider-insert (format "%d failures" fail) 'cider-test-failure-face t))
@@ -386,12 +389,15 @@ With the actual value, the outermost '(not ...)' s-expression is removed."
         (cider-insert (format "%d errors" error) 'cider-test-error-face t))
       (when (zerop (+ fail error))
         (cider-insert (format "%d passed" pass) 'cider-test-success-face t))
+      (when cider-test-fail-fast
+        (cider-insert "cider-test-fail-fast: " 'font-lock-comment-face nil)
+        (cider-insert "t" 'cider-test-constant-face t))
       (insert "\n\n"))))
 
 (defun cider-test-render-assertion (buffer test)
   "Emit into BUFFER report detail for the TEST assertion."
   (with-current-buffer buffer
-    (nrepl-dbind-response test (var context type message expected actual diffs error gen-input)
+    (nrepl-dbind-response test (var context type message expected actual diffs error gen-input elapsed-time)
       (cl-flet ((insert-label (s)
                   (cider-insert (format "%8s: " s) 'font-lock-comment-face))
                 (insert-align-label (s)
@@ -410,6 +416,9 @@ With the actual value, the outermost '(not ...)' s-expression is removed."
                 (bg `(:background ,cider-test-items-background-color :extend t)))
             (cider-insert (capitalize type) type-face nil " in ")
             (cider-insert var 'font-lock-function-name-face t)
+            (when elapsed-time
+              (when-let ((humanized (nrepl-dict-get elapsed-time "humanized")))
+                (cider-insert humanized)))
             (when context  (cider-insert context 'font-lock-doc-face t))
             (when message  (cider-insert message 'font-lock-string-face t))
             (when expected
@@ -450,16 +459,21 @@ With the actual value, the outermost '(not ...)' s-expression is removed."
                   test))
               tests))
 
-(defun cider-test-render-report (buffer summary results)
+(defun cider-test-render-report (buffer summary results &optional elapsed-time ns-elapsed-time)
   "Emit into BUFFER the report for the SUMMARY, and test RESULTS."
   (with-current-buffer buffer
     (let ((inhibit-read-only t))
       (cider-test-report-mode)
       (cider-insert "Test Summary" 'bold t)
       (dolist (ns (nrepl-dict-keys results))
-        (insert (cider-propertize ns 'ns) "\n"))
+        (insert (cider-propertize ns 'ns)
+                (or (let ((ms (nrepl-dict-get (nrepl-dict-get ns-elapsed-time ns)
+                                              "ms")))
+                      (propertize (format " %s ms" ms) 'face 'font-lock-comment-face))
+                    "")
+                "\n"))
       (cider-insert "\n")
-      (cider-test-render-summary buffer summary)
+      (cider-test-render-summary buffer summary elapsed-time)
       (nrepl-dbind-response summary (fail error)
         (unless (zerop (+ fail error))
           (cider-insert "Results" 'bold t "\n")
@@ -506,14 +520,18 @@ The optional arg TEST denotes an individual test name."
                       'ns)
                      (unless (stringp ns) " namespaces")))))
 
-(defun cider-test-echo-summary (summary results)
-  "Echo SUMMARY statistics for a test run returning RESULTS."
+(defun cider-test-echo-summary (summary results &optional elapsed-time)
+  "Echo SUMMARY statistics for a test run returning RESULTS in ELAPSED-TIME."
   (nrepl-dbind-response summary (ns test var fail error)
     (if (nrepl-dict-empty-p results)
         (message (concat (propertize "No assertions (or no tests) were run." 'face 'cider-test-error-face)
                          "Did you forget to use `is' in your tests?"))
+      (let* ((ms (nrepl-dict-get elapsed-time "ms"))
+             (ms (if ms
+                     (propertize (format " in %s ms" ms ) 'face 'font-lock-comment-face)
+                   ".")))
       (message (propertize
-                "%sRan %d assertions, in %d test functions. %d failures, %d errors."
+                "%sRan %d assertions, in %d test functions. %d failures, %d errors%s"
                 'face (cond ((not (zerop error)) 'cider-test-error-face)
                             ((not (zerop fail))  'cider-test-failure-face)
                             (t                   'cider-test-success-face)))
@@ -521,7 +539,7 @@ The optional arg TEST denotes an individual test name."
                            (cider-propertize (car (nrepl-dict-keys results)) 'ns)
                          (propertize (format "%d namespaces" ns) 'face 'default))
                        (propertize ": " 'face 'default))
-               test var fail error))))
+               test var fail error ms)))))
 
 ;;; Test definition highlighting
 ;;
@@ -638,6 +656,11 @@ The selectors can be either keywords or strings."
    (split-string
     (cider-read-from-minibuffer message))))
 
+(defcustom cider-test-fail-fast t
+  "Controls whether to stop a test run on failure/error."
+  :type 'boolean
+  :package-version '(cider . "1.8.0"))
+
 (defun cider-test-execute (ns &optional tests silent prompt-for-filters)
   "Run tests for NS, which may be a keyword, optionally specifying TESTS.
 This tests a single NS, or multiple namespaces when using keywords `:project',
@@ -667,10 +690,11 @@ running them."
               ;; we generate a different message when running individual tests
               (cider-test-echo-running ns (car tests))
             (cider-test-echo-running ns)))
-        (let ((request `("op" ,(cond ((stringp ns)         "test")
+        (let ((retest? (eq :non-passing ns))
+              (request `("op" ,(cond ((stringp ns)         "test")
                                      ((eq :project ns)     "test-all")
                                      ((eq :loaded ns)      "test-all")
-                                     ((eq :non-passing ns) "retest")))))
+                                     (retest?              "retest")))))
           ;; we add optional parts of the request only when relevant
           (when (and (listp include-selectors) include-selectors)
             (setq request (append request `("include" ,include-selectors))))
@@ -682,10 +706,13 @@ running them."
             (setq request (append request `("tests" ,tests))))
           (when (or (stringp ns) (eq :project ns))
             (setq request (append request `("load?" ,"true"))))
+          (when (and cider-test-fail-fast
+                     (not retest?))
+            (setq request (append request `("fail-fast" ,"true"))))
           (cider-nrepl-send-request
            request
            (lambda (response)
-             (nrepl-dbind-response response (summary results status out err)
+             (nrepl-dbind-response response (summary results status out err elapsed-time ns-elapsed-time)
                (cond ((member "namespace-not-found" status)
                       (unless silent
                         (message "No test namespace: %s" (cider-propertize ns 'ns))))
@@ -696,7 +723,7 @@ running them."
                         (setq cider-test-last-summary summary)
                         (setq cider-test-last-results results)
                         (cider-test-highlight-problems results)
-                        (cider-test-echo-summary summary results)
+                        (cider-test-echo-summary summary results elapsed-time)
                         (if (or (not (zerop (+ error fail)))
                                 cider-test-show-report-on-success)
                             (cider-test-render-report
@@ -704,14 +731,19 @@ running them."
                               cider-test-report-buffer
                               cider-auto-select-test-report-buffer)
                              summary
-                             results)
+                             results
+                             elapsed-time
+                             ns-elapsed-time)
                           (when (get-buffer cider-test-report-buffer)
                             (with-current-buffer cider-test-report-buffer
                               (let ((inhibit-read-only t))
                                 (erase-buffer)))
                             (cider-test-render-report
                              cider-test-report-buffer
-                             summary results))))))))
+                             summary
+                             results
+                             elapsed-time
+                             ns-elapsed-time))))))))
            conn))))))
 
 (defun cider-test-rerun-failed-tests ()
