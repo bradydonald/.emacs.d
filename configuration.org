@@ -285,7 +285,8 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package avy
-      :bind (("M-g f" . avy-goto-line)))
+      :bind (("M-g l" . avy-goto-line)
+             ("M-g c" . avy-goto-char-timer)))
   #+END_SRC
   
 * Dired Mode
