@@ -979,7 +979,7 @@
        "r r"    'counsel-rg
        "j"      'counsel-org-goto
        "n o"    'counsel-org-agenda-headlines
-       "r l"    'counsel-org-linka
+       "r l"    'counsel-org-link
        "s"      'org-attach-screenshot)
 
    #+END_SRC
