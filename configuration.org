@@ -980,6 +980,7 @@
        "r r"    'counsel-rg
        "j"      'counsel-org-goto-all
        "n o"    'counsel-org-agenda-headlines
+       "n l"    'db/counsel-org-agenda-insert-link-to-headlines
        "r l"    'counsel-org-link
        "s"      'org-attach-screenshot)
 
