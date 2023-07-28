@@ -265,7 +265,7 @@ NO-REBLOGS means do not display boosts in statuses."
 
 (defun mastodon-profile--update-note-count (&rest _args)
   "Display the character count of the profile note buffer."
-  (let ((inhibit-read-only t)
+  (let* ((inhibit-read-only t)
         (header-region (mastodon-tl--find-property-range 'note-header
                                                          (point-min)))
         (count-region (mastodon-tl--find-property-range 'note-counter

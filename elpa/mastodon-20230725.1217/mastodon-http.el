@@ -309,7 +309,7 @@ PARAMS is an alist of any extra parameters to send with the request."
 Then run function CALLBACK with arguements CBARGS.
 Authorization header is included by default unless UNAUTHENTICED-P is non-nil."
   (mastodon-http--authorized-request "POST"
-    (let ((request-timeout 5)
+    (let (;(request-timeout 5) ; this is from request.el no url.el!
           (url-request-data (when params
                               (mastodon-http--build-params-string params))))
       (with-temp-buffer
@@ -322,7 +322,15 @@ The upload is asynchronous. On succeeding,
 `mastodon-toot--media-attachment-ids' is set to the id(s) of the
 item uploaded, and `mastodon-toot--update-status-fields' is run."
   (let* ((file (file-name-nondirectory filename))
-         (request-backend 'curl))
+         (request-backend 'curl)
+         (cb (cl-function
+              (lambda (&key data &allow-other-keys)
+                (when data
+                  (push (alist-get 'id data)
+                        mastodon-toot--media-attachment-ids) ; add ID to list
+                  (message (alist-get 'id data))
+                  (message "Uploading %s... (done)" file)
+                  (mastodon-toot--update-status-fields))))))
     (request
       url
       :type "POST"
@@ -333,13 +341,7 @@ item uploaded, and `mastodon-toot--update-status-fields' is run."
       :headers `(("Authorization" . ,(concat "Bearer "
                                              (mastodon-auth--access-token))))
       :sync nil
-      :success (cl-function
-                (lambda (&key data &allow-other-keys)
-                  (when data
-                    (push (alist-get 'id data)
-                          mastodon-toot--media-attachment-ids) ; add ID to list
-                    (message "Uploading %s... (done)" file)
-                    (mastodon-toot--update-status-fields))))
+      :success (apply-partially cb)
       :error (cl-function
               (lambda (&key error-thrown &allow-other-keys)
                 (cond

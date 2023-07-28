@@ -185,6 +185,7 @@
     (use-package ef-themes)       ;; Prot themes
     (use-package yaml-mode)
     (use-package nyan-mode)       ;; nyan cat as % of buffer
+    (use-package ivy)
   #+END_SRC
 
 * Load any lisp files
