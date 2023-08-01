@@ -619,7 +619,6 @@
      (setq org-todo-keywords '((sequence
                                 "TODO(t)"
                                 "STARTED(s)"
-                                "DELEGATED(e)"
                                 "WAITING(w)"
                                 "HOLD(h)" "|"
                                 "DONE(d)"
@@ -633,12 +632,11 @@
              ("WAITING" . (:foreground "orange"))
              ("HOLD" . (:foreground "orange"))
              ("SUSPENDED" . (:foreground "forest green"))
-             ("DELEGATED" . (:foreground "light blue"))
              ("TASK" . (:foreground "blue"))))
 
      (setq org-tags-exclude-from-inheritance '("project")
            org-stuck-projects '("+project/-MAYBE-DONE"
-                                ("TODO" "WAITING" "DELEGATED") ()))
+                                ("TODO" "WAITING") ()))
 
      (setq org-log-done 'time)
      (setq org-log-into-drawer t)
@@ -860,13 +858,6 @@
               ("t" "Todo" entry (file+headline ,org-default-notes-file "Refile")
                "* TODO %?"
                :empty-lines 1)
-
-              ;; ("te" "Delegated" entry (file+headline ,org-default-notes-file "Refile")
-              ;;  "* DELEGATED %?
-              ;;  :PROPERTIES:
-              ;;  :OWNER: %^{Delegated to?}
-              ;;  :END:"
-              ;;  :empty-lines 1)
 
               ;; ;; Note (n) template
               ("n" "Note" entry (file+headline ,org-default-notes-file "Refile")
