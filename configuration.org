@@ -1034,6 +1034,19 @@
                   ("C-c C-w" . elfeed-tube-mpv-where)))
   #+END_SRC
 
+  
+* Elfeed with xwidgets
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package elfeed-webkit
+       :init
+       (setq elfeed-webkit-auto-tags '(webkit comics))
+       :config
+       (elfeed-webkit-auto-enable-by-tag)
+       :bind (:map elfeed-show-mode-map
+                   ("t" . elfeed-webkit-toggle)))
+  #+END_SRC
+
 * Org Present
 
   #+BEGIN_SRC emacs-lisp
