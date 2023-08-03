@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Org Status
+# key: nlead
+# --
+
+  - Attendees [/]:
+    - [ ] Russ
+    - [ ] Jayco
+    - [ ] Adrian
+
