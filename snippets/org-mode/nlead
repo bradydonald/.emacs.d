@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: NodeSource 
+# key: nlead
+# --
+- Attendees [0/3]:
+- [ ] Russ
+- [ ] Jayco
+- [ ] Adrian
