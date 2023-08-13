@@ -128,6 +128,23 @@
 
   #+END_SRC
 
+* Pulsar
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'pulsar)
+
+    (setq pulsar-pulse t)
+    (setq pulsar-delay 0.055)
+    (setq pulsar-iterations 10)
+    (setq pulsar-face 'pulsar-magenta)
+    (setq pulsar-highlight-face 'pulsar-yellow)
+
+    (pulsar-global-mode 1)
+
+    (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
+    
+  #+END_SRC
+
 * Set up savefile, recent files, backup, and autosave features
 
   #+BEGIN_SRC emacs-lisp
@@ -1025,7 +1042,6 @@
                   ("C-c C-w" . elfeed-tube-mpv-where)))
   #+END_SRC
 
-  
 * Elfeed with xwidgets
 
   #+BEGIN_SRC emacs-lisp
