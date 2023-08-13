@@ -513,18 +513,12 @@
 
 ** Org File Locations
 
-   My setup now includes two org-directories under an umberlla OrgDocuments
-   directory. They are personal and dcllp (work). The default opening setup is
-   to default to personal. Some files may also be gpg encrypted and need to be
-   added as well.
-
    #+BEGIN_SRC emacs-lisp
-     (setq org-directory-personal "~/OrgDocuments/personal")
-     (setq org-directory-work "~/OrgDocuments/dcllp")
-     (setq org-directory org-directory-personal)
+     (setq org-directory "~/OrgDocuments/personal")
      (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
      (setq org-attach-dir-relative t)
 
+     ;; various helper functions for finding files
      (defun db/current-index-file ()
        "Returns the current index file which is dependent on current context" 
        (expand-file-name "index.org" org-directory))
@@ -533,18 +527,30 @@
        "Returns the current months journal"
        (setq current-year (format-time-string "%Y"))
        (setq current-month (format-time-string "%m"))
-       (concat "~/OrgDocuments/personal/journals/" current-year "/" current-year "-" current-month ".org"))
+       (concat org-directory "/journals/" current-year "/" current-year "-" current-month ".org"))
 
-     (defun db/org-agenda-files ()
-       ;; org files for agenda
+     (defun db/org-agenda-files (&optional keep-reference)
+       "Returns the list of agenda files. By default includes all files
+     including .org.gpg files but excluding files in the /reference
+     directory
+
+       keep-reference, if t will include and return those in the reference directory."
+       
+       ;; org files for agenda. 
        (setq ofiles (directory-files-recursively org-directory "org$"))
        ;; some may be encrypted though
        (setq gfiles (directory-files-recursively org-directory "org.gpg$"))
-       (append ofiles gfiles))
+       (setq tmp-list (append ofiles gfiles))
+       (if (not keep-reference)
+           (setq tmp-list (cl-delete-if (lambda (r) (string-match-p "\/reference" r)) tmp-list)))
+       tmp-list)
 
      (setq org-agenda-files (db/org-agenda-files))
      (setq org-default-notes-file (concat org-directory "/index.org"))
   #+END_SRC
+
+  #+RESULTS:
+  : ~/OrgDocuments/personal/index.org
 
 ** Org Roam
 
@@ -947,28 +953,6 @@
      (add-hook 'dired-mode-hook 'org-download-enable)
    #+END_SRC
 
-** Personal and Work Toggle
-
-   #+BEGIN_SRC emacs-lisp
-     (defun db/org-work-context ()
-       (interactive)
-       (setq org-directory org-directory-work)
-       (db/org-switch-context))
-
-     (defun db/org-personal-context ()
-       (interactive)
-       (setq org-directory org-directory-personal)
-       (db/org-switch-context))
-
-     (defun db/org-switch-context ()
-       (setq org-agenda-files (db/org-agenda-files))
-       (setq org-default-notes-file (concat org-directory "/index.org"))
-       (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
-       (setq org-roam-directory (expand-file-name "roam" org-directory))
-       (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
-       (org-roam-db-sync))
-  #+END_SRC
-
 ** Org Key Mappings
 
    #+BEGIN_SRC emacs-lisp
@@ -1004,7 +988,7 @@
     (use-package elfeed-org
       :init
       (setq elfeed-set-max-connections 32)
-      (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory-personal)))
+      (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory)))
       (elfeed-org)
       :bind
       (("C-c r" . elfeed)

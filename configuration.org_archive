@@ -1404,3 +1404,32 @@ Archived entries from file /home/d/.emacs.d/configuration.org
           (global-lsp-bridge-mode)))
   #+END_SRC
 
+
+* Personal and Work Toggle
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-08-13 Sun 11:13
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_OLPATH: Org Mode
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (defun db/org-work-context ()
+      (interactive)
+      (setq org-directory org-directory-work)
+      (db/org-switch-context))
+
+    (defun db/org-personal-context ()
+      (interactive)
+      (setq org-directory org-directory-personal)
+      (db/org-switch-context))
+
+    (defun db/org-switch-context ()
+      (setq org-agenda-files (db/org-agenda-files))
+      (setq org-default-notes-file (concat org-directory "/index.org"))
+      (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
+      (setq org-roam-directory (expand-file-name "roam" org-directory))
+      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+      (org-roam-db-sync))
+ #+END_SRC
+
