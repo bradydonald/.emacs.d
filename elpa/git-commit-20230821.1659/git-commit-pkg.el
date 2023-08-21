@@ -1,9 +1,9 @@
-(define-package "git-commit" "20230731.908" "Edit Git commit messages."
+(define-package "git-commit" "20230821.1659" "Edit Git commit messages."
   '((emacs "25.1")
     (compat "29.1.3.4")
     (transient "20230201")
     (with-editor "20230118"))
-  :commit "9e95c2381375cb064d54a6afe70d61140da6fa30" :authors
+  :commit "6f54443aaaa0a822cc245dc6c66d2033c7dc0900" :authors
   '(("Jonas Bernoulli" . "jonas@bernoul.li")
     ("Sebastian Wiesner" . "lunaryorn@gmail.com")
     ("Florian Ragwitz" . "rafl@debian.org")
