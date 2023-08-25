@@ -1191,14 +1191,14 @@
     (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
    #+END_SRC
 
-* Chat GPT Integration as a Shell
+* ChatGPT Integration as a Shell
 
   Using https://github.com/xenodium/chatgpt-shell
 
   #+BEGIN_SRC emacs-lisp
 
     (use-package chatgpt-shell
-      :custom
+      :init
       (setq chatgpt-shell-openai-key
           (auth-source-pick-first-password :host "api.openai.com")))
    
