@@ -44,6 +44,7 @@
 (autoload 'mastodon-http--concat-params-to-url "mastodon-http")
 (autoload 'mastodon-http--get-json "mastodon-http")
 (autoload 'mastodon-http--post "mastodon-http")
+(autoload 'mastodon-return-credential-account "mastodon")
 
 (defvar mastodon-instance-url)
 (defvar mastodon-client-scopes)
@@ -209,16 +210,12 @@ Handle any errors from the server."
 (defun mastodon-auth--get-account-name ()
   "Request user credentials and return an account name."
   (alist-get 'acct
-             (mastodon-http--get-json (mastodon-http--api
-                                       "accounts/verify_credentials")
-                                      nil
-                                      :silent)))
+             (mastodon-return-credential-account)))
 
 (defun mastodon-auth--get-account-id ()
   "Request user credentials and return an account name."
   (alist-get 'id
-             (mastodon-http--get-json (mastodon-http--api
-                                       "accounts/verify_credentials"))))
+             (mastodon-return-credential-account)))
 
 (defun mastodon-auth--user-acct ()
   "Return a mastodon user acct name."

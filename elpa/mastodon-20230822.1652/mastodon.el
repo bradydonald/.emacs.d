@@ -281,12 +281,24 @@ See `mastodon-toot-display-orig-in-reply-buffer'.")
                                     (string-prefix-p "*mastodon-" (buffer-name x))
                                   (get-buffer x)))
                               (buffer-list))))) ; catch any other masto buffer
+    (mastodon-return-credential-account)
     (if buffer
         (switch-to-buffer buffer)
       (mastodon-tl--get-home-timeline)
       (message "Loading Mastodon account %s on %s..."
                (mastodon-auth--user-acct)
                mastodon-instance-url))))
+
+(defvar mastodon-profile-credential-account nil)
+
+(defun mastodon-return-credential-account ()
+  "Return the CredentialAccount entity.
+Either from `mastodon-profile-credential-account' or from the server."
+  (or mastodon-profile-credential-account
+      (setq mastodon-profile-credential-account
+            (mastodon-http--get-json
+             (mastodon-http--api "accounts/verify_credentials")
+             nil :silent))))
 
 ;;;###autoload
 (defun mastodon-toot (&optional user reply-to-id reply-json)

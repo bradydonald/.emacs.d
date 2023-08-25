@@ -78,6 +78,7 @@
 (autoload 'mastodon-toot--count-toot-chars "mastodon-toot")
 (autoload 'mastodon-toot--get-max-toot-chars "mastodon-toot")
 (autoload 'mastodon-views--add-account-to-list "mastodon-views")
+(autoload 'mastodon-return-credential-account "mastodon")
 
 (defvar mastodon-tl--horiz-bar)
 (defvar mastodon-tl--update-point)
@@ -104,6 +105,13 @@ extra keybindings."
   :keymap mastodon-profile-mode-map
   :group 'mastodon
   :global nil)
+
+(defvar mastodon-profile-credential-account nil
+  "Holds the JSON data of the CredentialAccount entity.
+It contains details of the current user's account.")
+
+(defvar mastodon-profile-acccount-preferences-data nil
+  "Holds the JSON data of the current user's preferences.")
 
 (defvar mastodon-profile-update-mode-map
   (let ((map (make-sparse-keymap)))
@@ -212,8 +220,7 @@ NO-REBLOGS means do not display boosts in statuses."
 
 (defun mastodon-profile--get-json-value (val)
   "Fetch current VAL ue from account."
-  (let* ((url (mastodon-http--api "accounts/verify_credentials"))
-         (response (mastodon-http--get-json url)))
+  (let* ((response (mastodon-return-credential-account)))
     (if (eq (alist-get val response) :json-false)
         nil
       (alist-get val response))))
@@ -232,9 +239,7 @@ NO-REBLOGS means do not display boosts in statuses."
 (defun mastodon-profile--update-user-profile-note ()
   "Fetch user's profile note and display for editing."
   (interactive)
-  (let* ((endpoint "accounts/verify_credentials")
-         (url (mastodon-http--api endpoint))
-         (json (mastodon-http--get-json url))
+  (let* ((json (mastodon-return-credential-account))
          (source (alist-get 'source json))
          (note (alist-get 'note source))
          (buffer (get-buffer-create "*mastodon-update-profile*"))
@@ -242,7 +247,7 @@ NO-REBLOGS means do not display boosts in statuses."
          (msg-str "Edit your profile note. C-c C-c to send, C-c C-k to cancel."))
     (switch-to-buffer-other-window buffer)
     (text-mode)
-    (mastodon-tl--set-buffer-spec (buffer-name buffer) endpoint nil)
+    (mastodon-tl--set-buffer-spec (buffer-name buffer) "accounts/verify_credentials" nil)
     (setq-local header-line-format
                 (propertize msg-str
                             'face font-lock-comment-face))
@@ -442,13 +447,13 @@ Returns the results as an alist."
     ;; offer empty fields if user currently has less than four filled:
     (while (< (length fields-old) 4)
       (setq fields-old (append fields-old '(("" . "")))))
-    (let ((f-str "Metadata %s [%s/4] (max. 255 chars): ")
-          (alist
-           (cl-loop for f in fields-old
-                    for x from 1 to 5
-                    collect
-                    (cons (read-string (format f-str "key" x) (car f))
-                          (read-string (format f-str "value" x) (cdr f))))))
+    (let* ((f-str "Metadata %s [%s/4] (max. 255 chars): ")
+           (alist
+            (cl-loop for f in fields-old
+                     for x from 1 to 5
+                     collect
+                     (cons (read-string (format f-str "key" x) (car f))
+                           (read-string (format f-str "value" x) (cdr f))))))
       (mapcar (lambda (x)
                 (cons (mastodon-profile--limit-to-255 (car x))
                       (mastodon-profile--limit-to-255 (cdr x))))
@@ -461,12 +466,16 @@ Returns the results as an alist."
 ;; used in tl.el
 (defun mastodon-profile--get-preferences-pref (pref)
   "Fetch PREF from the endpoint \"/preferences\".
-This endpoint only holds a few preferences. For others, see
+If `mastodon-profile-acccount-preferences-data' is set, fetch
+from that instead.
+The endpoint only holds a few preferences. For others, see
 `mastodon-profile--update-preference' and its endpoint,
 \"/accounts/update_credentials.\""
   (alist-get pref
-             (mastodon-http--get-json
-              (mastodon-http--api "preferences"))))
+             (or mastodon-profile-acccount-preferences-data
+                 (setq mastodon-profile-acccount-preferences-data
+                       (mastodon-http--get-json
+                        (mastodon-http--api "preferences"))))))
 
 (defun mastodon-profile--view-preferences ()
   "View user preferences in another window."

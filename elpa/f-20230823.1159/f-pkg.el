@@ -1,8 +1,8 @@
-(define-package "f" "20230704.1346" "Modern API for working with files and directories"
+(define-package "f" "20230823.1159" "Modern API for working with files and directories"
   '((emacs "24.1")
     (s "1.7.0")
     (dash "2.2.0"))
-  :commit "19e1da061e759b05e8c480b426287a063ca39484" :authors
+  :commit "ab3ee3811c53f9c2144ff45130361f3da242ffa2" :authors
   '(("Johan Andersson" . "johan.rejeep@gmail.com"))
   :maintainers
   '(("Lucien Cartier-Tilet" . "lucien@phundrak.com"))
