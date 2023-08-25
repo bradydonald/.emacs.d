@@ -523,34 +523,42 @@
        "Returns the current index file which is dependent on current context" 
        (expand-file-name "index.org" org-directory))
 
+     (setq org-default-notes-file (db/current-index-file))
+
+
      (defun db/current-monthly-journal ()
        "Returns the current months journal"
        (setq current-year (format-time-string "%Y"))
        (setq current-month (format-time-string "%m"))
        (concat org-directory "/journals/" current-year "/" current-year "-" current-month ".org"))
 
-     (defun db/org-agenda-files (&optional keep-reference)
-       "Returns the list of agenda files. By default includes all files
-     including .org.gpg files but excluding files in the /reference
-     directory
+     (defun db/get-all-directories (directory)
+       "Return a list of DIRECTORY and all its subdirectories, excluding directories with a '.orgexclude' file."
+       (let ((directories '()))
+         (dolist (file (directory-files directory t))
+           (when (and (file-directory-p file)
+                      (not (string-prefix-p "." (file-name-nondirectory file)))
+                      (not (file-exists-p (expand-file-name ".orgexclude" file))))
+             (setq directories (append directories (list file)))))
+         (append (list directory) (mapcan 'db/get-all-directories directories))))
 
-       keep-reference, if t will include and return those in the reference directory."
-       
-       ;; org files for agenda. 
-       (setq ofiles (directory-files-recursively org-directory "org$"))
-       ;; some may be encrypted though
-       (setq gfiles (directory-files-recursively org-directory "org.gpg$"))
-       (setq tmp-list (append ofiles gfiles))
-       (if (not keep-reference)
-           (setq tmp-list (cl-delete-if (lambda (r) (string-match-p "\/reference" r)) tmp-list)))
-       tmp-list)
+     (defun db/get-org-files-in-directories (directories)
+       "Return a list of all .org and .org.gpg files within the given DIRECTORIES."
+       (let ((org-files '()))
+         (dolist (dir directories)
+           (dolist (file (directory-files dir t))
+             (let ((name (file-name-nondirectory file)))
+               (when (or (string-suffix-p ".org" name)
+                         (string-suffix-p ".org.gpg" name))
+                 (push file org-files)))))
+         org-files))
+
+     (defun db/org-agenda-files ()
+       (db/get-org-files-in-directories (db/get-all-directories org-directory)))
 
      (setq org-agenda-files (db/org-agenda-files))
-     (setq org-default-notes-file (concat org-directory "/index.org"))
-  #+END_SRC
 
-  #+RESULTS:
-  : ~/OrgDocuments/personal/index.org
+  #+END_SRC
 
 ** Org Roam
 
