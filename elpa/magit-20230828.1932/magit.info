@@ -1888,6 +1888,14 @@ telling Magit to ask fewer questions.
 
         • Various:
 
+             • ‘stash-apply-3way’ When a stash cannot be applied using
+               ‘git stash apply’, then Magit uses ‘git apply’ instead.
+               If doing so is safe, then it uses ‘--3way’, when it is
+               not because doing so requires that some files are first
+               staged, then by default it prompts the user whether to
+               use ‘--3way’ or ‘--reject’.  Add this symbol to always
+               use ‘--3way’.
+
              • ‘kill-process’ There seldom is a reason to kill a
                process.
 
@@ -6713,15 +6721,50 @@ Also see *note (gitman)git-stash::.
      prefix arguments are equivalent to ‘--all’-.
 
 ‘z a’ (‘magit-stash-apply’)
-     Apply a stash to the working tree.  Try to preserve the stash
-     index.  If that fails because there are staged changes, apply
-     without preserving the stash index.
+     Apply a stash to the working tree.
+
+     First try ‘git stash apply --index’, which tries to preserve the
+     index stored in the stash, if any.  This may fail because applying
+     the stash could result in conflicts and those have to be stored in
+     the index, making it impossible to also store the stash’s index
+     there as well.
+
+     If the above failed, then try ‘git stash apply’.  This fails (with
+     or without ‘--index’) if there are any uncommitted changes to files
+     that are also modified in the stash.
+
+     If both of the above failed, then apply using ‘git apply’.  If
+     there are no conflicting files, use ‘--3way’.  If there are
+     conflicting files, then using ‘--3way’ requires that those files
+     are staged first, which may be undesirable, so prompt the user
+     whether to use ‘--3way’ or ‘--reject’.
+
+     Customize ‘magit-no-confirm’ if you want to always use ‘--3way’,
+     without being prompted.
 
 ‘z p’ (‘magit-stash-pop’)
-     Apply a stash to the working tree and remove it from stash list.
-     Try to preserve the stash index.  If that fails because there are
-     staged changes, apply without preserving the stash index and forgo
-     removing the stash.
+     Apply a stash to the working tree.  On complete success (if the
+     stash can be applied without any conflicts, and while preserving
+     the stash’s index) then remove the stash from stash list.
+
+     First try ‘git stash pop --index’, which tries to preserve the
+     index stored in the stash, if any.  This may fail because applying
+     the stash could result in conflicts and those have to be stored in
+     the index, making it impossible to also store the stash’s index
+     there as well.
+
+     If the above failed, then try ‘git stash apply’.  This fails (with
+     or without ‘--index’) if there are any uncommitted changes to files
+     that are also modified in the stash.
+
+     If both of the above failed, then apply using ‘git apply’.  If
+     there are no conflicting files, use ‘--3way’.  If there are
+     conflicting files, then using ‘--3way’ requires that those files
+     are staged first, which may be undesirable, so prompt the user
+     whether to use ‘--3way’ or ‘--reject’.
+
+     Customize ‘magit-no-confirm’ if you want to always use ‘--3way’,
+     without being prompted.
 
 ‘z k’ (‘magit-stash-drop’)
      Remove a stash from the stash list.  When the region is active,
@@ -10083,7 +10126,7 @@ Appendix C Keystroke Index
 * k <1>:                                 Applying.            (line  40)
 * k <2>:                                 Editing Rebase Sequences.
                                                               (line  56)
-* k <3>:                                 Stashing.            (line  83)
+* k <3>:                                 Stashing.            (line 118)
 * l:                                     Logging.             (line  30)
 * L:                                     Refreshing Logs.     (line  12)
 * L <1>:                                 Log Buffer.          (line   7)
@@ -10290,20 +10333,20 @@ Appendix C Keystroke Index
 * z:                                     Stashing.            (line   9)
 * Z:                                     Worktree.            (line   9)
 * z a:                                   Stashing.            (line  52)
-* z b:                                   Stashing.            (line  70)
-* z B:                                   Stashing.            (line  75)
+* z b:                                   Stashing.            (line 105)
+* z B:                                   Stashing.            (line 110)
 * Z b:                                   Worktree.            (line  13)
 * Z c:                                   Worktree.            (line  16)
-* z f:                                   Stashing.            (line  80)
+* z f:                                   Stashing.            (line 115)
 * Z g:                                   Worktree.            (line  26)
 * z i:                                   Stashing.            (line  20)
 * z I:                                   Stashing.            (line  42)
-* z k:                                   Stashing.            (line  63)
+* z k:                                   Stashing.            (line  98)
 * Z k:                                   Worktree.            (line  22)
-* z l:                                   Stashing.            (line  86)
+* z l:                                   Stashing.            (line 121)
 * Z m:                                   Worktree.            (line  19)
-* z p:                                   Stashing.            (line  57)
-* z v:                                   Stashing.            (line  67)
+* z p:                                   Stashing.            (line  74)
+* z v:                                   Stashing.            (line 102)
 * z w:                                   Stashing.            (line  24)
 * z W:                                   Stashing.            (line  46)
 * z x:                                   Stashing.            (line  30)
@@ -11023,17 +11066,17 @@ Appendix D Function and Command Index
 * magit-stash:                           Stashing.            (line   9)
 * magit-stash-apply:                     Stashing.            (line  52)
 * magit-stash-both:                      Stashing.            (line  14)
-* magit-stash-branch:                    Stashing.            (line  70)
-* magit-stash-branch-here:               Stashing.            (line  75)
-* magit-stash-clear:                     Stashing.            (line  83)
-* magit-stash-drop:                      Stashing.            (line  63)
-* magit-stash-format-patch:              Stashing.            (line  80)
+* magit-stash-branch:                    Stashing.            (line 105)
+* magit-stash-branch-here:               Stashing.            (line 110)
+* magit-stash-clear:                     Stashing.            (line 118)
+* magit-stash-drop:                      Stashing.            (line  98)
+* magit-stash-format-patch:              Stashing.            (line 115)
 * magit-stash-index:                     Stashing.            (line  20)
 * magit-stash-keep-index:                Stashing.            (line  30)
-* magit-stash-list:                      Stashing.            (line  86)
-* magit-stash-pop:                       Stashing.            (line  57)
+* magit-stash-list:                      Stashing.            (line 121)
+* magit-stash-pop:                       Stashing.            (line  74)
 * magit-stash-show:                      Diffing.             (line  67)
-* magit-stash-show <1>:                  Stashing.            (line  67)
+* magit-stash-show <1>:                  Stashing.            (line 102)
 * magit-stash-worktree:                  Stashing.            (line  24)
 * magit-stashes-maybe-update-stash-buffer: Section Movement.  (line  92)
 * magit-status:                          Status Buffer.       (line  23)
@@ -11316,7 +11359,7 @@ Appendix E Variable Index
 * magit-section-visibility-indicator:    Section Visibility.  (line 109)
 * magit-shell-command-verbose-prompt:    Running Git Manually.
                                                               (line  43)
-* magit-stashes-margin:                  Stashing.            (line  88)
+* magit-stashes-margin:                  Stashing.            (line 123)
 * magit-status-headers-hook:             Status Header Sections.
                                                               (line  17)
 * magit-status-margin:                   Status Options.      (line   9)
@@ -11387,148 +11430,148 @@ Node: Transient Commands61935
 Node: Transient Arguments and Buffer Variables63411
 Node: Completion Confirmation and the Selection70428
 Node: Action Confirmation70874
-Node: Completion and Confirmation78726
-Node: The Selection81911
-Node: The hunk-internal region84809
-Node: Support for Completion Frameworks85898
-Node: Additional Completion Options90801
-Node: Mouse Support91399
-Node: Running Git91975
-Node: Viewing Git Output92220
-Node: Git Process Status94924
-Node: Running Git Manually95889
-Node: Git Executable98579
-Node: Global Git Arguments101587
-Node: Inspecting102392
-Node: Status Buffer103549
-Node: Status Sections108560
-Node: Status Header Sections114087
-Node: Status Module Sections116706
-Node: Status Options119203
-Node: Repository List120666
-Node: Logging125444
-Node: Refreshing Logs128286
-Node: Log Buffer129707
-Node: Log Margin134530
-Node: Select from Log137683
-Node: Reflog139893
-Node: Cherries141530
-Node: Diffing143368
-Node: Refreshing Diffs146402
-Node: Commands Available in Diffs150091
-Node: Diff Options152604
-Node: Revision Buffer158067
-Node: Ediffing161387
-Node: References Buffer167437
-Node: References Sections178031
-Node: Bisecting178888
-Node: Visiting Files and Blobs181199
-Node: General-Purpose Visit Commands181727
-Node: Visiting Files and Blobs from a Diff182680
-Node: Blaming186124
-Node: Manipulating193112
-Node: Creating Repository193454
-Node: Cloning Repository193991
-Node: Staging and Unstaging200432
-Node: Staging from File-Visiting Buffers204413
-Node: Applying205519
-Node: Committing207592
-Node: Initiating a Commit208175
-Node: Editing Commit Messages213365
-Node: Using the Revision Stack216138
-Node: Commit Pseudo Headers219183
-Node: Commit Mode and Hooks220478
-Node: Commit Message Conventions223336
-Node: Branching225323
-Node: The Two Remotes225549
-Node: Branch Commands228202
-Node: Branch Git Variables241052
-Node: Auxiliary Branch Commands246426
-Node: Merging247542
-Node: Resolving Conflicts251698
-Node: Rebasing257072
-Node: Editing Rebase Sequences261861
-Node: Information About In-Progress Rebase266077
-Ref: Information About In-Progress Rebase-Footnote-1275190
-Node: Cherry Picking275786
-Node: Reverting280120
-Node: Resetting281539
-Node: Stashing283365
-Node: Transferring288017
-Node: Remotes288239
-Node: Remote Commands288391
-Node: Remote Git Variables292430
-Node: Fetching293701
-Node: Pulling296147
-Node: Pushing297173
-Node: Plain Patches301464
-Node: Maildir Patches302935
-Node: Miscellaneous304414
-Node: Tagging304760
-Node: Notes306653
-Node: Submodules308988
-Node: Listing Submodules309206
-Node: Submodule Transient311354
-Node: Subtree313841
-Node: Worktree315772
-Node: Sparse checkouts316848
-Node: Bundle319624
-Node: Common Commands319999
-Node: Wip Modes322627
-Node: Wip Graph327518
-Node: Legacy Wip Modes329831
-Node: Commands for Buffers Visiting Files332718
-Node: Minor Mode for Buffers Visiting Blobs340946
-Node: Customizing341744
-Node: Per-Repository Configuration343340
-Node: Essential Settings345594
-Node: Safety345940
-Node: Performance347701
-Ref: Log Performance350729
-Ref: Diff Performance352034
-Ref: Refs Buffer Performance353375
-Ref: Committing Performance353950
-Node: Microsoft Windows Performance354932
-Node: MacOS Performance356123
-Ref: MacOS Performance-Footnote-1357146
-Node: Global Bindings357228
-Node: Plumbing359456
-Node: Calling Git360285
-Node: Getting a Value from Git361810
-Node: Calling Git for Effect365538
-Node: Section Plumbing371432
-Node: Creating Sections371660
-Node: Section Selection375556
-Node: Matching Sections377352
-Node: Refreshing Buffers383273
-Node: Conventions386417
-Node: Theming Faces386609
-Node: FAQ394714
-Node: FAQ - How to ...?395152
-Node: How to pronounce Magit?395509
-Node: How to show git's output?396312
-Node: How to install the gitman info manual?397098
-Node: How to show diffs for gpg-encrypted files?398068
-Node: How does branching and pushing work?398664
-Node: Should I disable VC?398997
-Node: FAQ - Issues and Errors399600
-Node: Magit is slow400545
-Node: I changed several thousand files at once and now Magit is unusable400838
-Node: I am having problems committing401564
-Node: I am using MS Windows and cannot push with Magit402045
-Node: I am using macOS and SOMETHING works in shell but not in Magit402663
-Node: Expanding a file to show the diff causes it to disappear403497
-Node: Point is wrong in the COMMIT_EDITMSG buffer404085
-Node: The mode-line information isn't always up-to-date405130
-Node: A branch and tag sharing the same name breaks SOMETHING406193
-Node: My Git hooks work on the command-line but not inside Magit407080
-Node: git-commit-mode isn't used when committing from the command-line407926
-Node: Point ends up inside invisible text when jumping to a file-visiting buffer410197
-Node: I am no longer able to save popup defaults411046
-Node: Debugging Tools412027
-Node: Keystroke Index415201
-Node: Function and Command Index456742
-Node: Variable Index514943
+Node: Completion and Confirmation79209
+Node: The Selection82394
+Node: The hunk-internal region85292
+Node: Support for Completion Frameworks86381
+Node: Additional Completion Options91284
+Node: Mouse Support91882
+Node: Running Git92458
+Node: Viewing Git Output92703
+Node: Git Process Status95407
+Node: Running Git Manually96372
+Node: Git Executable99062
+Node: Global Git Arguments102070
+Node: Inspecting102875
+Node: Status Buffer104032
+Node: Status Sections109043
+Node: Status Header Sections114570
+Node: Status Module Sections117189
+Node: Status Options119686
+Node: Repository List121149
+Node: Logging125927
+Node: Refreshing Logs128769
+Node: Log Buffer130190
+Node: Log Margin135013
+Node: Select from Log138166
+Node: Reflog140376
+Node: Cherries142013
+Node: Diffing143851
+Node: Refreshing Diffs146885
+Node: Commands Available in Diffs150574
+Node: Diff Options153087
+Node: Revision Buffer158550
+Node: Ediffing161870
+Node: References Buffer167920
+Node: References Sections178514
+Node: Bisecting179371
+Node: Visiting Files and Blobs181682
+Node: General-Purpose Visit Commands182210
+Node: Visiting Files and Blobs from a Diff183163
+Node: Blaming186607
+Node: Manipulating193595
+Node: Creating Repository193937
+Node: Cloning Repository194474
+Node: Staging and Unstaging200915
+Node: Staging from File-Visiting Buffers204896
+Node: Applying206002
+Node: Committing208075
+Node: Initiating a Commit208658
+Node: Editing Commit Messages213848
+Node: Using the Revision Stack216621
+Node: Commit Pseudo Headers219666
+Node: Commit Mode and Hooks220961
+Node: Commit Message Conventions223819
+Node: Branching225806
+Node: The Two Remotes226032
+Node: Branch Commands228685
+Node: Branch Git Variables241535
+Node: Auxiliary Branch Commands246909
+Node: Merging248025
+Node: Resolving Conflicts252181
+Node: Rebasing257555
+Node: Editing Rebase Sequences262344
+Node: Information About In-Progress Rebase266560
+Ref: Information About In-Progress Rebase-Footnote-1275673
+Node: Cherry Picking276269
+Node: Reverting280603
+Node: Resetting282022
+Node: Stashing283848
+Node: Transferring290229
+Node: Remotes290451
+Node: Remote Commands290603
+Node: Remote Git Variables294642
+Node: Fetching295913
+Node: Pulling298359
+Node: Pushing299385
+Node: Plain Patches303676
+Node: Maildir Patches305147
+Node: Miscellaneous306626
+Node: Tagging306972
+Node: Notes308865
+Node: Submodules311200
+Node: Listing Submodules311418
+Node: Submodule Transient313566
+Node: Subtree316053
+Node: Worktree317984
+Node: Sparse checkouts319060
+Node: Bundle321836
+Node: Common Commands322211
+Node: Wip Modes324839
+Node: Wip Graph329730
+Node: Legacy Wip Modes332043
+Node: Commands for Buffers Visiting Files334930
+Node: Minor Mode for Buffers Visiting Blobs343158
+Node: Customizing343956
+Node: Per-Repository Configuration345552
+Node: Essential Settings347806
+Node: Safety348152
+Node: Performance349913
+Ref: Log Performance352941
+Ref: Diff Performance354246
+Ref: Refs Buffer Performance355587
+Ref: Committing Performance356162
+Node: Microsoft Windows Performance357144
+Node: MacOS Performance358335
+Ref: MacOS Performance-Footnote-1359358
+Node: Global Bindings359440
+Node: Plumbing361668
+Node: Calling Git362497
+Node: Getting a Value from Git364022
+Node: Calling Git for Effect367750
+Node: Section Plumbing373644
+Node: Creating Sections373872
+Node: Section Selection377768
+Node: Matching Sections379564
+Node: Refreshing Buffers385485
+Node: Conventions388629
+Node: Theming Faces388821
+Node: FAQ396926
+Node: FAQ - How to ...?397364
+Node: How to pronounce Magit?397721
+Node: How to show git's output?398524
+Node: How to install the gitman info manual?399310
+Node: How to show diffs for gpg-encrypted files?400280
+Node: How does branching and pushing work?400876
+Node: Should I disable VC?401209
+Node: FAQ - Issues and Errors401812
+Node: Magit is slow402757
+Node: I changed several thousand files at once and now Magit is unusable403050
+Node: I am having problems committing403776
+Node: I am using MS Windows and cannot push with Magit404257
+Node: I am using macOS and SOMETHING works in shell but not in Magit404875
+Node: Expanding a file to show the diff causes it to disappear405709
+Node: Point is wrong in the COMMIT_EDITMSG buffer406297
+Node: The mode-line information isn't always up-to-date407342
+Node: A branch and tag sharing the same name breaks SOMETHING408405
+Node: My Git hooks work on the command-line but not inside Magit409292
+Node: git-commit-mode isn't used when committing from the command-line410138
+Node: Point ends up inside invisible text when jumping to a file-visiting buffer412409
+Node: I am no longer able to save popup defaults413258
+Node: Debugging Tools414239
+Node: Keystroke Index417413
+Node: Function and Command Index458954
+Node: Variable Index517155
 
 End Tag Table
 
