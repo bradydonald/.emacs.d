@@ -352,6 +352,15 @@
       (default-text-scale-mode))
   #+END_SRC
 
+* Jinx Spell Checker
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package jinx
+      :hook (emacs-startup . global-jinx-mode)
+      :bind (("M-$" . jinx-correct)
+             ("C-M-$" . jinx-languages)))    
+  #+END_SRC
+
 * Ivy
 
   #+BEGIN_SRC emacs-lisp
@@ -1213,6 +1222,9 @@
     (define-key global-map (kbd "C-c g r") 'chatgpt-shell-send-region)
 
   #+END_SRC
+
+  #+RESULTS:
+  : chatgpt-shell-send-region
 
 * Company
 
