@@ -394,7 +394,7 @@
 
   #+END_SRC
 
-* Other from emacs-bedrock in Testing
+* Consult
 
   #+BEGIN_SRC emacs-lisp
     ;; Consult: Misc. enhanced commands
@@ -408,6 +408,12 @@
       :config
       ;; Narrowing lets you restrict results to certain groups of candidates
       (setq consult-narrow-key "<"))
+
+    #+END_SRC
+
+* Embark    
+
+  #+BEGIN_SRC emacs-lisp
 
     (use-package embark
       :ensure t
@@ -432,64 +438,67 @@
     (use-package embark-consult
       :ensure t)
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;
-    ;;;   Minibuffer and completion
-    ;;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  #+END_SRC  
 
-    ;; Vertico: better vertical completion for minibuffer commands
-    (use-package vertico
-      :ensure t
-      :init
-      ;; You'll want to make sure that e.g. fido-mode isn't enabled
-      (vertico-mode))
+* Mini-buffer Completion
+** Vertico
 
-    (use-package vertico-directory
-      :after vertico
-      :bind (:map vertico-map
-                  ("M-DEL" . vertico-directory-delete-word)))
+   #+BEGIN_SRC emacs-lisp
 
-    ;; Popup completion-at-point
-    (use-package corfu
-      :ensure t
-      :init
-      (global-corfu-mode)
-      :bind
-      (:map corfu-map
-            ("SPC" . corfu-insert-separator)
-            ("C-n" . corfu-next)
-            ("C-p" . corfu-previous)))
+     (use-package vertico
+       :ensure t
+       :init
+       ;; You'll want to make sure that e.g. fido-mode isn't enabled
+       (vertico-mode))
 
-    ;; Part of corfu
-    (use-package corfu-popupinfo
-      :after corfu
-      :hook (corfu-mode . corfu-popupinfo-mode)
-      :custom
-      (corfu-popupinfo-delay '(0.25 . 0.1))
-      (corfu-popupinfo-hide nil)
-      :config
-      (corfu-popupinfo-mode))
+     (use-package vertico-directory
+       :after vertico
+       :bind (:map vertico-map
+                   ("M-DEL" . vertico-directory-delete-word)))
 
-    ;; Make corfu popup come up in terminal overlay
-    (use-package corfu-terminal
-      :if (not (display-graphic-p))
-      :ensure t
-      :config
-      (corfu-terminal-mode))
+   #+END_SRC
 
-    ;; Pretty icons for corfu
-    (use-package kind-icon
-      :if (display-graphic-p)
-      :ensure t
-      :after corfu
-      :config
-      (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+** Corfu
 
-    (use-package eshell
-      :bind (("C-r" . consult-history)))
+   #+BEGIN_SRC emacs-lisp
 
-  #+END_SRC
+     ;; Popup completion-at-point
+     (use-package corfu
+       :ensure t
+       :init
+       (global-corfu-mode)
+       :bind
+       (:map corfu-map
+             ("SPC" . corfu-insert-separator)
+             ("C-n" . corfu-next)
+             ("C-p" . corfu-previous)))
+
+     ;; Part of corfu
+     (use-package corfu-popupinfo
+       :after corfu
+       :hook (corfu-mode . corfu-popupinfo-mode)
+       :custom
+       (corfu-popupinfo-delay '(0.25 . 0.1))
+       (corfu-popupinfo-hide nil)
+       :config
+       (corfu-popupinfo-mode))
+
+     ;; Make corfu popup come up in terminal overlay
+     (use-package corfu-terminal
+       :if (not (display-graphic-p))
+       :ensure t
+       :config
+       (corfu-terminal-mode))
+
+     ;; Pretty icons for corfu
+     (use-package kind-icon
+       :if (display-graphic-p)
+       :ensure t
+       :after corfu
+       :config
+       (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+   #+END_SRC
 
 * PDF Tools
   PDF viewer and annotator
