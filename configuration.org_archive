@@ -1451,3 +1451,17 @@ Archived entries from file /home/d/.emacs.d/configuration.org
       (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
   #+END_SRC
 
+
+* Markdown Mode
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-09-07 Thu 18:18
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package markdown-mode
+      :mode ("README\\.md\\'" . gfm-mode)
+      :init (setq markdown-command "multimarkdown"))
+  #+END_SRC
+  

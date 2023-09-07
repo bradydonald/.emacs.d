@@ -491,14 +491,6 @@
 
   #+END_SRC
 
-* Markdown Mode
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package markdown-mode
-      :mode ("README\\.md\\'" . gfm-mode)
-      :init (setq markdown-command "multimarkdown"))
-  #+END_SRC
-  
 * PDF Tools
   PDF viewer and annotator
 
