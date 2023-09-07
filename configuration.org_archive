@@ -1433,3 +1433,21 @@ Archived entries from file /home/d/.emacs.d/configuration.org
       (org-roam-db-sync))
  #+END_SRC
 
+
+* Flycheck
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-09-07 Thu 18:17
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+        :init (global-flycheck-mode))
+
+    (use-package flycheck-inline
+      :after flycheck
+      :config
+      (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+  #+END_SRC
+

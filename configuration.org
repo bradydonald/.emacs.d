@@ -329,18 +329,6 @@
 
   #+END_SRC
 
-* Flycheck
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package flycheck
-        :init (global-flycheck-mode))
-
-    (use-package flycheck-inline
-      :after flycheck
-      :config
-      (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
-  #+END_SRC
-
 * Text Scaling
 
   =default-text-scale= allows you to quickly resize text. By default binds to
@@ -503,7 +491,6 @@
 
   #+END_SRC
 
-  
 * Markdown Mode
 
   #+BEGIN_SRC emacs-lisp
