@@ -36,8 +36,6 @@ evaluate `(default-value \\='which-key-mode)'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-\\{which-key-mode-map}
-
 (fn &optional ARG)" t)
 (autoload 'which-key-setup-side-window-right "which-key" "\
 Apply suggested settings for side-window that opens on right." t)

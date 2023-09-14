@@ -109,7 +109,6 @@ calls to this function.
 (autoload 'popon-kill-all "popon" "\
 Kill all popons." t)
 (register-definition-prefixes "popon" '("popon-"))
-
 
 ;;; End of scraped data
 

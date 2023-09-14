@@ -35,7 +35,6 @@ it is disabled.
 
 (fn &optional ARG)" t)
 (register-definition-prefixes "corfu-terminal" '("corfu-terminal-"))
-
 
 ;;; End of scraped data
 

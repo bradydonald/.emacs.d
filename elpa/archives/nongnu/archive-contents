@@ -238,14 +238,14 @@
 	   ("Steve Purcell" . "steve@sanityinc.com"))
 	  (:commit . "f39e0b52014913f5acc1dc28ad94c68385c0834e"))])
  (clojure-mode .
-	       [(5 16 2)
+	       [(5 17 0)
 		((emacs
 		  (25 1)))
 		"Major mode for Clojure code" tar
-		((:url . "http://github.com/clojure-emacs/clojure-mode")
+		((:url . "https://github.com/clojure-emacs/clojure-mode")
 		 (:keywords "languages" "clojure" "clojurescript" "lisp")
 		 (:maintainer "Bozhidar Batsov" . "bozhidar@batsov.dev")
-		 (:commit . "dae21f8807c80297b9d69aefac4c3864c56d50af"))])
+		 (:commit . "5fab97d0efc1ed932518fba0cb90afe6dcd00191"))])
  (clojure-ts-mode .
 		  [(0 1 5)
 		   ((emacs
@@ -949,6 +949,15 @@
 	    (:authors
 	     ("The go-mode Authors"))
 	    (:commit . "3273fcece5d9ab7edd4f15b2d6bce61f4e5a0666"))])
+ (golden-ratio .
+	       [(1 0 1)
+		nil "Automatic resizing of Emacs windows to the golden ratio" tar
+		((:keywords "window" "resizing")
+		 (:maintainer "Roman Gonzalez" . "romanandreg@gmail.com")
+		 (:authors
+		  ("Roman Gonzalez" . "romanandreg@gmail.com"))
+		 (:url . "https://elpa.nongnu.org/nongnu/golden-ratio.html")
+		 (:commit . "362ab0ede7ee2bb9fd11aea119b9c22248649c0d"))])
  (gotham-theme .
 	       [(1 1 9)
 		((emacs
@@ -1036,7 +1045,7 @@
 		    ((:url . "https://gitlab.com/tseenshe/haskell-tng-mode")
 		     (:keywords "languages"))])
  (helm .
-       [(3 9 4)
+       [(3 9 5)
 	((helm-core
 	  (3 9 4))
 	 (wfnames
@@ -1048,9 +1057,9 @@
 	 (:maintainer "Thierry Volpiatto" . "thievol@posteo.net")
 	 (:authors
 	  ("Thierry Volpiatto" . "thievol@posteo.net"))
-	 (:commit . "497f479ec113583c2570c03a526c999e3d410f95"))])
+	 (:commit . "ffff39b542196565dcec5641e287265aaa5517ed"))])
  (helm-core .
-	    [(3 9 4)
+	    [(3 9 5)
 	     ((emacs
 	       (25 1))
 	      (async
@@ -1060,7 +1069,7 @@
 	      (:maintainer "Thierry Volpiatto" . "thievol@posteo.net")
 	      (:authors
 	       ("Thierry Volpiatto" . "thievol@posteo.net"))
-	      (:commit . "497f479ec113583c2570c03a526c999e3d410f95"))])
+	      (:commit . "ffff39b542196565dcec5641e287265aaa5517ed"))])
  (highlight-parentheses .
 			[(2 1 1)
 			 ((emacs
@@ -2024,18 +2033,16 @@
 		     ("John Olsson" . "john@cryon.se"))
 		    (:commit . "2d5acd143a153e16372d59000e57d76291ab81dd"))])
  (subed .
-	[(1 2 3)
+	[(1 2 4)
 	 ((emacs
 	   (25 1)))
 	 "A major mode for editing subtitles" tar
 	 ((:url . "https://github.com/sachac/subed")
 	  (:keywords "convenience" "files" "hypermedia" "multimedia")
 	  (:maintainer "Sacha Chua" . "sacha@sachachua.com")
-	  (:authors
-	   ("Random User"))
-	  (:commit . "6ce7de37f21e123467ef1191db7a37cd99881c00"))])
+	  (:commit . "ccf071fb0bd815565c674ee8d2f213e3f209833d"))])
  (sweeprolog .
-	     [(0 23 1)
+	     [(0 24 1)
 	      ((emacs
 		(27 1))
 	       (compat
@@ -2046,7 +2053,7 @@
 	       (:maintainer "Eshel Yaron" . "~eshel/dev@lists.sr.ht")
 	       (:authors
 		("Eshel Yaron" . "me@eshelyaron.com"))
-	       (:commit . "38ebce23cc857a81aba4f10f2bbca5868c0e0112"))])
+	       (:commit . "b0735c5bc84c13d36670ada6d7b5ab03bf76d340"))])
  (swift-mode .
 	     [(9 0 0)
 	      ((emacs
@@ -2244,14 +2251,14 @@
 			("Joost Kremers" . "joostkremers@fastmail.fm"))
 		       (:commit . "695a59789209c42fa08a5bce92963ee32f4455be"))])
  (web-mode .
-	   [(17 3 13)
+	   [(17 3 14)
 	    ((emacs
 	      (23 1)))
 	    "major mode for editing web templates" tar
 	    ((:url . "https://web-mode.org")
 	     (:keywords "languages")
 	     (:maintainer "François-Xavier Bois" . "fxbois@gmail.com")
-	     (:commit . "90502d9cd2b5bc9a13d2628e48fd66b78243e090"))])
+	     (:commit . "443a09423d23727df7efd4e60beedd3919e4800a"))])
  (webpaste .
 	   [(3 2 2)
 	    ((emacs
@@ -2355,14 +2362,14 @@
 	      (:authors
 	       ("Le Wang")))])
  (xah-fly-keys .
-	       [(24 8 20230825161727)
+	       [(24 10 20230911080522)
 		((emacs
 		  (24 1)))
 		"ergonomic modal keybinding minor mode." tar
 		((:url . "http://xahlee.info/emacs/misc/xah-fly-keys.html")
 		 (:keywords "convenience" "emulations" "vim" "ergoemacs")
 		 (:maintainer "Xah Lee" . "xah@xahlee.org")
-		 (:commit . "b27dd77b6e051e786468d6f1fc689ce2dbb4077c"))])
+		 (:commit . "baa0ecff265c73e728e7157b78d3a473f475b95e"))])
  (xkcd .
        [(1 1)
 	((json
