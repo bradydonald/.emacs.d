@@ -17,6 +17,7 @@
 
 # but ignore the elc files in elpa and lisp
 /elpa/**/*.elc
+/elpa/**/*.so
 /lisp/**/*.elc
 
 # and ignore these compiled binaries which will vary per system
