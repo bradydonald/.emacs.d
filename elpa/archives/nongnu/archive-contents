@@ -247,14 +247,14 @@
 		 (:maintainer "Bozhidar Batsov" . "bozhidar@batsov.dev")
 		 (:commit . "5fab97d0efc1ed932518fba0cb90afe6dcd00191"))])
  (clojure-ts-mode .
-		  [(0 1 5)
+		  [(0 2 0)
 		   ((emacs
 		     (29)))
 		   "Major mode for Clojure code" tar
 		   ((:url . "http://github.com/clojure-emacs/clojure-ts-mode")
 		    (:keywords "languages" "clojure" "clojurescript" "lisp")
 		    (:maintainer "Danny Freeman" . "danny@dfreeman.email")
-		    (:commit . "4e18177a568027b464ea794c166d2eb4ebe080fc"))])
+		    (:commit . "8e61fe8ff4795975ec9e225af931d3a514c99445"))])
  (coffee-mode .
 	      [(0 6 3)
 	       ((emacs
@@ -2042,7 +2042,7 @@
 	  (:maintainer "Sacha Chua" . "sacha@sachachua.com")
 	  (:commit . "ccf071fb0bd815565c674ee8d2f213e3f209833d"))])
  (sweeprolog .
-	     [(0 25 1)
+	     [(0 25 2)
 	      ((emacs
 		(27 1))
 	       (compat
@@ -2053,7 +2053,7 @@
 	       (:maintainer "Eshel Yaron" . "~eshel/dev@lists.sr.ht")
 	       (:authors
 		("Eshel Yaron" . "me@eshelyaron.com"))
-	       (:commit . "3fb029a918ebce83f541085b859966441317deef"))])
+	       (:commit . "dba83e95e67a0bca703ef535663b4a4de03538b7"))])
  (swift-mode .
 	     [(9 0 0)
 	      ((emacs
@@ -2157,7 +2157,7 @@
 	    (:authors
 	     ("Sergei Nosov <sergei.nosov [at] gmail.com>")))])
  (treeview .
-	   [(1 1 1)
+	   [(1 2 0)
 	    ((emacs
 	      (24 4)))
 	    "A generic tree navigation library" tar
@@ -2166,7 +2166,7 @@
 	     (:maintainer "Tilman Rassy" . "tilman.rassy@googlemail.com")
 	     (:authors
 	      ("Tilman Rassy" . "tilman.rassy@googlemail.com"))
-	     (:commit . "b68f77bf102b289e7b0e97f767bb7ffff9a5835b"))])
+	     (:commit . "c6888e5f3aa0d72a7b4db625fcc2a847fd3bb1ce"))])
  (tuareg .
 	 [(3 0 1)
 	  ((emacs

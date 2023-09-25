@@ -39,8 +39,16 @@
 (require 'compat)
 (require 'dash)
 (require 'eieio)
-(require 'seq)
 (require 'subr-x)
+
+;; For older Emacs releases we depend on an updated `seq' release from
+;; GNU ELPA, for `seq-keep'.  Unfortunately something else may already
+;; have required `seq', before `package' had a chance to put the more
+;; recent version earlier on the `load-path'.
+(when (and (featurep' seq)
+           (not (fboundp 'seq-keep)))
+  (unload-feature 'seq 'force))
+(require 'seq)
 
 (require 'crm)
 
@@ -87,26 +95,7 @@ alphabetical order, depending on your version of Ivy."
     (magit-stash-branch-here  nil t)
     (magit-stash-format-patch nil t)
     (magit-stash-drop         nil ask)
-    (magit-stash-pop          nil ask)
-    (forge-browse-dwim        nil t)
-    (forge-browse-commit      nil t)
-    (forge-browse-branch      nil t)
-    (forge-browse-remote      nil t)
-    (forge-browse-issue       nil t)
-    (forge-browse-pullreq     nil t)
-    (forge-edit-topic-title   nil t)
-    (forge-edit-topic-state   nil t)
-    (forge-edit-topic-draft   nil t)
-    (forge-edit-topic-milestone nil t)
-    (forge-edit-topic-labels  nil t)
-    (forge-edit-topic-marks   nil t)
-    (forge-edit-topic-assignees nil t)
-    (forge-edit-topic-review-requests nil t)
-    (forge-edit-topic-note    nil t)
-    (forge-pull-pullreq       nil t)
-    (forge-visit-issue        nil t)
-    (forge-visit-pullreq      nil t)
-    (forge-visit-topic        nil t))
+    (magit-stash-pop          nil ask))
   "When not to offer alternatives and ask for confirmation.
 
 Many commands by default ask the user to select from a list of

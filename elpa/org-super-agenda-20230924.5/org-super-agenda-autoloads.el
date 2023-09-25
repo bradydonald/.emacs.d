@@ -20,7 +20,7 @@ either customize it (see the info node `Easy Customization')
 or call the function `org-super-agenda-mode'.")
 (custom-autoload 'org-super-agenda-mode "org-super-agenda" nil)
 (autoload 'org-super-agenda-mode "org-super-agenda" "\
-Global minor mode to group items in Org agenda views according to `org-super-agenda-groups'.
+Group items in Org agenda views according to `org-super-agenda-groups'.
 With prefix argument ARG, turn on if positive, otherwise off.
 
 (fn &optional ARG)" t)

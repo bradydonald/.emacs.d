@@ -1,11 +1,12 @@
-(define-package "org-super-agenda" "20230921.1914" "Supercharge your agenda"
+(define-package "org-super-agenda" "20230924.5" "Supercharge your agenda"
   '((emacs "26.1")
+    (compat "29.1.4.1")
     (s "1.10.0")
     (dash "2.13")
     (org "9.0")
     (ht "2.2")
     (ts "0.2"))
-  :commit "a871f3913d4a1c80ea56c3aea022c36db97529da" :authors
+  :commit "51c0022e4a194ba050c278b442f3592147a5607d" :authors
   '(("Adam Porter" . "adam@alphapapa.net"))
   :maintainers
   '(("Adam Porter" . "adam@alphapapa.net"))
