@@ -1465,3 +1465,150 @@ Archived entries from file /home/d/.emacs.d/configuration.org
       :init (setq markdown-command "multimarkdown"))
   #+END_SRC
   
+
+* Marginalia
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-09-29 Fri 10:56
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  Provides richer annotations in minibuffer
+
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package marginalia
+      ;; Either bind `marginalia-cycle` globally or only in the minibuffer
+    :bind (("M-A" . marginalia-cycle)
+           :map minibuffer-local-map
+           ("M-A" . marginalia-cycle))
+    :init
+    ;; Must be in the :init section of use-package such that the mode gets
+    ;; enabled right away. Note that this forces loading the package.
+    (marginalia-mode))
+
+  #+END_SRC
+
+
+* Consult
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-09-29 Fri 10:56
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    ;; Consult: Misc. enhanced commands
+    (use-package consult
+      :ensure t
+      ;; Other good things to bind: consult-ripgrep, consult-line-multi,
+      ;; consult-history, consult-outline
+      :bind (("C-x b" . consult-buffer) ; orig. switch-to-buffer
+             ("M-y" . consult-yank-pop) ; orig. yank-pop
+             ("C-s" . consult-line))    ; orig. isearch
+      :config
+      ;; Narrowing lets you restrict results to certain groups of candidates
+      (setq consult-narrow-key "<"))
+
+    #+END_SRC
+
+
+* Embark    
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-09-29 Fri 10:56
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package embark
+      :ensure t
+      :demand t
+      :after avy
+      :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
+      :init
+      ;; Add the option to run embark when using avy
+      (defun bedrock/avy-action-embark (pt)
+        (unwind-protect
+            (save-excursion
+              (goto-char pt)
+              (embark-act))
+          (select-window
+           (cdr (ring-ref avy-ring 0))))
+        t)
+
+      ;; After invoking avy-goto-char-timer, hit "." to run embark at the next
+      ;; candidate you select
+      (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
+
+    (use-package embark-consult
+      :ensure t)
+
+  #+END_SRC  
+
+
+* Mini-buffer Completion
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-09-29 Fri 10:56
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+** Vertico
+
+   #+BEGIN_SRC emacs-lisp
+
+     (use-package vertico
+       :ensure t
+       :init
+       ;; You'll want to make sure that e.g. fido-mode isn't enabled
+       (vertico-mode))
+
+     (require 'vertico-directory)
+
+   #+END_SRC
+
+** Corfu
+
+   #+BEGIN_SRC emacs-lisp
+
+     ;; Popup completion-at-point
+     (use-package corfu
+       :ensure t
+       :init
+       (progn
+         (global-corfu-mode)
+         (setq corfu-popupinfo-delay 0.2)
+         (corfu-popupinfo-mode))
+       :bind
+       (:map corfu-map
+             ("SPC" . corfu-insert-separator)
+             ("C-n" . corfu-next)
+             ("C-p" . corfu-previous)))
+
+     ;; Pretty icons for corfu
+     (use-package kind-icon
+       :if (display-graphic-p)
+       :ensure t
+       :after corfu
+       :config
+       (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+   #+END_SRC
+
+
+* Ivy
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-09-29 Fri 10:58
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package ivy
+      :config
+      (setq ivy-use-virtual-buffers t)
+      (setq ivy-use-selectable-prompt t)
+      (setq enable-recursive-minibuffers t)
+      (ivy-mode 1))
+  #+END_SRC
+
