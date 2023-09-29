@@ -109,10 +109,12 @@
 
     #+BEGIN_SRC emacs-lisp
 
+      (use-package all-the-icons)
+
       ;; Let the desktop background show through
       (setq db/my-alpha 97)
-;;      (set-frame-parameter (selected-frame) 'alpha '(97 . 100))
-;;      (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
+      ;;      (set-frame-parameter (selected-frame) 'alpha '(97 . 100))
+      ;;      (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
 
       (defun db/toggle-transparency ()
         "Toggles transparency of current frame"
@@ -312,8 +314,11 @@
   capabilities. Make things a bit easier to remember for me
 
   #+BEGIN_SRC emacs-lisp
+
     ;; dired-x comes with emacs but isn't loaded by default.
     (require 'dired-x)
+    (use-package all-the-icons-dired)
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)    
 
     (setq-default dired-omit-files-p t) ; Buffer-local variable
     (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
@@ -1159,9 +1164,6 @@
 
   #+END_SRC
 
-  #+RESULTS:
-  : chatgpt-shell-send-region
-
 * Company
 
   #+BEGIN_SRC emacs-lisp
@@ -1382,9 +1384,6 @@
        (define-key dired-mode-map "?" 'hydra-dired/body)
 
    #+END_SRC
-
-   #+RESULTS:
-   : hydra-dired/body
 
 ** PDF Tools Hydra
 
