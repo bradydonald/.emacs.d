@@ -1645,3 +1645,18 @@ Archived entries from file /home/d/.emacs.d/configuration.org
                   ("C-c C-w" . elfeed-tube-mpv-where)))
   #+END_SRC
 
+
+* Swiper
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2023-09-29 Fri 11:18
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+  Use swiper for better searching
+  #+BEGIN_SRC emacs-lisp
+    (use-package swiper
+      :bind
+      (("\C-s" . swiper)))
+  #+END_SRC
+
+

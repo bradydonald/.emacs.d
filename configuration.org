@@ -339,6 +339,27 @@
       (default-text-scale-mode))
   #+END_SRC
 
+* Ivy
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package ivy
+      :config
+      (setq ivy-use-virtual-buffers t)
+      (setq ivy-use-selectable-prompt t)
+      (setq enable-recursive-minibuffers t)
+      (ivy-mode 1))
+  #+END_SRC
+
+* Orderless
+
+  When searching order does not matter making it easier to find things. 
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package orderless
+      :config
+      (setq completion-styles '(orderless)))
+  #+END_SRC
+
 * Jinx Spell Checker
 
   #+BEGIN_SRC emacs-lisp
@@ -354,15 +375,6 @@
     (use-package swiper
       :bind
       (("\C-s" . swiper)))
-  #+END_SRC
-
-* Orderless
-  When searching order does not matter making it easier to find things. 
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package orderless
-      :config
-      (setq completion-styles '(orderless)))
   #+END_SRC
 
 * PDF Tools
