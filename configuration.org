@@ -232,7 +232,8 @@
         (add-to-list 'load-path path)
         (when dependency_list
           (dolist (package dependency_list)
-            (require package)))))    
+            (require package)))
+        t))
 
   #+END_SRC
 
