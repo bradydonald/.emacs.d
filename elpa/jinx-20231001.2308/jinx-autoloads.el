@@ -13,6 +13,7 @@
 
 (put 'jinx-languages 'safe-local-variable #'stringp)
 (put 'jinx-local-words 'safe-local-variable #'stringp)
+(put 'jinx-mode 'safe-local-variable #'not)
 (autoload 'jinx-languages "jinx" "\
 Set languages locally or globally to LANGS.
 With prefix argument GLOBAL change the languages globally.

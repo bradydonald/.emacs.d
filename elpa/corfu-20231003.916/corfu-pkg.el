@@ -1,7 +1,7 @@
-(define-package "corfu" "20230825.736" "COmpletion in Region FUnction"
+(define-package "corfu" "20231003.916" "COmpletion in Region FUnction"
   '((emacs "27.1")
     (compat "29.1.4.2"))
-  :commit "ab12503bdbef9e428dbe4ed75cb26c7c6dfc580b" :authors
+  :commit "130098094c446d6f3c019b5d1804f7805317b177" :authors
   '(("Daniel Mendler" . "mail@daniel-mendler.de"))
   :maintainers
   '(("Daniel Mendler" . "mail@daniel-mendler.de"))

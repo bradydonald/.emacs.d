@@ -1142,9 +1142,13 @@ there hasn't been any input, then quit."
         (corfu--goto -1)
         (setq this-command #'corfu-first))
     ;; Cancel all changes and start new change group.
-    (cancel-change-group corfu--change-group)
-    (activate-change-group (setq corfu--change-group (prepare-change-group)))
-    (when (eq last-command #'corfu-reset) (corfu-quit))))
+    (pcase-let* ((`(,beg ,end . ,_) completion-in-region--data)
+                 (str (buffer-substring-no-properties beg end)))
+      (cancel-change-group corfu--change-group)
+      (activate-change-group (setq corfu--change-group (prepare-change-group)))
+      ;; Quit when resetting, when input did not change.
+      (when (equal str (buffer-substring-no-properties beg end))
+        (corfu-quit)))))
 
 (defun corfu-insert-separator ()
   "Insert a separator character, inhibiting quit on completion boundary.
