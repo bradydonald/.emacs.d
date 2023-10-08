@@ -177,23 +177,22 @@
      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)    
    #+END_SRC 
 
-** TODO Pulsar
+** Pulsar
 
-#    #+BEGIN_SRC emacs-lisp
-#      (use-package pulsar)
-#      (require 'pulsar)
+   Pulsar from Prot. Added as a sub-module.
 
-#      (setq pulsar-pulse t)
-#      (setq pulsar-delay 0.055)
-#      (setq pulsar-iterations 10)
-#      (setq pulsar-face 'pulsar-magenta)
-#      (setq pulsar-highlight-face 'pulsar-yellow)
+   #+BEGIN_SRC emacs-lisp
+     (db/add-to-load-path "lisp/pulsar" t)
+     (require 'pulsar)
+     (setq pulsar-pulse t)
+     (setq pulsar-delay 0.055)
+     (setq pulsar-iterations 10)
+     (setq pulsar-face 'pulsar-magenta)
+     (setq pulsar-highlight-face 'pulsar-yellow)
+     (pulsar-global-mode 1)
+     (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
 
-#      (pulsar-global-mode 1)
-
-#      (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
-
-#    #+END_SRC
+   #+END_SRC
 
 ** Which Key
 
@@ -226,7 +225,8 @@
    #+BEGIN_SRC emacs-lisp
 
      (setq custom-safe-themes t)
-     (load-theme 'ef-deuteranopia-dark)
+     (db/add-to-load-path "lisp/ef-themes" t)
+;;     (load-theme 'ef-deuteranopia-dark)
      (use-package nyan-mode)       ;; nyan cat as % of buffer
      (nyan-mode)
 
