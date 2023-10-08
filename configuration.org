@@ -799,7 +799,7 @@
      (require 'org-protocol)
    #+END_SRC
 
-*** Setting up org-protocol handler. This page has best description:
+*** Setting up org-protocol handler
 
     [[https://github.com/sprig/org-capture-extension#set-up-handlers-in-emacs][This page]] has the best description. This is working in linux only, hence the todo. 
 
