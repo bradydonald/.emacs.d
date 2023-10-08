@@ -1,52 +1,72 @@
-* Package management
-
-  Where we get packages from:
+* Package and Path Management
+** Package Archives
+   Where we get packages from:
   
-  #+BEGIN_SRC emacs-lisp
-    (require 'package)
-    (setq package-enable-at-startup nil)
+   #+BEGIN_SRC emacs-lisp
+     (require 'package)
+     (setq package-enable-at-startup nil)
 
-    (setq package-archives
-	  '(("gnu"          . "https://elpa.gnu.org/packages/")
-	    ("melpa"        . "https://melpa.org/packages/")
-	    ("melpa-stable" . "https://stable.melpa.org/packages/")
-	    ("org"          . "https://orgmode.org/elpa/")
-	    ("nongnu"       . "https://elpa.nongnu.org/nongnu/")))
-  #+END_SRC
+     (setq package-archives
+	   '(("gnu"          . "https://elpa.gnu.org/packages/")
+	     ("melpa"        . "https://melpa.org/packages/")
+	     ("melpa-stable" . "https://stable.melpa.org/packages/")
+	     ("org"          . "https://orgmode.org/elpa/")
+	     ("nongnu"       . "https://elpa.nongnu.org/nongnu/")))
+   #+END_SRC
 
-  Now that Emacs knows where get from let's initialize:
+** Initialize Package Management
+   Now that Emacs knows where get from let's initialize:
 
-  #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 
-    (package-initialize)
+     (package-initialize)
 
-    (unless (package-installed-p 'use-package)
-      (package-refresh-contents)
-      (package-install 'use-package))
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
 
-    (eval-when-compile
-      (require 'use-package))
+     (eval-when-compile
+       (require 'use-package))
 
-    (setq use-package-always-ensure t)
-    (setq use-package-compute-statistics t)
+     (setq use-package-always-ensure t)
+     (setq use-package-compute-statistics t)
 
-    (use-package auto-package-update
-      :config
-      (setq auto-package-update-interval 14 ;; days
-        auto-package-update-prompt-before-update t
-        auto-package-update-delete-old-versions t
-        auto-package-update-hide-results t)
-      (auto-package-update-maybe))
-  #+END_SRC
+     (use-package auto-package-update
+       :config
+       (setq auto-package-update-interval 14 ;; days
+         auto-package-update-prompt-before-update t
+         auto-package-update-delete-old-versions t
+         auto-package-update-hide-results t)
+       (auto-package-update-maybe))
+   #+END_SRC
 
-  Let's also add a way to ensure certain system packages are installed
-  alongside Emacs packages.  This is useful when, for example, you
-  need the =rg= executable, or an npm package.
+   Let's also add a way to ensure certain system packages are installed
+   alongside Emacs packages.  This is useful when, for example, you
+   need the =rg= executable, or an npm package.
   
-  #+BEGIN_SRC emacs-lisp
-    (use-package use-package-ensure-system-package)
-  #+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package use-package-ensure-system-package)
+   #+END_SRC
 
+** Convenience Function for Loading Dependencies
+   #+BEGIN_SRC emacs-lisp
+
+     (defun db/add-to-load-path (path feature_toggle &optional dependency_list)
+       "Adds a path to the load-path if it exists and the feature_toggle
+       is on. Path is expected to be relative to
+       user-emacs-directory. An optional list of packages that are
+       dependencies can be provided and they will be required if the
+       load-path is updated."
+       (setq abs_path (concat user-emacs-directory path))
+       (when (and feature_toggle (file-directory-p abs_path))
+         (add-to-list 'load-path abs_path)
+         (when dependency_list
+           (dolist (package dependency_list)
+             (require package)))
+         t))
+
+   #+END_SRC
+  
 * Basic Settings
 
   Place for a grab bag of basic settings
@@ -105,48 +125,7 @@
 
   #+END_SRC
 
-* Visual Appearance
-
-    #+BEGIN_SRC emacs-lisp
-
-      (use-package all-the-icons)
-
-      ;; Let the desktop background show through
-      (setq db/my-alpha 97)
-      ;;      (set-frame-parameter (selected-frame) 'alpha '(97 . 100))
-      ;;      (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
-
-      (defun db/toggle-transparency ()
-        "Toggles transparency of current frame"
-        (interactive)
-        (setq current-alpha (car (frame-parameter (selected-frame) 'alpha)))
-        (if (= current-alpha 100)
-            (set-frame-parameter (selected-frame) 'alpha '(97 . 100))
-          (set-frame-parameter (selected-frame) 'alpha '(100 . 100))))
-
-      (scroll-bar-mode 0)
-      (menu-bar-mode 0)
-
-  #+END_SRC
-
-* Pulsar
-
-  #+BEGIN_SRC emacs-lisp
-    (require 'pulsar)
-
-    (setq pulsar-pulse t)
-    (setq pulsar-delay 0.055)
-    (setq pulsar-iterations 10)
-    (setq pulsar-face 'pulsar-magenta)
-    (setq pulsar-highlight-face 'pulsar-yellow)
-
-    (pulsar-global-mode 1)
-
-    (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
-    
-  #+END_SRC
-
-* Set up savefile, recent files, backup, and autosave features
+* Set up save-file, recent files, backup, and auto-save features
 
   #+BEGIN_SRC emacs-lisp
 
@@ -189,6 +168,79 @@
       (recentf-mode +1))
   #+END_SRC
 
+* Visual Appearance
+** All the Icons
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package all-the-icons)
+     (use-package all-the-icons-dired)
+     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)    
+   #+END_SRC 
+
+** TODO Pulsar
+
+#    #+BEGIN_SRC emacs-lisp
+#      (use-package pulsar)
+#      (require 'pulsar)
+
+#      (setq pulsar-pulse t)
+#      (setq pulsar-delay 0.055)
+#      (setq pulsar-iterations 10)
+#      (setq pulsar-face 'pulsar-magenta)
+#      (setq pulsar-highlight-face 'pulsar-yellow)
+
+#      (pulsar-global-mode 1)
+
+#      (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
+
+#    #+END_SRC
+
+** Which Key
+
+   Prompts with possible keys after a short delay
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package which-key
+       :config
+       (which-key-mode t))
+   #+END_SRC
+  
+** Paren Handling and Matching
+
+   Configuration for a bunch of built in packages.
+
+   #+BEGIN_SRC emacs-lisp
+
+     (use-package paren
+       :config
+       (show-paren-mode +1))
+
+     (use-package elec-pair
+       :config
+       (electric-pair-mode 1))
+
+   #+END_SRC
+
+** Theme and Faces and Fun
+
+   #+BEGIN_SRC emacs-lisp
+
+     (setq custom-safe-themes t)
+     (load-theme 'ef-deuteranopia-dark)
+     (use-package nyan-mode)       ;; nyan cat as % of buffer
+     (nyan-mode)
+
+   #+END_SRC
+
+* Jinx Spell Checker
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package jinx
+      :hook (emacs-startup . global-jinx-mode)
+      :bind (("M-$" . jinx-correct)
+             ("C-M-$" . jinx-languages)))    
+  #+END_SRC
+
 * Vanilla Packages
 
   The packages are loaded as is
@@ -198,94 +250,13 @@
     (use-package git-timemachine) ;; use n and p to move between git revisions
     (use-package gnuplot)         ;; for the plotting of graphs
     (use-package s)               ;; some nice easy string manipulation functions
-    (use-package magit)           ;; git chrome
     (use-package deadgrep)        ;; requires ripgrep binary
     (use-package ef-themes)       ;; Prot themes
     (use-package yaml-mode)
-    (use-package nyan-mode)       ;; nyan cat as % of buffer
-    (use-package ivy)
-  #+END_SRC
-
-* Load any lisp files
-
-  Load any .el files in =.emacs.d/lisp= directory. This is not recursive so any
-  code in sub-directories will not be loaded. This is intentional to allow for
-  later selective loading if there are dependencies. 
-  
-  #+BEGIN_SRC emacs-lisp
-    (defun load-directory (dir)
-      (let ((load-it (lambda (f)
-               (load-file (concat (file-name-as-directory dir) f)))
-             ))
-    (mapc load-it (directory-files dir nil "\\.el$"))))
-    (load-directory "~/.emacs.d/lisp")
-  #+END_SRC
-
-
-  #+BEGIN_SRC emacs-lisp
-
-    (defun db/add-to-load-path (path feature_toggle &optional dependency_list)
-      "Adds a path to the load-path if it exists and the feature_toggle
-      is on. An optional list of packages that are dependencies can be
-      provided and they will be required if the load-path is updated."
-      (when (and feature_toggle (file-directory-p path))
-        (add-to-list 'load-path path)
-        (when dependency_list
-          (dolist (package dependency_list)
-            (require package)))
-        t))
-
-  #+END_SRC
-
-* Window Handling
-
-  This is from system crafters.
-
-  #+BEGIN_SRC emacs-lisp
-    ;; Make sure repeat-mode is turned on first!
-    (repeat-mode 1)
-
-    (defvar-keymap db/window-key-map
-      :doc "Bindings for managing windows, configured to be repeatable."
-      :repeat t
-      "c" 'delete-window
-      "|" 'split-window-horizontally
-      "-" 'split-window-vertically
-      "h" 'windmove-left
-      "j" 'windmove-down
-      "k" 'windmove-up
-      "l" 'windmove-right
-      "C-h" 'shrink-window-horizontally
-      "C-j" 'shrink-window
-      "C-k" 'enlarge-window
-      "C-l" 'enlarge-window-horizontally
-      "H" 'windmove-swap-states-left
-      "J" 'windmove-swap-states-down
-      "K" 'windmove-swap-states-up
-      "L" 'windmove-swap-states-right)
-
-    (global-set-key (kbd "C-c w") db/window-key-map)
-
-  #+END_SRC
-
-* Paren Handling and  Matching
-
-  Configuration for a bunch of built in packages.
-
-  #+BEGIN_SRC emacs-lisp
-
-    (use-package paren
-      :config
-      (show-paren-mode +1))
-
-    (use-package elec-pair
-      :config
-      (electric-pair-mode 1))
-
+    (use-package magit)           ;; git chrome
   #+END_SRC
 
 * Windows Specific Setup
-  
 ** WSL to use Windows Native Browser
 
    #+BEGIN_SRC emacs-lisp
@@ -318,8 +289,6 @@
 
     ;; dired-x comes with emacs but isn't loaded by default.
     (require 'dired-x)
-    (use-package all-the-icons-dired)
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)    
 
     (setq-default dired-omit-files-p t) ; Buffer-local variable
     (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
@@ -343,44 +312,6 @@
     (use-package default-text-scale
       :config
       (default-text-scale-mode))
-  #+END_SRC
-
-* Ivy
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package ivy
-      :config
-      (setq ivy-use-virtual-buffers t)
-      (setq ivy-use-selectable-prompt t)
-      (setq enable-recursive-minibuffers t)
-      (ivy-mode 1))
-  #+END_SRC
-
-* Orderless
-
-  When searching order does not matter making it easier to find things. 
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package orderless
-      :config
-      (setq completion-styles '(orderless)))
-  #+END_SRC
-
-* Jinx Spell Checker
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package jinx
-      :hook (emacs-startup . global-jinx-mode)
-      :bind (("M-$" . jinx-correct)
-             ("C-M-$" . jinx-languages)))    
-  #+END_SRC
-
-* Swiper
-  Use swiper for better searching
-  #+BEGIN_SRC emacs-lisp
-    (use-package swiper
-      :bind
-      (("\C-s" . swiper)))
   #+END_SRC
 
 * PDF Tools
@@ -427,6 +358,45 @@
     (use-package yasnippet-snippets)
   #+END_SRC
 
+* Vertico
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package vertico
+    :init
+    (vertico-mode)
+
+    ;; Different scroll margin
+    ;; (setq vertico-scroll-margin 0)
+
+    ;; Show more candidates
+    ;; (setq vertico-count 20)
+
+    ;; Grow and shrink the Vertico minibuffer
+    ;; (setq vertico-resize t)
+
+    ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+    ;; (setq vertico-cycle t)
+    )
+
+  #+END_SRC
+* Orderless
+
+  When searching order does not matter making it easier to find things. 
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package orderless
+      :config
+      (setq completion-styles '(orderless)))
+  #+END_SRC
+
+* Swiper
+  Use swiper for better searching
+  #+BEGIN_SRC emacs-lisp
+    (use-package swiper
+      :bind
+      (("\C-s" . swiper)))
+  #+END_SRC
+
 * Projectile
 
   [[https://projectile.mx/][Projectile]] is useful for navigating dev projects
@@ -438,7 +408,6 @@
   #+END_SRC
 
 * Org Mode
-
 ** Org Mode Packages
 
    #+BEGIN_SRC emacs-lisp
@@ -452,13 +421,6 @@
      (require 'org-habit)
   #+END_SRC
 
-** Org Appearance
-
-  #+BEGIN_SRC emacs-lisp
-
-
-  #+END_SRC
-  
 ** Basic Org Config  
 
    #+BEGIN_SRC emacs-lisp
@@ -997,78 +959,6 @@
                    ("t" . elfeed-webkit-toggle)))
   #+END_SRC
 
-* Org Present
-
-  #+BEGIN_SRC emacs-lisp
-
-    (unless (package-installed-p 'org-present)
-      (package-install 'org-present))
-
-    (defun db/org-present-prepare-slide (buffer-name heading)
-      ;; Show only top-level headlines
-      (org-overview)
-
-      ;; Unfold the current entry
-      (org-show-entry)
-
-      ;; Show only direct subheadings of the slide but don't expand them
-      (org-show-children))
-
-    (defun db/org-present-start ()
-      ;; Tweak font sizes
-      (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
-                     (header-line (:height 4.0) variable-pitch)
-                     (org-document-title (:height 1.75) org-document-title)
-                     (org-code (:height 1.55) org-code)
-                     (org-verbatim (:height 1.55) org-verbatim)
-                     (org-block (:height 1.25) org-block)
-                     (org-block-begin-line (:height 0.7) org-block)))
-
-      ;; Set a blank header line string to create blank space at the top
-      (setq header-line-format " ")
-
-      ;; Display inline images automatically
-      (org-display-inline-images)
-
-      ;; Center the presentation and wrap lines
-      (visual-fill-column-mode 1)
-      (visual-line-mode 1))
-
-    (defun db/org-present-end ()
-      ;; Reset font customizations
-      (setq-local face-remapping-alist '((default variable-pitch default)))
-
-      ;; Clear the header line string so that it isn't displayed
-      (setq header-line-format nil)
-
-      ;; Stop displaying inline images
-      (org-remove-inline-images)
-
-      ;; Stop centering the document
-      (visual-fill-column-mode 0)
-      (visual-line-mode 0))
-
-    ;; Turn on variable pitch fonts in Org Mode buffers
-    ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
-
-    ;; Register hooks with org-present
-    (add-hook 'org-present-mode-hook 'db/org-present-start)
-    (add-hook 'org-present-mode-quit-hook 'db/org-present-end)
-    (add-hook 'org-present-after-navigate-functions 'db/org-present-prepare-slide)
-
-  #+END_SRC
-
-* Org Transculsion
-
-  #+BEGIN_SRC emacs-lisp
-
-    (use-package org-transclusion
-      :after org
-      :init
-      )
-
-  #+END_SRC
-
 * Org Habit Stats
 
   Comprehensive [[https://github.com/ml729/org-habit-stats][stats on your habits]].
@@ -1076,7 +966,7 @@
   #+BEGIN_SRC emacs-lisp
 
     ;; if it is installed
-    (if (db/add-to-load-path "~/.emacs.d/lisp/org-habit-stats" t)
+    (if (db/add-to-load-path "lisp/org-habit-stats" t)
         (load "org-habit-stats"))
 
   #+END_SRC
@@ -1120,18 +1010,7 @@
 
   #+END_SRC
 
-* Which Key
-
-  Prompts with possibe keys after a short delay
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package which-key
-      :config
-      (which-key-mode t))
-  #+END_SRC
-  
 * Developer Enhancements
-
 ** Git Gutter
 
    #+BEGIN_SRC emacs-lisp
@@ -1143,13 +1022,6 @@
        (global-git-gutter-mode t))
    #+END_SRC
 
-* Developer Modes
-
-  #+BEGIN_SRC emacs-lisp
-    (require 'yaml-mode)
-    (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-   #+END_SRC
-
 * ChatGPT Integration as a Shell
 
   Using https://github.com/xenodium/chatgpt-shell
@@ -1159,22 +1031,9 @@
     (use-package chatgpt-shell
       :init
       (setq chatgpt-shell-openai-key
-          (auth-source-pick-first-password :host "api.openai.com")))
+          (auth-source-pick-first-password :machine "api.openai.com")))
    
     (define-key global-map (kbd "C-c g r") 'chatgpt-shell-send-region)
-
-  #+END_SRC
-
-* Company
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package company
-      :config
-      (add-hook 'after-init-hook 'global-company-mode))
-
-    (use-package company-emoji
-      :init
-      (add-to-list 'company-backends 'company-emoji))
 
   #+END_SRC
 
@@ -1440,6 +1299,7 @@
              ("h" image-backward-hscroll :color red))
 
    #+END_SRC
+
 * Globally set keys
 
   #+BEGIN_SRC emacs-lisp
@@ -1455,16 +1315,20 @@
 
   #+END_SRC
 
-* Theme and Faces and Fun
-
+* Load any other custom lisp code in lisp directory
+  
+  Load any .el files in =.emacs.d/lisp= directory. This is not recursive so any
+  code in sub-directories will not be loaded. This is intentional to allow for
+  later selective loading if there are dependencies. 
+  
   #+BEGIN_SRC emacs-lisp
-
-    (setq custom-safe-themes t)
-    (load-theme 'ef-deuteranopia-dark)
-    (nyan-mode)
-
+    (defun load-directory (dir)
+      (let ((load-it (lambda (f)
+               (load-file (concat (file-name-as-directory dir) f)))
+             ))
+    (mapc load-it (directory-files dir nil "\\.el$"))))
+    (load-directory (concat user-emacs-directory "/lisp"))
   #+END_SRC
-
 * Start a server
 
   #+BEGIN_SRC emacs-lisp
@@ -1472,6 +1336,3 @@
     (unless (server-running-p) (server-start))
   #+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-    (file-notify-rm-all-watches)
-  #+END_SRC

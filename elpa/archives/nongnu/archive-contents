@@ -157,16 +157,16 @@
 	  ("Akib Azmain Turja" . "akib@disroot.org"))
 	 (:commit . "19152095662c95bc73f1f25b8dcce432294b06a1"))])
  (blueprint-ts-mode .
-		    [(0 0 1)
+		    [(0 0 2)
 		     ((emacs
-		       (29 0)))
-		     "Major mode for editing GNOME Blueprint files" tar
+		       (29 1)))
+		     "tree-sitter support for Blueprint files" tar
 		     ((:url . "https://github.com/huanie/blueprint-ts-mode")
 		      (:keywords "languages" "blueprint" "tree-sitter" "gnome" "gtk")
 		      (:maintainer "Huan Thieu Nguyen" . "nguyenthieuhuan@gmail.com")
 		      (:authors
 		       ("Huan Thieu Nguyen" . "nguyenthieuhuan@gmail.com"))
-		      (:commit . "1aa9223538519fc23cab76588db3585df04717f5"))])
+		      (:commit . "19b91fca0bce72cc44fe96df95abd97c1fc05c35"))])
  (boxquote .
 	   [(2 3)
 	    ((cl-lib
@@ -179,7 +179,7 @@
 	      ("Dave Pearson" . "davep@davep.org"))
 	     (:commit . "fe676396fa7e4372e01bf2c3d9a62e8d53615d46"))])
  (buttercup .
-	    [(1 31)
+	    [(1 32)
 	     ((emacs
 	       (24 3)))
 	     "Behavior-Driven Emacs Lisp Testing" tar
@@ -187,7 +187,7 @@
 	      (:maintainer "Ola Nilsson" . "ola.nilsson@gmail.com")
 	      (:authors
 	       ("Jorgen Schaefer" . "contact@jorgenschaefer.de"))
-	      (:commit . "30c703d215b075aaede936a2c424f65b5f7b6391"))])
+	      (:commit . "3780eb081913d1aeef2bc5950891a3fbe3b3771d"))])
  (camera .
 	 [(0 3)
 	  ((emacs
@@ -427,16 +427,18 @@
 		 ("Arne Jørgensen" . "arne@arnested.dk"))
 		(:commit . "ed90b0c4d808365e9ae9f16cc8a96eff17815621"))])
  (eat .
-      [(0 8)
+      [(0 9)
        ((emacs
-	 (28 1)))
+	 (26 1))
+	(compat
+	 (29 1)))
        "Emulate A Terminal, in a region, in a buffer and in Eshell" tar
        ((:url . "https://codeberg.org/akib/emacs-eat")
 	(:keywords "terminals" "processes")
 	(:maintainer "Akib Azmain Turja" . "akib@disroot.org")
 	(:authors
 	 ("Akib Azmain Turja" . "akib@disroot.org"))
-	(:commit . "092bdd9b9535f9d21bf7b2e15e8ecd1a33089735"))])
+	(:commit . "38ba9a99b0983ecce4be4c2b7d69632d0666648e"))])
  (edit-indirect .
 		[(0 1 10)
 		 ((emacs
@@ -480,15 +482,15 @@
 	    ("Tim Vaughan" . "plugd@thelambdalab.xyz"))
 	   (:commit . "81f2883614c303184116449ec3583ef5c136ec2f"))])
  (engine-mode .
-	      [(2 2 3)
+	      [(2 2 4)
 	       ((cl-lib
 		 (0 5)))
-	       "Define and query search engines from within Emacs" tar
+	       "Define and query search engines" tar
 	       ((:url . "https://github.com/hrs/engine-mode")
 		(:maintainer "Harry R. Schwartz" . "hello@harryrschwartz.com")
 		(:authors
 		 ("Harry R. Schwartz" . "hello@harryrschwartz.com"))
-		(:commit . "fae1bd4fdf7d102744505bf2a8f4dc88d5b8f2fd"))])
+		(:commit . "67b68c1a2bff48bad2cc4722598da0f36e3866a9"))])
  (evil .
        [(1 15 0)
 	nil "extensible vi layer" tar
@@ -1356,7 +1358,7 @@
 		   ("Jason R. Blevins" . "jblevins@xbeta.org"))
 		  (:commit . "193b61605f44c85d261b8bd82e0a213fd8f1ff32"))])
  (mastodon .
-	   [(1 0 2)
+	   [(1 0 6)
 	    ((emacs
 	      (27 1))
 	     (request
@@ -1369,7 +1371,7 @@
 	     (:authors
 	      ("Johnson Denen" . "johnson.denen@gmail.com")
 	      ("Marty Hiatt" . "martianhiatus@riseup.net"))
-	     (:commit . "016a3a2b331a0cc9ee916e401b1eb3a196006c06"))])
+	     (:commit . "708aaa06b6f5dbe7db96154388309098a8f69fba"))])
  (material-theme .
 		 [(2015)
 		  ((emacs
@@ -2051,7 +2053,7 @@
 	  (:maintainer "Sacha Chua" . "sacha@sachachua.com")
 	  (:commit . "ccf071fb0bd815565c674ee8d2f213e3f209833d"))])
  (sweeprolog .
-	     [(0 25 2)
+	     [(0 25 3)
 	      ((emacs
 		(27 1))
 	       (compat
@@ -2062,7 +2064,7 @@
 	       (:maintainer "Eshel Yaron" . "~eshel/dev@lists.sr.ht")
 	       (:authors
 		("Eshel Yaron" . "me@eshelyaron.com"))
-	       (:commit . "dba83e95e67a0bca703ef535663b4a4de03538b7"))])
+	       (:commit . "6431074ee1a130d7bc63a6f2cce97ab704d41d58"))])
  (swift-mode .
 	     [(9 1 0)
 	      ((emacs
@@ -2371,14 +2373,14 @@
 	      (:authors
 	       ("Le Wang")))])
  (xah-fly-keys .
-	       [(24 12 20230930093650)
+	       [(24 13 20231005090319)
 		((emacs
 		  (29)))
 		"ergonomic modal keybinding minor mode." tar
 		((:url . "http://xahlee.info/emacs/misc/xah-fly-keys.html")
 		 (:keywords "convenience" "emulations" "vim" "ergoemacs")
 		 (:maintainer "Xah Lee" . "xah@xahlee.org")
-		 (:commit . "afdd2e6bee1b5823a598cf27431a0e6af88e6477"))])
+		 (:commit . "ecb110d50c5b0893132074cadba687761251cb1e"))])
  (xkcd .
        [(1 1)
 	((json
@@ -2398,16 +2400,17 @@
 	    (:maintainer "Mark A. Hershberger" . "mah@everybody.org")
 	    (:commit . "fc0c82eb5c8a5d5d837a21bca50f7c8169165f03"))])
  (yaml-mode .
-	    [(0 0 15)
+	    [(0 0 16)
 	     ((emacs
 	       (24 1)))
 	     "Major mode for editing YAML files" tar
 	     ((:url . "https://github.com/yoshiki/yaml-mode")
+	      (:keywords "data" "yaml")
 	      (:maintainer "Vasilij Schneidermann" . "mail@vasilij.de")
 	      (:authors
 	       ("Yoshiki Kurihara" . "clouder@gmail.com")
 	       ("Marshall T. Vandegrift" . "llasram@gmail.com"))
-	      (:keywords "data" "yaml"))])
+	      (:commit . "6bb9e7f6e1c9224f743a8a68bc210d10eb8cb788"))])
  (yasnippet-snippets .
 		     [(1 0)
 		      ((yasnippet
