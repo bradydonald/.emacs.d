@@ -752,6 +752,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-ql)
+     (require 'org-ql-search)
    #+END_SRC
    
 ** Filter Refile Targets
@@ -1334,4 +1335,6 @@
     (load "server")
     (unless (server-running-p) (server-start))
   #+END_SRC
+
+  #+RESULTS:
 
