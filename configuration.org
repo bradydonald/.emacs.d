@@ -1029,11 +1029,10 @@
   #+BEGIN_SRC emacs-lisp
 
     (use-package chatgpt-shell
-      :init
+      :ensure t
+      :config
       (setq chatgpt-shell-openai-key
-          (auth-source-pick-first-password :machine "api.openai.com")))
-   
-    (define-key global-map (kbd "C-c g r") 'chatgpt-shell-send-region)
+            (auth-source-pick-first-password :host "api.openai.com")))
 
   #+END_SRC
 
