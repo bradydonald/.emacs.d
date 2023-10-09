@@ -1,6 +1,6 @@
-(define-package "xml-rpc" "20221228.2346" "An elisp implementation of clientside XML-RPC"
+(define-package "xml-rpc" "20231009.1432" "An elisp implementation of clientside XML-RPC"
   '((emacs "24.1"))
-  :commit "8272789df8a4deab4de7d50e63b73b7d0543bc7f" :maintainers
+  :commit "fb6183597be1361be02f46c9a53257ac1dd9715e" :maintainers
   '(("Mark A. Hershberger" . "mah@everybody.org"))
   :maintainer
   '("Mark A. Hershberger" . "mah@everybody.org")

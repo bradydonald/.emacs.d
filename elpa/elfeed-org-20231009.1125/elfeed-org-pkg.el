@@ -1,8 +1,8 @@
-(define-package "elfeed-org" "20230914.700" "Configure elfeed with one or more org-mode files"
+(define-package "elfeed-org" "20231009.1125" "Configure elfeed with one or more org-mode files"
   '((elfeed "1.1.1")
     (org "8.2.7")
     (cl-lib "0.5"))
-  :commit "7f3ad868f2fa3c17492340f7af84f208b9c25635" :authors
+  :commit "fe59a96969bd321f5f9ec7317a4bc80943b94c86" :authors
   '(("Remy Honig" . "remyhonig@gmail.com"))
   :maintainers
   '(("Remy Honig" . "remyhonig@gmail.com"))
