@@ -992,24 +992,34 @@
 
   #+END_SRC
 
-* Mastodon
-
-  From here: https://codeberg.org/martianh/mastodon.el
+* Fediverse
   
-  #+BEGIN_SRC emacs-lisp
+** Mastodon
 
-    (use-package mastodon
-      :config
-      (setq mastodon-tl--show-avatars t)
-      (setq mastodon-media--avatar-height 40)
-      (mastodon-discover))
+   From here: https://codeberg.org/martianh/mastodon.el
+  
+   #+BEGIN_SRC emacs-lisp
 
-    (setq mastodon-instance-url "https://mastodon.social"
-          mastodon-active-user "donald_brady")
+     (use-package mastodon
+       :config
+       (setq mastodon-tl--show-avatars t)
+       (setq mastodon-media--avatar-height 40)
+       (mastodon-discover))
 
+     (setq mastodon-instance-url "https://mastodon.social"
+           mastodon-active-user "donald_brady")
 
+   #+END_SRC
 
-  #+END_SRC
+** Lemmy
+   
+   #+BEGIN_SRC emacs-lisp
+
+     (use-package lem
+       :config
+       (setq lem-instance-url "https://lemmy.world"))
+
+   #+END_SRC
 
 * Developer Enhancements
 ** Git Gutter
