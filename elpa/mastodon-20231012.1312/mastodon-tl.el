@@ -171,6 +171,17 @@ timeline with a simple prefix argument, `C-u'."
   "Whether to highlight the toot at point. Uses `cursor-face' special property."
   :type '(boolean))
 
+(defcustom mastodon-tl--expand-content-warnings 'server
+  "Whether to expand content warnings by default.
+The API returns data about this setting on the server, but no
+means to set it, so we roll our own option here to override the
+server setting if desired. If you change the server setting and
+want it to be respected by mastodon.el, you'll likely need to
+either unset `mastodon-profile-acccount-preferences-data' and
+re-load mastodon.el, or restart Emacs."
+  :type '(choice (const :tag "true" t)
+                 (const :tag "false" nil)
+                 (const :tag "follow server setting" server)))
 
 ;;; VARIABLES
 
@@ -245,6 +256,7 @@ types of mastodon links and not just shr.el-generated ones.")
     ;; keep new my-profile binding; shr 'O' doesn't work here anyway
     (define-key map (kbd "O") #'mastodon-profile--my-profile)
     (define-key map (kbd "<C-return>") #'mastodon-tl--mpv-play-video-at-point)
+    (define-key map (kbd "<mouse-2>") #'mastodon-tl--click-image-or-video)
     map)
   "The keymap to be set for shr.el generated image links.
 We need to override the keymap so tabbing will navigate to all
@@ -987,15 +999,20 @@ message is a link which unhides/hides the main body."
      cw
      (propertize (mastodon-tl--content toot)
                  'invisible
-                 ;; check server setting to expand all spoilers:
-                 (unless (eq t
-                             ;; If something goes wrong reading prefs,
-                             ;; just return nil so CWs show by default.
-                             (condition-case nil
-                                 (mastodon-profile--get-preferences-pref
-                                  'reading:expand:spoilers)
-                               (error nil)))
-                   t)
+                 (let ((cust mastodon-tl--expand-content-warnings))
+                   (cond ((eq t cust)
+                          nil)
+                         ((eq nil cust)
+                          t)
+                         ((eq 'server cust)
+                          (unless (eq t
+                                      ;; If something goes wrong reading prefs,
+                                      ;; just return nil so CWs show by default.
+                                      (condition-case nil
+                                          (mastodon-profile--get-preferences-pref
+                                           'reading:expand:spoilers)
+                                        (error nil)))
+                            t))))
                  'mastodon-content-warning-body t))))
 
 
@@ -1230,19 +1247,31 @@ displayed when the duration is smaller than a minute)."
          (type (plist-get video :type)))
     (mastodon-tl--mpv-play-video-at-point url type)))
 
+(defun mastodon-tl--click-image-or-video (_event)
+  "Click to play video with `mpv.el''"
+  (interactive "e")
+  (if (mastodon-tl--media-video-p)
+      (mastodon-tl--mpv-play-video-at-point)
+    (shr-browse-image)))
+
+(defun mastodon-tl--media-video-p (&optional type)
+  "T if mastodon-media-type prop is \"gifv\" or \"video\"."
+  (let ((type (or type (mastodon-tl--property 'mastodon-media-type :no-move))))
+    (or (equal type "gifv")
+        (equal type "video"))))
+
 (defun mastodon-tl--mpv-play-video-at-point (&optional url type)
   "Play the video or gif at point with an mpv process.
 URL and TYPE are provided when called while point is on byline,
 in which case play first video or gif from current toot."
   (interactive)
   (let ((url (or url ; point in byline:
-                 (mastodon-tl--property 'image-url :no-move))) ; point in toot
-        (type (or type ; in byline
-                  ;; point in toot:
-                  (mastodon-tl--property 'mastodon-media-type :no-move))))
+                 (mastodon-tl--property 'image-url :no-move)))) ; point in toot
+    ;; (type (or type ; in byline
+    ;; point in toot:
+    ;; (mastodon-tl--property 'mastodon-media-type :no-move))))
     (if url
-        (if (or (equal type "gifv")
-                (equal type "video"))
+        (if (mastodon-tl--media-video-p type)
             (progn
               (message "'q' to kill mpv.")
               (mpv-start "--loop" url))

@@ -37,7 +37,6 @@ not, just browse the URL in the normal fashion.
 
 (fn &optional QUERY-URL)" t)
 (add-hook 'mastodon-mode-hook #'mastodon-mode-hook-fun)
-(add-hook 'mastodon-mode-hook #'mastodon-profile--fetch-server-account-settings)
 (register-definition-prefixes "mastodon" '("mastodon-"))
 
 

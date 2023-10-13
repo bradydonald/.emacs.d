@@ -5,7 +5,7 @@
 ;; Author: Bozhidar Batsov <bozhidar@batsov.dev>
 ;; URL: https://github.com/bbatsov/projectile
 ;; Keywords: project, convenience
-;; Version: 2.8.0-snapshot
+;; Version: 2.8.0
 ;; Package-Requires: ((emacs "25.1"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -681,7 +681,8 @@ means check all the subdirectories of DIRECTORY.  Etc."
    ((executable-find "fd") "fd"))
   "Path or name of fd executable used by Projectile if enabled.
 Nil means fd is not installed or should not be used."
-  :type 'string)
+  :type 'string
+  :package-version '(projectile . "2.8.0"))
 
 (defcustom projectile-git-use-fd (when projectile-fd-executable t)
   "Non-nil means use fd to implement git ls-files.
@@ -755,11 +756,8 @@ Set to nil to disable listing submodules contents."
   (cond
    ;; we prefer fd over find
    ;; note that --strip-cwd-prefix is only available in version 8.3.0+
-   ((executable-find "fd")
-    "fd . -0 --type f --color=never --strip-cwd-prefix")
-   ;; fd's executable is named fdfind is some Linux distros (e.g. Ubuntu)
-   ((executable-find "fdfind")
-    "fdfind . -0 --type f --color=never --strip-cwd-prefix")
+   (projectile-fd-executable
+    (format "%s . -0 --type f --color=never --strip-cwd-prefix" projectile-fd-executable))
    ;; with find we have to be careful to strip the ./ from the paths
    ;; see https://stackoverflow.com/questions/2596462/how-to-strip-leading-in-unix-find
    (t "find . -type f | cut -c3- | tr '\\n' '\\0'"))
@@ -888,7 +886,7 @@ Should be set via .dir-locals.el.")
 
 ;;; Version information
 
-(defconst projectile-version "2.8.0-snapshot"
+(defconst projectile-version "2.8.0"
   "The current version of Projectile.")
 
 (defun projectile--pkg-version ()

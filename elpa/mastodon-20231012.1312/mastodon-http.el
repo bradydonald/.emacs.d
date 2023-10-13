@@ -34,6 +34,7 @@
 (require 'json)
 (require 'request) ; for attachments upload
 (require 'url)
+(require 'shr)
 
 (defvar mastodon-instance-url)
 (defvar mastodon-toot--media-attachment-ids)
@@ -127,9 +128,12 @@ Used for API form data parameters that take an array."
   (cl-loop for x in array
            collect (cons param-str x)))
 
-(defun mastodon-http--post (url &optional params headers unauthenticated-p json)
+(defun mastodon-http--post (url
+                            &optional params headers unauthenticated-p json)
   "POST synchronously to URL, optionally with PARAMS and HEADERS.
-Authorization header is included by default unless UNAUTHENTICATED-P is non-nil."
+Authorization header is included by default unless
+UNAUTHENTICATED-P is non-nil.If JSON, encode PARAMS as JSON for
+the request data."
   (mastodon-http--authorized-request "POST"
     (let* ((url-request-data
             (when params

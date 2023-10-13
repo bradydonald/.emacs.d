@@ -785,7 +785,7 @@ INSTANCE is the instance were are working with."
                  (format "*mastodon-instance-%s*" domain))))
       (with-mastodon-buffer buf #'special-mode :other-window
         (if misskey
-            (let ((inihibit-read-only t))
+            (let ((inhibit-read-only t))
               (insert (prin1-to-string response))
               (pp-buffer)
               (goto-char (point-min)))

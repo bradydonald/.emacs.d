@@ -6,7 +6,7 @@
 ;; Author: Johnson Denen <johnson.denen@gmail.com>
 ;;         Marty Hiatt <martianhiatus@riseup.net>
 ;; Maintainer: Marty Hiatt <martianhiatus@riseup.net>
-;; Version: 1.0.6
+;; Version: 1.0.7
 ;; Package-Requires: ((emacs "27.1") (request "0.3.0") (persist "0.4"))
 ;; Homepage: https://codeberg.org/martianh/mastodon.el
 
@@ -395,6 +395,7 @@ not, just browse the URL in the normal fashion."
           (string-match "^/c/[[:alnum:]]+$" query)
           (string-match "^/post/[[:digit:]]+$" query)
           (string-match "^/comment/[[:digit:]]+$" query) ; lemmy
+          (string-match "^/user[s]?/[[:alnum:]]+/statuses/[[:digit:]]+$" query) ; hometown
           (string-match "^/notes/[[:alnum:]]+$" query))))) ; misskey post
 
 (defun mastodon-live-buffers ()
@@ -425,15 +426,13 @@ Calls `mastodon-tl--get-buffer-type', which see."
   (when (require 'emojify nil :noerror)
     (emojify-mode t)
     (when mastodon-toot--enable-custom-instance-emoji
-      (mastodon-toot--enable-custom-emoji))
-    (when mastodon-tl--highlight-current-toot
-      (cursor-face-highlight-mode)))) ; 29.1
+      (mastodon-toot--enable-custom-emoji)))
+  (mastodon-profile--fetch-server-account-settings)
+  (when mastodon-tl--highlight-current-toot
+    (cursor-face-highlight-mode))) ; 29.1
 
 ;;;###autoload
 (add-hook 'mastodon-mode-hook #'mastodon-mode-hook-fun)
-
-;;;###autoload
-(add-hook 'mastodon-mode-hook #'mastodon-profile--fetch-server-account-settings)
 
 (define-derived-mode mastodon-mode special-mode "Mastodon"
   "Major mode for Mastodon, the federated microblogging network."
