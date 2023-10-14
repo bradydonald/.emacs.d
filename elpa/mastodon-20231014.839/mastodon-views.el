@@ -785,25 +785,34 @@ INSTANCE is the instance were are working with."
                  (format "*mastodon-instance-%s*" domain))))
       (with-mastodon-buffer buf #'special-mode :other-window
         (if misskey
-            (let ((inhibit-read-only t))
-              (insert (prin1-to-string response))
-              (pp-buffer)
-              (goto-char (point-min)))
-          (when brief
-            (setq response
-                  (list (assoc 'uri response)
-                        (assoc 'title response)
-                        (assoc 'short_description response)
-                        (assoc 'email response)
-                        (cons 'contact_account
-                              (list
-                               (assoc 'username
-                                      (assoc 'contact_account response))))
-                        (assoc 'rules response)
-                        (assoc 'stats response))))
-          (mastodon-views--print-json-keys response)
-          (mastodon-tl--set-buffer-spec (buffer-name buf) "instance" nil)
-          (goto-char (point-min)))))))
+            (mastodon-view--insert-json response)
+          (condition-case err
+              (progn
+                (when brief
+                  (setq response
+                        (list (assoc 'uri response)
+                              (assoc 'title response)
+                              (assoc 'short_description response)
+                              (assoc 'email response)
+                              (cons 'contact_account
+                                    (list
+                                     (assoc 'username
+                                            (assoc 'contact_account response))))
+                              (assoc 'rules response)
+                              (assoc 'stats response))))
+                (mastodon-views--print-json-keys response)
+                (mastodon-tl--set-buffer-spec (buffer-name buf) "instance" nil)
+                (goto-char (point-min)))
+            (error ; just insert the raw response:
+             (mastodon-views--insert-json response))))))))
+
+(defun mastodon-views--insert-json (response)
+  "Insert raw JSON RESPONSE in current buffer."
+  (let ((inhibit-read-only t))
+    (erase-buffer)
+    (insert (prin1-to-string response))
+    (pp-buffer)
+    (goto-char (point-min))))
 
 (defun mastodon-views--format-key (el pad)
   "Format a key of element EL, a cons, with PAD padding."

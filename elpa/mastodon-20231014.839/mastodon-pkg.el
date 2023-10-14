@@ -1,8 +1,8 @@
-(define-package "mastodon" "20231012.1312" "Client for fediverse services using the Mastodon API"
+(define-package "mastodon" "20231014.839" "Client for fediverse services using the Mastodon API"
   '((emacs "27.1")
     (request "0.3.0")
     (persist "0.4"))
-  :commit "9a400d33a5b9c33d6fddd9d2ec988d7b156f74d3" :authors
+  :commit "dc6f827bcbf06e1f942318eeec4e58334beea3c0" :authors
   '(("Johnson Denen" . "johnson.denen@gmail.com")
     ("Marty Hiatt" . "martianhiatus@riseup.net"))
   :maintainers

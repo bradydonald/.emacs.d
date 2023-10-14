@@ -6,7 +6,7 @@
 ;; Author: Johnson Denen <johnson.denen@gmail.com>
 ;;         Marty Hiatt <martianhiatus@riseup.net>
 ;; Maintainer: Marty Hiatt <martianhiatus@riseup.net>
-;; Version: 1.0.7
+;; Version: 1.0.9
 ;; Package-Requires: ((emacs "27.1") (request "0.3.0") (persist "0.4"))
 ;; Homepage: https://codeberg.org/martianh/mastodon.el
 
@@ -165,7 +165,7 @@ Use. e.g. \"%c\" for your locale's date and time format."
     (define-key map (kbd "N") #'mastodon-notifications-get)
     (define-key map (kbd "@") #'mastodon-notifications--get-mentions)
     (define-key map (kbd "P") #'mastodon-profile--show-user)
-    (define-key map (kbd "s") #'mastodon-search--search-query)
+    (define-key map (kbd "s") #'mastodon-search--query)
     (define-key map (kbd "/") #'mastodon-switch-to-buffer)
     ;; quitting mastodon
     (define-key map (kbd "q") #'kill-current-buffer)
@@ -352,7 +352,7 @@ not, just browse the URL in the normal fashion."
                     (thing-at-point-url-at-point)
                     (mastodon-tl--property 'shr-url :no-move)
                     (read-string "Lookup URL: "))))
-    (if (not (mastodon--masto-url-p query))
+    (if (not (mastodon--fedi-url-p query))
         ;; (shr-browse-url query) ; doesn't work (keep our shr keymap)
         (browse-url query)
       (message "Performing lookup...")
@@ -374,7 +374,7 @@ not, just browse the URL in the normal fashion."
               (t
                (browse-url query)))))))
 
-(defun mastodon--masto-url-p (query)
+(defun mastodon--fedi-url-p (query)
   "Check if QUERY resembles a fediverse URL."
   ;; calqued off https://github.com/tuskyapp/Tusky/blob/c8fc2418b8f5458a817bba221d025b822225e130/app/src/main/java/com/keylesspalace/tusky/BottomSheetActivity.kt
   ;; thx to Conny Duck!
@@ -383,7 +383,7 @@ not, just browse the URL in the normal fashion."
     (save-match-data
       (or (string-match "^/@[^/]+$" query)
           (string-match "^/@[^/]+/[[:digit:]]+$" query)
-          (string-match "^/user[s]?/[[:alnum:]]+$" query)
+          (string-match "^/user[s]?/@?[[:alnum:]]+$" query) ; @: pleroma or soapbox
           (string-match "^/notice/[[:alnum:]]+$" query)
           (string-match "^/objects/[-a-f0-9]+$" query)
           (string-match "^/notes/[a-z0-9]+$" query)
@@ -404,6 +404,11 @@ Calls `mastodon-tl--get-buffer-type', which see."
   (cl-loop for x in (buffer-list)
            when (with-current-buffer x (mastodon-tl--get-buffer-type))
            collect (get-buffer x)))
+
+(defun mastodon-buffer-p (&optional buffer)
+  "Non-nil if BUFFER or `current-buffer' is a mastodon one."
+  (let ((buf (or buffer (current-buffer))))
+    (member buf (mastodon-live-buffers))))
 
 (defun mastodon-kill-all-buffers ()
   "Kill any and all open mastodon buffers, hopefully."

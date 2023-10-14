@@ -87,7 +87,7 @@
          ("N" "Notifications" mastodon-notifications-get)
          ("@" "Notifications with mentions" mastodon-notifications--get-mentions)
          ("g/u" "Update timeline" mastodon-tl--update)
-         ("s" "Search" mastodon-search--search-query)
+         ("s" "Search" mastodon-search--query)
          ("O" "Jump to your profile" mastodon-profile--my-profile)
          ("U" "Update your profile note" mastodon-profile--update-user-profile-note)
          ("K" "View bookmarks" mastodon-profile--view-bookmarks)

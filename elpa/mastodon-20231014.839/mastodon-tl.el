@@ -82,6 +82,9 @@
 (autoload 'mastodon-toot--schedule-toot "mastodon-toot")
 (autoload 'mastodon-toot--set-toot-properties "mastodon-toot")
 (autoload 'mastodon-toot--update-status-fields "mastodon-toot")
+(autoload 'mastodon-search--buf-type "mastodon-search")
+(autoload 'mastodon-http--api-search "mastodon-http")
+(autoload 'mastodon-views--insert-users-propertized-note "mastodon-views") ; for search pagination
 
 (defvar mastodon-toot--visibility)
 (defvar mastodon-toot-mode)
@@ -1248,14 +1251,15 @@ displayed when the duration is smaller than a minute)."
     (mastodon-tl--mpv-play-video-at-point url type)))
 
 (defun mastodon-tl--click-image-or-video (_event)
-  "Click to play video with `mpv.el''"
+  "Click to play video with `mpv.el'."
   (interactive "e")
   (if (mastodon-tl--media-video-p)
       (mastodon-tl--mpv-play-video-at-point)
     (shr-browse-image)))
 
 (defun mastodon-tl--media-video-p (&optional type)
-  "T if mastodon-media-type prop is \"gifv\" or \"video\"."
+  "T if mastodon-media-type prop is \"gifv\" or \"video\".
+TYPE is a mastodon media type."
   (let ((type (or type (mastodon-tl--property 'mastodon-media-type :no-move))))
     (or (equal type "gifv")
         (equal type "video"))))
@@ -1573,14 +1577,19 @@ call this function after it is set or use something else."
           ((mastodon-tl--endpoint-str-= "preferences")
            'preferences)
           ;; search
-          ((mastodon-tl--endpoint-str-= "search" :suffix)
-           'search)
+          ((mastodon-tl--search-buffer-p)
+           (cond ((equal (mastodon-search--buf-type) "accounts")
+                  'search-accounts)
+                 ((equal (mastodon-search--buf-type) "hashtags")
+                  'search-hashtags)
+                 ((equal (mastodon-search--buf-type) "statuses")
+                  'search-statuses)))
           ;; trends
-          ((mastodon-tl--endpoint-str-= "api/v1/trends/statuses")
+          ((mastodon-tl--endpoint-str-= "trends/statuses")
            'trending-statuses)
-          ((mastodon-tl--endpoint-str-= "api/v1/trends/tags")
+          ((mastodon-tl--endpoint-str-= "trends/tags")
            'trending-tags)
-          ((mastodon-tl--endpoint-str-= "api/v1/trends/links")
+          ((mastodon-tl--endpoint-str-= "trends/links")
            'trending-links)
           ;; User's views:
           ((mastodon-tl--endpoint-str-= "filters")
@@ -1611,6 +1620,10 @@ call this function after it is set or use something else."
   "Return t if current buffer is a profile buffer of any kind.
 This includes the update profile note buffer, but not the preferences one."
   (string-prefix-p "accounts" (mastodon-tl--endpoint nil :no-error)))
+
+(defun mastodon-tl--search-buffer-p ()
+  "T if current buffer is a search buffer."
+  (string-suffix-p "search" (mastodon-tl--endpoint nil :no-error)))
 
 (defun mastodon-tl--timeline-proper-p ()
   "Return non-nil if the current buffer is a \"proper\" timeline.
@@ -2220,7 +2233,7 @@ report the account for spam."
                    "rules [TAB for options, | to separate]: "
                    alist nil t)))
     (mapcar (lambda (x)
-              (alist-get x alist))
+              (alist-get x alist nil nil #'equal))
             choices)))
 
 
@@ -2240,8 +2253,35 @@ PARAMS is used to send any parameters needed to correctly update
 the current view."
   (let* ((args `(("max_id" . ,(mastodon-tl--as-string id))))
          (args (if params (push (car args) params) args))
-         (url (mastodon-http--api endpoint)))
+         (url (if (string-suffix-p "search" endpoint)
+                  (mastodon-http--api-search)
+                (mastodon-http--api endpoint))))
     (apply #'mastodon-http--get-json-async url args callback cbargs)))
+
+(defun mastodon-tl--more-json-async-offset (endpoint &optional params
+                                                     callback &rest cbargs)
+  "Return JSON for ENDPOINT, using the \"offset\" query param.
+This is used for pagination with endpoints that implement the
+\"offset\" parameter, rather than using link-headers or
+\"max_id\".
+PARAMS are the update parameters, see
+`mastodon-tl--update-params'. These (\"limit\" and \"offset\")
+must be set in `mastodon-tl--buffer-spec' for pagination to work.
+Then run CALLBACK with arguments CBARGS."
+  (let* ((params (or params
+                     (mastodon-tl--update-params)))
+         (limit (string-to-number
+                 (alist-get "limit" params nil nil #'equal)))
+         (offset (number-to-string
+                  (+ limit ; limit + old offset = new offset
+                     (string-to-number
+                      (alist-get "offset" params nil nil #'equal)))))
+         (url (if (string-suffix-p "search" endpoint)
+                  (mastodon-http--api-search)
+                (mastodon-http--api endpoint))))
+    ;; increment:
+    (setf (alist-get "offset" params nil nil #'equal) offset)
+    (apply #'mastodon-http--get-json-async url params callback cbargs)))
 
 (defun mastodon-tl--updated-json (endpoint id &optional params)
   "Return JSON for timeline ENDPOINT since ID.
@@ -2321,11 +2361,21 @@ when showing followers or accounts followed."
                  (url (mastodon-tl--build-link-header-url next)))
             (mastodon-http--get-response-async url nil 'mastodon-tl--more* (current-buffer)
                                                (point) :headers))))
-    (mastodon-tl--more-json-async
-     (mastodon-tl--endpoint)
-     (mastodon-tl--oldest-id)
-     (mastodon-tl--update-params)
-     'mastodon-tl--more* (current-buffer) (point))))
+    ;; offset (search, trending, user lists, ...?):
+    (if (or (string-prefix-p "*mastodon-trending-" (buffer-name))
+            (mastodon-tl--search-buffer-p))
+        ;; Endpoints that do not implement: follow-suggestions,
+        ;; follow-requests
+        (mastodon-tl--more-json-async-offset
+         (mastodon-tl--endpoint)
+         (mastodon-tl--update-params)
+         'mastodon-tl--more* (current-buffer) (point))
+      ;; max_id (timelines, items with ids/timestamps):
+      (mastodon-tl--more-json-async
+       (mastodon-tl--endpoint)
+       (mastodon-tl--oldest-id)
+       (mastodon-tl--update-params)
+       'mastodon-tl--more* (current-buffer) (point)))))
 
 (defun mastodon-tl--more* (response buffer point-before &optional headers)
   "Append older toots to timeline, asynchronously.
@@ -2336,6 +2386,17 @@ HEADERS is the http headers returned in the response, if any."
     (when response
       (let* ((inhibit-read-only t)
              (json (if headers (car response) response))
+             ;; FIXME: max-id pagination works for statuses only, not other
+             ;; search results pages:
+             (json (if (mastodon-tl--search-buffer-p)
+                       (cond ((equal "statuses" (mastodon-search--buf-type))
+                              (cdr ; avoid repeat of last status
+                               (alist-get 'statuses response)))
+                             ((equal "hashtags" (mastodon-search--buf-type))
+                              (alist-get 'hashtags response))
+                             ((equal "accounts" (mastodon-search--buf-type))
+                              (alist-get 'accounts response)))
+                     json))
              (headers (if headers (cdr response) nil))
              (link-header (mastodon-tl--get-link-header-from-response headers)))
         (goto-char (point-max))
@@ -2343,17 +2404,21 @@ HEADERS is the http headers returned in the response, if any."
             ;; if thread view, call --thread with parent ID
             (progn (goto-char (point-min))
                    (mastodon-tl--goto-next-toot)
-                   (funcall (mastodon-tl--update-function)))
-          (funcall (mastodon-tl--update-function) json))
-        (goto-char point-before)
-        ;; update buffer spec to new link-header:
-        ;; (other values should just remain as they were)
-        (when headers
-          (mastodon-tl--set-buffer-spec (mastodon-tl--buffer-name)
-                                        (mastodon-tl--endpoint)
-                                        (mastodon-tl--update-function)
-                                        link-header))
-        (message "Loading older toots... done.")))))
+                   (funcall (mastodon-tl--update-function))
+                   (goto-char point-before)
+                   (message "Loaded full thread."))
+          (if (not json)
+              (message "No more results.")
+            (funcall (mastodon-tl--update-function) json)
+            (goto-char point-before)
+            ;; update buffer spec to new link-header:
+            ;; (other values should just remain as they were)
+            (when headers
+              (mastodon-tl--set-buffer-spec (mastodon-tl--buffer-name)
+                                            (mastodon-tl--endpoint)
+                                            (mastodon-tl--update-function)
+                                            link-header))
+            (message "Loading older toots... done.")))))))
 
 (defun mastodon-tl--find-property-range (property start-point
                                                   &optional search-backwards)
@@ -2518,24 +2583,29 @@ This location is defined by a non-nil value of
 (defun mastodon-tl--update ()
   "Update timeline with new toots."
   (interactive)
-  (let* ((endpoint (mastodon-tl--endpoint))
-         (update-function (mastodon-tl--update-function))
-         (thread-id (mastodon-tl--property 'toot-id)))
-    ;; update a thread, without calling `mastodon-tl--updated-json':
-    (if (mastodon-tl--buffer-type-eq 'thread)
-        (funcall update-function thread-id)
-      ;; update other timelines:
-      (let* ((id (mastodon-tl--newest-id))
-             (params (mastodon-tl--update-params))
-             (json (mastodon-tl--updated-json endpoint id params)))
-        (if json
-            (let ((inhibit-read-only t))
-              (mastodon-tl--set-after-update-marker)
-              (goto-char (or mastodon-tl--update-point (point-min)))
-              (funcall update-function json)
-              (when mastodon-tl--after-update-marker
-                (goto-char mastodon-tl--after-update-marker)))
-          (message "nothing to update"))))))
+  (if (or (mastodon-tl--buffer-type-eq 'trending-statuses)
+          (mastodon-tl--buffer-type-eq 'trending-tags)
+          (mastodon-tl--search-buffer-p))
+      (message "update not available in this view.")
+    ;; FIXME: handle update for search and trending buffers
+    (let* ((endpoint (mastodon-tl--endpoint))
+           (update-function (mastodon-tl--update-function)))
+      ;; update a thread, without calling `mastodon-tl--updated-json':
+      (if (mastodon-tl--buffer-type-eq 'thread)
+          (let ((thread-id (mastodon-tl--property 'toot-id)))
+            (funcall update-function thread-id))
+        ;; update other timelines:
+        (let* ((id (mastodon-tl--newest-id))
+               (params (mastodon-tl--update-params))
+               (json (mastodon-tl--updated-json endpoint id params)))
+          (if json
+              (let ((inhibit-read-only t))
+                (mastodon-tl--set-after-update-marker)
+                (goto-char (or mastodon-tl--update-point (point-min)))
+                (funcall update-function json)
+                (when mastodon-tl--after-update-marker
+                  (goto-char mastodon-tl--after-update-marker)))
+            (message "nothing to update")))))))
 
 
 ;;; LOADING TIMELINES

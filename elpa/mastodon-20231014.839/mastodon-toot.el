@@ -1388,9 +1388,21 @@ e.g. mastodon-toot--send -> Send."
 
 (defun mastodon-toot--format-kbind (kbind)
   "Format a single keybinding, KBIND, for display in documentation."
-  (let ((key (help-key-description (car kbind) nil))
+  (let ((key (concat "\\`"
+                     (help-key-description (car kbind) nil)
+                     "'"))
         (command (mastodon-toot--format-kbind-command (cdr kbind))))
-    (format "    %s - %s" key command)))
+    (substitute-command-keys
+     (format
+      (concat (mastodon-toot--comment "    ")
+              "%s"
+              (mastodon-toot--comment " - %s"))
+      key command))))
+
+(defun mastodon-toot--comment (str)
+  "Propertize STR with `mastodon-toot-docs-face'."
+  (propertize str
+              'face 'mastodon-toot-docs-face))
 
 (defun mastodon-toot--format-kbinds (kbinds)
   "Format a list of keybindings, KBINDS, for display in documentation."
@@ -1427,7 +1439,7 @@ LONGEST is the length of the longest binding."
          (longest-kbind (mastodon-toot--formatted-kbinds-longest
                          (mastodon-toot--format-kbinds kbinds))))
     (concat
-     " Compose a new toot here. The following keybindings are available:"
+     (mastodon-toot--comment " Compose a new toot here. The following keybindings are available:")
      (mapconcat #'identity
                 (mastodon-toot--formatted-kbinds-pairs
                  (mastodon-toot--format-kbinds kbinds)
@@ -1457,43 +1469,43 @@ REPLY-TEXT is the text of the toot being replied to."
   (let ((divider
          "|=================================================================|"))
     (insert
-     (propertize
-      (concat
-       (mastodon-toot--make-mode-docs) "\n"
-       divider "\n"
-       " "
-       (propertize "Count"
-                   'toot-post-counter t)
-       " ⋅ "
-       (propertize "Visibility"
-                   'toot-post-visibility t)
-       " ⋅ "
-       (propertize "Language"
-                   'toot-post-language t)
-       " "
-       (propertize "Scheduled"
-                   'toot-post-scheduled t)
-       " "
-       (propertize "CW"
-                   'toot-post-cw-flag t)
-       " "
-       (propertize "NSFW"
-                   'toot-post-nsfw-flag t)
-       "\n"
-       " Attachments: "
-       (propertize "None                  "
-                   'toot-attachments t)
-       "\n"
-       (if reply-text
-           (propertize
-            (mastodon-toot--format-reply-in-compose-string reply-text)
-            'toot-reply t)
-         "")
-       divider
-       )
-      'face 'mastodon-toot-docs-face
-      'read-only "Edit your message below."
-      'toot-post-header t)
+     (concat
+      (mastodon-toot--make-mode-docs) "\n"
+      (mastodon-toot--comment divider) "\n"
+      (propertize
+       (concat
+        " "
+        (propertize "Count"
+                    'toot-post-counter t)
+        " ⋅ "
+        (propertize "Visibility"
+                    'toot-post-visibility t)
+        " ⋅ "
+        (propertize "Language"
+                    'toot-post-language t)
+        " "
+        (propertize "Scheduled"
+                    'toot-post-scheduled t)
+        " "
+        (propertize "CW"
+                    'toot-post-cw-flag t)
+        " "
+        (propertize "NSFW"
+                    'toot-post-nsfw-flag t)
+        "\n"
+        " Attachments: "
+        (propertize "None                  "
+                    'toot-attachments t)
+        "\n"
+        (if reply-text
+            (propertize
+             (mastodon-toot--format-reply-in-compose-string reply-text)
+             'toot-reply t)
+          "")
+        divider)
+       'face 'mastodon-toot-docs-face
+       'read-only "Edit your message below."
+       'toot-post-header t))
      ;; allow us to enter text after read-only header:
      (propertize "\n"
                  'rear-nonsticky t))))

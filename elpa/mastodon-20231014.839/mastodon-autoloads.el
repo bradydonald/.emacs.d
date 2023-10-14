@@ -110,7 +110,7 @@ it is disabled.
 
 ;;; Generated autoloads from mastodon-search.el
 
-(register-definition-prefixes "mastodon-search" '("mastodon-search--"))
+(register-definition-prefixes "mastodon-search" '("mastodon-se"))
 
 
 ;;; Generated autoloads from mastodon-tl.el

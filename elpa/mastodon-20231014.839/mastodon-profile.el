@@ -79,6 +79,8 @@
 (autoload 'mastodon-toot--get-max-toot-chars "mastodon-toot")
 (autoload 'mastodon-views--add-account-to-list "mastodon-views")
 (autoload 'mastodon-return-credential-account "mastodon")
+(autoload 'mastodon-tl--buffer-property "mastodon-tl")
+(autoload 'mastodon-search--query "mastodon-search")
 
 (defvar mastodon-tl--horiz-bar)
 (defvar mastodon-tl--update-point)
@@ -93,6 +95,7 @@
 (defvar mastodon-profile-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-c") #'mastodon-profile--account-view-cycle)
+    (define-key map (kbd "C-c C-s") #'mastodon-profile--account-search)
     map)
   "Keymap for `mastodon-profile-mode'.")
 
@@ -215,6 +218,13 @@ NO-REBLOGS means do not display boosts in statuses."
            (handle (alist-get 'acct profile)))
       (mastodon-views--add-account-to-list nil id handle))))
 
+(defun mastodon-profile--account-search (query)
+  "Run a statuses search QUERY for the currently viewed account."
+  (interactive "sSearch account for: ")
+  (let* ((ep (mastodon-tl--buffer-property 'endpoint))
+         (id (nth 1 (split-string ep "/"))))
+    (mastodon-search--query query "statuses" nil nil id)))
+
 
 ;;; ACCOUNT PREFERENCES
 
@@ -244,13 +254,12 @@ NO-REBLOGS means do not display boosts in statuses."
          (note (alist-get 'note source))
          (buffer (get-buffer-create "*mastodon-update-profile*"))
          (inhibit-read-only t)
-         (msg-str "Edit your profile note. C-c C-c to send, C-c C-k to cancel."))
+         (msg-str (substitute-command-keys
+                   "Edit your profile note. \\`C-c C-c' to send, \\`C-c C-k' to cancel.")))
     (switch-to-buffer-other-window buffer)
     (text-mode)
     (mastodon-tl--set-buffer-spec (buffer-name buffer) "accounts/verify_credentials" nil)
-    (setq-local header-line-format
-                (propertize msg-str
-                            'face 'font-lock-comment-face))
+    (setq-local header-line-format msg-str)
     (mastodon-profile-update-mode t)
     (insert (propertize (concat (propertize "0"
                                             'note-counter t
@@ -651,7 +660,12 @@ HEADERS means also fetch link headers for pagination."
             (mastodon-profile--insert-statuses-pinned pinned)
             (setq mastodon-tl--update-point (point))) ; updates after pinned toots
           (funcall update-function json)))
-      (goto-char (point-min)))))
+      (goto-char (point-min))
+      (message
+       (substitute-command-keys
+        ;; "\\[mastodon-profile--account-view-cycle]" ; not always bound?
+        "\\`C-c C-c' to cycle profile views: toots, followers, following.
+\\`C-c C-s' to search user's toots.")))))
 
 (defun mastodon-profile--format-joined-date-string (joined)
   "Format a human-readable Joined string from timestamp JOINED.
@@ -697,8 +711,7 @@ IMG-TYPE is the JSON key from the account data."
       (if account
           (progn
             (message "Loading profile of user %s..." user-handle)
-            (mastodon-profile--make-author-buffer account)
-            (message "'C-c C-c' to cycle profile views: toots, followers, following"))
+            (mastodon-profile--make-author-buffer account))
         (message "Cannot find a user with handle %S" user-handle)))))
 
 (defun mastodon-profile--my-profile ()
@@ -820,7 +833,7 @@ Optionally provide the ID of the account to remove."
 (defun mastodon-profile--remove-from-followers-list ()
   "Select a user from your followers and remove from followers.
 Currently limited to 100 handles. If not found, try
-`mastodon-search--search-query'."
+`mastodon-search--query'."
   (interactive)
   (let* ((endpoint (format "accounts/%s/followers"
                            (mastodon-auth--get-account-id)))

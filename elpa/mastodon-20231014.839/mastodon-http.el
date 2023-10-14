@@ -53,6 +53,10 @@
   (concat mastodon-instance-url "/api/"
           mastodon-http--api-version "/" endpoint))
 
+(defun mastodon-http--api-search ()
+  "Return Mastodon API url for the /search endpoint (v2)."
+  (format "%s/api/v2/search" mastodon-instance-url))
+
 (defun mastodon-http--response ()
   "Capture response buffer content as string."
   (with-current-buffer (current-buffer)
@@ -118,8 +122,9 @@ Unless UNAUTHENTICATED-P is non-nil."
   ;; url-build-query-string adds 'nil' for empty params so lets stick with our
   ;; own:
   (mapconcat (lambda (p)
-               (concat (url-hexify-string (car p))
-                       "=" (url-hexify-string (cdr p))))
+               (when (cdr p) ; only when value
+                 (concat (url-hexify-string (car p))
+                         "=" (url-hexify-string (cdr p)))))
              params "&"))
 
 (defun mastodon-http--build-array-params-alist (param-str array)
