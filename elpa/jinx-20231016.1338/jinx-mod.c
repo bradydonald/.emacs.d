@@ -17,8 +17,9 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #include <emacs-module.h>
 #include <enchant.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define jinx_unused(var) _##var __attribute__((unused))
 #define jinx_autofree    __attribute__((cleanup(jinx_autofree_cleanup)))
@@ -78,7 +79,8 @@ static void jinx_free_dict(void* dict) {
 static emacs_value jinx_dict(emacs_env* env, ptrdiff_t jinx_unused(nargs),
                              emacs_value args[], void* jinx_unused(data)) {
     jinx_autofree char* str = jinx_cstr(env, args[0]);
-    EnchantDict* dict = str ? enchant_broker_request_dict(jinx_broker(), str) : 0;
+    EnchantDict* dict =
+        str ? enchant_broker_request_dict(jinx_broker(), str) : 0;
     return dict
         ? env->make_user_ptr(env, jinx_free_dict, dict)
         : Qnil;
@@ -171,10 +173,17 @@ static emacs_value jinx_suggest(emacs_env* env, ptrdiff_t jinx_unused(nargs),
 
 int emacs_module_init(struct emacs_runtime *runtime) {
     if ((size_t)runtime->size < sizeof (*runtime))
-        return 1;
+        return 1; // Require Emacs binary compatibility
     emacs_env* env = runtime->get_environment(runtime);
     if ((size_t)env->size < sizeof (*env))
-        return 2;
+        return 2; // Require Emacs binary compatibility
+    int v0, v1, v2;
+    if (sscanf(enchant_get_version(), "%d.%d.%d", &v0, &v1, &v2) != 3 ||
+        v0 * 10000 + v1 * 100 + v2 < 20301)
+        env->funcall(env, env->intern(env, "message"), 1,
+                     (emacs_value[]){
+                         jinx_str(env, "Jinx recommends Enchant 2.3.1 or newer")
+                     });
     Qt = env->make_global_ref(env, env->intern(env, "t"));
     Qnil = env->make_global_ref(env, env->intern(env, "nil"));
     jinx_defun(env, "jinx--mod-suggest", 2, 2, jinx_suggest);

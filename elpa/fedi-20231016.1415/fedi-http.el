@@ -53,6 +53,24 @@
 (defconst fedi-http--timeout 15
   "HTTP request timeout, in seconds.  Has no effect on Emacs < 26.1.")
 
+;; via https://github.com/SqrtMinusOne/reverso.el, thanks Korytov Pavel!
+;; to set a user-agent var for your package:
+;; (defvar lem-user-agent
+;;   (nth (random (length fedi-user-agents))
+;;        fedi-user-agents)
+;;   "User-Agent to use for requests.")
+(defconst fedi-user-agents
+  '("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0"
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; rv:103.0) Gecko/20100101 Firefox/103.0"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Safari/605.1.15"
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0) Gecko/20100101 Firefox/103.0")
+  "User-Agents to use for reverso.el requests.
+A random one is picked at package initialization.")
+
 (defun fedi-http--api (endpoint &optional url ver-str)
   "Return Fedi API URL for ENDPOINT."
   (concat (or url fedi-instance-url) "/api/"
@@ -264,16 +282,26 @@ If JSON, encode params as JSON."
     (with-temp-buffer
       (fedi-http--url-retrieve-synchronously url))))
 
-(defun fedi-http--patch-json (url &optional params)
+(defun fedi-http--patch-json (url &optional params json)
   "Make synchronous PATCH request to URL. Return JSON response.
 Optionally specify the PARAMS to send."
-  (with-current-buffer (fedi-http--patch url params)
+  (with-current-buffer (fedi-http--patch url params json)
     (fedi-http--process-json)))
 
-(defun fedi-http--patch (base-url &optional params)
+(defun fedi-http--patch (url &optional params json)
   "Make synchronous PATCH request to BASE-URL.
 Optionally specify the PARAMS to send."
-  (let ((url (fedi-http--concat-params-to-url base-url params)))
+  (let* ((url-request-data
+          (when params
+            (if json
+                (json-encode params)
+              (fedi-http--build-params-string params))))
+         ;; (url (fedi-http--concat-params-to-url base-url params)))))
+         (headers (when json
+                    '(("Content-Type" . "application/json")
+                      ("Accept" . "application/json"))))
+         (url-request-extra-headers
+          (append url-request-extra-headers headers)))
     (fedi-http--url-retrieve-synchronously url)))
 
  ;; Asynchronous functions
