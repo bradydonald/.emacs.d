@@ -16,7 +16,7 @@
 
 ;;; Generated autoloads from fedi-http.el
 
-(register-definition-prefixes "fedi-http" '("fedi-"))
+(register-definition-prefixes "fedi-http" '("fedi-http--"))
 
 
 ;;; Generated autoloads from fedi-iso.el

@@ -1,6 +1,6 @@
-(define-package "fedi" "20231016.1415" "Helper functions for fediverse clients"
+(define-package "fedi" "20230911.1933" "Helper functions for fediverse clients"
   '((emacs "28.1"))
-  :commit "a9f5c41f14dcde42bd384274de9b45c2d39f1dc2" :authors
+  :commit "ed2cd678db920f074213f67691b8eeac304420a7" :authors
   '(("Marty Hiatt" . "martianhiatus@riseup.net"))
   :maintainers
   '(("Marty Hiatt" . "martianhiatus@riseup.net"))
