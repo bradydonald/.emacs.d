@@ -419,6 +419,7 @@
      (use-package counsel)
      (use-package org-super-agenda)
      (require 'org-habit)
+     (use-package org-side-tree)
   #+END_SRC
 
 ** Basic Org Config  
