@@ -28,8 +28,6 @@ evaluate `tablist-minor-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-\\{tablist-minor-mode-map}
-
 (fn &optional ARG)" t)
 (autoload 'tablist-mode "tablist" "\
 

@@ -56,8 +56,6 @@ evaluate `jinx-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-\\{jinx-mode-map}
-
 (fn &optional ARG)" t)
 (put 'global-jinx-mode 'globalized-minor-mode t)
 (defvar global-jinx-mode nil "\
