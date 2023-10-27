@@ -9,6 +9,121 @@
 
 
 
+;;; Generated autoloads from ef-autumn-theme.el
+
+(put 'ef-autumn 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-bio-theme.el
+
+(put 'ef-bio 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-cherie-theme.el
+
+(put 'ef-cherie 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-cyprus-theme.el
+
+(put 'ef-cyprus 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-dark-theme.el
+
+(put 'ef-dark 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-day-theme.el
+
+(put 'ef-day 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-deuteranopia-dark-theme.el
+
+(put 'ef-deuteranopia-dark 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-deuteranopia-light-theme.el
+
+(put 'ef-deuteranopia-light 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-duo-dark-theme.el
+
+(put 'ef-duo-dark 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-duo-light-theme.el
+
+(put 'ef-duo-light 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-elea-dark-theme.el
+
+(put 'ef-elea-dark 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-elea-light-theme.el
+
+(put 'ef-elea-light 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-frost-theme.el
+
+(put 'ef-frost 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-kassio-theme.el
+
+(put 'ef-kassio 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-light-theme.el
+
+(put 'ef-light 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-maris-dark-theme.el
+
+(put 'ef-maris-dark 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-maris-light-theme.el
+
+(put 'ef-maris-light 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-melissa-dark-theme.el
+
+(put 'ef-melissa-dark 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-melissa-light-theme.el
+
+(put 'ef-melissa-light 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-night-theme.el
+
+(put 'ef-night 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-spring-theme.el
+
+(put 'ef-spring 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-summer-theme.el
+
+(put 'ef-summer 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-symbiosis-theme.el
+
+(put 'ef-symbiosis 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
 ;;; Generated autoloads from ef-themes.el
 
 (autoload 'ef-themes-select "ef-themes" "\
@@ -83,6 +198,31 @@ corresponding entries.
 (function-put 'ef-themes-theme 'lisp-indent-function 0)
 (when load-file-name (let ((dir (file-name-directory load-file-name))) (unless (file-equal-p dir (expand-file-name "themes/" data-directory)) (add-to-list 'custom-theme-load-path dir))))
 (register-definition-prefixes "ef-themes" '("ef-themes-"))
+
+
+;;; Generated autoloads from ef-trio-dark-theme.el
+
+(put 'ef-trio-dark 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-trio-light-theme.el
+
+(put 'ef-trio-light 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-tritanopia-dark-theme.el
+
+(put 'ef-tritanopia-dark 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-tritanopia-light-theme.el
+
+(put 'ef-tritanopia-light 'theme-properties (list :background-mode 'light :kind 'color-scheme :family 'ef))
+
+
+;;; Generated autoloads from ef-winter-theme.el
+
+(put 'ef-winter 'theme-properties (list :background-mode 'dark :kind 'color-scheme :family 'ef))
 
 ;;; End of scraped data
 
