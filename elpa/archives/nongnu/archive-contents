@@ -157,7 +157,7 @@
 	  ("Akib Azmain Turja" . "akib@disroot.org"))
 	 (:commit . "19152095662c95bc73f1f25b8dcce432294b06a1"))])
  (blueprint-ts-mode .
-		    [(0 0 2)
+		    [(0 0 3)
 		     ((emacs
 		       (29 1)))
 		     "tree-sitter support for Blueprint files" tar
@@ -166,7 +166,7 @@
 		      (:maintainer "Huan Thieu Nguyen" . "nguyenthieuhuan@gmail.com")
 		      (:authors
 		       ("Huan Thieu Nguyen" . "nguyenthieuhuan@gmail.com"))
-		      (:commit . "19b91fca0bce72cc44fe96df95abd97c1fc05c35"))])
+		      (:commit . "e9e56dec10f070367ab555c717c3d567a5962c82"))])
  (boxquote .
 	   [(2 3)
 	    ((cl-lib
@@ -221,7 +221,7 @@
 	    (:url . "https://elpa.nongnu.org/nongnu/cdlatex.html")
 	    (:commit . "7521fa1b39de735dcbd32bca92a792d5261e9ce2"))])
  (cider .
-	[(1 9 0)
+	[(1 10 0)
 	 ((emacs
 	   (26))
 	  (clojure-mode
@@ -249,7 +249,7 @@
 	   ("Artur Malabarba" . "bruce.connor.am@gmail.com")
 	   ("Hugo Duncan" . "hugo@hugoduncan.org")
 	   ("Steve Purcell" . "steve@sanityinc.com"))
-	  (:commit . "65ab78c7321f1084922653c33b5085ba6633a100"))])
+	  (:commit . "d16988719ae5561f32b06db0726adb03d84fe15c"))])
  (clojure-mode .
 	       [(5 18 0)
 		((emacs
@@ -2086,7 +2086,7 @@
 	  (:maintainer "Sacha Chua" . "sacha@sachachua.com")
 	  (:commit . "de7ee929613a9c5430d5f8927f3beab7af002659"))])
  (sweeprolog .
-	     [(0 26 0)
+	     [(0 26 1)
 	      ((emacs
 		(27 1))
 	       (compat
@@ -2097,7 +2097,7 @@
 	       (:maintainer "Eshel Yaron" . "~eshel/dev@lists.sr.ht")
 	       (:authors
 		("Eshel Yaron" . "me@eshelyaron.com"))
-	       (:commit . "64de88fd7b0f2e86b484e51070dfe41c055ee0bb"))])
+	       (:commit . "d89118a4f3c0e2df191524ab8b9da73b1069f64b"))])
  (swift-mode .
 	     [(9 1 0)
 	      ((emacs
