@@ -491,8 +491,9 @@
            (dolist (file (directory-files dir t))
              (let ((name (file-name-nondirectory file)))
                (when (or (and (not (string-prefix-p "." name)) (string-suffix-p ".org" name))
-                         (and (not (string-prefix-p "." name)) (string-suffix-p ".org.gpg" name)))
-                 (push file org-files))))))
+                         (and (not (string-prefix-p "." name)) (string-suffix-p ".org.gpg" name))
+                         )
+                 (push file org-files)))))
          org-files))
 
      (defun db/org-agenda-files ()
