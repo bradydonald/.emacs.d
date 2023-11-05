@@ -255,6 +255,7 @@
     (use-package yaml-mode)
     (use-package magit)           ;; git chrome
     (use-package mpv)             ;; video player support
+    (use-package eat)             ;; eat terminal
   #+END_SRC
 
 * Windows Specific Setup
