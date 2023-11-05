@@ -4,7 +4,7 @@
 
 ;; Author: Alvaro Ramirez https://xenodium.com
 ;; URL: https://github.com/xenodium/chatgpt-shell
-;; Version: 0.80.1
+;; Version: 0.86.1
 ;; Package-Requires: ((emacs "27.1") (shell-maker "0.42.1"))
 
 ;; This package is free software; you can redistribute it and/or modify
@@ -201,6 +201,8 @@ Can be used compile or run source block at point."
 (defcustom chatgpt-shell-model-versions
   '("gpt-3.5-turbo"
     "gpt-3.5-turbo-0613"
+    "gpt-3.5-turbo-16k"
+    "gpt-3.5-turbo-16k-0613"
     "gpt-4"
     "gpt-4-0613")
   "The list of ChatGPT OpenAI models to swap from.
@@ -1093,19 +1095,116 @@ With PREFIX, clear existing history. Appends any active region."
     (with-current-buffer buffer
       (visual-line-mode +1)
       (when view-mode
-        (view-mode -1)
-        (erase-buffer))
+        (view-mode -1))
+      (erase-buffer)
       (when region
         (save-excursion
           (goto-char (point-max))
           (insert (concat "\n\n" region))))
       (when prefix
         (let ((chatgpt-shell-prompt-query-response-style 'inline))
-                             (chatgpt-shell-send-to-buffer "clear")))
+          (chatgpt-shell-send-to-buffer "clear")))
+      (make-local-variable 'view-mode-map)
+      ;; TODO: Find a better alternative to prevent clash.
+      ;; Disable "n"/"p" for region-bindings-mode-map, so it doesn't
+      ;; clash with "n"/"p" selection binding.
+      (when (boundp 'region-bindings-mode-map)
+        (make-local-variable 'region-bindings-mode-map)
+        (when (lookup-key region-bindings-mode-map "n")
+          (define-key region-bindings-mode-map "n" nil))
+        (when (lookup-key region-bindings-mode-map "p")
+          (define-key region-bindings-mode-map "p" nil)))
+      (define-key view-mode-map (kbd "g")
+                  (lambda ()
+                    (interactive)
+                    (when-let ((prompt (with-current-buffer (chatgpt-shell--primary-buffer)
+                                         (seq-first (delete-dups
+                                                     (seq-filter
+                                                      (lambda (item)
+                                                        (not (string-empty-p item)))
+                                                      (ring-elements comint-input-ring))))))
+                               (inhibit-read-only t)
+                               (chatgpt-shell-prompt-query-response-style 'inline))
+                      (erase-buffer)
+                      (insert (propertize (concat prompt "\n\n") 'face font-lock-doc-face))
+                      (chatgpt-shell-send-to-buffer prompt))))
+      (define-key view-mode-map (kbd "n")
+                  (lambda ()
+                    (interactive)
+                    (call-interactively #'chatgpt-shell-next-source-block)
+                    (when-let ((block (chatgpt-shell-markdown-block-at-point)))
+                      (set-mark (map-elt block 'end))
+                      (goto-char (map-elt block 'start)))))
+      (define-key view-mode-map (kbd "p")
+                  (lambda ()
+                    (interactive)
+                    (call-interactively #'chatgpt-shell-previous-source-block)
+                    (when-let ((block (chatgpt-shell-markdown-block-at-point)))
+                      (set-mark (map-elt block 'end))
+                      (goto-char (map-elt block 'start)))))
+      (define-key view-mode-map (kbd "e")
+                  (lambda ()
+                    (interactive)
+                    (with-current-buffer (chatgpt-shell--primary-buffer)
+                      (when shell-maker--busy
+                        (user-error "Busy, please wait")))
+                    (let ((prompt "show entire snippet")
+                          (inhibit-read-only t)
+                          (chatgpt-shell-prompt-query-response-style 'inline))
+                      (erase-buffer)
+                      (insert (propertize (concat prompt "\n\n") 'face font-lock-doc-face))
+                      (chatgpt-shell-send-to-buffer prompt))))
       (local-set-key (kbd "C-c C-k")
-                     (lambda () (interactive)
+                     (lambda ()
+                       (interactive)
                        (quit-window t (get-buffer-window buffer))
                        (message "exit")))
+      (defvar-local chatgpt-shell--ring-index nil)
+      (setq chatgpt-shell--ring-index nil)
+      (local-set-key (kbd "M-p") (lambda ()
+                                   (interactive)
+                                   (unless view-mode
+                                     (let* ((ring (with-current-buffer (chatgpt-shell--primary-buffer)
+                                                    (seq-filter
+                                                     (lambda (item)
+                                                       (not (string-empty-p item)))
+                                                     (ring-elements comint-input-ring))))
+                                            (next-index (unless (seq-empty-p ring)
+                                                          (if chatgpt-shell--ring-index
+                                                              (1+ chatgpt-shell--ring-index)
+                                                            0))))
+                                       (let ((prompt (buffer-string)))
+                                         (with-current-buffer (chatgpt-shell--primary-buffer)
+                                           (unless (ring-member comint-input-ring prompt)
+                                             (ring-insert comint-input-ring prompt))))
+                                       (if next-index
+                                           (if (>= next-index (seq-length ring))
+                                               (setq chatgpt-shell--ring-index (1- (seq-length ring)))
+                                             (setq chatgpt-shell--ring-index next-index))
+                                         (setq chatgpt-shell--ring-index nil))
+                                       (when chatgpt-shell--ring-index
+                                         (erase-buffer)
+                                         (insert (seq-elt ring chatgpt-shell--ring-index)))))))
+      (local-set-key (kbd "M-n") (lambda ()
+                                   (interactive)
+                                   (unless view-mode
+                                     (let* ((ring (with-current-buffer (chatgpt-shell--primary-buffer)
+                                                    (seq-filter
+                                                     (lambda (item)
+                                                       (not (string-empty-p item)))
+                                                     (ring-elements comint-input-ring))))
+                                            (next-index (unless (seq-empty-p ring)
+                                                          (if chatgpt-shell--ring-index
+                                                              (1- chatgpt-shell--ring-index)
+                                                            0))))
+                                       (if next-index
+                                           (if (< next-index 0)
+                                               (setq chatgpt-shell--ring-index nil)
+                                             (setq chatgpt-shell--ring-index next-index))
+                                         (setq chatgpt-shell--ring-index nil))
+                                       (when chatgpt-shell--ring-index
+                                         (erase-buffer)
+                                         (insert (seq-elt ring chatgpt-shell--ring-index)))))))
       (local-set-key (kbd "C-M-h") (lambda ()
                                      (interactive)
                                      (when-let ((block (chatgpt-shell-markdown-block-at-point)))
@@ -1113,9 +1212,34 @@ With PREFIX, clear existing history. Appends any active region."
                                        (goto-char (map-elt block 'start)))))
       (local-set-key (kbd "C-c C-n") #'chatgpt-shell-next-source-block)
       (local-set-key (kbd "C-c C-p") #'chatgpt-shell-previous-source-block)
+      (local-set-key (kbd "M-r")
+                     (lambda ()
+                       (interactive)
+                       (let ((candidate (with-current-buffer (chatgpt-shell--primary-buffer)
+                                          (completing-read
+                                           "History: "
+                                           (delete-dups
+                                            (seq-filter
+                                             (lambda (item)
+                                               (not (string-empty-p item)))
+                                             (ring-elements comint-input-ring))) nil t))))
+                         (insert candidate))))
       (local-set-key (kbd "C-c C-c")
                      (lambda ()
                        (interactive)
+                       (with-current-buffer (chatgpt-shell--primary-buffer)
+                         (when shell-maker--busy
+                           (unless (y-or-n-p "Abort?")
+                             (cl-return))
+                           (shell-maker-interrupt t)
+                           (with-current-buffer buffer
+                             (progn
+                               (view-mode -1)
+                               (erase-buffer)))
+                           (user-error "Aborted")))
+                       (when (chatgpt-shell-block-action-at-point)
+                         (chatgpt-shell-execute-block-action-at-point)
+                         (cl-return))
                        (when (string-empty-p
                               (string-trim
                                (buffer-substring-no-properties

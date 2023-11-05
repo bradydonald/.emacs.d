@@ -1,7 +1,7 @@
-(define-package "jinx" "20231019.1708" "Enchanted Spell Checker"
+(define-package "jinx" "20231104.1427" "Enchanted Spell Checker"
   '((emacs "27.1")
     (compat "29.1.4.0"))
-  :commit "884379eeea2cd5329788a3948418133ad762ed31" :authors
+  :commit "6f6108896744d1da4887b08e4fe4fff403ac10ac" :authors
   '(("Daniel Mendler" . "mail@daniel-mendler.de"))
   :maintainers
   '(("Daniel Mendler" . "mail@daniel-mendler.de"))
