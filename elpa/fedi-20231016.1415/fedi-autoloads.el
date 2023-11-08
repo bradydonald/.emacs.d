@@ -27,6 +27,7 @@
 ;;; Generated autoloads from fedi-post.el
 
 (register-definition-prefixes "fedi-post" '("fedi-post-"))
+
 
 ;;; End of scraped data
 

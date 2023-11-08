@@ -18,6 +18,7 @@ With NEW-SESSION, start a new session.
 
 (fn &optional NEW-SESSION)" t)
 (register-definition-prefixes "chatgpt-shell" '("chatgpt-shell-"))
+
 
 ;;; End of scraped data
 

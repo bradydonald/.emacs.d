@@ -60,6 +60,7 @@ Show diff information in gutter" t)
 (autoload 'git-gutter:toggle "git-gutter" "\
 Toggle to show diff information." t)
 (register-definition-prefixes "git-gutter" '("git-gutter"))
+
 
 ;;; End of scraped data
 

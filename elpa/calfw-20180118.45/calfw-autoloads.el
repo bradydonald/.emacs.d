@@ -12,6 +12,7 @@
 ;;; Generated autoloads from calfw.el
 
 (register-definition-prefixes "calfw" '("cfw:"))
+
 
 ;;; End of scraped data
 

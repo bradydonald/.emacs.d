@@ -12,6 +12,7 @@
 ;;; Generated autoloads from shell-maker.el
 
 (register-definition-prefixes "shell-maker" '("shell-maker-"))
+
 
 ;;; End of scraped data
 

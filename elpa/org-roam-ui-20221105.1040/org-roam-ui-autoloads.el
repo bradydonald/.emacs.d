@@ -93,6 +93,7 @@ it is disabled.
 
 (fn &optional ARG)" t)
 (register-definition-prefixes "org-roam-ui" '("img/:file" "node/:id" "org-roam-ui-"))
+
 
 ;;; End of scraped data
 

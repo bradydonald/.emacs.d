@@ -127,6 +127,7 @@ it is disabled.
 ;;; Generated autoloads from mastodon-views.el
 
 (register-definition-prefixes "mastodon-views" '("mastodon-views-"))
+
 
 ;;; End of scraped data
 
