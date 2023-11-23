@@ -524,7 +524,7 @@ Only the background color is significant."
   :group 'transient-faces)
 
 (define-obsolete-face-alias 'transient-separator 'transient-separator-line
-                            "transient 0.4.4")
+                            "Transient 0.5.0")
 
 (defgroup transient-color-faces
   '((transient-semantic-coloring custom-variable))
@@ -648,6 +648,7 @@ If `transient-save-history' is nil, then do nothing."
    (man-page    :initarg :man-page    :initform nil)
    (transient-suffix     :initarg :transient-suffix     :initform nil)
    (transient-non-suffix :initarg :transient-non-suffix :initform nil)
+   (transient-switch-frame :initarg :transient-switch-frame)
    (refresh-suffixes     :initarg :refresh-suffixes     :initform nil)
    (incompatible         :initarg :incompatible         :initform nil)
    (suffix-description   :initarg :suffix-description)
@@ -1437,8 +1438,9 @@ Usually it remains selected while the transient is active.")
   "The buffer that was current before the transient was invoked.
 Usually it remains current while the transient is active.")
 
-(define-obsolete-variable-alias 'transient--current-buffer
-  'transient--shadowed-buffer "0.4.4") ; TODO Remove before that release.
+(defvar transient--restore-winconf nil
+  "Window configuration to restore after exiting help.")
+
 (defvar transient--shadowed-buffer nil
   "The buffer that is temporarily shadowed by the transient buffer.
 This is bound while the suffix predicate is being evaluated and while
@@ -1645,6 +1647,16 @@ See `transient-enable-popup-navigation'."
   "<mouse-1>" #'transient-push-button
   "<mouse-2>" #'transient-push-button)
 
+(defvar-keymap transient-resume-mode-map
+  :doc "Keymap for `transient-resume-mode'.
+
+This keymap remaps every command that would usually just quit the
+documentation buffer to `transient-resume', which additionally
+resumes the suspended transient."
+  "<remap> <Man-quit>"    #'transient-resume
+  "<remap> <Info-exit>"   #'transient-resume
+  "<remap> <quit-window>" #'transient-resume)
+
 (defvar-keymap transient-predicate-map
   :doc "Base keymap used to map common commands to their transient behavior.
 
@@ -1763,8 +1775,12 @@ of the corresponding object."
          (return (eq default t))
          (map (make-sparse-keymap)))
     (set-keymap-parent map transient-predicate-map)
-    (when (memq (oref transient--prefix transient-non-suffix)
-                '(nil transient--do-warn transient--do-noop))
+    (when (or (and (slot-boundp transient--prefix 'transient-switch-frame)
+                   (transient--resolve-pre-command
+                    (not (oref transient--prefix transient-switch-frame))))
+              (memq (transient--resolve-pre-command
+                     (oref transient--prefix transient-non-suffix))
+                    '(nil transient--do-warn transient--do-noop)))
       (define-key map [handle-switch-frame] #'transient--do-suspend))
     (dolist (obj transient--suffixes)
       (let* ((cmd (oref obj command))
@@ -2610,7 +2626,7 @@ Do not push the active transient to the transient stack."
 In that case behave like `transient--do-stay', otherwise similar
 to `transient--do-warn'."
   (unless transient-enable-popup-navigation
-    (setq this-command 'transient-popup-navigation-help))
+    (setq this-command 'transient-inhibit-move))
   transient--stay)
 
 (defun transient--do-minus ()
@@ -2638,6 +2654,7 @@ prefix argument and pivot to `transient-update'."
 (put 'transient--do-minus      'transient-color 'transient-red)
 
 ;;; Commands
+;;;; Noop
 
 (defun transient-noop ()
   "Do nothing at all."
@@ -2678,16 +2695,14 @@ prefix argument and pivot to `transient-update'."
 This should never happen.
 Please open an issue and post the shown command log." :error)))
 
-(defun transient-toggle-common ()
-  "Toggle whether common commands are permanently shown."
+(defun transient-inhibit-move ()
+  "Warn the user that popup navigation is disabled."
   (interactive)
-  (setq transient-show-common-commands (not transient-show-common-commands)))
+  (message "To enable use of `%s', please customize `%s'"
+           this-original-command
+           'transient-enable-popup-navigation))
 
-(defun transient-suspend ()
-  "Suspend the current transient.
-It can later be resumed using `transient-resume', while no other
-transient is active."
-  (interactive))
+;;;; Core
 
 (defun transient-quit-all ()
   "Exit all transients without saving the transient stack."
@@ -2711,9 +2726,41 @@ transient is active."
   (interactive)
   (setq transient--showp t))
 
-(defvar-local transient--restore-winconf nil)
+(defun transient-push-button ()
+  "Invoke the suffix command represented by this button."
+  (interactive))
 
-(defvar transient-resume-mode)
+;;;; Suspend
+
+(defun transient-suspend ()
+  "Suspend the current transient.
+It can later be resumed using `transient-resume', while no other
+transient is active."
+  (interactive))
+
+(define-minor-mode transient-resume-mode
+  "Auxiliary minor-mode used to resume a transient after viewing help.")
+
+(defun transient-resume ()
+  "Resume a previously suspended stack of transients."
+  (interactive)
+  (cond (transient--stack
+         (let ((winconf transient--restore-winconf))
+           (kill-local-variable 'transient--restore-winconf)
+           (when transient-resume-mode
+             (transient-resume-mode -1)
+             (quit-window))
+           (when winconf
+             (set-window-configuration winconf)))
+         (transient--stack-pop))
+        (transient-resume-mode
+         (kill-local-variable 'transient--restore-winconf)
+         (transient-resume-mode -1)
+         (quit-window))
+        (t
+         (message "No suspended transient command"))))
+
+;;;; Help
 
 (defun transient-help (&optional interactive)
   "Show help for the active transient or one of its suffixes.\n\n(fn)"
@@ -2730,11 +2777,14 @@ transient is active."
                transient--prefix
              (or (transient-suffix-object)
                  this-original-command)))
-          (setq transient--restore-winconf winconf))
+          (setq-local transient--restore-winconf winconf))
         (fit-window-to-buffer nil (frame-height) (window-height))
         (transient-resume-mode)
-        (message "Type \"q\" to resume transient command.")
+        (message (substitute-command-keys
+                  "Type \\`q' to resume transient command."))
         t))))
+
+;;;; Level
 
 (defun transient-set-level (&optional command level)
   "Set the level of the transient or one of its suffix commands."
@@ -2796,6 +2846,8 @@ transient is active."
   (setq transient--all-levels-p (not transient--all-levels-p))
   (setq transient--refreshp t))
 
+;;;; Value
+
 (defun transient-set ()
   "Set active transient's value for this Emacs session."
   (interactive)
@@ -2842,44 +2894,19 @@ transient is active."
       (oset obj value (nth pos hst))
       (mapc #'transient-init-value transient--suffixes))))
 
-(defun transient-scroll-up (&optional arg)
-  "Scroll text of transient popup window upward ARG lines.
-If ARG is nil scroll near full screen.  This is a wrapper
-around `scroll-up-command' (which see)."
-  (interactive "^P")
-  (with-selected-window transient--window
-    (scroll-up-command arg)))
+;;;; Auxiliary
 
-(defun transient-scroll-down (&optional arg)
-  "Scroll text of transient popup window down ARG lines.
-If ARG is nil scroll near full screen.  This is a wrapper
-around `scroll-down-command' (which see)."
-  (interactive "^P")
-  (with-selected-window transient--window
-    (scroll-down-command arg)))
-
-(defun transient-push-button ()
-  "Invoke the suffix command represented by this button."
-  (interactive))
-
-(defun transient-resume ()
-  "Resume a previously suspended stack of transients."
+(defun transient-toggle-common ()
+  "Toggle whether common commands are permanently shown."
   (interactive)
-  (cond (transient--stack
-         (let ((winconf transient--restore-winconf))
-           (kill-local-variable 'transient--restore-winconf)
-           (when transient-resume-mode
-             (transient-resume-mode -1)
-             (quit-window))
-           (when winconf
-             (set-window-configuration winconf)))
-         (transient--stack-pop))
-        (transient-resume-mode
-         (kill-local-variable 'transient--restore-winconf)
-         (transient-resume-mode -1)
-         (quit-window))
-        (t
-         (message "No suspended transient command"))))
+  (setq transient-show-common-commands (not transient-show-common-commands)))
+
+(defun transient-toggle-debug ()
+  "Toggle debugging statements for transient commands."
+  (interactive)
+  (setq transient--debug (not transient--debug))
+  (message "Debugging transient %s"
+           (if transient--debug "enabled" "disabled")))
 
 (transient-define-suffix transient-echo-arguments (arguments)
   "Show the transient's active ARGUMENTS in the echo area.
@@ -3487,7 +3514,8 @@ have a history of their own.")
   (let ((groups (cl-mapcan (lambda (group)
                              (let ((hide (oref group hide)))
                                (and (not (and (functionp hide)
-                                              (funcall   hide)))
+                                              (transient-with-shadowed-buffer
+                                                (funcall hide))))
                                     (list group))))
                            transient--layout))
         group)
@@ -3605,31 +3633,30 @@ making `transient--original-buffer' current.")
   "Return a string containing just the ARG character."
   (char-to-string arg))
 
-(cl-defmethod transient-format :around ((obj transient-infix))
-  "When reading user input for this infix, then highlight it."
-  (let ((str (cl-call-next-method obj)))
-    (if (eq (oref obj command) this-original-command)
-        (transient--add-face (concat str "\n") 'transient-active-infix nil
-                             (if (eq this-command 'transient-set-level) 3 0))
-      str)))
-
 (cl-defmethod transient-format :around ((obj transient-suffix))
-  "When edit-mode is enabled, then prepend the level information.
-Optional support for popup buttons is also implemented here."
-  (let ((str (concat
-              (and transient--editp
-                   (let ((level (oref obj level)))
-                     (propertize (format " %s " level)
-                                 'face (if (transient--use-level-p level t)
-                                           'transient-enabled-suffix
-                                         'transient-disabled-suffix))))
-              (cl-call-next-method obj))))
-    (if (and transient-enable-popup-navigation
-             (slot-boundp obj 'command))
-        (make-text-button str nil
-                          'type 'transient
-                          'command (oref obj command))
-      str)))
+  "Add additional formatting if appropriate.
+When reading user input for this infix, then highlight it.
+When edit-mode is enabled, then prepend the level information.
+When `transient-enable-popup-navigation' is non-nil then format
+  as a button."
+  (let ((str (cl-call-next-method obj)))
+    (when (and (cl-typep obj 'transient-infix)
+               (eq (oref obj command) this-original-command))
+      (setq str (transient--add-face (concat str "\n")
+                                     'transient-active-infix)))
+    (when transient--editp
+      (setq str (concat (let ((level (oref obj level)))
+                          (propertize (format " %s " level)
+                                      'face (if (transient--use-level-p level t)
+                                                'transient-enabled-suffix
+                                              'transient-disabled-suffix)))
+                        str)))
+    (when (and transient-enable-popup-navigation
+               (slot-boundp obj 'command))
+      (setq str (make-text-button str nil
+                                  'type 'transient
+                                  'command (oref obj command))))
+    str))
 
 (cl-defmethod transient-format ((obj transient-infix))
   "Return a string generated using OBJ's `format'.
@@ -4034,37 +4061,23 @@ Suffixes on levels %s and %s are unavailable.\n"
                (propertize (format ">=%s" (1+ level))
                            'face 'transient-disabled-suffix))))))
 
-(defvar-keymap transient-resume-mode-map
-  :doc "Keymap for `transient-resume-mode'.
-
-This keymap remaps every command that would usually just quit the
-documentation buffer to `transient-resume', which additionally
-resumes the suspended transient."
-  "<remap> <Man-quit>"    #'transient-resume
-  "<remap> <Info-exit>"   #'transient-resume
-  "<remap> <quit-window>" #'transient-resume)
-
-(define-minor-mode transient-resume-mode
-  "Auxiliary minor-mode used to resume a transient after viewing help.")
-
-(defun transient-toggle-debug ()
-  "Toggle debugging statements for transient commands."
-  (interactive)
-  (setq transient--debug (not transient--debug))
-  (message "Debugging transient %s"
-           (if transient--debug "enabled" "disabled")))
-
 ;;; Popup Navigation
 
-(defun transient-popup-navigation-help ()
-  "Inform the user how to enable popup navigation commands."
-  (interactive)
-  (message "This command is only available if `%s' is non-nil"
-           'transient-enable-popup-navigation))
+(defun transient-scroll-up (&optional arg)
+  "Scroll text of transient popup window upward ARG lines.
+If ARG is nil scroll near full screen.  This is a wrapper
+around `scroll-up-command' (which see)."
+  (interactive "^P")
+  (with-selected-window transient--window
+    (scroll-up-command arg)))
 
-(define-button-type 'transient
-  'face nil
-  'keymap transient-button-map)
+(defun transient-scroll-down (&optional arg)
+  "Scroll text of transient popup window down ARG lines.
+If ARG is nil scroll near full screen.  This is a wrapper
+around `scroll-down-command' (which see)."
+  (interactive "^P")
+  (with-selected-window transient--window
+    (scroll-down-command arg)))
 
 (defun transient-backward-button (n)
   "Move to the previous button in the transient popup buffer.
@@ -4079,6 +4092,10 @@ See `forward-button' for information about N."
   (interactive "p")
   (with-selected-window transient--window
     (forward-button n t)))
+
+(define-button-type 'transient
+  'face nil
+  'keymap transient-button-map)
 
 (defun transient--goto-button (command)
   (cond

@@ -963,6 +963,7 @@ of the arguments to the function."
                     else collect item into non-matching
                     finally return (list ,keyword
                                          non-matching
+                                         ;; FIXME: Remove the #' from `key-sort-fn'.
                                          (cl-loop for key in (sort (ht-keys groups) #',key-sort-fn)
                                                   for name = ,header-form
                                                   collect (list :name name
@@ -1096,7 +1097,7 @@ key and as the header for its group."
 (org-super-agenda--def-auto-group parent "their parent heading"
   :key-form (org-super-agenda--when-with-marker-buffer (org-super-agenda--get-marker item)
               (when (org-up-heading-safe)
-                (org-get-heading 'notags 'notodo))))
+                (org-entry-get nil "ITEM"))))
 
 ;;;;; Dispatchers
 
