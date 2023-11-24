@@ -6,7 +6,7 @@
 ;; Maintainer: Thierry Volpiatto <thievol@posteo.net>
 
 ;; Created: 18 Jun 2012
-;; Version: 1.9.7
+;; Version: 1.9.8
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; Keywords: async
@@ -223,7 +223,8 @@ marker position to the end of this next line."
   (with-current-buffer (process-buffer proc)
     (when (and (boundp 'tramp-password-prompt-regexp)
                (string-match tramp-password-prompt-regexp string))
-      (process-send-string proc (concat (read-passwd (match-string 0 string)) "\n")))
+      (process-send-string
+       proc (concat (read-passwd (match-string 0 string)) "\n")))
     (goto-char (point-max))
     (save-excursion
       (insert string))
