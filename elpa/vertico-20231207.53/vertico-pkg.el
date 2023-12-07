@@ -1,7 +1,7 @@
-(define-package "vertico" "20231130.2355" "VERTical Interactive COmpletion"
+(define-package "vertico" "20231207.53" "VERTical Interactive COmpletion"
   '((emacs "27.1")
     (compat "29.1.4.4"))
-  :commit "017ff44443bad401097b9987849625cafa348d86" :authors
+  :commit "811ffddbab07217b9319c402b199c4050d187afd" :authors
   '(("Daniel Mendler" . "mail@daniel-mendler.de"))
   :maintainers
   '(("Daniel Mendler" . "mail@daniel-mendler.de"))

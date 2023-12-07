@@ -164,14 +164,14 @@
 	   ("John Wiegley" . "jwiegley@gmail.com"))
 	  (:commit . "00e07e060218fbd1e16faaf10116c03b12e62580"))])
  (auctex .
-	 [(13 2 2)
+	 [(13 2 3)
 	  ((emacs
 	    (26 1)))
 	  "Integrated environment for *TeX*" tar
 	  ((:url . "https://www.gnu.org/software/auctex/")
 	   (:keywords "tex" "latex" "texinfo" "context" "doctex" "preview-latex")
 	   (:maintainer nil . "auctex-devel@gnu.org")
-	   (:commit . "bc75884db3d173fe5656aefd7543990aaaac49e6"))])
+	   (:commit . "ef2999e6d7c3232c0fe82d1de89ddda17b88c5b0"))])
  (aumix-mode .
 	     [(7)
 	      nil "run the aumix program in a buffer" single
@@ -753,6 +753,14 @@
 		  ("Simen Heggestøyl" . "simenheg@gmail.com"))
 		 (:keywords "convenience")
 		 (:url . "http://elpa.gnu.org/packages/cycle-quotes.html"))])
+ (dape .
+       [(0 2 2)
+	((emacs
+	  (29 1)))
+	"Debug Adapter Protocol for Emacs" tar
+	((:url . "https://github.com/svaante/dape")
+	 (:maintainer "Daniel Pettersson" . "daniel@dpettersson.net")
+	 (:commit . "a8e56d3767e1b063f6c49a6081ca4e22afdfaaaf"))])
  (darkroom .
 	   [(0 3)
 	    ((cl-lib
@@ -1157,7 +1165,7 @@
 	      (:keywords "lisp")
 	      (:url . "http://elpa.gnu.org/packages/el-search.html"))])
  (eldoc .
-	[(1 14 0)
+	[(1 15 0)
 	 ((emacs
 	   (26 3)))
 	 "Show function arglist or variable docstring in echo area" tar
@@ -1166,7 +1174,7 @@
 	  (:authors
 	   ("Noah Friedman" . "friedman@splode.com"))
 	  (:url . "https://elpa.gnu.org/packages/eldoc.html")
-	  (:commit . "f2357df91f0262949618bd4da571d3267c1b1dfa"))])
+	  (:commit . "dc744fe6f3cd185bd9d29f61b08cd4c524e3969e"))])
  (electric-spacing .
 		   [(5 0)
 		    nil "Insert operators with surrounding spaces smartly" single
@@ -1184,7 +1192,7 @@
 		     (:url . "https://elpa.gnu.org/packages/elisp-benchmarks.html")
 		     (:commit . "70e38dbfa8f4acbdebfd0f417410d99f5031e05f"))])
  (emacs-gc-stats .
-		 [(1 4 1)
+		 [(1 4 2)
 		  ((emacs
 		    (25 1)))
 		  "Collect Emacs GC statistics" tar
@@ -1192,7 +1200,7 @@
 		   (:maintainer "Ihor Radchenko" . "yantar92@posteo.net")
 		   (:authors
 		    ("Ihor Radchenko" . "yantar92@posteo.net"))
-		   (:commit . "703516c63ce71ec68945d48c297d294990728686"))])
+		   (:commit . "05d669e123f411c9582f99a9a6182efa43d01a6b"))])
  (embark .
 	 [(0 23)
 	  ((emacs
@@ -3221,14 +3229,14 @@
 	     (:url . "https://elpa.gnu.org/packages/rnc-mode.html")
 	     (:commit . "dfee31d83208b734ed1d1fdc523565d7056db850"))])
  (rt-liberation .
-		[(5)
+		[(6)
 		 nil "Emacs interface to RT" tar
 		 ((:url . "http://www.nongnu.org/rtliber/")
 		  (:keywords "rt" "tickets")
 		  (:maintainer "Yoni Rabkin" . "yrk@gnu.org")
 		  (:authors
 		   ("Yoni Rabkin" . "yrk@gnu.org"))
-		  (:commit . "b76ae2828b12efc5f45f51ba873489e049a70924"))])
+		  (:commit . "c97eff6716c2438f9052b4641fa6128bf759af96"))])
  (ruby-end .
 	   [(0 4 3)
 	    nil "Automatic insertion of end blocks for Ruby" tar
@@ -3752,7 +3760,7 @@
 		(:maintainer "Rocky Bernstein" . "rocky@gnu.org")
 		(:url . "http://github.com/rocky/emacs-test-simple"))])
  (theme-buffet .
-	       [(0 1 0)
+	       [(0 1 1)
 		((emacs
 		  (29 1)))
 		"Time based theme switcher" tar
@@ -3761,7 +3769,7 @@
 		 (:authors
 		  ("Bruno Boal" . "egomet@bboal.com")
 		  ("Protesilaos Stavrou" . "info@protesilaos.com"))
-		 (:commit . "8898823a87178581425d90d4f9fba7e741b0236a"))])
+		 (:commit . "4ba6fc865c103a5930e000c0c42559dd0aa1209d"))])
  (timerfunctions .
 		 [(1 4 2)
 		  ((cl-lib
@@ -3860,7 +3868,7 @@
 		("David Gonzalez Gandara" . "dggandara@member.fsf.org"))
 	       (:maintainer "David Gonzalez Gandara" . "dggandara@member.fsf.org"))])
  (transient .
-	    [(0 5 0)
+	    [(0 5 2)
 	     ((emacs
 	       (26 1))
 	      (compat
@@ -3873,7 +3881,7 @@
 	      (:maintainer "Jonas Bernoulli" . "jonas@bernoul.li")
 	      (:authors
 	       ("Jonas Bernoulli" . "jonas@bernoul.li"))
-	      (:commit . "9050a0d058041e5e54d4e16359fd061e779c2ecb"))])
+	      (:commit . "2c8b50231b11d354b60709c361f2dfbc4cb8163d"))])
  (transient-cycles .
 		   [(1 0)
 		    ((emacs
