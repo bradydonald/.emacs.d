@@ -168,6 +168,25 @@
       (recentf-mode +1))
   #+END_SRC
 
+* Vanilla Packages
+
+  The packages are loaded as is
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package diminish)          ;; diminsh minor mode-line entries
+    (use-package git-timemachine) ;; use n and p to move between git revisions
+    (use-package gnuplot)         ;; for the plotting of graphs
+    (use-package s)               ;; some nice easy string manipulation functions
+    (use-package deadgrep)        ;; requires ripgrep binary
+    (use-package ef-themes)       ;; Prot themes
+    (use-package yaml-mode)
+    (use-package magit)           ;; git chrome
+    (use-package mpv)             ;; video player support
+    (use-package eat)             ;; eat terminal
+    (use-package golden-ratio)      ;; resize windows
+    (use-package spacious-padding)  
+  #+END_SRC
+
 * Visual Appearance
 ** All the Icons
 
@@ -238,6 +257,12 @@
      (spacious-padding-mode 1)
    #+END_SRC
 
+** Golden Ratio
+
+   #+BEGIN_SRC emacs-lisp
+     (golden-ratio-mode)
+   #+END_SRC
+   
 * Jinx Spell Checker
 
   #+BEGIN_SRC emacs-lisp
@@ -245,24 +270,6 @@
       :hook (emacs-startup . global-jinx-mode)
       :bind (("M-$" . jinx-correct)
              ("C-M-$" . jinx-languages)))    
-  #+END_SRC
-
-* Vanilla Packages
-
-  The packages are loaded as is
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package diminish)          ;; diminsh minor mode-line entries
-      (use-package git-timemachine) ;; use n and p to move between git revisions
-      (use-package gnuplot)         ;; for the plotting of graphs
-      (use-package s)               ;; some nice easy string manipulation functions
-      (use-package deadgrep)        ;; requires ripgrep binary
-      (use-package ef-themes)       ;; Prot themes
-      (use-package yaml-mode)
-      (use-package magit)           ;; git chrome
-      (use-package mpv)             ;; video player support
-      (use-package eat)             ;; eat terminal
-    (use-package spacious-padding)  
   #+END_SRC
 
 * Windows Specific Setup

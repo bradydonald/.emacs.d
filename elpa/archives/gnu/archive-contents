@@ -821,7 +821,7 @@
 	    (:maintainer "Phil Sainty" . "psainty@orcon.net.nz")
 	    (:url . "https://savannah.nongnu.org/projects/delight"))])
  (denote .
-	 [(2 2 2)
+	 [(2 2 4)
 	  ((emacs
 	    (28 1)))
 	  "Simple notes with an efficient file-naming scheme" tar
@@ -829,7 +829,7 @@
 	   (:maintainer "Denote Development" . "~protesilaos/denote@lists.sr.ht")
 	   (:authors
 	    ("Protesilaos Stavrou" . "info@protesilaos.com"))
-	   (:commit . "8acd82b12afb7ca07e044a7eb2d6b4da1066ea12"))])
+	   (:commit . "a4557ea8d0781a8f569869f80a9c9db1d52cb970"))])
  (denote-menu .
 	      [(1 2 0)
 	       ((emacs
@@ -2020,7 +2020,7 @@
 	       ("Simen Heggestøyl" . "simenheg@gmail.com"))
 	      (:maintainer "Simen Heggestøyl" . "simenheg@gmail.com"))])
  (jsonrpc .
-	  [(1 0 18)
+	  [(1 0 19)
 	   ((emacs
 	     (25 2)))
 	   "JSON-RPC library" tar
@@ -2029,7 +2029,7 @@
 	    (:authors
 	     ("João Távora" . "joaotavora@gmail.com"))
 	    (:url . "https://elpa.gnu.org/packages/jsonrpc.html")
-	    (:commit . "5a0250f76676d8750f42bbca1af5c4553846949b"))])
+	    (:commit . "ea29a48da13d6e6b87a3b017bcf92689bc18ca54"))])
  (jumpc .
 	[(3 1)
 	 nil "jump to previous insertion points" tar
