@@ -4,7 +4,7 @@
 
 ;; Author: Akib Azmain Turja <akib@disroot.org>
 ;; Created: 2022-08-15
-;; Version: 0.9.3
+;; Version: 0.9.4
 ;; Package-Requires: ((emacs "26.1") (compat "29.1"))
 ;; Keywords: terminals processes
 ;; Homepage: https://codeberg.org/akib/emacs-eat
@@ -6582,6 +6582,8 @@ END if it's safe to do so."
           glyphless-char-display
           cursor-type
           track-mouse
+          scroll-margin
+          hscroll-margin
           eat-terminal
           eat--synchronize-scroll-function
           eat--mouse-grabbing-type
@@ -6598,15 +6600,14 @@ END if it's safe to do so."
           isearch-search-fun-function
           isearch-wrap-function
           isearch-push-state-function
-          eat--pending-input-chunks
-          eat--process-input-queue-timer
-          eat--defer-input-processing
           eat--pending-output-chunks
           eat--output-queue-first-chunk-time
           eat--process-output-queue-timer
           eat--shell-prompt-annotation-correction-timer))
   ;; This is intended; input methods don't work on read-only buffers.
   (setq buffer-read-only nil)
+  (setq scroll-margin 0)
+  (setq hscroll-margin 0)
   (setq eat--synchronize-scroll-function #'eat--synchronize-scroll)
   (setq filter-buffer-substring-function
         #'eat--filter-buffer-substring)
@@ -6732,17 +6733,6 @@ The output chunks are pushed, so last output appears first.")
 (defvar eat--process-output-queue-timer nil
   "Timer to process output queue.")
 
-(defvar eat--pending-input-chunks nil
-  "The list of pending input chunks.
-
-The input chunks are pushed, so last input appears first.")
-
-(defvar eat--process-input-queue-timer nil
-  "Timer to process input queue.")
-
-(defvar eat--defer-input-processing nil
-  "Non-nil meaning process input later.")
-
 (defvar eat--shell-prompt-annotation-correction-timer nil
   "Timer to correct shell prompt annotations.")
 
@@ -6772,30 +6762,9 @@ OS's."
 
 (defun eat--send-input (_ input)
   "Send INPUT to subprocess."
-  (push input eat--pending-input-chunks)
-  (unless eat--process-input-queue-timer
-    (setq eat--process-input-queue-timer
-          (run-with-idle-timer 0 nil #'eat--process-input-queue
-                               (current-buffer)))))
-
-(defun eat--process-input-queue (buffer)
-  "Process the input queue on BUFFER."
-  (when (buffer-live-p buffer)
-    (with-current-buffer buffer
-      ;; We don't want to recurse this function.
-      (unless eat--defer-input-processing
-        (let ((inhibit-quit t)          ; Don't disturb!
-              (eat--defer-input-processing t)
+  (when-let* ((eat-terminal)
               (proc (eat-term-parameter eat-terminal 'eat--process)))
-          (when (process-live-p proc)
-            (while eat--pending-input-chunks
-              (let ((chunks (nreverse eat--pending-input-chunks)))
-                (setq eat--pending-input-chunks nil)
-                (dolist (str chunks)
-                  (eat--send-string proc str)))))))
-      (when eat--process-input-queue-timer
-        (cancel-timer eat--process-input-queue-timer))
-      (setq eat--process-input-queue-timer nil))))
+    (eat--send-string proc input)))
 
 (defun eat--process-output-queue (buffer)
   "Process the output queue on BUFFER."
@@ -6813,10 +6782,12 @@ OS's."
             (when eat--process-output-queue-timer
               (cancel-timer eat--process-output-queue-timer))
             (setq eat--output-queue-first-chunk-time nil)
-            (let ((queue eat--pending-output-chunks))
-              (setq eat--pending-output-chunks nil)
-              (dolist (output (nreverse queue))
-                (eat-term-process-output eat-terminal output)))
+            (while eat--pending-output-chunks
+              (let ((queue eat--pending-output-chunks)
+                    (eat--output-queue-first-chunk-time t))
+                (setq eat--pending-output-chunks nil)
+                (dolist (output (nreverse queue))
+                  (eat-term-process-output eat-terminal output))))
             (eat-term-redisplay eat-terminal)
             ;; Truncate output of previous dead processes.
             (when (and eat-term-scrollback-size
@@ -6853,17 +6824,19 @@ OS's."
       (unless eat--output-queue-first-chunk-time
         (setq eat--output-queue-first-chunk-time (current-time)))
       (push output eat--pending-output-chunks)
-      (let ((time-left
-             (- eat-maximum-latency
-                (float-time
-                 (time-subtract
-                  nil eat--output-queue-first-chunk-time)))))
-        (if (<= time-left 0)
-            (eat--process-output-queue (current-buffer))
-          (setq eat--process-output-queue-timer
-                (run-with-timer
-                 (min time-left eat-minimum-latency) nil
-                 #'eat--process-output-queue (current-buffer))))))))
+      (unless (eq eat--output-queue-first-chunk-time t)
+        (let ((time-left
+               (- eat-maximum-latency
+                  (float-time
+                   (time-subtract
+                    nil eat--output-queue-first-chunk-time)))))
+          (if (<= time-left 0)
+              (eat--process-output-queue (current-buffer))
+            (setq eat--process-output-queue-timer
+                  (run-with-timer
+                   (min time-left eat-minimum-latency) nil
+                   #'eat--process-output-queue
+                   (current-buffer)))))))))
 
 (defun eat--sentinel (process message)
   "Sentinel for Eat buffers.
@@ -7415,20 +7388,22 @@ PROGRAM can be a shell command."
       (when eat--process-output-queue-timer
         (cancel-timer eat--process-output-queue-timer))
       (setq eat--output-queue-first-chunk-time nil)
-      (let ((queue eat--pending-output-chunks))
-        (setq eat--pending-output-chunks nil)
-        (if (eval-when-compile (< emacs-major-version 27))
-            (eshell-output-filter
-             process (string-join (nreverse queue)))
-          (combine-change-calls
-              (eat-term-beginning eat-terminal)
-              (eat-term-end eat-terminal)
-            ;; TODO: Is `string-join' OK or should we use a loop?
-            (if (eval-when-compile (< emacs-major-version 30))
-                (eshell-output-filter
-                 process (string-join (nreverse queue)))
-              (eshell-interactive-process-filter
-               process (string-join (nreverse queue))))))))))
+      (while eat--pending-output-chunks
+        (let ((queue eat--pending-output-chunks)
+              (eat--output-queue-first-chunk-time t))
+          (setq eat--pending-output-chunks nil)
+          (if (eval-when-compile (< emacs-major-version 27))
+              (eshell-output-filter
+               process (string-join (nreverse queue)))
+            (combine-change-calls
+                (eat-term-beginning eat-terminal)
+                (eat-term-end eat-terminal)
+              ;; TODO: Is `string-join' OK or should we use a loop?
+              (if (eval-when-compile (< emacs-major-version 30))
+                  (eshell-output-filter
+                   process (string-join (nreverse queue)))
+                (eshell-interactive-process-filter
+                 process (string-join (nreverse queue)))))))))))
 
 (defun eat--eshell-filter (process string)
   "Process output STRING from PROCESS."
@@ -7439,19 +7414,20 @@ PROGRAM can be a shell command."
       (unless eat--output-queue-first-chunk-time
         (setq eat--output-queue-first-chunk-time (current-time)))
       (push string eat--pending-output-chunks)
-      (let ((time-left
-             (- eat-maximum-latency
-                (float-time
-                 (time-subtract
-                  nil eat--output-queue-first-chunk-time)))))
-        (if (<= time-left 0)
-            (eat--eshell-process-output-queue
-             process (current-buffer))
-          (setq eat--process-output-queue-timer
-                (run-with-timer
-                 (min time-left eat-minimum-latency) nil
-                 #'eat--eshell-process-output-queue process
-                 (current-buffer))))))))
+      (unless (eq eat--output-queue-first-chunk-time t)
+        (let ((time-left
+               (- eat-maximum-latency
+                  (float-time
+                   (time-subtract
+                    nil eat--output-queue-first-chunk-time)))))
+          (if (<= time-left 0)
+              (eat--eshell-process-output-queue
+               process (current-buffer))
+            (setq eat--process-output-queue-timer
+                  (run-with-timer
+                   (min time-left eat-minimum-latency) nil
+                   #'eat--eshell-process-output-queue process
+                   (current-buffer)))))))))
 
 (declare-function eshell-sentinel "esh-proc" (proc string))
 
@@ -7581,14 +7557,13 @@ symbol `buffer', in which case the point of current buffer is set."
   :interactive nil
   (let ((locals '(cursor-type
                   glyphless-char-display
+                  scroll-margin
+                  hscroll-margin
                   track-mouse
                   filter-buffer-substring-function
                   eat-terminal
                   eat--synchronize-scroll-function
                   eat--mouse-grabbing-type
-                  eat--pending-input-chunks
-                  eat--process-input-queue-timer
-                  eat--defer-input-processing
                   eat--pending-output-chunks
                   eat--output-queue-first-chunk-time
                   eat--process-output-queue-timer
@@ -7596,6 +7571,8 @@ symbol `buffer', in which case the point of current buffer is set."
     (cond
      (eat--eshell-local-mode
       (mapc #'make-local-variable locals)
+      (setq scroll-margin 0)
+      (setq hscroll-margin 0)
       (setq eat--synchronize-scroll-function
             #'eat--eshell-synchronize-scroll)
       (setq filter-buffer-substring-function

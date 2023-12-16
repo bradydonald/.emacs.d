@@ -368,7 +368,7 @@ Or nil if none."
   (unless (eq major-mode 'chatgpt-shell-mode)
     (user-error "Not in a shell"))
   (when-let ((duplicates (chatgpt-shell-duplicate-map-keys chatgpt-shell-system-prompts)))
-    (user-error "Duplicate prompt names found %s. Please remove." duplicates))
+    (user-error "Duplicate prompt names found %s. Please remove" duplicates))
   (let* ((choices (append (list "None")
                           (map-keys chatgpt-shell-system-prompts)))
          (choice (completing-read "System prompt: " choices))
@@ -658,7 +658,9 @@ Set NEW-SESSION to start a separate new session."
     (setq chatgpt-shell--is-primary-p t)))
 
 (defun chatgpt-shell--primary-buffer ()
-  "Return the primary shell buffer (used for sending a prompt to in the background)."
+  "Return the primary shell buffer.
+
+This is used for sending a prompt to in the background."
   (let ((primary-shell-buffer (seq-find
                                (lambda (shell-buffer)
                                  (with-current-buffer shell-buffer
@@ -678,7 +680,7 @@ Set NEW-SESSION to start a separate new session."
   (unless (eq major-mode 'chatgpt-shell-mode)
     (user-error "Not in a shell"))
   (when-let ((duplicates (chatgpt-shell-duplicate-map-keys chatgpt-shell-system-prompts)))
-    (user-error "Duplicate prompt names found %s. Please remove." duplicates))
+    (user-error "Duplicate prompt names found %s. Please remove.?" duplicates))
   (easy-menu-define chatgpt-shell-system-prompts-menu (current-local-map) "ChatGPT"
     `("ChatGPT"
       ("Versions"
@@ -1103,14 +1105,47 @@ If region is active, append to prompt."
 (defun chatgpt-shell-prompt-compose (prefix)
   "Compose and send prompt (kbd \"C-c C-c\") from a dedicated buffer.
 
-With PREFIX, clear existing history. Appends any active region."
+With PREFIX, clear existing history (wipe asociated shell history).
+
+Whenever `chatgpt-shell-prompt-compose' is invoked, appends any active
+region to compose buffer.
+
+The compose buffer always shows the latest interaction, but it's
+backed by the shell history. You can always switch to the shell buffer
+to view the history.
+
+Note: There's a fair bit of functionality packed in the compose buffer
+and fairly experimental (implementation needs plenty of cleaning up),
+but I'm finding it fairly useful. I need to split it out into a
+separate major mode, but I'll list the current functionality in case
+folks want to try it out.
+
+Editing: While in edit mode, it offers a couple of magit-like commit
+buffer.
+
+ `C-c C-c' to send the buffer query.
+ `C-c C-k' to cancel compose buffer.
+ `M-r' search through history.
+ `M-p' cycle through previous item in history.
+ `M-n' cycle through next item in history.
+
+Read-only: After sending a query, the buffer becomes read-only and
+enables additional key bindings.
+
+ `C-c C-c' After sending offers to abort query in-progress.
+ `g' Refresh (re-send the query). Useful to retry on disconnects.
+ `n' Jump to next source block.
+ `p' Jump to next previous block.
+ `r' Reply to follow-up with additional questions.
+ `e' Send \"Show entire snippet\" query (useful to request alternative
+to diffs).
+ `C-M-h' Mark block block at point."
   (interactive "P")
   (let* ((exit-on-submit (eq major-mode 'chatgpt-shell-mode))
          (buffer-name (concat (chatgpt-shell--minibuffer-prompt)
                               "compose"))
          (buffer (get-buffer-create buffer-name))
-         (map (make-sparse-keymap))
-         (region (when-let ((_ (region-active-p))
+         (region (when-let ((region-active (region-active-p))
                             (region (buffer-substring (region-beginning)
                                                       (region-end))))
                    (deactivate-mark)
@@ -1676,7 +1711,9 @@ Set SAVE-EXCURSION to prevent point from moving."
 
 (defun chatgpt-shell-post-messages (messages response-extractor &optional version callback error-callback temperature other-params)
   "Make a single ChatGPT request with MESSAGES.
-Optionally pass model VERSION, CALLBACK, ERROR-CALLBACK, TEMPERATURE and OTHER-PARAMS.
+
+Optionally pass model VERSION, CALLBACK, ERROR-CALLBACK, TEMPERATURE
+and OTHER-PARAMS.
 
 OTHER-PARAMS are appended to the json object at the top level.
 
@@ -1749,13 +1786,13 @@ If in a `dired' buffer, use selection (single image only for now)."
   (let* ((file (chatgpt-shell--current-file))
          (extension (downcase (file-name-extension file))))
     (unless (seq-contains-p '("jpg" "jpeg" "png" "webp" "gif") extension)
-      (user-error "Must be user either .jpg, .jpeg, .png, .webp or .gif file."))
+      (user-error "Must be user either .jpg, .jpeg, .png, .webp or .gif file"))
     (chatgpt-shell-vision-make-request
      (read-string "Send vision prompt (default \"What’s in this image?\"): " nil nil "What’s in this image?")
      file)))
 
 (defun chatgpt-shell--current-file ()
-  "Return buffer file (if available) or dired selected file."
+  "Return buffer file (if available) or Dired selected file."
   (when (use-region-p)
     (user-error "No region selection supported"))
   (if (buffer-file-name)
@@ -1776,7 +1813,7 @@ URL-PATH can be either a local file path or an http:// URL."
   (let* ((url (if (string-prefix-p "http" url-path)
                   url-path
                 (unless (file-exists-p url-path)
-                  (error "file not found"))
+                  (error "File not found"))
                 (concat "data:image/jpeg;base64,"
                         (with-temp-buffer
                           (insert-file-contents-literally url-path)
@@ -1807,7 +1844,8 @@ URL-PATH can be either a local file path or an http:// URL."
 
 (defun chatgpt-shell-post-prompt (prompt &optional response-extractor version callback error-callback temperature other-params)
   "Make a single ChatGPT request with PROMPT.
-Optioally pass model VERSION, CALLBACK, ERROR-CALLBACK, TEMPERATURE, and OTHER-PARAMS.
+Optioally pass model VERSION, CALLBACK, ERROR-CALLBACK, TEMPERATURE,
+and OTHER-PARAMS.
 
 If CALLBACK or ERROR-CALLBACK are missing, execute synchronously.
 

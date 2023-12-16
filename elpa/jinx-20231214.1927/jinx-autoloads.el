@@ -30,8 +30,9 @@ Correct nearest misspelled word." t)
 (autoload 'jinx-correct-word "jinx" "\
 Correct word between START and END, by default the word before point.
 Suggest corrections even if the word is not misspelled.
+Optionally insert INITIAL input in the minibuffer.
 
-(fn &optional START END)" t)
+(fn &optional START END INITIAL)" t)
 (autoload 'jinx-correct "jinx" "\
 Correct word depending on prefix ARG.
 This command dispatches to the following commands:
