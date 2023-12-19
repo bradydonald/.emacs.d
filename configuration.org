@@ -517,7 +517,6 @@
      (setq org-agenda-files (db/org-agenda-files))
 
      (defun db/last-download ()
-       (interactive)
        (let ((downloads-dir "~/Downloads/"))
          (if (file-directory-p downloads-dir)
              (progn
@@ -1156,6 +1155,7 @@
          ("b" "~/OrgDocuments/personal/Books/first-90-days/the-first-90-days.org" "Current Book")
          ("s" "~/OrgDocuments/personal/shopping.org" "Shopping List")
          ("d" (db/last-download) "Last Download")
+         ("c" "~/.emacs.d/configuration.org" "Emacs Configuration")
          ("p" "~/OrgDocuments/personal/peloton.org" "Peloton Log"))
        :bind
        ("C-c f" . #'my-file-shortcuts/body))
@@ -1383,6 +1383,4 @@
     (load "server")
     (unless (server-running-p) (server-start))
   #+END_SRC
-
-  #+RESULTS:
 
