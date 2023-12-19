@@ -522,18 +522,19 @@
          (if (file-directory-p downloads-dir)
              (progn
                (cd downloads-dir)
-               (setq files (directory-files downloads-dir nil nil 'nosort))
+               (setq files (directory-files downloads-dir t nil 'nosort))
                (if files
-                   (let ((newest-file (car (sort files
-                                                 (lambda (a b)
-                                                   (time-less-p (nth 5 (file-attributes a))
-                                                                (nth 5 (file-attributes b))))))))
+                   (progn
+                     (setq newest-file
+                           (car (last (sort (cl-remove-if-not #'file-regular-p files)
+                                            (lambda (a b)
+                                              (time-less-p (nth 5 (file-attributes a))
+                                                           (nth 5 (file-attributes b))))))))
+                     (message newest-file)
                      (if newest-file
                          (find-file newest-file)
-                       (message "No files found in %s" downloads-dir)))
-                 (message "No files found in %s" downloads-dir)))
-           (message "Directory %s does not exist" downloads-dir))))
-
+                       (message "No files found in %s" downloads-dir))))))))
+     
   #+END_SRC
 
 ** Org Roam
