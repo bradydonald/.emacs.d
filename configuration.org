@@ -520,7 +520,6 @@
        (let ((downloads-dir "~/Downloads/"))
          (if (file-directory-p downloads-dir)
              (progn
-               (cd downloads-dir)
                (setq files (directory-files downloads-dir t nil 'nosort))
                (if files
                    (progn
@@ -529,7 +528,6 @@
                                             (lambda (a b)
                                               (time-less-p (nth 5 (file-attributes a))
                                                            (nth 5 (file-attributes b))))))))
-                     (message newest-file)
                      (if newest-file
                          (find-file newest-file)
                        (message "No files found in %s" downloads-dir))))))))
@@ -1150,13 +1148,13 @@
      (use-package hydra
        :config
        (defshortcuts my-file-shortcuts ()
+         ("b" "~/OrgDocuments/personal/Books/first-90-days/the-first-90-days.org" "Current Book")
+         ("c" "~/.emacs.d/configuration.org" "Emacs Configuration")
+         ("d" (db/last-download) "Last Download")
          ("i" (db/current-index-file) "Index File")
          ("j" (db/current-monthly-journal) "Monthly Journal File")
-         ("b" "~/OrgDocuments/personal/Books/first-90-days/the-first-90-days.org" "Current Book")
-         ("s" "~/OrgDocuments/personal/shopping.org" "Shopping List")
-         ("d" (db/last-download) "Last Download")
-         ("c" "~/.emacs.d/configuration.org" "Emacs Configuration")
-         ("p" "~/OrgDocuments/personal/peloton.org" "Peloton Log"))
+         ("p" "~/OrgDocuments/personal/peloton.org" "Peloton Log")
+         ("s" "~/OrgDocuments/personal/shopping.org" "Shopping List"))
        :bind
        ("C-c f" . #'my-file-shortcuts/body))
 
