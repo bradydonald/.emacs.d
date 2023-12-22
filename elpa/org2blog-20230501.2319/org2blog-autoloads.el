@@ -382,7 +382,6 @@ display a buffer with the export value.
 
 (fn &optional ASYNC SUBTREEP EXT-PLIST)" t)
 (register-definition-prefixes "ox-wp" '("org-html-underline" "ox-wp-"))
-
 
 ;;; End of scraped data
 

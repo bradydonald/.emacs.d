@@ -67,7 +67,6 @@ HTMLize dired-marked files.
 
 (fn ARG &optional TARGET-DIRECTORY)" t)
 (register-definition-prefixes "htmlize" '("htmlize-"))
-
 
 ;;; End of scraped data
 

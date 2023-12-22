@@ -1,2 +1,0 @@
-;; Generated package description from spacious-padding.el  -*- no-byte-compile: t -*-
-(define-package "spacious-padding" "0.2.2" "Increase the padding/spacing of frames and windows" '((emacs "28.1")) :commit "55b9e26d58c006389e43de27cdc2903b7bbd4338" :authors '(("Protesilaos Stavrou" . "info@protesilaos.com")) :maintainer '("Protesilaos Stavrou General Issues" . "~protesilaos/general-issues@lists.sr.ht") :keywords '("convenience" "focus" "writing" "presentation") :url "https://git.sr.ht/~protesilaos/spacious-padding")

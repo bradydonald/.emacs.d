@@ -14,7 +14,6 @@
 (autoload 'elfeed-org "elfeed-org" "\
 Hook up rmh-elfeed-org to read the `org-mode' configuration when elfeed is run." t)
 (register-definition-prefixes "elfeed-org" '("elfeed-org-" "rmh-elfeed-"))
-
 
 ;;; End of scraped data
 

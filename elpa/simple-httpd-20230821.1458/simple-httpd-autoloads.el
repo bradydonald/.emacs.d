@@ -24,7 +24,6 @@ Start the web server with given `directory' as `httpd-root'.
 
 (fn DIRECTORY)" t)
 (register-definition-prefixes "simple-httpd" '("defservlet" "httpd" "with-httpd-buffer"))
-
 
 ;;; End of scraped data
 

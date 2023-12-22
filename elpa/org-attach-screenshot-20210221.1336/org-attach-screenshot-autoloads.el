@@ -35,7 +35,6 @@ the links being already placed inside the text.
 
 (fn PRFX FILENAME)" t)
 (register-definition-prefixes "org-attach-screenshot" '("org-attach-screenshot-"))
-
 
 ;;; End of scraped data
 

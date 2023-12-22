@@ -12,7 +12,6 @@
 ;;; Generated autoloads from websocket.el
 
 (register-definition-prefixes "websocket" '("websocket-"))
-
 
 ;;; End of scraped data
 

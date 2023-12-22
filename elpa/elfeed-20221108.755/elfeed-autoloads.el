@@ -98,7 +98,6 @@ Show the bookmarked entry saved in the `RECORD'.
 ;;; Generated autoloads from xml-query.el
 
 (register-definition-prefixes "xml-query" '("xml-query"))
-
 
 ;;; End of scraped data
 

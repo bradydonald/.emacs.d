@@ -40,7 +40,6 @@ it is disabled.
 
 (fn &optional ARG)" t)
 (register-definition-prefixes "writegood-mode" '("writegood-"))
-
 
 ;;; End of scraped data
 

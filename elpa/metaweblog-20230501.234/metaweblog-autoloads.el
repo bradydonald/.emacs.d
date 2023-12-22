@@ -12,7 +12,6 @@
 ;;; Generated autoloads from metaweblog.el
 
 (register-definition-prefixes "metaweblog" '("metaweblog-"))
-
 
 ;;; End of scraped data
 

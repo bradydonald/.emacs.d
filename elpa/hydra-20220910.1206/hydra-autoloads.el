@@ -77,7 +77,6 @@ result of `defhydra'.
 ;;; Generated autoloads from hydra-ox.el
 
 (register-definition-prefixes "hydra-ox" '("hydra-ox"))
-
 
 ;;; End of scraped data
 

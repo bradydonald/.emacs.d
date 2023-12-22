@@ -184,7 +184,8 @@
     (use-package mpv)             ;; video player support
     (use-package eat)             ;; eat terminal
     (use-package golden-ratio)      ;; resize windows
-    (use-package spacious-padding)  
+    (use-package spacious-padding)
+    (use-package exec-path-from-shell) ;; MacOS
   #+END_SRC
 
 * Visual Appearance
@@ -272,20 +273,30 @@
              ("C-M-$" . jinx-languages)))    
   #+END_SRC
 
-* Windows Specific Setup
-** WSL to use Windows Native Browser
+* OS Specific Setups
+** Windows Specific Setup
+*** WSL to use Windows Native Browser
 
-   #+BEGIN_SRC emacs-lisp
-     (when (and (eq system-type 'gnu/linux)
-                (string-match
-                 "Linux.*Microsoft.*Linux"
-                 (shell-command-to-string "uname -a")))
-       (setq
-        browse-url-generic-program  "/mnt/c/Windows/System32/cmd.exe"
-        browse-url-generic-args     '("/c" "start")
-        browse-url-browser-function #'browse-url-generic))
-   #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (when (and (eq system-type 'gnu/linux)
+                 (string-match
+                  "Linux.*Microsoft.*Linux"
+                  (shell-command-to-string "uname -a")))
+        (setq
+         browse-url-generic-program  "/mnt/c/Windows/System32/cmd.exe"
+         browse-url-generic-args     '("/c" "start")
+         browse-url-browser-function #'browse-url-generic))
+    #+END_SRC
+
+** MacOS
+
+   Emacs path will not be the same so sync with OS.
    
+   #+BEGIN_SRC emacs-lisp
+     (when (memq window-system '(mac ns x))
+       (exec-path-from-shell-initialize))
+   #+END_SRC
+
 * Avy
   Avy has one really useful function =avy-goto-line= which supports multiple
   buffers
@@ -333,36 +344,36 @@
 * PDF Tools
   PDF viewer and annotator
 
-  #+BEGIN_SRC emacs-lisp
+  # #+BEGIN_SRC emacs-lisp
 
-     (use-package pdf-tools
-         :ensure t
-         :config
-         (pdf-tools-install)
-         (setq-default pdf-view-display-size 'fit-page)
-         (bind-keys :map pdf-view-mode-map
-             ("?" . hydra-pdftools/body)
-             ("<s-spc>" .  pdf-view-scroll-down-or-next-page)
-             ("g"  . pdf-view-first-page)
-             ("G"  . pdf-view-last-page)
-             ("l"  . image-forward-hscroll)
-             ("h"  . image-backward-hscroll)
-             ("j"  . pdf-view-next-page)
-             ("k"  . pdf-view-previous-page)
-             ("e"  . pdf-view-goto-page)
-             ("u"  . pdf-view-revert-buffer)
-             ("al" . pdf-annot-list-annotations)
-             ("ad" . pdf-annot-delete)
-             ("aa" . pdf-annot-attachment-dired)
-             ("am" . pdf-annot-add-markup-annotation)
-             ("at" . pdf-annot-add-text-annotation)
-             ("y"  . pdf-view-kill-ring-save)
-             ("i"  . pdf-misc-display-metadata)
-             ("s"  . pdf-occur)
-             ("b"  . pdf-view-set-slice-from-bounding-box)
-             ("r"  . pdf-view-reset-slice)))
+  #    (use-package pdf-tools
+  #        :ensure t
+  #        :config
+  #        (pdf-tools-install)
+  #        (setq-default pdf-view-display-size 'fit-page)
+  #        (bind-keys :map pdf-view-mode-map
+  #            ("?" . hydra-pdftools/body)
+  #            ("<s-spc>" .  pdf-view-scroll-down-or-next-page)
+  #            ("g"  . pdf-view-first-page)
+  #            ("G"  . pdf-view-last-page)
+  #            ("l"  . image-forward-hscroll)
+  #            ("h"  . image-backward-hscroll)
+  #            ("j"  . pdf-view-next-page)
+  #            ("k"  . pdf-view-previous-page)
+  #            ("e"  . pdf-view-goto-page)
+  #            ("u"  . pdf-view-revert-buffer)
+  #            ("al" . pdf-annot-list-annotations)
+  #            ("ad" . pdf-annot-delete)
+  #            ("aa" . pdf-annot-attachment-dired)
+  #            ("am" . pdf-annot-add-markup-annotation)
+  #            ("at" . pdf-annot-add-text-annotation)
+  #            ("y"  . pdf-view-kill-ring-save)
+  #            ("i"  . pdf-misc-display-metadata)
+  #            ("s"  . pdf-occur)
+  #            ("b"  . pdf-view-set-slice-from-bounding-box)
+  #            ("r"  . pdf-view-reset-slice)))
     
-  #+END_SRC
+  # #+END_SRC
 
 * Yas Snippets
   Use yas snippets templating package
@@ -520,7 +531,7 @@
        (let ((downloads-dir "~/Downloads/"))
          (if (file-directory-p downloads-dir)
              (progn
-               (setq files (directory-files downloads-dir t nil 'nosort))
+               (setq files (cl-delete ".DS_Store" (directory-files "~/Downloads" t nil 'nosort) :test 'equal))
                (if files
                    (progn
                      (setq newest-file
@@ -1150,7 +1161,7 @@
        (defshortcuts my-file-shortcuts ()
          ("b" "~/OrgDocuments/personal/Books/first-90-days/the-first-90-days.org" "Current Book")
          ("c" "~/.emacs.d/configuration.org" "Emacs Configuration")
-         ("d" (db/last-download) "Last Download")
+;;         ("d" (db/last-download) "Last Download")
          ("i" (db/current-index-file) "Index File")
          ("j" (db/current-monthly-journal) "Monthly Journal File")
          ("p" "~/OrgDocuments/personal/peloton.org" "Peloton Log")

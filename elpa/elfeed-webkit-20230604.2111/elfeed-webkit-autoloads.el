@@ -25,7 +25,6 @@ with the original/default method.
 Rendering with webkit can still be toggled on or off manually in
 the entry's buffer." t)
 (register-definition-prefixes "elfeed-webkit" '("elfeed-webkit-"))
-
 
 ;;; End of scraped data
 

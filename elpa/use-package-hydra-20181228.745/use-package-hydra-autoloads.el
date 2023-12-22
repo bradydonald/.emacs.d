@@ -19,7 +19,6 @@ ARGS, REST, and STATE are prepared by `use-package-normalize/:hydra'.
 
 (fn NAME KEYWORD ARGS REST STATE)")
 (register-definition-prefixes "use-package-hydra" '("use-package-hydra--n"))
-
 
 ;;; End of scraped data
 
