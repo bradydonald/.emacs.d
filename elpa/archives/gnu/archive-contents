@@ -758,13 +758,13 @@
 		 (:keywords "convenience")
 		 (:url . "http://elpa.gnu.org/packages/cycle-quotes.html"))])
  (dape .
-       [(0 2 2)
+       [(0 3 0)
 	((emacs
 	  (29 1)))
 	"Debug Adapter Protocol for Emacs" tar
 	((:url . "https://github.com/svaante/dape")
 	 (:maintainer "Daniel Pettersson" . "daniel@dpettersson.net")
-	 (:commit . "a8e56d3767e1b063f6c49a6081ca4e22afdfaaaf"))])
+	 (:commit . "53560932c3cf11aecd17bb247743e4352c0ddf20"))])
  (darkroom .
 	   [(0 3)
 	    ((cl-lib
@@ -1196,7 +1196,7 @@
 		     (:url . "https://elpa.gnu.org/packages/elisp-benchmarks.html")
 		     (:commit . "70e38dbfa8f4acbdebfd0f417410d99f5031e05f"))])
  (ellama .
-	 [(0 4 3)
+	 [(0 4 9)
 	  ((emacs
 	    (28 1))
 	   (llm
@@ -1209,7 +1209,7 @@
 	   (:maintainer "Sergey Kostyaev" . "sskostyaev@gmail.com")
 	   (:authors
 	    ("Sergey Kostyaev" . "sskostyaev@gmail.com"))
-	   (:commit . "d2fc4223f7fc29356d66253dea5a47afa3d7478c"))])
+	   (:commit . "4962a7e2c4f9a6a1afe920c9242074aef7059e28"))])
  (emacs-gc-stats .
 		 [(1 4 2)
 		  ((emacs
@@ -2749,7 +2749,7 @@
 	(:keywords "comm" "processes" "multimedia")
 	(:url . "https://elpa.gnu.org/packages/osc.html"))])
  (osm .
-      [(1 0)
+      [(1 1)
        ((emacs
 	 (27 1))
 	(compat
@@ -2760,7 +2760,7 @@
 	(:maintainer "Daniel Mendler" . "mail@daniel-mendler.de")
 	(:authors
 	 ("Daniel Mendler" . "mail@daniel-mendler.de"))
-	(:commit . "74bf96638c08b87c5a1621e4dcbb992b2851eb3b"))])
+	(:commit . "ce940a8fd0afb1263eed304065eafc52df524a82"))])
  (other-frame-window .
 		     [(1 0 6)
 		      ((emacs
