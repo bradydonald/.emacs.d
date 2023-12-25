@@ -264,6 +264,23 @@
      (golden-ratio-mode)
    #+END_SRC
    
+** Transparency
+
+   This is useful if taking org meeting notes and you want to see peoples faces
+   in zoom etc.
+   
+   #+BEGIN_SRC emacs-lisp
+
+     (defun db/set-transparency (alpha)
+       "Set the alpha (transparency) value of the current frame."
+       (interactive "nEnter alpha value (0-100, default is 100): ")
+       (setq alpha (if (null alpha) 100 alpha)) ; Set default to 100 if no input
+       (when (and (numberp alpha) (>= alpha 0) (<= alpha 100))
+         (set-frame-parameter (selected-frame) 'alpha alpha)
+         (message "Frame alpha set to %d" alpha)))
+
+  #+END_SRC
+
 * Jinx Spell Checker
 
   #+BEGIN_SRC emacs-lisp
