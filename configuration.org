@@ -544,6 +544,12 @@
 
      (setq org-agenda-files (db/org-agenda-files))
 
+     (defun db/refresh-org-files-list ()
+       "Update the list of org-agenda-file"
+       (interactive)
+       (setq org-agenda-files (db/org-agenda-files)))
+
+
      (defun db/last-download ()
        (let ((downloads-dir "~/Downloads/"))
          (if (file-directory-p downloads-dir)
@@ -559,7 +565,7 @@
                      (if newest-file
                          (find-file newest-file)
                        (message "No files found in %s" downloads-dir))))))))
-     
+
   #+END_SRC
 
 ** Org Roam
@@ -995,6 +1001,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package denote)
     (require 'denote)
+    (require 'denote-journal-extras)
 
     ;; Remember to check the doc strings of those variables.
     (setq denote-directory (expand-file-name "~/OrgDocuments/personal/"))
@@ -1005,6 +1012,7 @@
     (setq denote-prompts '(title keywords))
     (setq denote-excluded-directories-regexp nil)
     (setq denote-excluded-keywords-regexp nil)
+    (setq denote-journal-extras-directory "~/OrgDocuments/personal/journals")
 
     ;; Pick dates, where relevant, with Org's advanced interface:
     (setq denote-date-prompt-use-org-read-date t)

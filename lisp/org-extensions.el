@@ -22,12 +22,6 @@
           (substring-no-properties (car tag))) 
           (org-global-tags-completion-table)))
 
-(defun db/refresh-org-files-list ()
-  "Update the list of org-agenda-file"
-  (interactive)
-  (setq org-agenda-files (db/org-agenda-files)))
-
-
 
 ;; should not need this but can't remember function
 (defun db/counsel-org-agenda-insert-link-to-headlines ()
