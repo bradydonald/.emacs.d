@@ -1002,6 +1002,7 @@
     (use-package denote)
     (require 'denote)
     (require 'denote-journal-extras)
+    (require 'denote-silo-extras)    
 
     ;; Remember to check the doc strings of those variables.
     (setq denote-directory (expand-file-name "~/OrgDocuments/personal/"))

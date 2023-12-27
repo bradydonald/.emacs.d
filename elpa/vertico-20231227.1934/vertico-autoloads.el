@@ -45,10 +45,13 @@ it is disabled.
 (defvar vertico-buffer-mode nil "\
 Non-nil if Vertico-Buffer mode is enabled.
 See the `vertico-buffer-mode' command
-for a description of this minor mode.")
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `vertico-buffer-mode'.")
 (custom-autoload 'vertico-buffer-mode "vertico-buffer" nil)
 (autoload 'vertico-buffer-mode "vertico-buffer" "\
-Display Vertico in a buffer instead of the minibuffer.
+Display Vertico like a regular buffer in a large window.
 
 This is a global minor mode.  If called interactively, toggle the
 `Vertico-Buffer mode' mode.  If the prefix argument is positive,
@@ -352,7 +355,7 @@ The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
 (fn &optional ARG)" t)
-(register-definition-prefixes "vertico-unobtrusive" '("vertico-unobtrusive--orig-count"))
+(register-definition-prefixes "vertico-unobtrusive" '("vertico-unobtrusive--restore"))
 
 ;;; End of scraped data
 

@@ -5,8 +5,8 @@
 ;; Author: Daniel Mendler <mail@daniel-mendler.de>
 ;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>
 ;; Created: 2021
-;; Version: 0.1
-;; Package-Requires: ((emacs "27.1") (compat "29.1.4.4") (vertico "1.5"))
+;; Version: 1.6
+;; Package-Requires: ((emacs "27.1") (compat "29.1.4.4") (vertico "1.6"))
 ;; Homepage: https://github.com/minad/vertico
 
 ;; This file is part of GNU Emacs.
@@ -112,7 +112,7 @@ When scrolling beyond this limit, candidates may be truncated."
   (when-let ((win (active-minibuffer-window)))
     (unless (frame-root-window-p win)
       (window-resize win (- (window-pixel-height win)) nil nil 'pixelwise)))
-  (setq minor-mode-map-alist (rassq-delete-all vertico-grid-map minor-mode-map-alist))
+  (cl-callf2 rassq-delete-all vertico-grid-map minor-mode-map-alist)
   (when vertico-grid-mode
     (push `(vertico--input . ,vertico-grid-map) minor-mode-map-alist)))
 

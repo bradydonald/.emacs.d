@@ -5,8 +5,8 @@
 ;; Author: Daniel Mendler <mail@daniel-mendler.de>
 ;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>
 ;; Created: 2021
-;; Version: 0.1
-;; Package-Requires: ((emacs "27.1") (compat "29.1.4.4") (vertico "1.5"))
+;; Version: 1.6
+;; Package-Requires: ((emacs "27.1") (compat "29.1.4.4") (vertico "1.6"))
 ;; Homepage: https://github.com/minad/vertico
 
 ;; This file is part of GNU Emacs.
@@ -40,6 +40,7 @@
 ;;; Code:
 
 (require 'vertico)
+(eval-when-compile (require 'cl-lib))
 
 (defcustom vertico-flat-max-lines 1
   "Maximal number of lines to use."
@@ -78,7 +79,7 @@
   (when-let ((win (active-minibuffer-window)))
     (unless (frame-root-window-p win)
       (window-resize win (- (window-pixel-height win)) nil nil 'pixelwise)))
-  (setq minor-mode-map-alist (rassq-delete-all vertico-flat-map minor-mode-map-alist))
+  (cl-callf2 rassq-delete-all vertico-flat-map minor-mode-map-alist)
   (when vertico-flat-mode
     (push `(vertico--input . ,vertico-flat-map) minor-mode-map-alist)))
 
