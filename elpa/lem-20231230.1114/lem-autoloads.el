@@ -31,7 +31,7 @@ Logging in will set this. You can also save it in your init.el.")
 
 ;;; Generated autoloads from lem-post.el
 
-(register-definition-prefixes "lem-post" '("lem-post-"))
+(register-definition-prefixes "lem-post" '("lem-"))
 
 
 ;;; Generated autoloads from lem-request.el

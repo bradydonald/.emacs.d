@@ -5,10 +5,10 @@
 ;; Author: Daniel Mendler <mail@daniel-mendler.de>
 ;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>
 ;; Created: 2023
-;; Version: 1.0
-;; Package-Requires: ((emacs "27.1") (compat "29.1.4.0"))
+;; Version: 1.1
+;; Package-Requires: ((emacs "27.1") (compat "29.1.4.4"))
 ;; Homepage: https://github.com/minad/jinx
-;; Keywords: convenience, wp
+;; Keywords: convenience, text
 
 ;; This file is part of GNU Emacs.
 
@@ -258,9 +258,10 @@ checking."
 
 ;;;; Internal variables
 
-(defvar jinx--reschedule-hooks
-  '(window-state-change-hook window-scroll-functions post-command-hook)
-  "Hooks which reschedule the spell checking timer, see `jinx--reschedule'.")
+(defvar jinx--schedule-hooks
+  '(window-selection-change-functions window-scroll-functions
+    window-state-change-hook post-command-hook)
+  "Hooks which reschedule the spell checking timer, see `jinx--schedule'.")
 
 (defvar jinx--predicates
   (list #'jinx--face-ignored-p
@@ -270,7 +271,7 @@ checking."
 Predicate should return t if the word before point is valid.
 Predicate may return a position to skip forward.")
 
-(defvar jinx--timer nil
+(defvar jinx--timer (timer-create)
   "Global timer to check pending regions.")
 
 (defvar jinx--base-syntax-table
@@ -539,7 +540,7 @@ If CHECK is non-nil, always check first."
 
 (defun jinx--timer-handler ()
   "Global timer handler, checking the pending regions in all windows."
-  (setq jinx--timer nil)
+  (timer-set-function jinx--timer nil)
   (dolist (frame (frame-list))
     (dolist (win (window-list frame 'no-miniwindow))
       (when-let ((buffer (window-buffer win))
@@ -547,21 +548,14 @@ If CHECK is non-nil, always check first."
         (with-current-buffer buffer
           (jinx--check-pending (window-start win) (window-end win)))))))
 
-(defun jinx--reschedule (&rest _)
-  "Restart the global idle timer."
-  (when jinx--timer
-    (cancel-timer jinx--timer)
-    (setq jinx--timer nil))
-  (jinx--schedule))
-
-(defun jinx--schedule ()
+(defun jinx--schedule (&rest _)
   "Start the global idle timer."
-  (when (and (not jinx--timer)
+  (when (and (not (timer--function jinx--timer))
              (not completion-in-region-mode) ;; Corfu completion
              (get-buffer-window)) ;; Buffer visible
-    (setq jinx--timer
-          (run-with-idle-timer jinx-delay
-                               nil #'jinx--timer-handler))))
+    (timer-set-function jinx--timer #'jinx--timer-handler)
+    (timer-set-idle-time jinx--timer jinx-delay)
+    (timer-activate-when-idle jinx--timer)))
 
 (defun jinx--load-module ()
   "Compile and load dynamic module."
@@ -1037,16 +1031,16 @@ This command dispatches to the following commands:
                           (seq-some #'derived-mode-p jinx-camel-modes))
           jinx--session-words (split-string jinx-local-words))
     (jinx--load-dicts)
-    (dolist (hook jinx--reschedule-hooks)
-      (add-hook hook #'jinx--reschedule nil t))
+    (dolist (hook jinx--schedule-hooks)
+      (add-hook hook #'jinx--schedule nil t))
     (jit-lock-register #'jinx--mark-pending))
    (t
     (mapc #'kill-local-variable '(jinx--exclude-regexp jinx--include-faces
                                   jinx--exclude-faces jinx--camel
                                   jinx--dicts jinx--syntax-table
                                   jinx--session-words))
-    (dolist (hook jinx--reschedule-hooks)
-      (remove-hook hook #'jinx--reschedule t))
+    (dolist (hook jinx--schedule-hooks)
+      (remove-hook hook #'jinx--schedule t))
     (jit-lock-unregister #'jinx--mark-pending)
     (jinx--cleanup))))
 

@@ -4,7 +4,7 @@
 
 ;; Author: Alvaro Ramirez https://xenodium.com
 ;; URL: https://github.com/xenodium/chatgpt-shell
-;; Version: 0.97.1
+;; Version: 0.99.1
 ;; Package-Requires: ((emacs "27.1") (shell-maker "0.43.1"))
 
 ;; This package is free software; you can redistribute it and/or modify
@@ -286,7 +286,8 @@ for details."
                  (emacs-version)))))
 
 (defcustom chatgpt-shell-system-prompts
-  `(("General" . "You use markdown liberally to structure responses. Always show code snippets in markdown blocks with language labels.")
+  `(("tl;dr" . "Be as succint but informative as possible and respond in tl;dr form to my queries")
+    ("General" . "You use markdown liberally to structure responses. Always show code snippets in markdown blocks with language labels.")
     ;; Based on https://github.com/benjamin-asdf/dotfiles/blob/8fd18ff6bd2a1ed2379e53e26282f01dcc397e44/mememacs/.emacs-mememacs.d/init.el#L768
     ("Programming" . ,(chatgpt-shell--append-system-info
                        "The user is a programmer with very limited time.
@@ -1130,7 +1131,7 @@ separate major mode, but I'll list the current functionality in case
 folks want to try it out.
 
 Editing: While in edit mode, it offers a couple of magit-like commit
-buffer.
+buffer bindings.
 
  `C-c C-c' to send the buffer query.
  `C-c C-k' to cancel compose buffer.
@@ -1149,7 +1150,7 @@ enables additional key bindings.
  `r' Reply to follow-up with additional questions.
  `e' Send \"Show entire snippet\" query (useful to request alternative
  `o' Jump to other buffer (ie. the shell itself).
- `C-M-h' Mark block block at point."
+ `C-M-h' Mark block at point."
   (interactive "P")
   (unless (chatgpt-shell--primary-buffer)
     (chatgpt-shell--set-primary-buffer
@@ -1172,6 +1173,11 @@ enables additional key bindings.
                                " to send prompt. "
                                (propertize "C-c C-k" 'face 'help-key-binding)
                                " to cancel and exit. "))
+         (erase-buffer (or prefix
+                           (not region)
+                           ;; view-mode = old query, erase for new one.
+                           (with-current-buffer buffer
+                             view-mode)))
          (prompt))
     (add-to-list 'display-buffer-alist
                  (cons buffer
@@ -1181,11 +1187,16 @@ enables additional key bindings.
       (visual-line-mode +1)
       (when view-mode
         (view-mode -1))
-      (erase-buffer)
+      (when erase-buffer
+        (erase-buffer))
       (when region
         (save-excursion
-          (goto-char (point-max))
-          (insert (concat "\n\n" region))))
+          (goto-char (point-min))
+          (let ((insert-trailing-newlines (not (looking-at-p "\n\n"))))
+            (insert "\n\n")
+            (insert region)
+            (when insert-trailing-newlines
+              (insert "\n\n")))))
       (when prefix
         (let ((chatgpt-shell-prompt-query-response-style 'inline))
           (chatgpt-shell-send-to-buffer "clear")))
@@ -1876,8 +1887,9 @@ For example:
 
 \(chatgpt-shell-post-prompt
  \"hello\"
+ nil
  \"gpt-3.5-turbo\"
- (lambda (response)
+ (lambda (response more-pending)
    (message \"%s\" response))
  (lambda (error)
    (message \"%s\" error)))"

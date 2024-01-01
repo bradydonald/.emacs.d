@@ -1,6 +1,6 @@
-(define-package "org-side-tree" "20231226.1942" "Navigate Org outlines in side window tree"
+(define-package "org-side-tree" "20231229.1509" "Navigate Org outlines in side window tree"
   '((emacs "28.1"))
-  :commit "2f744941bb448d8250baa922d979be9d05fa431a" :authors
+  :commit "fb7115acbe1f4ba61df28426520889d53275391f" :authors
   '(("Grant Rosson <https://github.com/localauthor>"))
   :maintainers
   '(("Grant Rosson <https://github.com/localauthor>"))

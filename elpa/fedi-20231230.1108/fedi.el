@@ -629,5 +629,52 @@ even though the request may have succeeded."
           (t
            (error "Error handling response data, but request succeeded")))))
 
+;;; UPDATING ITEMS
+
+;; these functions can be used to update the display after an action
+;; (edit/delete/bookmark/create, etc.).
+
+;; Currently, the model is to first update an item's data in the json text
+;; property, then to update the item based on that data. This separation is
+;; because we always want to update the json property for the entire item, but
+;; we don't always then want to update display of the entire item, but only
+;; part of it (a byline/status line, etc.). See lem-ui.el for examples of using these update functions.
+
+(defun fedi--update-item-json (new-json)
+  "Replace the json property of item at point with NEW-JSON."
+  (let ((inhibit-read-only t)
+        (region (fedi--find-property-range 'json (point) :backwards)))
+    (add-text-properties (car region) (cdr region)
+                         `(json ,new-json))))
+
+(defun fedi-update-item-from-json (prop replace-fun)
+  "Update display of current item using its updated json property.
+PROP is a text property used to find the part of the item to update.
+Examples are byline-top, byline-bottom, and body.
+REPLACE-FUN is a function sent to
+`fedi--replace-region-contents' to do the replacement. It
+should be called with at least 1 arg: the item's json."
+  (let ((json (fedi--property 'json)))
+    (let ((inhibit-read-only t)
+          (region
+           (fedi--find-property-range prop (point)
+                                      (when (fedi--property prop)
+                                        :backwards))))
+      (fedi--replace-region-contents
+       (car region) (cdr region)
+       replace-fun))))
+
+(defun fedi--replace-region-contents (beg end replace-fun)
+  "Replace buffer contents from BEG to END with REPLACE-FUN.
+We roll our own `replace-region-contents' because it is as
+non-destructive as possible, whereas we need to always replace
+the whole likes count in order to propertize it fully."
+  (let ((json (fedi--property 'json)))
+    (save-excursion
+      (goto-char beg)
+      (delete-region beg end)
+      (insert
+       (funcall replace-fun json)))))
+
 (provide 'fedi)
 ;;; fedi.el ends here

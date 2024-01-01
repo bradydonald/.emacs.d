@@ -74,6 +74,10 @@
 	  (const :tag "Right" right)
           (const :tag "Bottom" bottom)))
 
+(defcustom org-side-tree-width nil
+  "When non-nil, sets width of side-tree window, in characters."
+  :type 'integer)
+
 (defcustom org-side-tree-persistent nil
   "When non-nil, use a single buffer for all trees.
 When nil, each Org buffer will have its own tree-buffer."
@@ -251,12 +255,14 @@ Prevents the side-tree window from closing when calling `delete-other-windows'."
     (switch-to-buffer (buffer-name))
     (display-buffer-in-side-window
      tree-buffer
-     `((side . ,org-side-tree-display-side)))
+     `((side . ,org-side-tree-display-side)
+       (window-width . ,org-side-tree-width)))
     (when (default-value 'org-side-tree-persistent)
       (setq-local org-side-tree-persistent
                   (buffer-name))
       (org-side-tree-update))
     (pop-to-buffer tree-buffer)
+    (setq window-size-fixed (when org-side-tree-width 'width))
     (pulse-momentary-highlight-one-line)
     (org-side-tree-go-to-heading heading)))
 

@@ -1,15 +1,15 @@
-(define-package "jinx" "20231221.1823" "Enchanted Spell Checker"
+(define-package "vertico" "20231229.1740" "VERTical Interactive COmpletion"
   '((emacs "27.1")
-    (compat "29.1.4.0"))
-  :commit "aa7ab4c4bd330204caf04e9a70dddecb38131a17" :authors
+    (compat "29.1.4.4"))
+  :commit "93f709d71e8908617a21ca469fd60123f5037ae4" :authors
   '(("Daniel Mendler" . "mail@daniel-mendler.de"))
   :maintainers
   '(("Daniel Mendler" . "mail@daniel-mendler.de"))
   :maintainer
   '("Daniel Mendler" . "mail@daniel-mendler.de")
   :keywords
-  '("convenience" "wp")
-  :url "https://github.com/minad/jinx")
+  '("convenience" "files" "matching" "completion")
+  :url "https://github.com/minad/vertico")
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
