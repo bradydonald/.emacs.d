@@ -12,19 +12,14 @@
 #+LATEX_HEADER: \usepackage{placeins}
 #+OPTIONS: toc:nil tags:nil num:nil
 #+COLUMNS: %25ITEM(Todo Item) %PRIORITY %SCHEDULED %DEADLINE
-#+ARCHIVE: ::* Archive
 
 * PROJECT: $1                                                           :project:
 
 $0
 
-* $1 Tasks
+** Task Summary
 
-* Task Summary
-
-  #+BEGIN: org-ql :query "todo:" :columns (todo (priority "P") ((property "agenda-group") "Group") deadline heading) :sort (deadline priority) :take 7 :ts-format "%Y-%m-%d %H:%M"
-  #+END:
-
-* Archive
+    #+BEGIN: org-ql :query "todo:" :columns (todo (priority "P") ((property "agenda-group") "Group") deadline heading) :sort (deadline priority) :take 7 :ts-format "%Y-%m-%d %H:%M"
+    #+END:
 
   
