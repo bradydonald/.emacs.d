@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: image
+# key: <im>
+# --
+#+attr_html: :width 800px
+#+attr_latex: :width 0.9\textwidth
+#+caption: ${1:caption of the image}
+[[file:${2:image_path}]]$0
