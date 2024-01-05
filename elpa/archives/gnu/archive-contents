@@ -1108,7 +1108,7 @@
 	       ("Markus Triska" . "triska@metalevel.at"))
 	      (:commit . "cfcdf9e42821d246b7fbc84877aa4ecacc184a1c"))])
  (eev .
-      [(20231226)
+      [(20240105)
        ((emacs
 	 (24 4)))
        "Support for e-scripts (eepitch blocks, elisp hyperlinks, etc)" tar
@@ -1117,7 +1117,7 @@
 	(:maintainer "Eduardo Ochs" . "eduardoochs@gmail.com")
 	(:authors
 	 ("Eduardo Ochs" . "eduardoochs@gmail.com"))
-	(:commit . "14c533f27170938db13bef52354136bf7cd9e52e"))])
+	(:commit . "2e57f21bc1e866deef17bfa3bb79da941d803682"))])
  (ef-themes .
 	    [(1 4 1)
 	     ((emacs
@@ -2057,7 +2057,7 @@
 	  (:url . "https://elpa.gnu.org/packages/jumpc.html")
 	  (:commit . "ab83a2a5416f83405361e25df8cbd8aab35cb8b3"))])
  (kind-icon .
-	    [(0 2 1)
+	    [(0 2 2)
 	     ((emacs
 	       (27 1))
 	      (svg-lib
@@ -2068,7 +2068,7 @@
 	      (:maintainer "J.D. Smith" . "jdtsmith@gmail.com")
 	      (:authors
 	       ("J.D. Smith" . "jdtsmith@gmail.com"))
-	      (:commit . "d432c947b218414621c9673b4ba8910ac129eef6"))])
+	      (:commit . "d8e73fea45cba968de0deed4b7985f5fdaafadfe"))])
  (kiwix .
 	[(1 1 5)
 	 ((emacs
@@ -4176,7 +4176,7 @@
 	     ("Daniel Mendler" . "mail@daniel-mendler.de"))
 	    (:commit . "f7aeda39df860ba1d82d0d94396f8bdeb13c4c8c"))])
  (vertico-posframe .
-		   [(0 7 5)
+		   [(0 7 6)
 		    ((emacs
 		      (26 0))
 		     (posframe
@@ -4189,7 +4189,7 @@
 		     (:maintainer "Feng Shu" . "tumashu@163.com")
 		     (:authors
 		      ("Feng Shu" . "tumashu@163.com"))
-		     (:commit . "15168c92ca06a39fbf84ac27d4e2ae02216300b5"))])
+		     (:commit . "bc0e67cbbba4daaf6ce7b8701a0dc7797d468752"))])
  (vigenere .
 	   [(1 0)
 	    ((emacs
@@ -4225,7 +4225,7 @@
 	(:maintainer "Andrey Kotlarski" . "m00naticus@gmail.com")
 	(:keywords "large files" "utilities"))])
  (vundo .
-	[(2 1 0)
+	[(2 2 0)
 	 ((emacs
 	   (28 1)))
 	 "Visual undo tree" tar
@@ -4234,7 +4234,7 @@
 	  (:maintainer "Yuan Fu" . "casouri@gmail.com")
 	  (:authors
 	   ("Yuan Fu" . "casouri@gmail.com"))
-	  (:commit . "ce986105a7819b288f57b381168605791aa4fcec"))])
+	  (:commit . "9f47232c6a5d357478bc979ef0908b307b08d1da"))])
  (wcheck-mode .
 	      [(2021)
 	       nil "General interface for text checkers" tar
