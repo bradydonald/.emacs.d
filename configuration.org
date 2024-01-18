@@ -186,6 +186,7 @@
     (use-package golden-ratio)      ;; resize windows
     (use-package spacious-padding)
     (use-package exec-path-from-shell) ;; MacOS
+    (use-package wc-mode)
   #+END_SRC
 
 * Visual Appearance
@@ -281,14 +282,24 @@
 
   #+END_SRC
 
-* Jinx Spell Checker
+* Writing Tools
+  
+** Word Count Mode
 
-  #+BEGIN_SRC emacs-lisp
-    (use-package jinx
-      :hook (emacs-startup . global-jinx-mode)
-      :bind (("M-$" . jinx-correct)
-             ("C-M-$" . jinx-languages)))    
-  #+END_SRC
+   Not used a lot but sometimes handy
+   
+   #+BEGIN_SRC emacs-lisp
+     (require 'wc-mode)
+   #+END_SRC
+
+** Jinx Spell Checker
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package jinx
+       :hook (emacs-startup . global-jinx-mode)
+       :bind (("M-$" . jinx-correct)
+              ("C-M-$" . jinx-languages)))    
+   #+END_SRC
 
 * OS Specific Setups
 ** Windows Specific Setup
