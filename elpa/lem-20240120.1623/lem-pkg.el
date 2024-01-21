@@ -1,8 +1,8 @@
-(define-package "lem" "20240106.1022" "A basic lemmy client"
+(define-package "lem" "20240120.1623" "A basic lemmy client"
   '((emacs "29.1")
     (fedi "0.1")
     (markdown-mode "2.5"))
-  :commit "3cdbdb1c1b677ad8337dfbe053f497e9ea3500a6" :authors
+  :commit "f8e732cad5c2b910d51cbcd91bbceba480bc468d" :authors
   '(("martian hiatus <martianhiatus [a t] riseup [d o t] net>"))
   :maintainers
   '(("martian hiatus <martianhiatus [a t] riseup [d o t] net>"))

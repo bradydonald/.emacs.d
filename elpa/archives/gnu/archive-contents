@@ -1221,7 +1221,7 @@
 		     (:url . "https://elpa.gnu.org/packages/elisp-benchmarks.html")
 		     (:commit . "70e38dbfa8f4acbdebfd0f417410d99f5031e05f"))])
  (ellama .
-	 [(0 5 7)
+	 [(0 7 0)
 	  ((emacs
 	    (28 1))
 	   (llm
@@ -1234,7 +1234,7 @@
 	   (:maintainer "Sergey Kostyaev" . "sskostyaev@gmail.com")
 	   (:authors
 	    ("Sergey Kostyaev" . "sskostyaev@gmail.com"))
-	   (:commit . "08cfa5440d95d00747eb3e078a4bc67972e1bfe3"))])
+	   (:commit . "8bab25150a054c67bd49ca9707ccdedcadcbcd2b"))])
  (emacs-gc-stats .
 		 [(1 4 2)
 		  ((emacs
@@ -2179,7 +2179,7 @@
 	 ("Protesilaos Stavrou" . "info@protesilaos.com"))
 	(:commit . "09cf249c78385502a2ead30c4fa1468cf96939f7"))])
  (llm .
-      [(0 8 0)
+      [(0 9 0)
        ((emacs
 	 (28 1)))
        "Interface to pluggable llm backends" tar
@@ -2187,7 +2187,7 @@
 	(:maintainer "Andrew Hyatt" . "ahyatt@gmail.com")
 	(:authors
 	 ("Andrew Hyatt" . "ahyatt@gmail.com"))
-	(:commit . "dac199a3dd43cf70d69f9cb042191ca89ef07445"))])
+	(:commit . "8fc2d1cb41ed8850696ee1ce549158496e437cda"))])
  (lmc .
       [(1 4)
        ((emacs
