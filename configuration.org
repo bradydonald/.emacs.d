@@ -301,6 +301,16 @@
               ("C-M-$" . jinx-languages)))    
    #+END_SRC
 
+** Better Expansions
+
+   #+BEGIN_SRC emacs-lisp
+     (defun db/expand-abbrev-or-dynamic ()
+     "Try to expand Emacs abbrev; if it fails, try dynamic abbrev."
+     (interactive)
+     (or (expand-abbrev)
+         (dabbrev-expand nil)))
+   #+END_SRC
+
 * OS Specific Setups
 ** Windows Specific Setup
 *** WSL to use Windows Native Browser
@@ -1511,6 +1521,9 @@
     (global-set-key (kbd "C-x C-b") 'ibuffer)
     (global-set-key (kbd "<f12>") 'bury-buffer) ;; F12 on logi keybpard
     (global-set-key (kbd "C-c M-l") 'global-display-line-numbers-mode)
+
+    ;; expansions
+    (global-set-key (kbd "M-/") 'db/expand-abbrev-or-dynamic)
 
   #+END_SRC
 
