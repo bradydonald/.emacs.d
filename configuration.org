@@ -304,6 +304,9 @@
 ** Better Expansions
 
    #+BEGIN_SRC emacs-lisp
+
+     (setq-default abbrev-mode t)
+
      (defun db/expand-abbrev-or-dynamic ()
      "Try to expand Emacs abbrev; if it fails, try dynamic abbrev."
      (interactive)
