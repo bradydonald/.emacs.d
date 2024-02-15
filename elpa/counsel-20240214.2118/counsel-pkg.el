@@ -1,13 +1,13 @@
-(define-package "counsel" "20231025.2311" "Various completion functions using Ivy"
+(define-package "counsel" "20240214.2118" "Various completion functions using Ivy"
   '((emacs "24.5")
     (ivy "0.14.2")
     (swiper "0.14.2"))
-  :commit "8c30f4cab5948aa8d942a3b2bbf5fb6a94d9441d" :authors
+  :commit "749ac1235a7948011cb0caddd4c31037e3314614" :authors
   '(("Oleh Krehel" . "ohwoeowho@gmail.com"))
   :maintainers
-  '(("Basil L. Contovounesios" . "contovob@tcd.ie"))
+  '(("Basil L. Contovounesios" . "basil@contovou.net"))
   :maintainer
-  '("Basil L. Contovounesios" . "contovob@tcd.ie")
+  '("Basil L. Contovounesios" . "basil@contovou.net")
   :keywords
   '("convenience" "matching" "tools")
   :url "https://github.com/abo-abo/swiper")

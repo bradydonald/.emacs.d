@@ -15,9 +15,10 @@
 Convert BUFFER to HTML, preserving colors and decorations.
 
 The generated HTML is available in a new buffer, which is returned.
-When invoked interactively, the new buffer is selected in the current
-window.  The title of the generated document will be set to the buffer's
-file name or, if that's not available, to the buffer's name.
+When invoked interactively (or if optional INTERACTIVE is non-nil),
+the new buffer is selected in the current window.  The title of the
+generated document will be set to the buffer's file name or, if that
+is not available, to the buffer's name.
 
 Note that htmlize doesn't fontify your buffers, it only uses the
 decorations that are already present.  If you don't set up font-lock or
@@ -25,12 +26,12 @@ something else to fontify your buffers, the resulting HTML will be
 plain.  Likewise, if you don't like the choice of colors, fix the mode
 that created them, or simply alter the faces it uses.
 
-(fn &optional BUFFER)" t)
+(fn &optional BUFFER INTERACTIVE)" t)
 (autoload 'htmlize-region "htmlize" "\
 Convert the region to HTML, preserving colors and decorations.
 See `htmlize-buffer' for details.
 
-(fn BEG END)" t)
+(fn BEG END &optional INTERACTIVE)" t)
 (autoload 'htmlize-file "htmlize" "\
 Load FILE, fontify it, convert it to HTML, and save the result.
 

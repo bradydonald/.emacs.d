@@ -464,7 +464,7 @@ External commands are: `projectile-configure-project',
 `projectile-install-project', `projectile-package-project',
 and `projectile-run-project'.
 
-If the prefix argument SHOW_PROMPT is non nil, the command can be edited.
+If the prefix argument SHOW-PROMPT is non nil, the command can be edited.
 
 (fn SHOW-PROMPT)" t)
 (autoload 'projectile-switch-project "projectile" "\

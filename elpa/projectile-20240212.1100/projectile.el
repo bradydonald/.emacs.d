@@ -224,8 +224,6 @@ When nil Projectile will consider the current directory the project root."
   :group 'projectile
   :type 'string)
 
-(make-obsolete-variable 'projectile-keymap-prefix "Use (define-key projectile-mode-map (kbd ...) 'projectile-command-map) instead." "2.0.0")
-
 (defcustom projectile-cache-file
   (expand-file-name "projectile.cache" user-emacs-directory)
   "The name of Projectile's cache file."
@@ -1467,9 +1465,6 @@ IGNORED-DIRECTORIES may optionally be provided."
       (nconc (projectile-files-via-ext-command directory (projectile-get-ext-command vcs))
              (projectile-get-sub-projects-files directory vcs)))
      (t (projectile-files-via-ext-command directory (projectile-get-ext-command vcs))))))
-
-(define-obsolete-function-alias 'projectile-dir-files-external 'projectile-dir-files-alien "2.0.0")
-(define-obsolete-function-alias 'projectile-get-repo-files 'projectile-dir-files-alien "2.0.0")
 
 (defun projectile-get-ext-command (vcs)
   "Determine which external command to invoke based on the project's VCS.
@@ -3617,7 +3612,7 @@ Normally you'd set this from .dir-locals.el.")
 When DIR is specified it detects its project type, otherwise it acts
 on the current project.
 
-Fallsback to a generic project type when the type can't be determined."
+Fallback to a generic project type when the type can't be determined."
   (let ((project-type
          (or (car (cl-find-if
                    (lambda (project-type-record)
@@ -5410,7 +5405,7 @@ External commands are: `projectile-configure-project',
 `projectile-install-project', `projectile-package-project',
 and `projectile-run-project'.
 
-If the prefix argument SHOW_PROMPT is non nil, the command can be edited."
+If the prefix argument SHOW-PROMPT is non nil, the command can be edited."
   (interactive "P")
   (let* ((project-root (projectile-acquire-root))
          (command-history (projectile--get-command-history project-root))
@@ -5430,7 +5425,7 @@ If the prefix argument SHOW_PROMPT is non nil, the command can be edited."
 (defun compilation-find-file-projectile-find-compilation-buffer (orig-fun marker filename directory &rest formats)
   "Advice around compilation-find-file.
 We enhance its functionality by appending the current project's directories
-to its search path. This way when filenames in compilation buffers can't be
+to its search path.  This way when filenames in compilation buffers can't be
 found by compilation's normal logic they are searched for in project
 directories."
   ; If the file already exists, don't bother running the extra logic as the project directories might be massive (i.e. Unreal-sized).
@@ -5994,7 +5989,7 @@ If the current buffer does not belong to a project, call `previous-buffer'."
 
 
 ;;; Projectile Minor mode
-(define-obsolete-variable-alias 'projectile-mode-line-lighter 'projectile-mode-line-prefix "0.12.0")
+
 (defcustom projectile-mode-line-prefix
   " Projectile"
   "Mode line lighter prefix for Projectile.
