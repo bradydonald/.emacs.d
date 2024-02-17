@@ -448,6 +448,16 @@
     )
 
   #+END_SRC
+  
+* Marginalia
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package marginalia
+      :ensure t
+      :config
+      (marginalia-mode 1))
+  #+END_SRC
+
 * Orderless
 
   When searching order does not matter making it easier to find things. 
@@ -455,7 +465,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package orderless
       :config
-      (setq completion-styles '(orderless)))
+      (setq completion-styles '(orderless basic)))
   #+END_SRC
 
 * Swiper
@@ -1148,18 +1158,6 @@
 
    #+END_SRC
 
-* Elfeed with xwidgets
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package elfeed-webkit
-       :init
-       (setq elfeed-webkit-auto-tags '(webkit comics))
-       :config
-       (elfeed-webkit-auto-enable-by-tag)
-       :bind (:map elfeed-show-mode-map
-                   ("t" . elfeed-webkit-toggle)))
-  #+END_SRC
-
 * Org Habit Stats
 
   Comprehensive [[https://github.com/ml729/org-habit-stats][stats on your habits]].
@@ -1551,3 +1549,7 @@
     (unless (server-running-p) (server-start))
   #+END_SRC
 
+
+# Local Variables:
+# jinx-local-words: "Avy Dired Elfeed Lemmy Orderless Swiper Vertico Yas"
+# End:
