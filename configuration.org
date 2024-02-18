@@ -727,7 +727,8 @@
      
    #+END_SRC
 
-   Use org-super-agenda
+   
+** Super Agenda
 
    #+BEGIN_SRC emacs-lisp
      (require 'org-super-agenda)
@@ -757,6 +758,9 @@
               ;;                                       :not (:regexp "moon" :tag "planet")))))
               ;; Groups supply their own section names when none are given
               (:todo "WAITING" :order 8)  ; Set order of this section
+              (:name "threev" :tag "threev")
+              (:name "srv" :tag "shiftright")
+              (:name "rpr" :tag "rpr")
               (:name "Errands" :tag "errand")
               (:name "Calls" :tag "call")
               (:todo ("EVENT" "INFO" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")

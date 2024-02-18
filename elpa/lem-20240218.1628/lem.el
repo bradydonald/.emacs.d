@@ -166,7 +166,9 @@ Uses `cursor-face-highlight-mode'."
     (define-key map (kbd "I") #'lem-ui-view-instance)
     (define-key map (kbd "C") #'lem-ui-view-communities-tl)
     (define-key map (kbd "s") #'lem-ui-jump-to-subscribed)
-    (define-key map (kbd "P") #'lem-ui-view-user-at-point)
+    (define-key map (kbd "P") #'lem-ui-view-item-user)
+    (define-key map (kbd "u") #'lem-ui-view-item-user)
+    (define-key map (kbd "c") #'lem-ui-view-item-community)
     (define-key map (kbd "O") #'lem-ui-view-own-profile)
     (define-key map (kbd "A") #'lem-ui-view-saved-items)
     (define-key map (kbd "h") #'lem-ui-search)
@@ -177,8 +179,6 @@ Uses `cursor-face-highlight-mode'."
     (define-key map (kbd "r") #'lem-post-comment) ; Reply
     (define-key map (kbd "N") #'lem-post-compose) ; New
     (define-key map (kbd "l") #'lem-ui-like-item-toggle)
-    (define-key map (kbd "u") #'lem-ui-view-item-user)
-    (define-key map (kbd "c") #'lem-ui-view-item-community)
     (define-key map (kbd "d") #'lem-ui-delete-post-or-comment)
     (define-key map (kbd "e") #'lem-post-edit-post-or-comment)
     (define-key map (kbd "/") #'lem-switch-to-buffer)
@@ -197,12 +197,21 @@ Load current user's instance posts."
     (lem-login-set-token))
   (lem-ui-view-instance lem-default-listing-type lem-default-sort-type))
 
+(defcustom lem-encrypt-auth-tokens nil
+  "Whether to encrypt the user's authentication token in the plstore.
+If you set this to non-nil, you also likely need to set
+`plstore-encrypt-to' to your GPG key ID for decryption.
+If you change the value of this variable, you need to also delete
+the file ~/.emacs.d/lem.plstore and log in again.")
+
 (defun lem-auth-store-token (username token)
   "Store lemmy jwt TOKEN for USERNAME."
   (let ((plstore (plstore-open lem-auth-file))
         (print-length nil)
         (print-level nil))
-    (plstore-put plstore username nil `(:jwt ,token))
+    (if lem-encrypt-auth-tokens
+        (plstore-put plstore username nil `(:jwt ,token))
+      (plstore-put plstore username `(:jwt ,token) nil))
     (plstore-save plstore)
     (plstore-close plstore)))
 
