@@ -314,6 +314,12 @@
          (dabbrev-expand nil)))
    #+END_SRC
 
+** Lorem Ipsum
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package lorem-ipsum)
+   #+END_SRC
+
 * OS Specific Setups
 ** Windows Specific Setup
 *** WSL to use Windows Native Browser
@@ -727,7 +733,6 @@
      
    #+END_SRC
 
-   
 ** Super Agenda
 
    #+BEGIN_SRC emacs-lisp
@@ -1526,6 +1531,9 @@
     (global-set-key (kbd "C-x C-b") 'ibuffer)
     (global-set-key (kbd "<f12>") 'bury-buffer) ;; F12 on logi keybpard
     (global-set-key (kbd "C-c M-l") 'global-display-line-numbers-mode)
+
+    ;; allow clocking out from anywhere regardless of mode
+    (global-set-key (kbd "C-c C-x C-o") 'org-clock-out)
 
     ;; expansions
     (global-set-key (kbd "M-/") 'db/expand-abbrev-or-dynamic)
