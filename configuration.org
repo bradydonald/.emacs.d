@@ -1259,6 +1259,43 @@
 
   #+END_SRC
 
+  
+* GPTEL
+
+  Gptel is a "chat-gpt" interface supporting multiple models / back ends. Since
+  I am being a cheapskate I am going to use it with Ollama / Mistral latest
+  running locally.
+
+  This is MacOS specific install instructions with a curl based test. 
+  #+BEGIN_EXAMPLE
+    brew install ollama
+    launchctl setenv OLLAMA_HOST "0.0.0.0"
+    ollama pull mistral:latest
+    ollma run mistral
+
+    curl -X POST http://localhost:11434/api/generate -d '{
+      "model": "mistral",
+      "prompt":"Here is a story about llamas eating grass"
+    }'
+  #+END_EXAMPLE
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package gptel)
+
+    (gptel-make-ollama "Ollama"             ;Any name of your choosing
+      :host "localhost:11434"               ;Where it's running
+      :stream t                             ;Stream responses
+      :models '("mistral:latest"))          ;List of models
+
+    (setq-default
+     gptel-model "mistral:latest"
+     gptel-backend (gptel-make-ollama "Ollama"
+                     :host "localhost:11434"
+                     :stream t
+                     :models '("mistral:latest")))    
+
+  #+END_SRC
+
 * Hydra
 
   Starting to use Hydra for better navigation options and rusty memory when
