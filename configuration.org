@@ -1262,7 +1262,7 @@
   
 * GPTEL
 
-  Gptel is a "chat-gpt" interface supporting multiple models / back ends. Since
+  [[https://github.com/karthink/gptel][Gptel]] is a "chat-gpt" interface supporting multiple models / back ends. Since
   I am being a cheapskate I am going to use it with Ollama / Mistral latest
   running locally.
 
@@ -1279,6 +1279,8 @@
     }'
   #+END_EXAMPLE
 
+  Configure it for [[https://ollama.com/][Ollama]]
+  
   #+BEGIN_SRC emacs-lisp
     (use-package gptel)
 
