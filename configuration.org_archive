@@ -2837,3 +2837,23 @@ Archived entries from file /home/d/.emacs.d/configuration.org
                    ("t" . elfeed-webkit-toggle)))
   #+END_SRC
 
+
+* ChatGPT Integration as a Shell
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2024-03-06 Wed 10:24
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Using https://github.com/xenodium/chatgpt-shell
+
+  #+BEGIN_SRC emacs-lisp
+
+    (use-package chatgpt-shell
+      :ensure t
+      :config
+      (setq chatgpt-shell-openai-key
+            (auth-source-pick-first-password :host "api.openai.com")))
+
+  #+END_SRC
+

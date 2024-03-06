@@ -1245,21 +1245,6 @@
        (global-git-gutter-mode t))
    #+END_SRC
 
-* ChatGPT Integration as a Shell
-
-  Using https://github.com/xenodium/chatgpt-shell
-
-  #+BEGIN_SRC emacs-lisp
-
-    (use-package chatgpt-shell
-      :ensure t
-      :config
-      (setq chatgpt-shell-openai-key
-            (auth-source-pick-first-password :host "api.openai.com")))
-
-  #+END_SRC
-
-  
 * GPTEL
 
   [[https://github.com/karthink/gptel][Gptel]] is a "chat-gpt" interface supporting multiple models / back ends. Since
