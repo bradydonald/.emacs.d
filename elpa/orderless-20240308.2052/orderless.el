@@ -1,6 +1,6 @@
 ;;; orderless.el --- Completion style for matching regexps in any order  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021  Free Software Foundation, Inc.
+;; Copyright (C) 2021-2024 Free Software Foundation, Inc.
 
 ;; Author: Omar Antolín Camarena <omar@matem.unam.mx>
 ;; Maintainer: Omar Antolín Camarena <omar@matem.unam.mx>
@@ -89,7 +89,7 @@
     (t :foreground "yellow"))
   "Face for matches of components numbered 3 mod 4.")
 
-(defcustom orderless-component-separator " +"
+(defcustom orderless-component-separator #'orderless-escapable-split-on-space
   "Component separators for orderless completion.
 This can either be a string, which is passed to `split-string',
 or a function of a single string argument."
@@ -627,17 +627,17 @@ This function delegates to `orderless-%s'.
 The orderless configuration is locally modified
 specifically for the %s style.")
          (fn-doc (lambda (fn) (format doc-fmt fn name fn name name))))
-  `(progn
-     (defun ,try-completion (string table pred point)
-       ,(funcall fn-doc "try-completion")
-       (let ,configuration
-         (orderless-try-completion string table pred point)))
-     (defun ,all-completions (string table pred point)
-       ,(funcall fn-doc "all-completions")
-       (let ,configuration
-         (orderless-all-completions string table pred point)))
-     (add-to-list 'completion-styles-alist
-                  '(,name ,try-completion ,all-completions ,docstring)))))
+    `(progn
+       (defun ,try-completion (string table pred point)
+         ,(funcall fn-doc "try-completion")
+         (let ,configuration
+           (orderless-try-completion string table pred point)))
+       (defun ,all-completions (string table pred point)
+         ,(funcall fn-doc "all-completions")
+         (let ,configuration
+           (orderless-all-completions string table pred point)))
+       (add-to-list 'completion-styles-alist
+                    '(,name ,try-completion ,all-completions ,docstring)))))
 
 ;;; Ivy integration
 
