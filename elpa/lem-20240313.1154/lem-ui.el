@@ -814,10 +814,11 @@ VALUE is a string, a member of TYPE."
                                  (symbol-name value)
                                value)))
          (type-list (eval type))
-         (longest (cl-reduce #'max (if (symbolp (car type-list))
-                                       (mapcar #'length
-                                               (mapcar #'symbol-name type-list))
-                                     (mapcar #'length type-list))))
+         (longest (apply #'max
+                         (mapcar #'length
+                                 (if (symbolp (car type-list))
+                                     (mapcar #'symbol-name type-list)
+                                   type-list))))
          (padding (- longest val-length)))
     (if (not (member value type-list))
         (error "%s is not a member of %s" value type-list)
@@ -2385,6 +2386,7 @@ and recreated."
       ;; position of the old one, when we fold with point in the comment body
       ;; (save-excursion
       ;; (goto-char pos)
+      (beginning-of-line)
       (widget-default-create w2))))
 
 (defun lem-ui-widget-fold-notify-fun (&optional old-value)

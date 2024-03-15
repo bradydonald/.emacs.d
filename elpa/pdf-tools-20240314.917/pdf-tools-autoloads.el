@@ -215,6 +215,8 @@ evaluate `pdf-misc-minor-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
+\\{pdf-misc-minor-mode-map}
+
 (fn &optional ARG)" t)
 (autoload 'pdf-misc-size-indication-minor-mode "pdf-misc" "\
 Provide a working size indication in the mode-line.
@@ -252,6 +254,8 @@ evaluate `pdf-misc-menu-bar-minor-mode'.
 
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
+
+\\{pdf-misc-menu-bar-minor-mode-map}
 
 (fn &optional ARG)" t)
 (autoload 'pdf-misc-context-menu-minor-mode "pdf-misc" "\
@@ -349,6 +353,8 @@ evaluate `pdf-occur-ibuffer-minor-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
+\\{pdf-occur-ibuffer-minor-mode-map}
+
 (fn &optional ARG)" t)
 (autoload 'pdf-occur-dired-minor-mode "pdf-occur" "\
 Hack into dired's `dired-do-search' binding.
@@ -372,6 +378,8 @@ evaluate `pdf-occur-dired-minor-mode'.
 
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
+
+\\{pdf-occur-dired-minor-mode-map}
 
 (fn &optional ARG)" t)
 (register-definition-prefixes "pdf-occur" '("pdf-occur-"))

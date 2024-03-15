@@ -92,7 +92,7 @@ alist, like:
 KEY is a variable whose value is the API key, or function that
 returns the key.
 
-(fn NAME &key CURL-ARGS STREAM KEY (HEADER (lambda nil (when-let (key (gptel--get-api-key)) \\=`((\"x-api-key\" \\=\\, key) (\"anthropic-version\" . \"2023-06-01\"))))) (MODELS \\='(\"claude-3-sonnet-20240229\" \"claude-3-opus-20240229\")) (HOST \"api.anthropic.com\") (PROTOCOL \"https\") (ENDPOINT \"/v1/messages\"))")
+(fn NAME &key CURL-ARGS STREAM KEY (HEADER (lambda nil (when-let (key (gptel--get-api-key)) \\=`((\"x-api-key\" \\=\\, key) (\"anthropic-version\" . \"2023-06-01\"))))) (MODELS \\='(\"claude-3-sonnet-20240229\" \"claude-3-haiku-20240307\" \"claude-3-opus-20240229\")) (HOST \"api.anthropic.com\") (PROTOCOL \"https\") (ENDPOINT \"/v1/messages\"))")
 (function-put 'gptel-make-anthropic 'lisp-indent-function 1)
 
 
@@ -102,7 +102,7 @@ returns the key.
 Retrieve response to prompt in INFO.
 
 INFO is a plist with the following keys:
-- :prompt (the prompt being sent)
+- :data (the data being sent)
 - :buffer (the gptel buffer)
 - :position (marker at which to insert the response).
 
@@ -336,6 +336,7 @@ Example:
  :protocol \"http\"
  :host \"localhost:4891\"
  :models \\='(\"mistral-7b-openorca.Q4_0.gguf\"))")
+(register-definition-prefixes "gptel-openai" '("gptel--json-"))
 
 
 ;;; Generated autoloads from gptel-transient.el

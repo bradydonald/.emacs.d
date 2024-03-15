@@ -1,8 +1,8 @@
-(define-package "gptel" "20240311.402" "Interact with ChatGPT or other LLMs"
+(define-package "gptel" "20240315.554" "Interact with ChatGPT or other LLMs"
   '((emacs "27.1")
     (transient "0.4.0")
     (compat "29.1.4.1"))
-  :commit "3935a6dcf82389f9112473a7662e0ad802b124e8" :authors
+  :commit "7d19874d4c30807b60999532dad8eb60383c16b3" :authors
   '(("Karthik Chikmagalur"))
   :maintainers
   '(("Karthik Chikmagalur"))
