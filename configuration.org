@@ -1244,6 +1244,11 @@
        (setq git-gutter:deleted-sign "|")
        (global-git-gutter-mode t))
    #+END_SRC
+** Dockerfile Mode
+   #+BEGIN_SRC emacs-lisp
+     (use-package dockerfile-mode)
+     (put 'dockerfile-image-name 'safe-local-variable #'stringp)
+   #+END_SRC
 
 * GPTEL
 
