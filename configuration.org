@@ -1250,6 +1250,17 @@
      (put 'dockerfile-image-name 'safe-local-variable #'stringp)
    #+END_SRC
 
+** Treesit-auto
+
+   Treesit auto mode uses the tree sitter major modes if they are available. If
+   they can't be used falls back to the default major mode.
+   
+   #+BEGIN_SRC emacs-lisp
+     (use-package treesit-auto
+       :config
+       (global-treesit-auto-mode))
+   #+END_SRC
+
 * GPTEL
 
   [[https://github.com/karthink/gptel][Gptel]] is a "chat-gpt" interface supporting multiple models / back ends. Since
