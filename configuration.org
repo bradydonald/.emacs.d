@@ -1248,11 +1248,19 @@
        (setq git-gutter:deleted-sign "|")
        (global-git-gutter-mode t))
    #+END_SRC
-** Dockerfile Mode
-   #+BEGIN_SRC emacs-lisp
-     (use-package dockerfile-mode)
-     (put 'dockerfile-image-name 'safe-local-variable #'stringp)
-   #+END_SRC
+** Docker
+*** Docker Integration
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package docker
+        :ensure t
+        :bind ("C-c d" . docker))
+    #+END_SRC
+*** Dockerfile Mode
+    #+BEGIN_SRC emacs-lisp
+      (use-package dockerfile-mode)
+      (put 'dockerfile-image-name 'safe-local-variable #'stringp)
+    #+END_SRC
 
 ** Treesit-auto
 
@@ -1265,6 +1273,14 @@
        (global-treesit-auto-mode))
    #+END_SRC
 
+** Casual
+
+   Makes calc a little easier to use.
+   
+   #+BEGIN_SRC emacs-lisp
+     (use-package casual)
+     (define-key calc-mode-map (kbd "C-o") 'casual-main-menu)
+   #+END_SRC
 * GPTEL
 
   [[https://github.com/karthink/gptel][Gptel]] is a "chat-gpt" interface supporting multiple models / back ends. Since
