@@ -473,7 +473,6 @@
       (marginalia-mode 1))
   #+END_SRC
 
-  
 * Embark
 
   #+BEGIN_SRC emacs-lisp
@@ -820,6 +819,7 @@
               (:name "srv" :tag "shiftright")
               (:name "rpr" :tag "rpr")
               (:name "Errands" :tag "errand")
+              (:name "Chores" :tag "chore")
               (:name "Calls" :tag "call")
               (:todo ("EVENT" "INFO" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
                      ;; Show this group at the end of the agenda (since it has the
