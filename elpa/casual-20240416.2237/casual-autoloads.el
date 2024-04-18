@@ -19,6 +19,16 @@
 (register-definition-prefixes "casual-calc" '("casual-"))
 
 
+;;; Generated autoloads from casual-calc-algebra.el
+
+(register-definition-prefixes "casual-calc-algebra" '("casual-"))
+
+
+;;; Generated autoloads from casual-fileio.el
+
+(register-definition-prefixes "casual-fileio" '("casual-"))
+
+
 ;;; Generated autoloads from casual-financial.el
 
 (register-definition-prefixes "casual-financial" '("casual--fin-"))
@@ -46,7 +56,7 @@
 
 ;;; Generated autoloads from casual-settings.el
 
-(register-definition-prefixes "casual-settings" '("casual-about"))
+(register-definition-prefixes "casual-settings" '("casual-"))
 
 
 ;;; Generated autoloads from casual-stack.el

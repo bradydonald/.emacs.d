@@ -1,6 +1,6 @@
-(define-package "casual" "20240405.1932" "Transient UI for Calc"
+(define-package "casual" "20240416.2237" "Transient UI for Calc"
   '((emacs "29.1"))
-  :commit "2d754a95f6d76ced2f4b191511b6078e8d020b9b" :authors
+  :commit "a22cf128c3baa3e11f6aaff7dc44ef91cf0fe9ce" :authors
   '(("Charles Choi" . "kickingvegas@gmail.com"))
   :maintainers
   '(("Charles Choi" . "kickingvegas@gmail.com"))
