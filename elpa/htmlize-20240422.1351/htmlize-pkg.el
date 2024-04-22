@@ -1,6 +1,6 @@
-(define-package "htmlize" "20240212.1001" "Convert buffer text and decorations to HTML."
+(define-package "htmlize" "20240422.1351" "Convert buffer text and decorations to HTML."
   '((emacs "25.1"))
-  :commit "09d43dfa44899f194095bb3500a45ec5b34d59c6" :authors
+  :commit "54ac89c5edc7a83344cf51d8be08e1e701f88863" :authors
   '(("Hrvoje Niksic" . "hniksic@gmail.com"))
   :maintainers
   '(("Hrvoje Niksic" . "hniksic@gmail.com"))

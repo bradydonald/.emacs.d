@@ -5,7 +5,7 @@
 ;; Author: Robb Enzmann <robbenzmann@gmail.com>
 ;; Keywords: treesitter auto automatic major mode fallback convenience
 ;; URL: https://github.com/renzmann/treesit-auto.git
-;; Version: 1.0.5
+;; Version: 1.0.6
 ;; Package-Requires: ((emacs "29.0"))
 
 ;; This file is not part of GNU Emacs.
@@ -150,7 +150,7 @@ by manipulating the `treesit-auto-recipe-list' variable."
       :ts-mode 'dockerfile-ts-mode
       :remap 'dockerfile-mode
       :url "https://github.com/camdencheek/tree-sitter-dockerfile"
-      :ext "\\Dockerfile\\'")
+      :ext "[/\\]\\(?:Containerfile\\|Dockerfile\\)\\(?:\\.[^/\\]*\\)?\\'")
     ,(make-treesit-auto-recipe
       :lang 'elixir
       :ts-mode 'elixir-ts-mode

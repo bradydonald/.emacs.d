@@ -28,8 +28,6 @@ evaluate `gptel-mode'.
 The mode's hook is called both when the mode is enabled and when
 it is disabled.
 
-\\{gptel-mode-map}
-
 (fn &optional ARG)" t)
 (autoload 'gptel-send "gptel" "\
 Submit this prompt to the current LLM backend.
