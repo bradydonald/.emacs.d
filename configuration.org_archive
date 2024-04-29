@@ -2857,3 +2857,16 @@ Archived entries from file /home/d/.emacs.d/configuration.org
 
   #+END_SRC
 
+
+* Golden Ratio
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2024-04-29 Mon 10:58
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_OLPATH: Visual Appearance
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  #+BEGIN_SRC emacs-lisp
+    (golden-ratio-mode)
+  #+END_SRC
+   

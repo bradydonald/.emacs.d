@@ -187,7 +187,6 @@
     (use-package magit)           ;; git chrome
     (use-package mpv)             ;; video player support
     (use-package eat)             ;; eat terminal
-    (use-package golden-ratio)      ;; resize windows
     (use-package spacious-padding)
     (use-package exec-path-from-shell) ;; MacOS
     (use-package wc-mode)
@@ -268,12 +267,6 @@
      (spacious-padding-mode 1)
    #+END_SRC
 
-** Golden Ratio
-
-   #+BEGIN_SRC emacs-lisp
-     (golden-ratio-mode)
-   #+END_SRC
-   
 ** Transparency
 
    This is useful if taking org meeting notes and you want to see peoples faces
