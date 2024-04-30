@@ -1640,6 +1640,9 @@
     ;; expansions
     (global-set-key (kbd "M-/") 'db/expand-abbrev-or-dynamic)
 
+    ;; Freestyle 2 Keyboard for Map special bindings
+    (global-set-key (kbd "M-<kp-delete>") 'backward-kill-word)
+
   #+END_SRC
 
 * Load any other custom lisp code in lisp directory
