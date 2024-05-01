@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/spacious-padding
-;; Version: 0.4.1
+;; Version: 0.5.0
 ;; Package-Requires: ((emacs "28.1"))
 ;; Keywords: convenience, focus, writing, presentation
 
@@ -96,7 +96,9 @@ following:
   point to the header-line, mode-line, and scroll-bar,
   respectively.
 
-For the technicalities, read Info node `(elisp) Frame Layout'."
+For the technicalities, read Info node `(elisp) Frame Layout'.
+
+When the value is nil, fall back to reasonable defaults."
   :type '(plist
           :key-type (choice (const :internal-border-width)
                             (const :right-divider-width)
@@ -197,6 +199,15 @@ Examples of valid configurations:
   '(tab-line tab-line-tab tab-line-tab-inactive)
   "Tab faces relevant to `spacious-padding-mode'.")
 
+(defun spacious-padding--get-right-divider-width (&optional no-fallback)
+  "Get the width of window divider.
+With optional NO-FALLBACK return nil if there is no value.  Else return
+a reasonable fallback value."
+  (cond
+   ((plist-get spacious-padding-widths :right-divider-width))
+   (no-fallback nil)
+   (t 30)))
+
 (defun spacious-padding--get-box-width (key &optional no-fallback)
   "Get width for :box of face represented by KEY in `spacious-padding-widths'.
 Return 4 if KEY does not have a value.  If optional NO-FALLBACK
@@ -258,11 +269,21 @@ overline."
   "Set window divider FACE to COLOR its width is greater than 1."
   (list
    face
-   `((t ,(when (> (plist-get spacious-padding-widths :right-divider-width) 1)
-           (list :background color :foreground color))))))
+   `((t
+      ,(when (> (spacious-padding--get-right-divider-width) 1)
+         (list :background color :foreground color))))))
 
-(defun spacious-padding-set-invisible-dividers (_theme)
-  "Make window dividers for THEME invisible."
+(define-obsolete-function-alias
+  'spacious-padding-set-invisible-dividers
+  'spacious-padding-set-faces
+  "0.5.0")
+
+;;;###autoload
+(defun spacious-padding-set-faces (&rest _)
+  "Make window dividers invisible and add padding.
+Ignore any arguments.  This is useful to add the function to abnormal
+hooks that pass one or more arguments to it, such as
+`after-make-frame-functions'."
   (let ((bg-main (face-background 'default))
         (fg-main (face-foreground 'default)))
     (custom-set-faces
@@ -358,14 +379,14 @@ parameter value."
         (plist-get spacious-padding-widths ,(intern (concat ":" parameter))))
       ,fallback)))
 
-(spacious-padding--define-get-frame-param "internal-border-width" 0)
-(spacious-padding--define-get-frame-param "right-divider-width" 1)
+(spacious-padding--define-get-frame-param "internal-border-width" 15)
+(spacious-padding--define-get-frame-param "right-divider-width" 30)
 (spacious-padding--define-get-frame-param "fringe-width" 8)
 (spacious-padding--define-get-frame-param "left-fringe-width" nil)
 (spacious-padding--define-get-frame-param "right-fringe-width" nil)
-(spacious-padding--define-get-frame-param "scroll-bar-width" 16)
+(spacious-padding--define-get-frame-param "scroll-bar-width" 8)
 
-(defun spacious-padding-modify-frame-parameters (reset)
+(defun spacious-padding-modify-frame-parameters (&optional reset)
   "Modify all frame parameters to specify spacing.
 With optional RESET argument as non-nil, restore the default
 parameter values."
@@ -378,18 +399,27 @@ parameter values."
                           (spacious-padding--get-fringe-width reset)))
      (scroll-bar-width  . ,(spacious-padding--get-scroll-bar-width reset)))))
 
+;;;###autoload
+(defun spacious-padding-set-parameters-of-frame (frame)
+  "Set the layout parameters of FRAME and update the faces."
+  (with-selected-frame frame
+    (spacious-padding-modify-frame-parameters)
+    (spacious-padding-set-faces)))
+
 (defun spacious-padding--enable-mode ()
   "Enable `spacious-padding-mode'."
   (spacious-padding--store-default-parameters)
-  (spacious-padding-modify-frame-parameters nil)
-  (spacious-padding-set-invisible-dividers nil)
-  (add-hook 'enable-theme-functions #'spacious-padding-set-invisible-dividers))
+  (spacious-padding-modify-frame-parameters)
+  (spacious-padding-set-faces)
+  (add-hook 'enable-theme-functions #'spacious-padding-set-faces)
+  (add-hook 'after-make-frame-functions #'spacious-padding-set-parameters-of-frame))
 
 (defun spacious-padding--disable-mode ()
   "Disable `spacious-padding-mode'."
   (spacious-padding-modify-frame-parameters :reset)
   (spacious-padding-unset-invisible-dividers)
-  (remove-hook 'enable-theme-functions #'spacious-padding-set-invisible-dividers))
+  (remove-hook 'enable-theme-functions #'spacious-padding-set-faces)
+  (remove-hook 'after-make-frame-functions #'spacious-padding-set-parameters-of-frame))
 
 ;;;###autoload
 (define-minor-mode spacious-padding-mode

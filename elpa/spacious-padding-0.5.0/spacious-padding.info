@@ -1,4 +1,4 @@
-This is doc0SdxIq.info, produced by makeinfo version 6.8 from
+This is doc3kNRu1.info, produced by makeinfo version 6.8 from
 spacious-padding.texi.
 
 Copyright (C) 2023 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: doc0SdxIq.info,  Node: Top,  Next: Overview,  Up: (dir)
+File: doc3kNRu1.info,  Node: Top,  Next: Overview,  Up: (dir)
 
 Spacious Padding: Increase the padding/spacing of frames and windows
 ********************************************************************
@@ -44,11 +44,11 @@ customization options for the Emacs package called ‘spacious-padding’
 information pertinent to it.
 
    The documentation furnished herein corresponds to stable version
-0.3.0, released on 2023-12-21.  Any reference to a newer feature which
+0.5.0, released on 2024-04-29.  Any reference to a newer feature which
 does not yet form part of the latest tagged commit, is explicitly marked
 as such.
 
-   Current development target is 0.4.0-dev.
+   Current development target is 0.6.0-dev.
 
    • Package name (GNU ELPA): ‘spacious-padding’
    • Official manual: <https://protesilaos.com/emacs/spacious-padding>
@@ -98,7 +98,7 @@ Indices
 
 
 
-File: doc0SdxIq.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
+File: doc3kNRu1.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
 
 1 Overview
 **********
@@ -114,7 +114,7 @@ is to produce a more comfortable presentation.
 * Make the mode line subtle::
 
 
-File: doc0SdxIq.info,  Node: Set the exact spacing values,  Next: Make the mode line subtle,  Up: Overview
+File: doc3kNRu1.info,  Node: Set the exact spacing values,  Next: Make the mode line subtle,  Up: Overview
 
 1.1 Set the exact spacing values
 ================================
@@ -155,7 +155,7 @@ is used).  Keys are keywords among the following:
      to the ‘header-line’, ‘mode-line’, and ‘scroll-bar’, respectively.
 
 
-File: doc0SdxIq.info,  Node: Make the mode line subtle,  Prev: Set the exact spacing values,  Up: Overview
+File: doc3kNRu1.info,  Node: Make the mode line subtle,  Prev: Set the exact spacing values,  Up: Overview
 
 1.2 Make the mode line subtle
 =============================
@@ -217,7 +217,7 @@ the color of the overline.
            '(:mode-line-active "#0000ff" :mode-line-inactive "gray50"))
 
 
-File: doc0SdxIq.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
+File: doc3kNRu1.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
 
 2 Installation
 **************
@@ -228,7 +228,7 @@ File: doc0SdxIq.info,  Node: Installation,  Next: Sample configuration,  Prev: O
 * Manual installation::
 
 
-File: doc0SdxIq.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: doc3kNRu1.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -247,7 +247,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: doc0SdxIq.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: doc3kNRu1.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 2.2 Manual installation
 =======================
@@ -274,7 +274,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: doc0SdxIq.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
+File: doc3kNRu1.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
 
 3 Sample configuration
 **********************
@@ -303,7 +303,7 @@ File: doc0SdxIq.info,  Node: Sample configuration,  Next: Acknowledgements,  Pre
      (define-key global-map (kbd "<f8>") #'spacious-padding-mode)
 
 
-File: doc0SdxIq.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
+File: doc3kNRu1.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -318,8 +318,8 @@ Contributions to code or the manual
      Lucas Gruss, Neo Dim, Ruby Iris Juric.
 
 Ideas and/or user feedback
-     Aronne Raimondi, Damien Cassou, Lucas Gruss, Nicolas Semrau, Tomasz
-     Hołubowicz.
+     Aronne Raimondi, Damien Cassou, Julian Flake, Lucas Gruss, Nicolas
+     Semrau, Stefano Rodighiero, Tomasz Hołubowicz, tusharhero.
 
    Inspiration for this package comes from Nicolas Rougier’s impressive
 designs and Daniel Mendler’s ‘org-modern’ package:
@@ -328,7 +328,7 @@ designs and Daniel Mendler’s ‘org-modern’ package:
   2. <https://github.com/minad/org-modern>
 
 
-File: doc0SdxIq.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: doc3kNRu1.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 Appendix A GNU Free Documentation License
 *****************************************
@@ -810,7 +810,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: doc0SdxIq.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: doc3kNRu1.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 B Indices
 *********
@@ -822,7 +822,7 @@ B Indices
 * Concept index::
 
 
-File: doc0SdxIq.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: doc3kNRu1.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 B.1 Function index
 ==================
@@ -833,7 +833,7 @@ B.1 Function index
 * spacious-padding-mode:                 Overview.              (line 6)
 
 
-File: doc0SdxIq.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: doc3kNRu1.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 B.2 Variable index
 ==================
@@ -847,7 +847,7 @@ B.2 Variable index
                                                                 (line 6)
 
 
-File: doc0SdxIq.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: doc3kNRu1.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 B.3 Concept index
 =================
@@ -871,11 +871,11 @@ Node: GNU ELPA package8586
 Node: Manual installation9157
 Node: Sample configuration9966
 Node: Acknowledgements10936
-Node: GNU Free Documentation License11645
-Node: Indices37006
-Node: Function index37182
-Node: Variable index37400
-Node: Concept index37852
+Node: GNU Free Documentation License11691
+Node: Indices37052
+Node: Function index37228
+Node: Variable index37446
+Node: Concept index37898
 
 End Tag Table
 

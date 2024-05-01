@@ -11,6 +11,17 @@
 
 ;;; Generated autoloads from spacious-padding.el
 
+(autoload 'spacious-padding-set-faces "spacious-padding" "\
+Make window dividers invisible and add padding.
+Ignore any arguments.  This is useful to add the function to abnormal
+hooks that pass one or more arguments to it, such as
+`after-make-frame-functions'.
+
+(fn &rest _)")
+(autoload 'spacious-padding-set-parameters-of-frame "spacious-padding" "\
+Set the layout parameters of FRAME and update the faces.
+
+(fn FRAME)")
 (defvar spacious-padding-mode nil "\
 Non-nil if Spacious-Padding mode is enabled.
 See the `spacious-padding-mode' command
