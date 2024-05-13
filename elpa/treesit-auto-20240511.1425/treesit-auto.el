@@ -5,7 +5,7 @@
 ;; Author: Robb Enzmann <robbenzmann@gmail.com>
 ;; Keywords: treesitter auto automatic major mode fallback convenience
 ;; URL: https://github.com/renzmann/treesit-auto.git
-;; Version: 1.0.6
+;; Version: 1.0.7
 ;; Package-Requires: ((emacs "29.0"))
 
 ;; This file is not part of GNU Emacs.
@@ -257,6 +257,12 @@ by manipulating the `treesit-auto-recipe-list' variable."
       :remap '(poly-markdown-mode markdown-mode)
       :url "https://github.com/tree-sitter-grammars/tree-sitter-markdown"
       :ext "\\.md\\'")
+    ,(make-treesit-auto-recipe
+      :lang 'nix
+      :ts-mode 'nix-ts-mode
+      :remap 'nix-mode
+      :url "https://github.com/nix-community/tree-sitter-nix"
+      :ext "\\.nix\\'")
     ,(make-treesit-auto-recipe
       :lang 'nu
       :ts-mode 'nushell-ts-mode

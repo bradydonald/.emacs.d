@@ -1,6 +1,6 @@
-(define-package "treesit-auto" "20240420.1457" "Automatically use tree-sitter enhanced major modes"
+(define-package "treesit-auto" "20240511.1425" "Automatically use tree-sitter enhanced major modes"
   '((emacs "29.0"))
-  :commit "ecd898c4879614bf36d84a77c08a10aca25c3841" :authors
+  :commit "016bd286a1ba4628f833a626f8b9d497882ecdf3" :authors
   '(("Robb Enzmann" . "robbenzmann@gmail.com"))
   :maintainers
   '(("Robb Enzmann" . "robbenzmann@gmail.com"))
