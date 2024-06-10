@@ -1330,7 +1330,7 @@
 		     (:url . "https://elpa.gnu.org/packages/elisp-benchmarks.html")
 		     (:commit . "1a3d97954957a95a179806e0d49ca6d178b097af"))])
  (ellama .
-	 [(0 9 7)
+	 [(0 9 10)
 	  ((emacs
 	    (28 1))
 	   (llm
@@ -1343,7 +1343,7 @@
 	   (:maintainer "Sergey Kostyaev" . "sskostyaev@gmail.com")
 	   (:authors
 	    ("Sergey Kostyaev" . "sskostyaev@gmail.com"))
-	   (:commit . "361e1aa26541f2a8675fcda2c907fea4b68aff00"))])
+	   (:commit . "3d6192ea09cfbd2e3d3e13dcada5f543bd79b968"))])
  (emacs-gc-stats .
 		 [(1 4 2)
 		  ((emacs
@@ -1385,7 +1385,7 @@
 		    ("Omar Antolín Camarena" . "omar@matem.unam.mx"))
 		   (:commit . "195add1f1ccd1059472c9df7334c97c4d155425e"))])
  (ement .
-	[(0 15)
+	[(0 15 1)
 	 ((emacs
 	   (27 1))
 	  (map
@@ -1408,9 +1408,9 @@
 	  (:maintainer "Adam Porter" . "adam@alphapapa.net")
 	  (:authors
 	   ("Adam Porter" . "adam@alphapapa.net"))
-	  (:commit . "dc314a120ca6c62c49342e1b109ae1282116257a"))])
+	  (:commit . "e120fdb3bdf23e31f6f8b4a3aa4490794ca37183"))])
  (emms .
-       [(19)
+       [(20)
 	((cl-lib
 	  (0 5))
 	 (nadvice
@@ -1423,7 +1423,7 @@
 	 (:maintainer "Yoni Rabkin" . "yrk@gnu.org")
 	 (:authors
 	  ("Jorgen Schäfer" . "forcer@forcix.cx"))
-	 (:commit . "bbe1d2cdc8340e0ea1a70bded0a4d8e0aa7df5c5"))])
+	 (:commit . "2c328f0a4d46c008d409bbe44994588816adf221"))])
  (engrave-faces .
 		[(0 3 1)
 		 ((emacs
@@ -2915,7 +2915,7 @@
 	       ("Omar Antolín Camarena" . "omar@matem.unam.mx"))
 	      (:commit . "3847f311077efa17951a786d2759f2639c5f43c8"))])
  (org .
-      [(9 7 2)
+      [(9 7 3)
        ((emacs
 	 (26 1)))
        "Outline-based notes management and organizer" tar
@@ -2924,7 +2924,7 @@
 	(:maintainer "Bastien Guerry" . "bzg@gnu.org")
 	(:authors
 	 ("Carsten Dominik" . "carsten.dominik@gmail.com"))
-	(:commit . "88dd2cea35b8bc5324da1f506f9d9abb56bd80ca"))])
+	(:commit . "2f184485bfba4a192ed10ceabb26bbec2154b099"))])
  (org-contacts .
 	       [(1 1)
 		((emacs
@@ -3405,7 +3405,7 @@
 		("Alex Schroeder" . "alex@gnu.org"))
 	       (:maintainer "Alex Schroeder" . "alex@gnu.org"))])
  (rcirc-sqlite .
-	       [(1 0 1)
+	       [(1 0 2)
 		((emacs
 		  (30 0)))
 		"rcirc logging in SQLite" tar
@@ -3414,7 +3414,7 @@
 		 (:maintainer "Matto Fransen" . "matto@matto.nl")
 		 (:authors
 		  ("Matto Fransen" . "matto@matto.nl"))
-		 (:commit . "a2dca3182572ab2af7018a91186dbf9bcb2db2b5"))])
+		 (:commit . "50279aa1aa4303bd2736de615414120e851db1dd"))])
  (realgud .
 	  [(1 5 1)
 	   ((load-relative
@@ -4687,8 +4687,10 @@
 		      ("Daniel Semyonov" . "daniel@dsemy.com"))
 		     (:commit . "ad92c184ccc06f46b2caf001bc8201d983eca626"))])
  (window-tool-bar .
-		  [(0 2)
+		  [(0 2 1)
 		   ((emacs
+		     (27 1))
+		    (compat
 		     (29 1)))
 		   "Add tool bars inside windows" tar
 		   ((:keywords "mouse")
@@ -4696,7 +4698,7 @@
 		    (:authors
 		     ("Jared Finder" . "jared@finder.org"))
 		    (:url . "https://elpa.gnu.org/packages/window-tool-bar.html")
-		    (:commit . "be03dda5b0fc55e989bfa707c73f1cc990e24c3b"))])
+		    (:commit . "a5c0d682b10fa60925641c6abc3a5dbee024fa46"))])
  (windower .
 	   [(0 0 1)
 	    ((emacs
