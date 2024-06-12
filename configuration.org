@@ -745,6 +745,7 @@
                                 "TODO(t)"
                                 "STARTED(s)"
                                 "WAITING(w)"
+                                "DELEGATED(g)"
                                 "HOLD(h)" "|"
                                 "DONE(d)"
                                 "SUSPENDED(u)")))
@@ -755,13 +756,14 @@
              ("STARTED" . (:foreground "green"))
              ("DONE" . (:foreground "pink"))
              ("WAITING" . (:foreground "orange"))
+             ("DELEGATED" . (:foreground "orange"))
              ("HOLD" . (:foreground "orange"))
              ("SUSPENDED" . (:foreground "forest green"))
              ("TASK" . (:foreground "blue"))))
 
      (setq org-tags-exclude-from-inheritance '("project" "interview" "call" "errand" "meeting")
            org-stuck-projects '("+project/-MAYBE-DONE"
-                                ("TODO" "WAITING") ()))
+                                ("TODO" "WAITING" "DELEGATED") ()))
 
      (setq org-log-done 'time)
      (setq org-log-into-drawer t)
@@ -808,6 +810,8 @@
               ;;                                       :not (:regexp "moon" :tag "planet")))))
               ;; Groups supply their own section names when none are given
               (:todo "WAITING" :order 8)  ; Set order of this section
+              (:todo "DELEGATED" :order 8)
+              (:name "NBAs" :tag "nba")
               (:name "threev" :tag "threev")
               (:name "srv" :tag "shiftright")
               (:name "rpr" :tag "rpr")
