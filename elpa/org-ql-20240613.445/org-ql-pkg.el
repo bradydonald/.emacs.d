@@ -1,4 +1,4 @@
-(define-package "org-ql" "20240403.2027" "Org Query Language, search command, and agenda-like view"
+(define-package "org-ql" "20240613.445" "Org Query Language, search command, and agenda-like view"
   '((emacs "27.1")
     (compat "29.1")
     (dash "2.18.1")
@@ -11,7 +11,7 @@
     (s "1.12.0")
     (transient "0.1")
     (ts "0.2pre"))
-  :commit "c9370982bfd4df04b590762bd795a7da3012c4dd" :authors
+  :commit "d5269bb5e283f3b12b45fb05c4a7926d23e07d1f" :authors
   '(("Adam Porter" . "adam@alphapapa.net"))
   :maintainers
   '(("Adam Porter" . "adam@alphapapa.net"))
