@@ -832,6 +832,9 @@
                            :order 1)
               ;; After the last group, the agenda will display items that didn't
               ;; match any of these groups, with the default order position of 99
+              (:name "Reading"
+                     :tag "read")
+
               ))
      (org-super-agenda-mode t)
 
@@ -1178,10 +1181,11 @@
      (use-package git-gutter
        :config
        (setq git-gutter:modified-sign "|")
-       (setq git-gutter:added-sign "|")
-       (setq git-gutter:deleted-sign "|")
+       (setq git-gutter:added-sign "+")
+       (setq git-gutter:deleted-sign "-")
        (global-git-gutter-mode t))
    #+END_SRC
+
 ** Docker
 *** Docker Integration
 
