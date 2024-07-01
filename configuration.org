@@ -190,6 +190,7 @@
     (use-package spacious-padding)
     (use-package exec-path-from-shell) ;; MacOS
     (use-package wc-mode)
+    (use-package demap)
   #+END_SRC
 
 * Visual Appearance
