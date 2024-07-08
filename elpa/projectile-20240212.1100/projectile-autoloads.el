@@ -550,7 +550,7 @@ Otherwise behave as if called interactively.
 
 (fn &optional ARG)" t)
 (define-obsolete-function-alias 'projectile-global-mode 'projectile-mode "1.0")
-(register-definition-prefixes "projectile" '("??" "compilation-find-file-projectile-find-compilation-buffer" "def-projectile-commander-method" "delete-file-projectile-remove-from-cache" "project" "savehist-additional-variables"))
+(register-definition-prefixes "projectile" '("compilation-find-file-projectile-find-compilation-buffer" "def-projectile-commander-method" "delete-file-projectile-remove-from-cache" "project" "savehist-additional-variables"))
 
 ;;; End of scraped data
 

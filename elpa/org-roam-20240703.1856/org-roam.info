@@ -1,4 +1,4 @@
-This is org-roam.info, produced by makeinfo version 6.7 from
+This is org-roam.info, produced by makeinfo version 6.8 from
 org-roam.texi.
 
      Copyright (C) 2020-2022 Jethro Kuan <jethrokuan95@gmail.com>
@@ -1621,6 +1621,7 @@ This protocol finds or creates a new note with a given ‘ROAM_REFS’:
 
  [image src="images/roam-ref.gif" ]
 
+
    To use this, create the following bookmarklet
 (https://en.wikipedia.org/wiki/Bookmarklet) in your browser:
 
@@ -1750,12 +1751,12 @@ File: org-roam.info,  Node: Configuration,  Next: Usage,  Up: org-roam-dailies
 
 For ‘org-roam-dailies’ to work, you need to define two variables:
 
- -- Variable: ‘org-roam-dailies-directory’
+ -- Variable: org-roam-dailies-directory
 
      Path to daily-notes.  This path is relative to
      ‘org-roam-directory’.
 
- -- Variable: ‘org-roam-dailies-capture-templates’
+ -- Variable: org-roam-dailies-capture-templates
 
      Capture templates for daily-notes in Org-roam.
 
@@ -1779,33 +1780,33 @@ File: org-roam.info,  Node: Usage,  Prev: Configuration,  Up: org-roam-dailies
 
 ‘org-roam-dailies’ provides these interactive functions:
 
- -- Function: ‘org-roam-dailies-capture-today’ &optional goto
+ -- Function: org-roam-dailies-capture-today &optional goto
 
      Create an entry in the daily note for today.
 
      When ‘goto’ is non-nil, go to the note without creating an entry.
 
- -- Function: ‘org-roam-dailies-goto-today’
+ -- Function: org-roam-dailies-goto-today
 
      Find the daily note for today, creating it if necessary.
 
    There are variants of those commands for ‘-yesterday’ and
 ‘-tomorrow’:
 
- -- Function: ‘org-roam-dailies-capture-yesterday’ n &optional goto
+ -- Function: org-roam-dailies-capture-yesterday n &optional goto
 
      Create an entry in the daily note for yesterday.
 
      With numeric argument ‘n’, use the daily note ‘n’ days in the past.
 
- -- Function: ‘org-roam-dailies-goto-yesterday’
+ -- Function: org-roam-dailies-goto-yesterday
 
      With numeric argument N, use the daily-note N days in the future.
 
    There are also commands which allow you to use Emacs’s ‘calendar’ to
 find the date
 
- -- Function: ‘org-roam-dailies-capture-date’
+ -- Function: org-roam-dailies-capture-date
 
      Create an entry in the daily note for a date using the calendar.
 
@@ -1814,22 +1815,22 @@ find the date
      With a ’C-u’ prefix or when ‘goto’ is non-nil, go the note without
      creating an entry.
 
- -- Function: ‘org-roam-dailies-goto-date’
+ -- Function: org-roam-dailies-goto-date
 
      Find the daily note for a date using the calendar, creating it if
      necessary.
 
      Prefer past dates, unless ‘prefer-future’ is non-nil.
 
- -- Function: ‘org-roam-dailies-find-directory’
+ -- Function: org-roam-dailies-find-directory
 
      Find and open ‘org-roam-dailies-directory’.
 
- -- Function: ‘org-roam-dailies-goto-previous-note’
+ -- Function: org-roam-dailies-goto-previous-note
 
      When in an daily-note, find the previous one.
 
- -- Function: ‘org-roam-dailies-goto-next-note’
+ -- Function: org-roam-dailies-goto-next-note
 
      When in an daily-note, find the next one.
 
@@ -1990,6 +1991,8 @@ screenshot and yank images from the web into your notes:
 
  [image src="images/org-download.gif" ]
 
+
+
 Figure: org-download
 
      (use-package org-download
@@ -2009,6 +2012,8 @@ mathpix.el (https://github.com/jethrokuan/mathpix.el) uses Mathpix’s
 (https://mathpix.com/) API to convert clips into latex equations:
 
  [image src="images/mathpix.gif" ]
+
+
 
 Figure: mathpix
 
@@ -2664,48 +2669,48 @@ Ref: Testing org-protocol53266
 Node: Windows54279
 Node: The roam-node protocol55022
 Node: The roam-ref protocol55409
-Node: org-roam-graph56587
-Node: Graph Options58484
-Node: org-roam-dailies59506
-Node: Configuration59793
-Node: Usage60602
-Node: org-roam-export62398
-Node: Performance Optimization62918
-Node: Garbage Collection63124
-Node: The Org-mode Ecosystem63918
-Node: Browsing History with winner-mode64415
-Node: Versioning Notes65287
-Node: Full-text search with Deft66078
-Node: Org-journal66829
-Node: Org-download67641
-Node: mathpixel68158
-Node: Org-noter / Interleave68737
-Node: Bibliography69129
-Node: Spaced Repetition69890
-Node: FAQ70546
-Node: How do I have more than one Org-roam directory?71153
-Node: How do I create a note whose title already matches one of the candidates?72724
-Node: How can I stop Org-roam from creating IDs everywhere?73644
-Node: How do I migrate from Roam Research?74338
-Node: How to migrate from Org-roam v1?74835
-Node: How do I publish my notes with an Internet-friendly graph?76244
-Node: Configure org-mode for publishing77686
-Node: Overriding the default link creation function79172
-Node: Copying the generated file to the export directory79844
-Node: I'm seeing this ``Selecting deleted buffer'' error What do I do?80815
-Node: Developer's Guide to Org-roam81873
-Node: Org-roam's Design Principle82147
-Node: Building Extensions and Advanced Customization of Org-roam84137
-Node: Accessing the Database85403
-Node: Accessing and Modifying Nodes86132
-Node: Extending the Capture System88008
-Node: Appendix89550
-Node: Note-taking Workflows89737
-Node: Ecosystem91019
-Node: Keystroke Index91136
-Node: Command Index91287
-Node: Function Index91440
-Node: Variable Index93218
+Node: org-roam-graph56588
+Node: Graph Options58485
+Node: org-roam-dailies59507
+Node: Configuration59794
+Node: Usage60591
+Node: org-roam-export62333
+Node: Performance Optimization62853
+Node: Garbage Collection63059
+Node: The Org-mode Ecosystem63853
+Node: Browsing History with winner-mode64350
+Node: Versioning Notes65222
+Node: Full-text search with Deft66013
+Node: Org-journal66764
+Node: Org-download67576
+Node: mathpixel68095
+Node: Org-noter / Interleave68676
+Node: Bibliography69068
+Node: Spaced Repetition69829
+Node: FAQ70485
+Node: How do I have more than one Org-roam directory?71092
+Node: How do I create a note whose title already matches one of the candidates?72663
+Node: How can I stop Org-roam from creating IDs everywhere?73583
+Node: How do I migrate from Roam Research?74277
+Node: How to migrate from Org-roam v1?74774
+Node: How do I publish my notes with an Internet-friendly graph?76183
+Node: Configure org-mode for publishing77625
+Node: Overriding the default link creation function79111
+Node: Copying the generated file to the export directory79783
+Node: I'm seeing this ``Selecting deleted buffer'' error What do I do?80754
+Node: Developer's Guide to Org-roam81812
+Node: Org-roam's Design Principle82086
+Node: Building Extensions and Advanced Customization of Org-roam84076
+Node: Accessing the Database85342
+Node: Accessing and Modifying Nodes86071
+Node: Extending the Capture System87947
+Node: Appendix89489
+Node: Note-taking Workflows89676
+Node: Ecosystem90958
+Node: Keystroke Index91075
+Node: Command Index91226
+Node: Function Index91379
+Node: Variable Index93157
 
 End Tag Table
 

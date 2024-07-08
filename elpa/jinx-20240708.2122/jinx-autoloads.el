@@ -55,19 +55,19 @@ This command dispatches to the following commands:
 (autoload 'jinx-mode "jinx" "\
 Enchanted Spell Checker.
 
-This is a minor mode.  If called interactively, toggle the `Jinx
-mode' mode.  If the prefix argument is positive, enable the mode,
-and if it is zero or negative, disable the mode.
+This is a minor mode.  If called interactively, toggle the `Jinx mode'
+mode.  If the prefix argument is positive, enable the mode, and if it is
+zero or negative, disable the mode.
 
-If called from Lisp, toggle the mode if ARG is `toggle'.  Enable
-the mode if ARG is nil, omitted, or is a positive number.
-Disable the mode if ARG is a negative number.
+If called from Lisp, toggle the mode if ARG is `toggle'.  Enable the
+mode if ARG is nil, omitted, or is a positive number.  Disable the mode
+if ARG is a negative number.
 
 To check whether the minor mode is enabled in the current buffer,
 evaluate `jinx-mode'.
 
-The mode's hook is called both when the mode is enabled and when
-it is disabled.
+The mode's hook is called both when the mode is enabled and when it is
+disabled.
 
 (fn &optional ARG)" t)
 (put 'global-jinx-mode 'globalized-minor-mode t)
@@ -81,8 +81,8 @@ or call the function `global-jinx-mode'.")
 (custom-autoload 'global-jinx-mode "jinx" nil)
 (autoload 'global-jinx-mode "jinx" "\
 Toggle Jinx mode in all buffers.
-With prefix ARG, enable Global Jinx mode if ARG is positive;
-otherwise, disable it.
+With prefix ARG, enable Global Jinx mode if ARG is positive; otherwise, disable
+it.
 
 If called from Lisp, toggle the mode if ARG is `toggle'.
 Enable the mode if ARG is nil, omitted, or is a positive number.
