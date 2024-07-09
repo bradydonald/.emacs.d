@@ -1212,14 +1212,6 @@
        (global-treesit-auto-mode))
    #+END_SRC
 
-** Casual
-
-   Makes calc a little easier to use.
-   
-   #+BEGIN_SRC emacs-lisp
-     (use-package casual)
-     (define-key calc-mode-map (kbd "C-o") 'casual-main-menu)
-   #+END_SRC
 * GPTEL
 
   [[https://github.com/karthink/gptel][Gptel]] is a "chat-gpt" interface supporting multiple models / back ends. Since

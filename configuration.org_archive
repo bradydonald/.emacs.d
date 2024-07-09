@@ -2983,3 +2983,18 @@ Archived entries from file /home/d/.emacs.d/configuration.org
     ;; `context-menu-mode'.
     (add-hook 'context-menu-functions #'denote-context-menu)
   #+END_SRC
+
+* Casual
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2024-07-08 Mon 17:02
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_OLPATH: Developer Enhancements
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  Makes calc a little easier to use.
+   
+  #+BEGIN_SRC emacs-lisp
+    (use-package casual)
+    (define-key calc-mode-map (kbd "C-o") 'casual-main-menu)
+  #+END_SRC
