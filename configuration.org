@@ -101,7 +101,6 @@
     (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
     (put 'upcase-region 'disabled nil)
     (setq delete-by-moving-to-trash t)
-    (global-unset-key (kbd "\C-x\C-c"))
     (global-unset-key (kbd "C-z"))
     (setq confirm-kill-processes nil)
     
