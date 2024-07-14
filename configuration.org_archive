@@ -2998,3 +2998,20 @@ Archived entries from file /home/d/.emacs.d/configuration.org
     (use-package casual)
     (define-key calc-mode-map (kbd "C-o") 'casual-main-menu)
   #+END_SRC
+
+* Text Scaling
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2024-07-14 Sun 16:17
+  :ARCHIVE_FILE: ~/.emacs.d/configuration.org
+  :ARCHIVE_CATEGORY: configuration
+  :END:
+
+  =default-text-scale= allows you to quickly resize text. By default binds to
+  C-M-= and C-M-- to increase and decrease the face size 
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package default-text-scale
+      :config
+      (default-text-scale-mode))
+  #+END_SRC
+

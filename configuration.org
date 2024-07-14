@@ -380,17 +380,6 @@
 
   #+END_SRC
 
-* Text Scaling
-
-  =default-text-scale= allows you to quickly resize text. By default binds to
-  C-M-= and C-M-- to increase and decrease the face size 
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package default-text-scale
-      :config
-      (default-text-scale-mode))
-  #+END_SRC
-
 * PDF Tools
   PDF viewer and annotator
 
