@@ -13,14 +13,3 @@
 !configuration.org
 !/snippets
 !/lisp
-!/elpa
-
-# but ignore the elc files in elpa and lisp
-/elpa/**/*.elc
-/elpa/**/*.so
-/lisp/**/*.elc
-
-# and ignore these compiled binaries which will vary per system
-/elpa/pdf-tools-*/epdfinfo
-/elpa/emacsql-*/sqlite/emacsql-sqlite
-elpa/jinx-*/jinx-mod.dylib
