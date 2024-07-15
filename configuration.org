@@ -1536,8 +1536,11 @@
                (load-file (concat (file-name-as-directory dir) f)))
              ))
     (mapc load-it (directory-files dir nil "\\.el$"))))
-    (load-directory (concat user-emacs-directory "/lisp"))
+
+    (setq db-lisp-dir (concat user-emacs-directory "/lisp"))
+    (if (file-exists-p db-lisp-dir) (load-directory db-lisp-dir))
   #+END_SRC
+
 * Start a server
 
   #+BEGIN_SRC emacs-lisp
