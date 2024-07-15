@@ -1,85 +1,9 @@
-* Package and Path Management
-** Package Archives
-   Where we get packages from:
-  
-   #+BEGIN_SRC emacs-lisp
-     (require 'package)
-     (setq package-enable-at-startup nil)
-
-     (setq package-archives
-	   '(("gnu"          . "https://elpa.gnu.org/packages/")
-	     ("melpa"        . "https://melpa.org/packages/")
-	     ("melpa-stable" . "https://stable.melpa.org/packages/")
-	     ("org"          . "https://orgmode.org/elpa/")
-	     ("nongnu"       . "https://elpa.nongnu.org/nongnu/")))
-   #+END_SRC
-
-** Initialize Package Management
-   Now that Emacs knows where get from let's initialize:
-
-   #+BEGIN_SRC emacs-lisp
-
-     (package-initialize)
-
-     (unless (package-installed-p 'use-package)
-       (package-refresh-contents)
-       (package-install 'use-package))
-
-     (eval-when-compile
-       (require 'use-package))
-
-     (setq use-package-always-ensure t)
-     (setq use-package-compute-statistics t)
-
-     (use-package auto-package-update
-       :config
-       (setq auto-package-update-interval 14 ;; days
-         auto-package-update-prompt-before-update t
-         auto-package-update-delete-old-versions t
-         auto-package-update-hide-results t)
-       (auto-package-update-maybe))
-   #+END_SRC
-
-   Let's also add a way to ensure certain system packages are installed
-   alongside Emacs packages.  This is useful when, for example, you
-   need the =rg= executable, or an npm package.
-  
-   #+BEGIN_SRC emacs-lisp
-     (use-package use-package-ensure-system-package)
-   #+END_SRC
-
-** Convenience Function for Loading Dependencies
-   #+BEGIN_SRC emacs-lisp
-
-     (defun db/add-to-load-path (path feature_toggle &optional dependency_list)
-       "Adds a path to the load-path if it exists and the feature_toggle
-       is on. Path is expected to be relative to
-       user-emacs-directory. An optional list of packages that are
-       dependencies can be provided and they will be required if the
-       load-path is updated."
-       (setq abs_path (concat user-emacs-directory path))
-       (when (and feature_toggle (file-directory-p abs_path))
-         (add-to-list 'load-path abs_path)
-         (when dependency_list
-           (dolist (package dependency_list)
-             (require package)))
-         t))
-
-   #+END_SRC
-  
 * Basic Settings
 
   Place for a grab bag of basic settings
 
   #+BEGIN_SRC emacs-lisp
 
-    (setq inhibit-startup-screen t)
-    (setq-default custom-file "~/.emacs.d/custom-file.el")
-    (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-    (setq ring-bell-function 'ignore)
-    (line-number-mode t)
-    (column-number-mode t)
-    (size-indication-mode t)
     (fset 'yes-or-no-p 'y-or-n-p)
     (setq require-final-newline t)
     (setq-default fill-column 80)
@@ -90,47 +14,83 @@
     (set-keyboard-coding-system 'utf-8)
     (setq-default indent-tabs-mode nil)   
     (setq-default tab-width 4)            
-    ;; smart tab behavior - indent or complete
     (setq tab-always-indent 'complete)
-    (global-display-line-numbers-mode 1) ; line number in margin
-    (global-hl-line-mode 0) ; highlight current line
+    (global-hl-line-mode 0)                                                        ;; highlight current line
     (global-auto-revert-mode 1)
     (setq global-auto-revert-non-file-buffers t)
     (setq-default buffer-file-coding-system 'utf-8-unix)    
-    ;; scroll to the bottom of repls on output
-    (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom)
-    (put 'upcase-region 'disabled nil)
+    (add-hook 'comint-output-filter-functions 'comint-postoutput-scroll-to-bottom) ;; scroll to the bottom of repls on output
     (setq delete-by-moving-to-trash t)
     (global-unset-key (kbd "C-z"))
     (setq confirm-kill-processes nil)
+    (setq custom-safe-themes t)
+    (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     
-    ;; Speed up startup
-    (defvar default-file-name-handler-alist file-name-handler-alist)
-    (setq file-name-handler-alist nil)
-    (setq gc-cons-threshold 80000000)
-    (add-hook 'emacs-startup-hook
-              (lambda ()
-                "Restore defalut values after init."
-                (setq file-name-handler-alist default-file-name-handler-alist)
-                (setq gc-cons-threshold 800000)
-                (if (boundp 'after-focus-change-function)
-                    (add-function :after after-focus-change-function
-                                  (lambda ()
-                                    (unless (frame-focus-state)
-                                      (garbage-collect))))
-                  (add-hook 'focus-out-hook 'garbage-collect))))
-
-    ;; ediff in same window
-    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-    ;; my email
     (setq user-full-name "Donald Brady" user-mail-address "donald.brady@gmail.com")
+
+  #+END_SRC
+
+* Packages
+
+  Loads packages with elpaca
+
+  #+BEGIN_SRC emacs-lisp
+    (elpaca all-the-icons)
+    (elpaca all-the-icons-dired)
+    (elpaca avy)
+    (elpaca counsel)
+    (elpaca deadgrep)
+    (elpaca demap)
+    (elpaca diminish)
+    (elpaca ef-themes)
+    (elpaca elfeed)
+    (elpaca elfeed-org)
+    (elpaca embark)
+    (elpaca embark-consult)
+    (elpaca exec-path-from-shell)
+    (elpaca frecentf)
+    (elpaca git-gutter)
+    (elpaca git-timemachine)
+    (elpaca gnuplot)
+    (elpaca hydra)
+    (elpaca jinx)
+    (elpaca lem)
+    (elpaca magit)
+    (elpaca marginalia)
+    (elpaca mastodon)
+    (elpaca mpv)
+    (elpaca nerd-icons)
+    (elpaca nyan-mode)
+    (elpaca orderless)
+    (elpaca org-attach-screenshot)
+    (elpaca org-contrib)
+    (elpaca org-download)
+    (elpaca org-ql)
+    (elpaca org-roam)
+    (elpaca org-side-tree)
+    (elpaca org-super-agenda)
+    (elpaca org-superstar)
+    (elpaca org2blog)
+    (elpaca pdf-tools)
+    (elpaca projectile)
+    (elpaca s)
+    (elpaca swiper)
+    (elpaca treesit-auto)
+    (elpaca vertico)
+    (elpaca which-key)
+    (elpaca yasnippet)
+    (elpaca yasnippet-snippets)
+
+    (elpaca-wait)
 
   #+END_SRC
 
 * Set up save-file, recent files, backup, and auto-save features
 
   #+BEGIN_SRC emacs-lisp
+
+    (require 'savehist)
+    (require 'saveplace)
 
     (defconst dbrady-savefile-dir (expand-file-name "savefile" user-emacs-directory))
 
@@ -141,186 +101,15 @@
     (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
     (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-    ;; saveplace remembers your location in a file when saving files
-    (use-package saveplace
-      :config
-      (setq save-place-file (expand-file-name "saveplace" dbrady-savefile-dir))
-      ;; activate it for all buffers
-      (setq-default save-place t))
+    (savehist-mode +1)
 
-    (use-package savehist
-      :config
-      (setq savehist-additional-variables
-            ;; search entries
-            '(search-ring regexp-search-ring)
-            ;; save every minute
-            savehist-autosave-interval 60
-            ;; keep the home clean
-            savehist-file (expand-file-name "savehist" dbrady-savefile-dir))
-      (savehist-mode +1))
+    (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
+    (setq recentf-max-saved-items 50)
+    (setq recentf-max-menu-items 15)
+    (setq recentf-auto-cleanup 'never)
+    (recentf-mode +1)
 
   #+END_SRC
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package frecentf
-      :config
-      (setq recentf-save-file (expand-file-name "recentf" dbrady-savefile-dir))
-      (setq recentf-max-saved-items 50)
-      (setq recentf-max-menu-items 15)
-      (setq recentf-auto-cleanup 'never)
-      (recentf-mode +1))
-  #+END_SRC
-
-* Vanilla Packages
-
-  The packages are loaded as is
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package diminish)          ;; diminsh minor mode-line entries
-    (use-package git-timemachine) ;; use n and p to move between git revisions
-    (use-package gnuplot)         ;; for the plotting of graphs
-    (use-package s)               ;; some nice easy string manipulation functions
-    (use-package deadgrep)        ;; requires ripgrep binary
-    (use-package ef-themes)       ;; Prot themes
-    (use-package yaml-mode)
-    (use-package magit)           ;; git chrome
-    (use-package mpv)             ;; video player support
-    (use-package eat)             ;; eat terminal
-    (use-package spacious-padding)
-    (use-package exec-path-from-shell) ;; MacOS
-    (use-package wc-mode)
-    (use-package demap)
-  #+END_SRC
-
-* Visual Appearance
-** All the Icons
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package all-the-icons)
-     (use-package all-the-icons-dired)
-     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)    
-   #+END_SRC 
-
-** Nerd Icons
-   #+BEGIN_SRC emacs-lisp
-     (use-package nerd-icons)
-   #+END_SRC 
-
-** Pulsar
-
-   Pulsar from Prot. Added as a sub-module.
-
-   #+BEGIN_SRC emacs-lisp
-     (db/add-to-load-path "lisp/pulsar" t)
-     (require 'pulsar)
-     (setq pulsar-pulse t)
-     (setq pulsar-delay 0.055)
-     (setq pulsar-iterations 10)
-     (setq pulsar-face 'pulsar-magenta)
-     (setq pulsar-highlight-face 'pulsar-yellow)
-     (pulsar-global-mode 1)
-     (add-hook 'minibuffer-setup-hook #'pulsar-pulse-line)
-
-   #+END_SRC
-
-** Which Key
-
-   Prompts with possible keys after a short delay
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package which-key
-       :config
-       (which-key-mode t))
-   #+END_SRC
-  
-** Paren Handling and Matching
-
-   Configuration for a bunch of built in packages.
-
-   #+BEGIN_SRC emacs-lisp
-
-     (use-package paren
-       :config
-       (show-paren-mode +1))
-
-     (use-package elec-pair
-       :config
-       (electric-pair-mode 1))
-
-   #+END_SRC
-
-** Theme and Faces and Fun
-
-   #+BEGIN_SRC emacs-lisp
-
-     (setq custom-safe-themes t)
-     (db/add-to-load-path "lisp/ef-themes" t)
-;;     (load-theme 'ef-deuteranopia-dark)
-     (use-package nyan-mode)       ;; nyan cat as % of buffer
-     (nyan-mode)
-
-   #+END_SRC
-
-** Spacious Padding
-
-   #+BEGIN_SRC emacs-lisp
-     (spacious-padding-mode 1)
-   #+END_SRC
-
-** Transparency
-
-   This is useful if taking org meeting notes and you want to see peoples faces
-   in zoom etc.
-   
-   #+BEGIN_SRC emacs-lisp
-
-     (defun db/set-transparency (alpha)
-       "Set the alpha (transparency) value of the current frame."
-       (interactive "nEnter alpha value (0-100, default is 100): ")
-       (setq alpha (if (null alpha) 100 alpha)) ; Set default to 100 if no input
-       (when (and (numberp alpha) (>= alpha 0) (<= alpha 100))
-         (set-frame-parameter (selected-frame) 'alpha alpha)
-         (message "Frame alpha set to %d" alpha)))
-
-  #+END_SRC
-
-* Writing Tools
-  
-** Word Count Mode
-
-   Not used a lot but sometimes handy
-   
-   #+BEGIN_SRC emacs-lisp
-     (require 'wc-mode)
-   #+END_SRC
-
-** Jinx Spell Checker
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package jinx
-       :hook (emacs-startup . global-jinx-mode)
-       :bind (("M-$" . jinx-correct)
-              ("C-M-$" . jinx-languages)))    
-   #+END_SRC
-
-** Better Expansions
-
-   #+BEGIN_SRC emacs-lisp
-
-     (setq-default abbrev-mode t)
-
-     (defun db/expand-abbrev-or-dynamic ()
-     "Try to expand Emacs abbrev; if it fails, try dynamic abbrev."
-     (interactive)
-     (or (expand-abbrev)
-         (dabbrev-expand nil)))
-   #+END_SRC
-
-** Lorem Ipsum
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package lorem-ipsum)
-   #+END_SRC
 
 * OS Specific Setups
 ** Windows Specific Setup
@@ -344,17 +133,60 @@
    #+BEGIN_SRC emacs-lisp
      (when (memq window-system '(mac ns x))
        (exec-path-from-shell-initialize)
-       (global-unset-key (kbd "s-w"))) ;; prevent Command+w from closing the frame
+       (keymap-global-unset "s-W")) ;; prevent Command+w from closing the frame
+   #+END_SRC
+  
+* Visual Appearance
+
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    (which-key-mode t)
+    (load-theme 'ef-deuteranopia-dark)
+    (nyan-mode)
+
+    ;; This is useful if taking org meeting notes and you want to see peoples faces
+    ;; in Zoom etc.
+
+    (defun db/set-transparency (alpha)
+      "Set the alpha (transparency) value of the current frame."
+      (interactive "nEnter alpha value (0-100, default is 100): ")
+      (setq alpha (if (null alpha) 100 alpha)) ; Set default to 100 if no input
+      (when (and (numberp alpha) (>= alpha 0) (<= alpha 100))
+        (set-frame-parameter (selected-frame) 'alpha alpha)
+        (message "Frame alpha set to %d" alpha)))
+
+  #+END_SRC
+  
+* Writing Tools
+  
+** Jinx Spell Checker
+
+   #+BEGIN_SRC emacs-lisp
+     (keymap-global-set "M-$" 'jinx-correct)
+     (global-jinx-mode)
+   #+END_SRC
+
+** Better Expansions
+
+   #+BEGIN_SRC emacs-lisp
+
+     (setq-default abbrev-mode t)
+
+     (defun db/expand-abbrev-or-dynamic ()
+     "Try to expand Emacs abbrev; if it fails, try dynamic abbrev."
+     (interactive)
+     (or (expand-abbrev)
+         (dabbrev-expand nil)))
    #+END_SRC
 
 * Avy
+
   Avy has one really useful function =avy-goto-line= which supports multiple
   buffers
 
   #+BEGIN_SRC emacs-lisp
-    (use-package avy
-      :bind (("M-g l" . avy-goto-line)
-             ("M-g c" . avy-goto-char-timer)))
+    (keymap-global-set "M-g l" 'avy-goto-line)
+    (keymap-global-set "M-g c" 'avy-goto-char-timer)
   #+END_SRC
   
 * Dired Mode
@@ -381,118 +213,68 @@
   #+END_SRC
 
 * PDF Tools
+
   PDF viewer and annotator
 
   #+BEGIN_SRC emacs-lisp
 
-     (use-package pdf-tools
-         :ensure t
-         :config
-         (pdf-tools-install)
-         (setq-default pdf-view-display-size 'fit-page)
-         (bind-keys :map pdf-view-mode-map
-             ("?" . hydra-pdftools/body)
-             ("<s-spc>" .  pdf-view-scroll-down-or-next-page)
-             ("g"  . pdf-view-first-page)
-             ("G"  . pdf-view-last-page)
-             ("l"  . image-forward-hscroll)
-             ("h"  . image-backward-hscroll)
-             ("j"  . pdf-view-next-page)
-             ("k"  . pdf-view-previous-page)
-             ("e"  . pdf-view-goto-page)
-             ("u"  . pdf-view-revert-buffer)
-             ("al" . pdf-annot-list-annotations)
-             ("ad" . pdf-annot-delete)
-             ("aa" . pdf-annot-attachment-dired)
-             ("am" . pdf-annot-add-markup-annotation)
-             ("at" . pdf-annot-add-text-annotation)
-             ("y"  . pdf-view-kill-ring-save)
-             ("i"  . pdf-misc-display-metadata)
-             ("s"  . pdf-occur)
-             ("b"  . pdf-view-set-slice-from-bounding-box)
-             ("r"  . pdf-view-reset-slice)))
-    
+    (pdf-tools-install)
+    (setq-default pdf-view-display-size 'fit-page)
+               
+    (define-key pdf-view-mode-map "?" 'hydra-pdftools/body)
+    (define-key pdf-view-mode-map "<s-spc>" 'pdf-view-scroll-down-or-next-page)
+    (define-key pdf-view-mode-map "g"  'pdf-view-first-page)
+    (define-key pdf-view-mode-map "G"  'pdf-view-last-page)
+    (define-key pdf-view-mode-map "l"  'image-forward-hscroll)
+    (define-key pdf-view-mode-map "h"  'image-backward-hscroll)
+    (define-key pdf-view-mode-map "j"  'pdf-view-next-page)
+    (define-key pdf-view-mode-map "k"  'pdf-view-previous-page)
+    (define-key pdf-view-mode-map "e"  'pdf-view-goto-page)
+    (define-key pdf-view-mode-map "u"  'pdf-view-revert-buffer)
+    (define-key pdf-view-mode-map "al" 'pdf-annot-list-annotations)
+    (define-key pdf-view-mode-map "ad" 'pdf-annot-delete)
+    (define-key pdf-view-mode-map "aa" 'pdf-annot-attachment-dired)
+    (define-key pdf-view-mode-map "am" 'pdf-annot-add-markup-annotation)
+    (define-key pdf-view-mode-map "at" 'pdf-annot-add-text-annotation)
+    (define-key pdf-view-mode-map "y"  'pdf-view-kill-ring-save)
+    (define-key pdf-view-mode-map "i"  'pdf-misc-display-metadata)
+    (define-key pdf-view-mode-map "s"  'pdf-occur)
+    (define-key pdf-view-mode-map "b"  'pdf-view-set-slice-from-bounding-box)
+    (define-key pdf-view-mode-map "r"  'pdf-view-reset-slice)
+
   #+END_SRC
 
 * Yas Snippets
   Use yas snippets templating package
 
   #+BEGIN_SRC emacs-lisp
-    (use-package yasnippet
-      :config
-      (yas-global-mode 1))
-    (use-package yasnippet-snippets)
+    (yas-global-mode 1)
   #+END_SRC
 
 * Vertico
 
   #+BEGIN_SRC emacs-lisp
-    (use-package vertico
-    :init
     (vertico-mode)
-
-    ;; Different scroll margin
-    ;; (setq vertico-scroll-margin 0)
-
-    ;; Show more candidates
-    ;; (setq vertico-count 20)
-
-    ;; Grow and shrink the Vertico minibuffer
-    ;; (setq vertico-resize t)
-
-    ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-    ;; (setq vertico-cycle t)
-    )
-
+    (vertico-multiform-mode)
+    (add-to-list 'vertico-multiform-categories '(jinx grid (vertico-grid-annotate . 20)))    
   #+END_SRC
-  
+
 * Marginalia
 
   #+BEGIN_SRC emacs-lisp
-    (use-package marginalia
-      :ensure t
-      :config
-      (marginalia-mode 1))
+    (marginalia-mode 1)
   #+END_SRC
 
 * Embark
 
   #+BEGIN_SRC emacs-lisp
-    (use-package embark
-      :ensure t
+    (keymap-global-set "C-." 'embark-act)        ;; pick some comfortable binding
+    (keymap-global-set "C-;" 'embark-dwim)       ;; good alternative: M-.
+    (keymap-global-set "C-h B" 'embark-bindings) ;; alternative for `describe-bindings'
 
-      :bind
-      (("C-." . embark-act)         ;; pick some comfortable binding
-       ("C-;" . embark-dwim)        ;; good alternative: M-.
-       ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*" nil (window-parameters (mode-line-format . none))))
 
-      :init
-
-      ;; Optionally replace the key help with a completing-read interface
-      (setq prefix-help-command #'embark-prefix-help-command)
-
-      ;; Show the Embark target at point via Eldoc. You may adjust the
-      ;; Eldoc strategy, if you want to see the documentation from
-      ;; multiple providers. Beware that using this can be a little
-      ;; jarring since the message shown in the minibuffer can be more
-      ;; than one line, causing the modeline to move up and down:
-
-      ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-      ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
-      :config
-
-      ;; Hide the mode line of the Embark live/completions buffers
-      (add-to-list 'display-buffer-alist
-                   '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                     nil
-                     (window-parameters (mode-line-format . none)))))
-
-    ;; Consult users will also want the embark-consult package.
-    (use-package embark-consult
-      :ensure t ; only need to install it, embark loads it after consult if found
-      :hook
-      (embark-collect-mode . consult-preview-at-point-mode))    
   #+END_SRC
   
 * Orderless
@@ -500,17 +282,15 @@
   When searching order does not matter making it easier to find things. 
 
   #+BEGIN_SRC emacs-lisp
-    (use-package orderless
-      :config
-      (setq completion-styles '(orderless basic)))
+    (setq completion-styles '(orderless basic))
   #+END_SRC
 
 * Swiper
+
   Use swiper for better searching
+
   #+BEGIN_SRC emacs-lisp
-    (use-package swiper
-      :bind
-      (("\C-s" . swiper)))
+    (keymap-global-set "C-s" 'swiper)
   #+END_SRC
 
 * Projectile
@@ -518,56 +298,10 @@
   [[https://projectile.mx/][Projectile]] is useful for navigating dev projects
   
   #+BEGIN_SRC emacs-lisp
-    (use-package projectile)
-    (require 'projectile)
     (projectile-mode +1)
   #+END_SRC
 
 * Org Mode
-** Org Mode Packages
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package org)
-     (use-package org-contrib)
-     (use-package org-superstar)
-     (use-package org-edna)
-     (use-package org-ql)
-     (use-package counsel)
-     (use-package org-super-agenda)
-     (require 'org-habit)
-     (use-package org-side-tree)
-  #+END_SRC
-
-** Basic Org Config  
-
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-
-     (setq org-image-actual-width nil)
-     (setq org-modules (append '(org-protocol) org-modules))
-     (setq org-modules (append '(habit) org-modules))
-     (setq org-catch-invisible-edits 'smart)
-     (setq org-ctrl-k-protect-subtree t)
-     (set-face-attribute 'org-headline-done nil :strike-through t)
-     (setq org-return-follows-link t)
-     (setq org-adapt-indentation t)
-     (setq org-odt-preferred-output-format "docx")
-     (setq org-agenda-skip-scheduled-if-done t)
-     (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
-     ;; all my org related keys will be set up in this keymap
-     (global-set-key
-      (kbd "C-c o")
-      (define-keymap
-        :prefix 'db/org-key-map
-        "l" 'org-store-link
-        "c" 'org-capture
-        "a" 'org-agenda))
-
-     ;; override y (agenda year) with more useful todo yesterday for marking habits done prior day 
-     (define-key org-agenda-mode-map (kbd "y") 'org-agenda-todo-yesterday)
-
-   #+END_SRC
-
 ** Org File Locations
 
    #+BEGIN_SRC emacs-lisp
@@ -640,13 +374,39 @@
 
   #+END_SRC
 
+** Basic Org Config  
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+
+     (setq org-image-actual-width nil)
+     (setq org-modules (append '(org-protocol) org-modules))
+     (setq org-catch-invisible-edits 'smart)
+     (setq org-ctrl-k-protect-subtree t)
+     (set-face-attribute 'org-headline-done nil :strike-through t)
+     (setq org-return-follows-link t)
+     (setq org-adapt-indentation t)
+     (setq org-odt-preferred-output-format "docx")
+     (setq org-agenda-skip-scheduled-if-done t)
+     (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
+
+     ;; all my org related keys will be set up in this keymap
+     (global-set-key
+      (kbd "C-c o")
+      (define-keymap
+        :prefix 'db/org-key-map
+        "l" 'org-store-link
+        "c" 'org-capture
+        "a" 'org-agenda))
+
+   #+END_SRC
+
 ** Org Roam
 
    Likewise org-roam defaults to personal.
 
    #+BEGIN_SRC emacs-lisp
      (setq org-roam-v2-ack t)
-     (use-package org-roam)
      (setq org-roam-directory (expand-file-name "roam" org-directory))
      (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
      (setq org-roam-db-autosync-mode t)
@@ -688,12 +448,6 @@
                    (propertize "${tags:10}" 'face 'org-tag)))
 
 
-   #+END_SRC
-
-   Install org-roam-ui for a vizual of my roam database.
-
-   #+BEGIN_SRC emacs-lisp
-     (package-install 'org-roam-ui)
    #+END_SRC
 
 ** Language Support
@@ -837,72 +591,9 @@
       (setq calendar-islamic-all-holidays-flag t)
    #+END_SRC
 
-** Calfw
-
-   [[https://github.com/kiwanami/emacs-calfw][Calfw]] generates useful calendar views suitable for printing or providing a
-   more visual outlook on the day, week, two weeks, or month
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package calfw)
-     (use-package calfw-org)
-     (require 'calfw)
-     (require 'calfw-org)
-
-     (defun db/my-open-calendar ()
-       (interactive)
-       (cfw:open-calendar-buffer
-        :contents-sources
-        (list
-         (cfw:org-create-source "Green")  ; orgmode source
-         ;;    (cfw:howm-create-source "Blue")  ; howm source
-         ;;    (cfw:cal-create-source "Orange") ; diary source
-         ;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
-         ;;    (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed") ; google calendar ICS
-         )))
-    #+END_SRC
-
-** Org Edna
-
-   Provides more powerful org dependency management.
-
-   #+BEGIN_SRC emacs-lisp
-     (org-edna-mode)
-
-     (defun db/org-edna-blocked-by-descendants ()
-       "Adds PROPERTY blocking this tasks unless descendants are DONE"
-       (interactive)
-       (org-set-property "BLOCKER" "descendants"))
-
-     (defun db/org-edna-blocked-by-ancestors ()
-       "Adds PROPERTY blocking this tasks unless ancestors are DONE"
-       (interactive)
-       (org-set-property "BLOCKER" "ancestors"))
-
-     (defun db/org-edna-current-id ()
-       "Get the current ID to make it easier to set up BLOCKER ids"
-       (interactive)
-       (set-register 'i (org-entry-get (point) "ID"))
-       (message "ID stored"))
-
-     (defun db/org-edna-blocked-by-id ()
-       "Adds PROPERTY blocking task at point with specific task ID"
-       (interactive)
-       (org-set-property "BLOCKER" (s-concat "ids(" (get-register 'i) ")")))
-
-     (define-keymap
-       :keymap db/org-key-map
-       "<up>"    'db/org-edna-blocked-by-ancestors
-       "<down>"  'db/org-edna-blocked-by-descendants
-       "<left>"  'db/org-edna-current-id
-       "<right>" 'db/org-edna-blocked-by-id
-       "i d"     'org-id-get-create)
-
-   #+END_SRC
-
 ** Orgql
 
    #+BEGIN_SRC emacs-lisp
-     (use-package org-ql)
      (require 'org-ql-search)
    #+END_SRC
    
@@ -1029,24 +720,23 @@
 
    #+END_SRC        
 
-** Org Screenshots
+# ** Org Screenshots
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-attach-screenshot
-       :config (setq org-attach-screenshot-dirfunction
-             (lambda () 
-               (when (cl-assert (buffer-file-name))
-                  (concat (file-name-sans-extension (buffer-file-name))
-                      "-att")))
-             org-attach-screenshot-command-line "gnome-screenshot -a -f %f"))
-   #+END_SRC
+#    #+BEGIN_SRC emacs-lisp
+#      (use-package org-attach-screenshot
+#        :config (setq org-attach-screenshot-dirfunction
+#              (lambda () 
+#                (when (cl-assert (buffer-file-name))
+#                   (concat (file-name-sans-extension (buffer-file-name))
+#                       "-att")))
+#              org-attach-screenshot-command-line "gnome-screenshot -a -f %f"))
+#    #+END_SRC
 
 ** Org Download
 
    Drag and drop support for images
 
    #+BEGIN_SRC emacs-lisp
-     (use-package org-download)
      (require 'org-download)
      (setq org-download-method 'attach)
      ;; Drag-and-drop to `dired`
@@ -1077,6 +767,9 @@
        "r l"    'counsel-org-link
        "s"      'org-attach-screenshot)
 
+     ;; override y (agenda year) with more useful todo yesterday for marking habits done prior day 
+     (define-key org-agenda-mode-map (kbd "y") 'org-agenda-todo-yesterday)
+
    #+END_SRC
 
 * Elfeed
@@ -1084,51 +777,28 @@
   Read news with elfeed
 
   #+BEGIN_SRC emacs-lisp
-    (use-package elfeed)
-    (use-package elfeed-org
-      :init
-      (setq elfeed-set-max-connections 32)
-      (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory)))
-      (elfeed-org)
-      :bind
-      (("C-c r" . elfeed)
-       :map elfeed-show-mode-map
-       ("o" . elfeed-show-visit)
-       :map elfeed-search-mode-map
-       ("o" . elfeed-search-browse-url)))
-
+    (setq elfeed-set-max-connections 32)
+    (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory)))
+    (elfeed-org)
+    (keymap-global-set "C-c r" 'elfeed)
+    (define-key elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
+    (define-key elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
    #+END_SRC
-
-* Org Habit Stats
-
-  Comprehensive [[https://github.com/ml729/org-habit-stats][stats on your habits]].
-   
-  #+BEGIN_SRC emacs-lisp
-
-    ;; if it is installed
-    (if (db/add-to-load-path "lisp/org-habit-stats" t)
-        (load "org-habit-stats"))
-
-  #+END_SRC
 
 * Blogging / Org2Blog
 
   Blogging set up for https://www.donald-brady.com
 
   #+BEGIN_SRC emacs-lisp
-    (use-package org2blog
-      :config
-      (setq org2blog/wp-blog-alist
-            '(
-              ("wordpress"
-               :url "https://donaldbrady.wordpress.com/xmlrpc.php"
-               :username "donald.brady@gmail.com")))
-      (setq org2blog/wp-image-upload t)
-      (setq org2blog/wp-image-thumbnails t)
-      (setq org2blog/wp-show-post-in-browser 'ask)
-      :bind
-      ("\C-c h" . org2blog-user-interface))
-
+    (setq org2blog/wp-blog-alist
+          '(
+            ("wordpress"
+             :url "https://donaldbrady.wordpress.com/xmlrpc.php"
+             :username "donald.brady@gmail.com")))
+    (setq org2blog/wp-image-upload t)
+    (setq org2blog/wp-image-thumbnails t)
+    (setq org2blog/wp-show-post-in-browser 'ask)
+    (keymap-global-set "C-c h" 'org2blog-user-interface)
   #+END_SRC
 
 * Fediverse
@@ -1138,12 +808,10 @@
    From here: https://codeberg.org/martianh/mastodon.el
   
    #+BEGIN_SRC emacs-lisp
-
-     (use-package mastodon
-       :config
-       (setq mastodon-tl--show-avatars t)
-       (setq mastodon-media--avatar-height 40)
-       (mastodon-discover))
+     (setq mastodon-tl--show-avatars t)
+     (setq mastodon-media--avatar-height 40)
+     (require 'mastodon)
+     (mastodon-discover)
 
      (setq mastodon-instance-url "https://mastodon.social"
            mastodon-active-user "donald_brady")
@@ -1153,38 +821,19 @@
 ** Lemmy
    
    #+BEGIN_SRC emacs-lisp
-
-     (use-package lem
-       :config
-       (setq lem-instance-url "https://lemmy.world"))
-
+     (setq lem-instance-url "https://lemmy.world")
    #+END_SRC
 
+  
 * Developer Enhancements
 ** Git Gutter
 
    #+BEGIN_SRC emacs-lisp
-     (use-package git-gutter
-       :config
-       (setq git-gutter:modified-sign "|")
-       (setq git-gutter:added-sign "+")
-       (setq git-gutter:deleted-sign "-")
-       (global-git-gutter-mode t))
+     (setq git-gutter:modified-sign "|")
+     (setq git-gutter:added-sign "+")
+     (setq git-gutter:deleted-sign "-")
+     (global-git-gutter-mode t)
    #+END_SRC
-
-** Docker
-*** Docker Integration
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package docker
-        :ensure t
-        :bind ("C-c d" . docker))
-    #+END_SRC
-*** Dockerfile Mode
-    #+BEGIN_SRC emacs-lisp
-      (use-package dockerfile-mode)
-      (put 'dockerfile-image-name 'safe-local-variable #'stringp)
-    #+END_SRC
 
 ** Treesit-auto
 
@@ -1192,58 +841,14 @@
    they can't be used falls back to the default major mode.
    
    #+BEGIN_SRC emacs-lisp
-     (use-package treesit-auto
-       :config
-       (global-treesit-auto-mode))
+     (require 'treesit-auto)
+     (global-treesit-auto-mode)
    #+END_SRC
-
-* GPTEL
-
-  [[https://github.com/karthink/gptel][Gptel]] is a "chat-gpt" interface supporting multiple models / back ends. Since
-  I am being a cheapskate I am going to use it with Ollama / Mistral latest
-  running locally.
-
-  This is MacOS specific install instructions with a curl based test. 
-  #+BEGIN_EXAMPLE
-    brew install ollama
-    launchctl setenv OLLAMA_HOST "0.0.0.0"
-    ollama pull mistral:latest
-    ollma run mistral
-
-    curl -X POST http://localhost:11434/api/generate -d '{
-      "model": "mistral",
-      "prompt":"Here is a story about llamas eating grass"
-    }'
-  #+END_EXAMPLE
-
-  Configure it for [[https://ollama.com/][Ollama]]
-  
-  #+BEGIN_SRC emacs-lisp
-    (use-package gptel)
-
-    (gptel-make-ollama "Ollama"             ;Any name of your choosing
-      :host "localhost:11434"               ;Where it's running
-      :stream t                             ;Stream responses
-      :models '("mistral:latest"))          ;List of models
-
-    (setq-default
-     gptel-model "mistral:latest"
-     gptel-backend (gptel-make-ollama "Ollama"
-                     :host "localhost:11434"
-                     :stream t
-                     :models '("mistral:latest")))    
-
-  #+END_SRC
 
 * Hydra
 
   Starting to use Hydra for better navigation options and rusty memory when
   accessing seldom used modes.
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package hydra :commands defhydra)
-    (use-package use-package-hydra)
-  #+END_SRC
 
 ** My File Hydra
 
@@ -1299,18 +904,16 @@
                       heads))))
 
 
-     (use-package hydra
-       :config
-       (defshortcuts my-file-shortcuts ()
-         ("b" "~/OrgDocuments/personal/Books/first-90-days/the-first-90-days.org" "Current Book")
-         ("c" "~/.emacs.d/configuration.org" "Emacs Configuration")
-;;         ("d" (db/last-download) "Last Download")
-         ("i" (db/current-index-file) "Index File")
-         ("j" (db/current-monthly-journal) "Monthly Journal File")
-         ("p" "~/OrgDocuments/personal/peloton.org" "Peloton Log")
-         ("s" "~/OrgDocuments/personal/shopping.org" "Shopping List"))
-       :bind
-       ("C-c f" . #'my-file-shortcuts/body))
+     (defshortcuts my-file-shortcuts ()
+                   ("b" "~/OrgDocuments/personal/Books/first-90-days/the-first-90-days.org" "Current Book")
+                   ("c" "~/.emacs.d/configuration.org" "Emacs Configuration")
+                   ;;         ("d" (db/last-download) "Last Download")
+                   ("i" (db/current-index-file) "Index File")
+                   ("j" (db/current-monthly-journal) "Monthly Journal File")
+                   ("p" "~/OrgDocuments/personal/peloton.org" "Peloton Log")
+                   ("s" "~/OrgDocuments/personal/shopping.org" "Shopping List"))
+
+     (keymap-global-set "C-c f" 'my-file-shortcuts/body)
 
    #+END_SRC
 
@@ -1381,12 +984,6 @@
 
    #+END_SRC
 
-** Org Mode Hydra
-
-   #+BEGIN_SRC emacs-lisp
-
-   #+END_SRC
-   
 ** Dired Mode Hydra
 
    #+BEGIN_SRC emacs-lisp
@@ -1504,23 +1101,23 @@
 
   #+BEGIN_SRC emacs-lisp
     ;; keyboard macros
-    (global-set-key (kbd "<f1>") 'start-kbd-macro)
-    (global-set-key (kbd "<f2>") 'end-kbd-macro)
-    (global-set-key (kbd "<f3>") 'call-last-kbd-macro)
+    (keymap-global-set "<f1>" 'start-kbd-macro)
+    (keymap-global-set "<f2>" 'end-kbd-macro)
+    (keymap-global-set "<f3>" 'call-last-kbd-macro)
 
     ;; replace buffer-menu with ibuffer
-    (global-set-key (kbd "C-x C-b") 'ibuffer)
-    (global-set-key (kbd "<f12>") 'bury-buffer) ;; F12 on logi keybpard
-    (global-set-key (kbd "C-c M-l") 'global-display-line-numbers-mode)
+    (keymap-global-set "C-x C-b" 'ibuffer)
+    (keymap-global-set "<f12>" 'bury-buffer) ;; F12 on logi keybpard
+    (keymap-global-set "C-c M-l" 'global-display-line-numbers-mode)
 
     ;; allow clocking out from anywhere regardless of mode
-    (global-set-key (kbd "C-c C-x C-o") 'org-clock-out)
+    (keymap-global-set "C-c C-x C-o" 'org-clock-out)
 
     ;; expansions
-    (global-set-key (kbd "M-/") 'db/expand-abbrev-or-dynamic)
+    (keymap-global-set "M-/" 'db/expand-abbrev-or-dynamic)
 
     ;; Freestyle 2 Keyboard for Map special bindings
-    (global-set-key (kbd "M-<kp-delete>") 'backward-kill-word)
+    (keymap-global-set "M-<kp-delete>" 'backward-kill-word)
 
   #+END_SRC
 
@@ -1547,8 +1144,3 @@
     (load "server")
     (unless (server-running-p) (server-start))
   #+END_SRC
-
-
-# Local Variables:
-# jinx-local-words: "Avy Dired Elfeed Lemmy Orderless Swiper Vertico Yas"
-# End:

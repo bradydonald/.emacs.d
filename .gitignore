@@ -9,7 +9,8 @@
 !.gitmodules
 
 # don't ignore emacs files that matter
-!.init.el
+!init.el
+!early-init.el
 !configuration.org
 !/snippets
 !/lisp
