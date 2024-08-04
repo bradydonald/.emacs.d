@@ -87,7 +87,7 @@
 (elpaca counsel)
 (elpaca deadgrep)
 (elpaca demap)
-(elpaca (denote :tag "3.3.0"))
+(elpaca denote)
 (elpaca diminish)
 (elpaca doom-themes)
 (elpaca ef-themes)
@@ -112,7 +112,7 @@
 (elpaca orderless)
 (elpaca (org :tag "release_9.7.7"))
 (elpaca org-attach-screenshot)
-(elpaca org-contrib)
+;; (elpaca org-contrib)
 (elpaca org-download)
 (elpaca org-present)
 (elpaca org-ql)
@@ -1119,12 +1119,7 @@ T - tag prefix
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
-   '("/Users/donaldbrady/OrgDocuments/personal/threev/umang-immigration.org"
-     "/Users/donaldbrady/OrgDocuments/personal/threev/turkey-trip.org"
-     "/Users/donaldbrady/OrgDocuments/personal/threev/threev.org"
-     "/Users/donaldbrady/OrgDocuments/personal/threev/skyskopes.org"
-     "/Users/donaldbrady/OrgDocuments/personal/threev/payroll.org"
-     "/Users/donaldbrady/OrgDocuments/personal/threev/operations.org"
+   '("/Users/donaldbrady/OrgDocuments/personal/threev/operations.org"
      "/Users/donaldbrady/OrgDocuments/personal/threev/my-linkedin.org"
      "/Users/donaldbrady/OrgDocuments/personal/threev/marketing.org"
      "/Users/donaldbrady/OrgDocuments/personal/threev/funding-close.org"
