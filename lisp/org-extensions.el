@@ -25,5 +25,5 @@
 
 (defun db/daily-files ()
   "Returns a list of all the daily files, a shorter list for faster clocktables"
-  (setq daily-dir (concat org-roam-directory "/" org-roam-dailies-directory))
+  (setq daily-dir (concat org-roam-directory "/daily"))
   (append (directory-files daily-dir t "\\.org\\'") (directory-files daily-dir t "\\.org_archive\\'")))
