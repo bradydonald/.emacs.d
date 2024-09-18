@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: Org Status
-# key: ostatus
-# --
-* Status
-
-#+BEGIN: org-ql :query "todo:" :columns (todo (priority "P") ((property "owner") "Owner") scheduled deadline heading) :sort (deadline scheduled priority) :ts-format "%Y-%m-%d %H:%M"
-#+END:

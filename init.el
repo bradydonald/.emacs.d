@@ -274,6 +274,7 @@
 ;; Yas Snippets
 ;;
 
+(setq yas-snippet-dirs (cons "~/.config/yas" yas-snippet-dirs))
 (yas-global-mode 1)
 
 

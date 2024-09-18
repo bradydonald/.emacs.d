@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: latex support
-# key: /latex
-# --
-#+EXCLUDETAGS: noexport
-#+BIND: org-latex-image-default-width "0.98\\\\linewidth"
-#+LATEX_HEADER: \\usepackage{placeins}
