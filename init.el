@@ -112,7 +112,7 @@
 (elpaca nerd-icons)
 (elpaca nyan-mode)
 (elpaca orderless)
-(elpaca (org :tag "release_9.7.7"))
+(elpaca org)
 (elpaca org-attach-screenshot)
 ;; (elpaca org-contrib)
 (elpaca org-download)
@@ -127,6 +127,7 @@
 (elpaca projectile)
 (elpaca s)
 (elpaca swiper)
+(elpaca (transient :tag "v0.7.5"))
 (elpaca treesit-auto)
 (elpaca vertico)
 (elpaca visual-fill-column)
@@ -274,7 +275,7 @@
 ;; Yas Snippets
 ;;
 
-(setq yas-snippet-dirs (cons "~/.config/yas" yas-snippet-dirs))
+;;(setq yas-snippet-dirs (cons "~/.config/yas" yas-snippet-dirs))
 (yas-global-mode 1)
 
 
