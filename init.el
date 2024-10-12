@@ -127,7 +127,7 @@
 (elpaca projectile)
 (elpaca s)
 (elpaca swiper)
-(elpaca (transient :tag "v0.7.5"))
+(elpaca transient)
 (elpaca treesit-auto)
 (elpaca vertico)
 (elpaca visual-fill-column)
