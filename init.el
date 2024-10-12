@@ -275,9 +275,8 @@
 ;; Yas Snippets
 ;;
 
-;;(setq yas-snippet-dirs (cons "~/.config/yas" yas-snippet-dirs))
 (yas-global-mode 1)
-
+(setq yas-snippet-dirs '("~/.config/yas" "~/.emacs.d/snippets"))
 
 ;;
 ;; Vertico
@@ -510,6 +509,7 @@
 (setq org-odt-preferred-output-format "docx")
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
+(setq org-table-convert-region-max-lines 5000)
 
 ;; all my org related keys will be set up in this keymap
 (global-set-key
@@ -649,6 +649,7 @@
          (:name "NBAs" :tag "nba")
          (:name "threev" :tag "threev")
          (:name "srv" :tag "shiftright")
+         (:name "skyskopes" :tag "skyskopes")
          (:name "rpr" :tag "rpr")
          (:name "Errands" :tag "errand")
          (:name "Chores" :tag "chore")
