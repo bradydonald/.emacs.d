@@ -117,7 +117,7 @@
 ;; (elpaca org-contrib)
 (elpaca org-download)
 (elpaca org-present)
-;;(elpaca org-ql)
+(elpaca org-ql)
 (elpaca org-roam)
 (elpaca org-side-tree)
 (elpaca org-super-agenda)
@@ -679,7 +679,7 @@
 (setq calendar-hebrew-all-holidays-flag t)
 (setq calendar-islamic-all-holidays-flag t)
 
-;;(require 'org-ql-search)
+(require 'org-ql-search)
 
 (defun db-filtered-refile-targets ()
   "Removes month journals as valid refile targets"
@@ -781,7 +781,7 @@
   "r g"    'org-roam-graph
   "r i"    'org-roam-node-insert
   ;; counsel mish mash
-  "r r"    'counsel-rg
+  "r r"    'consult-ripgrep
   "j"      'counsel-org-goto-all
   "n o"    'counsel-org-agenda-headlines
   "n l"    'db/counsel-org-agenda-insert-link-to-headlines
