@@ -129,6 +129,7 @@
 (elpaca pdf-tools)
 (elpaca projectile)
 (elpaca s)
+(elpaca spacious-padding)
 (elpaca swiper)
 (elpaca transient)
 (elpaca treesit-auto)
@@ -188,8 +189,9 @@
 ;;
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 (which-key-mode t)
-(load-theme 'ef-deuteranopia-dark)
+(load-theme 'ef-autumn)
 (nyan-mode)
+(spacious-padding-mode)
 
 (defun db/set-transparency (alpha)
   "Set the alpha (transparency) value of the current frame."
