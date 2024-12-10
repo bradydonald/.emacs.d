@@ -445,7 +445,7 @@
 ;;;;
 ;;;; Org Mode
 ;;;;
-(setq org-directory "~/OrgDocuments/personal")
+(setq org-directory (expand-file-name "/Users/d/Library/Mobile Documents/com~apple~CloudDocs/OrgDocuments/personal"))
 (setq org-id-locations-file (expand-file-name ".org-id-locations" org-directory))
 (setq org-attach-dir-relative t)
 
@@ -789,6 +789,8 @@
   "d d"    'org-roam-dailies-capture-today
   "d y"    'org-roam-dailies-goto-yesterday
   "d t"    'org-roam-dailies-goto-tomorrow
+  "d f"    'org-roam-dailies-goto-next-note
+  "d b"    'org-roam-dailies-goto-previous-note
   ;; roam hang of C-c o r
   "r b"    'org-roam-buffer-toggle
   "r f"    'org-roam-node-find
