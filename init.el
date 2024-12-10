@@ -104,6 +104,7 @@
 (elpaca git-gutter)
 (elpaca git-timemachine)
 (elpaca gnuplot)
+(elpaca golden-ratio)
 (elpaca hydra)
 (elpaca jinx)
 (elpaca lem)
