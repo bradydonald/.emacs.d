@@ -83,6 +83,7 @@
 ;; Packages to load
 ;;
 
+(elpaca ace-window)
 (elpaca all-the-icons)
 (elpaca all-the-icons-dired)
 (elpaca avy)
@@ -323,11 +324,23 @@
 (projectile-mode +1)
 
 ;;
+;; Ace Window
+;;
+(require 'ace-window)
+(global-set-key [remap other-window] 'ace-window)
+(custom-set-faces
+ '(aw-leading-char-face
+   ((t (:foreground "black" :background "yellow" :weight bold :height 3.0)))))
+(setq aw-char-position 'left
+      aw-keys '(?j ?h ?k ?l ?a ?s ?d))
+
+
+;;
 ;; Denote
 ;;
 
 ;; Remember to check the doc strings of those variables.
-(setq denote-directory (expand-file-name "~/OrgDocuments/personal"))
+(setq denote-directory (expand-file-name "/Users/d/Library/Mobile Documents/com~apple~CloudDocs/OrgDocuments/personal"))
 (setq denote-save-buffers nil)
 (setq denote-known-keywords '("threev" "personal" "daily"))
 (setq denote-infer-keywords t)
