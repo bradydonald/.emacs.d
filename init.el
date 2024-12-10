@@ -96,6 +96,7 @@
 (elpaca ef-themes)
 (elpaca elfeed)
 (elpaca elfeed-org)
+(elpaca ellama)
 (elpaca embark)
 (elpaca embark-consult)
 (elpaca exec-path-from-shell)
