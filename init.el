@@ -280,8 +280,9 @@
 ;; Yas Snippets
 ;;
 
-(yas-global-mode 1)
+(require 'yasnippet)
 (setq yas-snippet-dirs '("~/.config/yas" "~/.emacs.d/snippets"))
+(yas-global-mode 1)
 
 ;;
 ;; Vertico
