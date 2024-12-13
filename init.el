@@ -812,6 +812,24 @@
 
 
 ;;
+;; function to insert all org-roam documents matching a tag
+;;
+(defun db/org-roam-insert-links-by-tag (tag)
+  "Insert links to all Org-roam nodes with the given TAG."
+  (interactive "sEnter tag: ")
+  (let ((nodes (org-roam-node-list))
+        (links ""))
+    (dolist (node nodes)
+      (when (member tag (org-roam-node-tags node))
+        (setq links (concat links (format "- [[id:%s][%s]]\n"
+                                          (org-roam-node-id node)
+                                          (org-roam-node-title node))))))
+    (if (string-empty-p links)
+        (message "No nodes found with tag: %s" tag)
+      (insert links))))
+
+
+;;
 ;; Elfeed
 ;;
 (setq elfeed-set-max-connections 32)
