@@ -76,6 +76,7 @@
 ;; Set the custom file path
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(setq remember-data-file "~/.remember-notes")
 
 (setq user-full-name "Donald Brady" user-mail-address "donald.brady@gmail.com")
 
