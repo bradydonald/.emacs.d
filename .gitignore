@@ -13,4 +13,5 @@
 !early-init.el
 !/snippets
 !/lisp
+!configuration.org
 a
