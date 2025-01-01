@@ -916,6 +916,7 @@
                   ;;         ("d" (db/last-download) "Last Download")
                   ("i" (db/current-index-file) "Index File")
                   ("j" (db/current-monthly-journal) "Monthly Journal File")
+                  ("f" "~/OrgDocuments/personal/journals/2025/fit-log.org")
                   ("p" "~/OrgDocuments/personal/peloton.org" "Peloton Log")
                   ("s" "~/OrgDocuments/personal/shopping.org" "Shopping List"))
 
