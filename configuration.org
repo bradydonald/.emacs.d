@@ -33,7 +33,6 @@
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (setq remember-data-file "~/.remember-notes")
     (setq user-full-name "Donald Brady" user-mail-address "donald.brady@gmail.com")
-    (set-face-attribute 'default nil :family "Monaco" :height 160)    
 
   #+END_SRC
 
