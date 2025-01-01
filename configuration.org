@@ -207,6 +207,15 @@
   #+BEGIN_SRC emacs-lisp
     (keymap-global-set "M-g l" 'avy-goto-line)
     (keymap-global-set "M-g c" 'avy-goto-char-timer)
+
+    (defun db/avy-jump-org-block ()
+      "Jump to org block using Avy subsystem."
+      (interactive)
+      (avy-jump (rx line-start (zero-or-more blank) "#+begin_src")
+                :action 'goto-char)
+      ;; Jump _into_ the block:
+      (forward-line))
+    
 #+END_SRC
 
 * Dired Mode
