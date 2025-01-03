@@ -217,7 +217,7 @@
                 :action 'goto-char)
       ;; Jump _into_ the block:
       (forward-line))
-    
+
 #+END_SRC
 
 * Dired Mode
