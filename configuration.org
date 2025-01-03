@@ -316,6 +316,14 @@
     (setq completion-styles '(orderless basic))
   #+END_SRC
 
+* Corfu
+
+  Trying [[https://github.com/minad/corfu][Corfu]]
+
+  #+BEGIN_SRC emacs-lisp 
+    (global-corfu-mode)
+  #+END_SRC
+
 * Swiper
 
   #+BEGIN_SRC emacs-lisp
