@@ -163,8 +163,8 @@
   #+BEGIN_SRC emacs-lisp
 
     ;; need a bigger font these days
-    (set-face-attribute 'default nil :family "Monaco" :height 160)
-    (set-face-attribute 'mode-line nil :family "Monaco" :height 140)
+;;    (set-face-attribute 'default nil :family "Monaco" :height 160)
+;;    (set-face-attribute 'mode-line nil :family "Monaco" :height 140)
 
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (which-key-mode t)
