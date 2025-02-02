@@ -5,3 +5,10 @@
     (setq list (cdr list))))
 
 
+
+(defun db/insert-emoji-reload ()
+  "Insert the Unicode character 🔄 (U+1F504) at point."
+  (interactive)
+  (insert "\U0001F504"))
+
+
