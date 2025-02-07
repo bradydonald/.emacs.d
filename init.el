@@ -44,7 +44,7 @@
 (elpaca `(,@elpaca-order))
 
 ;; load org now to avoid version conflicts
-(elpaca org :tag "9.7.11"
+(elpaca org
   (require org))
 
 (setq my-org-config-file (expand-file-name "~/.emacs.d/configuration.org"))

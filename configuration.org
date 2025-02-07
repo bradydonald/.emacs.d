@@ -467,7 +467,7 @@
      (setq org-roam-db-autosync-mode t)
 
      ;; required for org-roam bookmarklet 
-     (require 'org-roam-protocol)
+     ;; (require 'org-roam-protocol)
 
      ;; Org-roam Capture Templates
 
