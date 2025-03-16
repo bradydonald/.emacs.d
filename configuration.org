@@ -941,7 +941,6 @@
                   ("i" (db/current-index-file) "Index File")
                   ("j" (db/current-monthly-journal) "Monthly Journal File")
                   ("f" "~/OrgDocuments/personal/journals/2025/fit-log.org")
-                  ("p" "~/OrgDocuments/personal/peloton.org" "Peloton Log")
                   ("s" "~/OrgDocuments/personal/shopping.org" "Shopping List"))
 
     (keymap-global-set "C-c f" 'my-file-shortcuts/body)
