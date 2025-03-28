@@ -33,7 +33,8 @@
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (setq remember-data-file "~/.remember-notes")
     (setq user-full-name "Donald Brady" user-mail-address "donald.brady@gmail.com")
-
+    (put 'upcase-region 'disabled nil)
+    
   #+END_SRC
 
 * Packages to Load
@@ -806,12 +807,12 @@
 
     (setq elfeed-set-max-connections 32)
     (setq rmh-elfeed-org-files (list (expand-file-name "rss-feeds.org" org-directory)))
-    (defun db/elfeed-entry-font-setup ()
-      "Set a custom font for Elfeed entry mode."
-      (when (derived-mode-p 'elfeed-show-mode)
-        (buffer-face-set '(:family "Monaco" :height 160)))) ; Adjust the font family and size
+;;    (defun db/elfeed-entry-font-setup ()
+;;      "Set a custom font for Elfeed entry mode."
+;;      (when (derived-mode-p 'elfeed-show-mode)
+;;        (buffer-face-set '(:family "Monaco" :height 160)))) ; Adjust the font family and size
 
-    (add-hook 'elfeed-show-mode-hook #'db/elfeed-entry-font-setup)
+;;    (add-hook 'elfeed-show-mode-hook #'db/elfeed-entry-font-setup)
 
     (elfeed-org)
     (keymap-global-set "C-c r" 'elfeed)
@@ -843,11 +844,11 @@
     (setq mastodon-tl--show-avatars t)
     (setq mastodon-media--avatar-height 40)
 
-    (defun db/mastodon-font-setup ()
-      "Set a custom font for Mastodon mode."
-      (buffer-face-set '(:family "Monaco" :height 160)))
+;;    (defun db/mastodon-font-setup ()
+;;      "Set a custom font for Mastodon mode."
+;;      (buffer-face-set '(:family "Monaco" :height 160)))
 
-    (add-hook 'mastodon-mode-hook #'db/mastodon-font-setup)    
+;;    (add-hook 'mastodon-mode-hook #'db/mastodon-font-setup)    
     (require 'mastodon)
     (mastodon-discover)
 
